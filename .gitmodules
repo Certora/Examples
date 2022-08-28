@@ -1,0 +1,12 @@
+[submodule "BallGameExample"]
+	path = BallGameExample
+	url = https://github.com/Certora/BallGameExample.git
+[submodule "ERC20Example"]
+	path = ERC20Example
+	url = https://github.com/Certora/ERC20Example.git
+[submodule "LiquidityPoolExample"]
+	path = LiquidityPoolExample
+	url = https://github.com/Certora/LiquidityPoolExample.git
+[submodule "FullProjects/openzeppelin-contracts"]
+	path = FullProjects/openzeppelin-contracts
+	url = https://github.com/OpenZeppelin/openzeppelin-contracts.git
