@@ -10,3 +10,6 @@
 [submodule "FullProjects/openzeppelin-contracts"]
 	path = FullProjects/openzeppelin-contracts
 	url = https://github.com/OpenZeppelin/openzeppelin-contracts.git
+[submodule "aave-token-v3"]
+	path = aave-token-v3
+	url = https://github.com/Certora/aave-token-v3.git
