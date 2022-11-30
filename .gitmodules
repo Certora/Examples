@@ -13,3 +13,6 @@
 [submodule "aave-token-v3"]
 	path = aave-token-v3
 	url = https://github.com/Certora/aave-token-v3.git
+[submodule "BadSpecExamples"]
+	path = BadSpecExamples
+	url = https://github.com/Certora/BadSpecExamples.git
