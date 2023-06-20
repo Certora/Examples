@@ -18,7 +18,7 @@ To determine the exchange rate, the pool returns enough tokens to ensure that
 (reserves0 ⋅ reserves1)ᵖʳᵉ =(reserves0 ⋅ reserves1)ᵖᵒˢᵗ
 where reserves0 and reserves1 are the amount of token0, token1 the system holds. 
 
-On first liquidity deposit the system transfers 1000 amount of LP to address 0 to ensure the pool cannot be emptied.  
+On first liquidity deposit the system transfers 1000 LP tokens to address 0 to ensure the pool cannot be emptied.  
 */
 
 contract ConstantProductPool is ERC20 {
@@ -57,8 +57,8 @@ contract ConstantProductPool is ERC20 {
         uint256 _totalSupply = totalSupply();
         uint256 k = kLast;
         if (_totalSupply == 0) {
-            /* Bug: On a first deposit the total liguidity minted (and split between address zero and the msg.sender) should be the value computed.
-                This bug violates the monotonicity of mint property 
+            /* Bug: On a first deposit the total liquidity minted (and split between address zero and the msg.sender) should be the value computed.
+                This bug violates the "monotonicity of mint" property 
             */
             //liquidity = MINIMUM_LIQUIDTY - computed;
             liquidity = computed - MINIMUM_LIQUIDTY;

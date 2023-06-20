@@ -219,11 +219,12 @@ invariant sumFunds()
 
 
 /*
-Property: Fully withdraw is possible
+Property: Full withdraw example
 
-Exist a case where a user deposit (transfer , mint) can be fully refunded (burn the liquidity provided)
+Give an example demonstrating a case where the user's deposit (transfer or mint) can be full refunded
+by burning the liquidity provided.
 
-This property is implemented with a satisfy command, which aims at finding a witness example. Note that it does not prove that for every deposit can be fully withdrawn  
+This property uses the `satisfy` command, which causes the Prover to produce successful examples of expected properties, rather than counterexamples.  In particular, this rule does not prove that every deposit can be fully withdrawn.
 
 */
 rule possibleToFullyWithdraw(address sender, uint256 amount) {
@@ -238,7 +239,7 @@ rule possibleToFullyWithdraw(address sender, uint256 amount) {
     _token0.transfer(eT0, currentContract, amount);
     uint256 amountOut0 = mint(eM,sender);
     burnSingle(eM, _token0, amountOut0, sender);
-    satisfy balanceBefore == _token0.balanceOf(sender);
+    satisfy (balanceBefore == _token0.balanceOf(sender));
 }
 
 
@@ -246,7 +247,7 @@ rule possibleToFullyWithdraw(address sender, uint256 amount) {
 /*
 Property: Zero withdraw has no effect
 
-Withdraw (burn) of zero liquidity provides noting - all the storage of all the contracts (including the ERC20s) stays the same 
+Withdraw (burn) of zero liquidity provides nothing - all the storage of all the contracts (including the ERC20s) stays the same 
 
 This property is implemented by saving the storage state before the transaction and comparing  that after the transaction the storage is the same
 

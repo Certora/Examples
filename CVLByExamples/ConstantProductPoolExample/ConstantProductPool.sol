@@ -18,7 +18,7 @@ To determine the exchange rate, the pool returns enough tokens to ensure that
 (reserves0 ⋅ reserves1)ᵖʳᵉ =(reserves0 ⋅ reserves1)ᵖᵒˢᵗ
 where reserves0 and reserves1 are the amount of token0, token1 the system holds. 
 
-On first liquidity deposit the system transfers 1000 amount of LP to address 0 to ensure the pool cannot be emptied.  
+On first liquidity deposit the system transfers 1000 LP tokens to address 0 to ensure the pool cannot be emptied.  
 */
 
 contract ConstantProductPool is ERC20 {
