@@ -238,6 +238,7 @@ rule possibleToFullyWithdraw(address sender, uint256 amount) {
     require amount > 0;
     _token0.transfer(eT0, currentContract, amount);
     uint256 amountOut0 = mint(eM,sender);
+    // immediately withdraw 
     burnSingle(eM, _token0, amountOut0, sender);
     satisfy (balanceBefore == _token0.balanceOf(sender));
 }
