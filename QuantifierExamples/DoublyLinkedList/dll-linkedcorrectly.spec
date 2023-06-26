@@ -67,10 +67,17 @@ hook Sload uint256 value currentContract.dll.accounts[KEY address key].value STO
 // INVARIANTS
 
 invariant nextPrevMatch()
+    // either list is empty, and both head and tail are 0,
     ((ghostHead == 0 && ghostTail == 0)
+    // or both head and tail are set and their prev resp. next points to 0.
     || (ghostHead != 0 && ghostTail != 0 && ghostNext[ghostTail] == 0 && ghostPrev[ghostHead] == 0
         && ghostValue[ghostHead] != 0 && ghostValue[ghostTail] != 0))
-    && (forall address a.  (ghostNext[a] == 0 && ghostPrev[a] == 0 && ghostValue[a] == 0) 
+    // for all addresses:
+    && (forall address a.
+           // either the address is not part of the list and every field is 0.
+           (ghostNext[a] == 0 && ghostPrev[a] == 0 && ghostValue[a] == 0)
+           // or the address is part of the list, address is non-zero, value is non-zero,
+           // and prev and next pointer are linked correctly.
         || (a != 0 && ghostValue[a] != 0
             && ((a == ghostHead && ghostPrev[a] == 0) || ghostNext[ghostPrev[a]] == a)
             && ((a == ghostTail && ghostNext[a] == 0) || ghostPrev[ghostNext[a]] == a)));
