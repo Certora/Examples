@@ -93,3 +93,73 @@ invariant inList()
             requireInvariant nextPrevMatch();
         }
     }
+
+rule insert_preserves_old {
+    address newElem;
+    address oldElem;
+    uint256 newValue;
+    uint256 maxIter;
+    bool oldInList = ghostValue[oldElem] != 0;
+
+    require oldElem != newElem;
+
+    insertSorted(newElem, newValue, maxIter);
+
+    assert oldInList == (ghostValue[oldElem] != 0);
+}
+
+rule insert_adds_new() {
+    address newElem;
+    uint256 newValue;
+    uint256 maxIter;
+
+    insertSorted(newElem, newValue, maxIter);
+
+    assert ghostValue[newElem] != 0;
+    assert ghostValue[newElem] == newValue;
+}
+
+rule insert_does_not_revert() {
+    address newElem;
+    uint256 newValue;
+    uint256 maxIter;
+
+    require newElem != 0;
+    require ghostValue[newElem] == 0;
+    require newValue != 0;
+
+    insertSorted@withrevert(newElem, newValue, maxIter);
+
+    assert !lastReverted;
+}
+
+rule remove_preserves_old {
+    address elem;
+    address oldElem;
+    bool oldInList = ghostValue[oldElem] != 0;
+
+    require oldElem != elem;
+
+    remove(elem);
+
+    assert oldInList == (ghostValue[oldElem] != 0);
+}
+
+rule remove_deletes() {
+    address elem;
+
+    remove(elem);
+
+    assert ghostValue[elem] == 0;
+}
+
+rule remove_does_not_revert() {
+    address elem;
+
+    require elem != 0;
+    require ghostValue[elem] != 0;
+
+    remove@withrevert(elem);
+
+    assert !lastReverted;
+}
