@@ -13,3 +13,6 @@
 [submodule "aave-token-v3"]
 	path = aave-token-v3
 	url = https://github.com/Certora/aave-token-v3.git
+[submodule "ConstantProductExample"]
+	path = ConstantProductExample
+	url = git@github.com:Certora/ConstantProductExample.git
