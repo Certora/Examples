@@ -1,4 +1,4 @@
-using DummyERC20A as erc20;
+using ERC20Helper as erc20helper;
 
 methods {
     function _.name() external => DISPATCHER(true);
@@ -11,7 +11,7 @@ methods {
     function _.transfer(address,uint256) external => DISPATCHER(true);
     function _.transferFrom(address,address,uint256) external => DISPATCHER(true);
 
-	function erc20.balanceOf(address) external returns (uint256) envfree;
+	function erc20helper.tokenBalanceOf(address, address) external returns (uint256) envfree;
 }
 
 /* 
@@ -108,14 +108,14 @@ rule decreaseInSystemEth(method f) {
 
 
 rule decreaseInERC20(method f) {
-   
-    uint256 before = erc20.balanceOf(currentContract);
+    address token;
+    uint256 before = erc20helper.tokenBalanceOf(token, currentContract);
 
     env e;
 	calldataarg arg;
     f(e, arg);
 
-    uint256 after = erc20.balanceOf(currentContract);
+    uint256 after = erc20helper.tokenBalanceOf(token, currentContract);
 
     assert after >= before ||  false ; /* fill in cases eth can decrease */ 
 
