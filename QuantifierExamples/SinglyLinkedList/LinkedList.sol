@@ -1,9 +1,9 @@
-pragma solidity ^0.5.13;
+pragma solidity ^0.8.1;
 
 contract LinkedList {
   struct Element {
     bytes32 nextKey;
-    uint256 exists;
+    uint256 valid;
   }
 
   struct List {
@@ -24,7 +24,7 @@ contract LinkedList {
     require(afterKey != key, "Key cannot be the same as afterKey");
 
     Element storage element = list.elements[key];
-    element.exists = 1;
+    element.valid = 1;
 
     if (afterKey == 0) {
         element.nextKey = list.head;
@@ -37,11 +37,11 @@ contract LinkedList {
     }
   }
 
-  function getSucc(bytes32 key) public returns (bytes32) {
+  function getSucc(bytes32 key) public view returns (bytes32) {
     return list.elements[key].nextKey;
   }
 
-  function head() public returns (bytes32) {
+  function head() public view returns (bytes32) {
     return list.head;
   }
 
@@ -51,6 +51,6 @@ contract LinkedList {
    * @return Whether or not the key is in the sorted list.
    */
   function contains(bytes32 key) public view returns (bool) {
-    return list.elements[key].exists != 0;
+    return list.elements[key].valid != 0;
   }
 }
