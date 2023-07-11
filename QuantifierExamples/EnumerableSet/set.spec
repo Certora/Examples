@@ -1,3 +1,5 @@
+// METHOD specification
+// all methods never access environment (msg.sender, block number, etc.)
 methods {
     function add(bytes32) external returns (bool) envfree;
     function remove(bytes32) external returns (bool) envfree;
@@ -6,30 +8,49 @@ methods {
     function elemAt(uint256) external returns (bytes32) envfree;
 }
 
-// GHOST COPIES
+// GHOST COPIES:
+// For every storage variable we add a ghost field that is kept synchronized by hooks.
+// The ghost fields can be accessed by the spec, even inside quantifiers.
+
+// ghost field for the values array
 ghost mapping(mathint => bytes32) ghostValues {
     init_state axiom forall mathint x. ghostValues[x] == to_bytes32(0);
 }
+// ghost field for the indexes map
 ghost mapping(bytes32 => uint256) ghostIndexes {
     init_state axiom forall bytes32 x. ghostIndexes[x] == 0;
 }
+// ghost field for the length of the values array (stored in offset 0)
 ghost uint256 ghostLength {
     // assumption: it's infeasible to grow the list to these many elements.
     axiom ghostLength < 0xffffffffffffffffffffffffffffffff;
 }
 
 // HOOKS
-
+// Store hook to synchronize ghostLength with the length of the set._inner._values array. 
+// We need to use (offset 0) here, as there is no keyword yet to access the length.
 hook Sstore currentContract.set.(offset 0) uint256 newLength STORAGE {
     ghostLength = newLength;
 }
+// Store hook to synchronize ghostValues array with set._inner._values.
 hook Sstore currentContract.set._inner._values[INDEX uint256 index] bytes32 newValue STORAGE {
     ghostValues[index] = newValue;
 }
+// Store hook to synchronize ghostIndexes array with set._inner._indexes.
 hook Sstore currentContract.set._inner._indexes[KEY bytes32 value] uint256 newIndex STORAGE {
     ghostIndexes[value] = newIndex;
 }
 
+// The load hooks can use require to ensure that the ghost field has the same information as the storage.
+// The require is sound, since the store hooks ensure the contents are always the same.  However we cannot
+// prove that with invariants, since this would require the invariant to read the storage for all elements
+// and neither storage access nor function calls are allowed in quantifiers.
+//
+// By following this simple pattern it is ensured that the ghost state and the storage are always the same
+// and that the solver can use this knowledge in the proofs.
+
+// Load hook to synchronize ghostLength with the length of the set._inner._values array. 
+// Again we use (offset 0) here, as there is no keyword yet to access the length.
 hook Sload uint256 length currentContract.set.(offset 0) STORAGE {
     require ghostLength == length;
 }
@@ -42,6 +63,10 @@ hook Sload uint256 index currentContract.set._inner._indexes[KEY bytes32 value] 
 
 // INVARIANTS
 
+//  This is the main invariant stating that the indexes and values always match:
+//        values[indexes[v] - 1] = v for all values v in the set
+//    and indexes[values[i]] = i+1 for all valid indexes i.
+
 invariant setInvariant()
     (forall uint256 index. 0 <= index && index < ghostLength => to_mathint(ghostIndexes[ghostValues[index]]) == index + 1)
     && (forall bytes32 value. ghostIndexes[value] == 0 || 
@@ -49,22 +74,26 @@ invariant setInvariant()
 
 // DEFINITION
 
+// Returns, whether a value is in the set.
 definition inSet(bytes32 value) returns bool = (ghostIndexes[value] != 0);
+
+
+// RULES
 
 rule containsEqualsInSet()
 {
     bytes32 value;
     bool result = contains@withrevert(value);
 
-    assert !lastReverted;
-    assert result == inSet(value);
+    assert !lastReverted, "contains should never revert";
+    assert result == inSet(value), "result should indicate whether value is in set";
 }
 
 rule lengthEqualsGhost()
 {
     uint256 len = length();
-    assert !lastReverted;
-    assert len == ghostLength;
+    assert !lastReverted, "length() should never revert";
+    assert len == ghostLength, "length() should return the length of the values list";
 }
 
 rule addFresh()
@@ -78,9 +107,9 @@ rule addFresh()
     bool otherInSet = inSet(other);
     bool result = add@withrevert(value);
 
-    assert !lastReverted;
-    assert result && inSet(value);
-    assert otherInSet == inSet(other);
+    assert !lastReverted, "addFresh() should never revert";
+    assert result && inSet(value), "value should have been added to list";
+    assert otherInSet == inSet(other), "no other value should be added or removed";
 }
 
 rule addAlreadyIn()
@@ -94,9 +123,9 @@ rule addAlreadyIn()
     bool otherInSet = inSet(other);
     bool result = add@withrevert(value);
 
-    assert !lastReverted;
-    assert !result && inSet(value);
-    assert otherInSet == inSet(other);
+    assert !lastReverted, "addFresh() should never revert";
+    assert !result && inSet(value), "addFresh should return false if element in list";
+    assert otherInSet == inSet(other), "no other value should be added or removed";
 }
 
 rule removeSuccess()
@@ -111,9 +140,9 @@ rule removeSuccess()
     bool otherInSet = inSet(other);
     bool result = remove@withrevert(value);
 
-    assert !lastReverted;
-    assert result && !inSet(value);
-    assert otherInSet == inSet(other);
+    assert !lastReverted, "remove() should never revert";
+    assert result && !inSet(value), "remove should remove element from list";
+    assert otherInSet == inSet(other), "no other value should be added or removed";
 }
 
 rule removeFail()
@@ -127,9 +156,9 @@ rule removeFail()
     bool otherInSet = inSet(other);
     bool result = remove@withrevert(value);
 
-    assert !lastReverted;
-    assert !result && !inSet(value);
-    assert otherInSet == inSet(other);
+    assert !lastReverted, "remove() should never revert";
+    assert !result && !inSet(value), "remove should return false if element was not in list";
+    assert otherInSet == inSet(other), "no other value should be added or removed";
 }
 
 rule elemAtSuccess()
@@ -142,8 +171,8 @@ rule elemAtSuccess()
 
     value = elemAt@withrevert(index);
 
-    assert !lastReverted;
-    assert inSet(value);
+    assert !lastReverted, "elemAt() should not revert for valid index";
+    assert inSet(value), "elemAt() should return a value from the set";
 }
 
 rule elemAtFail()
@@ -155,7 +184,7 @@ rule elemAtFail()
 
     value = elemAt@withrevert(index);
 
-    assert lastReverted;
+    assert lastReverted, "elemAt() should revert for invalid index";
 }
 
 rule elementsUnique()
@@ -171,7 +200,7 @@ rule elementsUnique()
     value1 = elemAt(index1);
     value2 = elemAt(index2);
 
-    assert value1 != value2;
+    assert value1 != value2, "all elements in the list should be different";
 }
 
 rule everyElementReachable()
@@ -185,6 +214,6 @@ rule everyElementReachable()
     index = assert_uint256(ghostIndexes[value] - 1);
 
     result = elemAt@withrevert(index);
-    assert !lastReverted;
-    assert result == value;
+    assert !lastReverted, "elemAt should not revert for valid index";
+    assert result == value, "every value should be at its corresponding index";
 }
