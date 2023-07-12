@@ -1,0 +1,13 @@
+Reports in /home/sitvanit/EVMVerifier-all/examples/Examples/aave-token-v3/emv-1-certora-11-Jul--16-05/Reports
+Start Tue Jul 11 16:06:00 IDT 2023
+[main] ERROR ALWAYS - Error in spec file (base.spec:27:39): AaveTokenV3Harness.GovernancePowerType is not a valid EVM type. Did you mean `IGovernancePowerDelegationToken.GovernancePowerType`?
+[main] ERROR ALWAYS - Error in spec file (base.spec:36:65): AaveTokenV3Harness.DelegationState is not a valid EVM type. Did you mean `BaseAaveToken.DelegationState`?
+[main] ERROR ALWAYS - Error in spec file (base.spec:39:35): Type AaveTokenV3Harness.GovernancePowerType is not a valid type
+[main] ERROR ALWAYS - Error in spec file (base.spec:40:40): Type AaveTokenV3Harness.GovernancePowerType is not a valid type
+[main] ERROR ALWAYS - Error in spec file (base.spec:48:36): Type AaveTokenV3Harness.DelegationState is not a valid type
+[main] ERROR ALWAYS - Error in spec file (base.spec:49:39): Type AaveTokenV3Harness.DelegationState is not a valid type
+[main] ERROR ALWAYS - Error in spec file (base.spec:50:44): Type AaveTokenV3Harness.DelegationState is not a valid type
+[main] ERROR ALWAYS - Error in spec file (base.spec:51:43): Type AaveTokenV3Harness.DelegationState is not a valid type
+[main] ERROR ALWAYS - Error in spec file (base.spec:52:30): Type AaveTokenV3Harness.DelegationState is not a valid type
+[main] ERROR ALWAYS - Error in spec file (base.spec:54:35): Type AaveTokenV3Harness.DelegationState is not a valid type
+[main] ERROR ALWAYS - Error in spec file (base.spec:72:5): Type AaveTokenV3Harness.DelegationState is not a valid type

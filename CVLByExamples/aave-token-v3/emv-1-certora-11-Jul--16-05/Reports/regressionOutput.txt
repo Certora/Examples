@@ -1,0 +1,18 @@
+Environment variable 'jobId' is empty; using jobId 004aa5a5c93c4096a32efdfa946c3416
+Stream for topic CVT had an exception and will not be available
+AWS credentials could not be loaded
+Stream for topic Fuzzer had an exception and will not be available
+AWS credentials could not be loaded
+Stream for topic Rule had an exception and will not be available
+AWS credentials could not be loaded
+Error in spec file (base.spec:27:39): AaveTokenV3Harness.GovernancePowerType is not a valid EVM type. Did you mean `IGovernancePowerDelegationToken.GovernancePowerType`?
+Error in spec file (base.spec:36:65): AaveTokenV3Harness.DelegationState is not a valid EVM type. Did you mean `BaseAaveToken.DelegationState`?
+Error in spec file (base.spec:39:35): Type AaveTokenV3Harness.GovernancePowerType is not a valid type
+Error in spec file (base.spec:40:40): Type AaveTokenV3Harness.GovernancePowerType is not a valid type
+Error in spec file (base.spec:48:36): Type AaveTokenV3Harness.DelegationState is not a valid type
+Error in spec file (base.spec:49:39): Type AaveTokenV3Harness.DelegationState is not a valid type
+Error in spec file (base.spec:50:44): Type AaveTokenV3Harness.DelegationState is not a valid type
+Error in spec file (base.spec:51:43): Type AaveTokenV3Harness.DelegationState is not a valid type
+Error in spec file (base.spec:52:30): Type AaveTokenV3Harness.DelegationState is not a valid type
+Error in spec file (base.spec:54:35): Type AaveTokenV3Harness.DelegationState is not a valid type
+Error in spec file (base.spec:72:5): Type AaveTokenV3Harness.DelegationState is not a valid type

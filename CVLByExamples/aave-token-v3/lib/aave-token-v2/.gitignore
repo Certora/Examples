@@ -1,0 +1,16 @@
+.env
+#Buidler files
+cache
+artifacts
+
+node_modules
+dist/
+build/
+.vscode
+
+types/
+coverage
+.coverage_artifacts
+.coverage_cache
+.coverage_contracts
+deployed-contracts.json

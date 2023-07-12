@@ -1,0 +1,10 @@
+version: '3.5'
+services:
+  contracts-env:
+    build:
+      context: ./
+      dockerfile: ./Dockerfile_test
+      args:
+        GITLAB_ACCESS_TOKEN: ${CI_JOB_TOKEN}
+    environment:
+      GITLAB_ACCESS_TOKEN: ${CI_JOB_TOKEN}
