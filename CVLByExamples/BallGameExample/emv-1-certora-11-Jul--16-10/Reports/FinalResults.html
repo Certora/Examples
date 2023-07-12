@@ -1,0 +1,60 @@
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+<a name='PageTop'><h2>Certora Prover results for contract</h2></a>
+<div style='text-align: center; background-color:yellow;'><b><a href='index.html'>Go to new report</a></b></div>
+<a href='#AvailableContracts'>Go to available contracts listing</a>
+<h3>Results for main:</h3>
+<table class="table table-bordered table-hover">
+<tr class="thead-light">
+<th><a href='' target='_blank'>Rule name</a></th><th>Result</th><th>Time (seconds)</th><th>Details</th><th>Local variables</th></tr>
+<tr class="table-success">
+<td><a href='#envfreeFuncsStaticCheck'>envfreeFuncsStaticCheck</a></td><td>&#128077;</td><td>0</td><td>            Success(All passed!<br/>)<br/></td><td>no local variables</td></tr>
+<tr class="table-danger">
+<td><a href='#playerTwoNeverWins'>playerTwoNeverWins</a></td><td>&#128078;</td><td>0</td><td>Assert message: invariant violated in post-state<br/>            Success(Violated for: <br/>pass()<br/>)<br/></td><td>no local variables</td></tr>
+</table>
+<br/>
+<a name='envfreeFuncsStaticCheck'>
+<h3>Results for envfreeFuncsStaticCheck:</h3>
+<a href='#PageTop'>Go back to top</a>
+</a>
+<table class="table table-bordered table-hover">
+<tr class="thead-light">
+<th><a href='' target='_blank'>Rule name</a></th><th>Result</th><th>Time (seconds)</th><th>Details</th><th>Local variables</th></tr>
+<tr class="table-success">
+<td><a href='#ballPosition()'>ballPosition()</a></td><td>&#128077;</td><td>0</td><td>Success(Envfree method BallGame.ballPosition() returns (uint8) is OK)<br/></td><td>no local variables</td></tr>
+<tr class="table-success">
+<td><a href='#pass()'>pass()</a></td><td>&#128077;</td><td>0</td><td>Success(Envfree method BallGame.pass() is OK)<br/></td><td>no local variables</td></tr>
+</table>
+<br/>
+<a name='playerTwoNeverWins_preserve'>
+<h3>Results for playerTwoNeverWins_preserve:</h3>
+<a href='#PageTop'>Go back to top</a>
+</a>
+<table class="table table-bordered table-hover">
+<tr class="thead-light">
+<th><a href='' target='_blank'>Rule name</a></th><th>Result</th><th>Time (seconds)</th><th>Details</th><th>Local variables</th></tr>
+<tr class="table-danger">
+<td><a href='#pass()'>pass()</a></td><td>&#128078;</td><td>0</td><td>Assert message: invariant violated in post-state<br/>            Success(<br/>Invariant breachedArguments values: [certoraInvF=pass(), invariantEnv={msg.sender=BallGame (0x2712), msg.value=0}])<br/></td><td>BallGame=BallGame (0x2712)<br>certoraInvF.isFallback=false<br>certoraInvF.isPayable=false<br>certoraInvF.isPure=false<br>certoraInvF.isView=false<br>certoraInvF.numberOfArguments=0<br>certoraInvF.selector=0xa7a1ed72<br>ecrecover=ecrecover (0x2711)<br>identity=identity (0x2be5)<br>invariantEnv.block.coinbase=0x402<br>invariantEnv.block.difficulty=8<br>invariantEnv.block.gaslimit=7<br>invariantEnv.block.number=6<br>invariantEnv.block.timestamp=3<br>invariantEnv.msg.sender=BallGame (0x2712)<br>invariantEnv.msg.value=0<br>invariantEnv.tx.origin=0x401<br>lastHasThrown=false<br>lastReverted=false<br>sha256=sha256 (0x4538)</td></tr>
+</table>
+<br/>
+<a name='playerTwoNeverWins'>
+<h3>Results for playerTwoNeverWins:</h3>
+<a href='#PageTop'>Go back to top</a>
+</a>
+<table class="table table-bordered table-hover">
+<tr class="thead-light">
+<th><a href='' target='_blank'>Rule name</a></th><th>Result</th><th>Time (seconds)</th><th>Details</th><th>Local variables</th></tr>
+<tr class="table-success">
+<td><a href='#playerTwoNeverWins_instate'>playerTwoNeverWins_instate</a></td><td>&#128077;</td><td>0</td><td></td><td>no local variables</td></tr>
+<tr class="table-danger">
+<td><a href='#playerTwoNeverWins_preserve'>playerTwoNeverWins_preserve</a></td><td>&#128078;</td><td>0</td><td>Assert message: invariant violated in post-state<br/>            Success(Violated for: <br/>pass()<br/>)<br/></td><td>no local variables</td></tr>
+</table>
+<br/>
+<a name='AvailableContracts'><h2>Available contracts</h2></a>
+<table class="table table-bordered table-hover">
+<tr><th>Name</th><th>Address</th><th>Pre-state</th><th colspan='2'>Methods</th></tr>
+<tr>
+<td>BallGame</td>
+<td>ce4604a0000000000000000000000001</td>
+<td>{}</td>
+<td>constructor() /*(0)*/ <br/>ballPosition() returns (SolidityTypeInstance(typeDesc=uint8, location=stack)) /*(4abb8c21)*/ <br/>pass() /*(a7a1ed72)*/ </td><td><br/><br/></td>
+</tr>

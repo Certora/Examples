@@ -1,0 +1,38 @@
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+<a name='PageTop'><h2>Certora Prover results for contract</h2></a>
+<div style='text-align: center; background-color:yellow;'><b><a href='index.html'>Go to new report</a></b></div>
+<a href='#AvailableContracts'>Go to available contracts listing</a>
+<h3>Results for main:</h3>
+<table class="table table-bordered table-hover">
+<tr class="thead-light">
+<th><a href='' target='_blank'>Rule name</a></th><th>Result</th><th>Time (seconds)</th><th>Details</th><th>Local variables</th></tr>
+<tr class="table-success">
+<td><a href='#envfreeFuncsStaticCheck'>envfreeFuncsStaticCheck</a></td><td>&#128077;</td><td>0</td><td>            Success(All passed!<br/>)<br/></td><td>no local variables</td></tr>
+<tr class="table-danger">
+<td><a href='#integrityOfDeposit'>integrityOfDeposit</a></td><td>&#128078;</td><td>1</td><td>Assert message: "deposit must increase the underlying balance of the pool"<br/></td><td>amount=3<br>balance_after=14<br>balance_before=15<br>e.block.coinbase=0x402<br>e.block.difficulty=10<br>e.block.gaslimit=8<br>e.block.number=7<br>e.block.timestamp=5<br>e.msg.sender=0xffff<br>e.msg.value=0<br>e.tx.origin=0x401<br>identity=identity (0x978bbdb8)</td></tr>
+</table>
+<br/>
+<a name='envfreeFuncsStaticCheck'>
+<h3>Results for envfreeFuncsStaticCheck:</h3>
+<a href='#PageTop'>Go back to top</a>
+</a>
+<table class="table table-bordered table-hover">
+<tr class="thead-light">
+<th><a href='' target='_blank'>Rule name</a></th><th>Result</th><th>Time (seconds)</th><th>Details</th><th>Local variables</th></tr>
+<tr class="table-success">
+<td><a href='#balanceOf(address)'>balanceOf(address)</a></td><td>&#128077;</td><td>0</td><td>Success(Envfree method Pool.balanceOf(address account) returns (uint256) is OK)<br/></td><td>no local variables</td></tr>
+<tr class="table-success">
+<td><a href='#assetBalance()'>assetBalance()</a></td><td>&#128077;</td><td>0</td><td>Success(Envfree method Pool.assetBalance() returns (uint256) is OK)<br/></td><td>no local variables</td></tr>
+<tr class="table-success">
+<td><a href='#totalSupply()'>totalSupply()</a></td><td>&#128077;</td><td>0</td><td>Success(Envfree method Pool.totalSupply() returns (uint256) is OK)<br/></td><td>no local variables</td></tr>
+</table>
+<br/>
+<a name='AvailableContracts'><h2>Available contracts</h2></a>
+<table class="table table-bordered table-hover">
+<tr><th>Name</th><th>Address</th><th>Pre-state</th><th colspan='2'>Methods</th></tr>
+<tr>
+<td>Pool</td>
+<td>ce4604a0000000000000000000000007</td>
+<td>{}</td>
+<td>deposit(uint256) returns (SolidityTypeInstance(typeDesc=uint256, location=stack)) /*(b6b55f25)*/ <br/>calcPremium(uint256) returns (SolidityTypeInstance(typeDesc=uint256, location=stack)) /*(e4408188)*/ <br/>transferFrom(address,address,uint256) returns (SolidityTypeInstance(typeDesc=bool, location=stack)) /*(23b872dd)*/ <br/>withdraw(uint256) returns (SolidityTypeInstance(typeDesc=uint256, location=stack)) /*(2e1a7d4d)*/ <br/>amountToShares(uint256) returns (SolidityTypeInstance(typeDesc=uint256, location=stack)) /*(b811540e)*/ <br/>asset() returns (SolidityTypeInstance(typeDesc=address, location=stack)) /*(38d52e0f)*/ <br/>transfer(address,uint256) returns (SolidityTypeInstance(typeDesc=bool, location=stack)) /*(a9059cbb)*/ <br/>balanceOf(address) returns (SolidityTypeInstance(typeDesc=uint256, location=stack)) /*(70a08231)*/ <br/>approve(address,uint256) returns (SolidityTypeInstance(typeDesc=bool, location=stack)) /*(095ea7b3)*/ <br/>assetBalance() returns (SolidityTypeInstance(typeDesc=uint256, location=stack)) /*(c66f2455)*/ <br/>feeRate() returns (SolidityTypeInstance(typeDesc=uint256, location=stack)) /*(978bbdb9)*/ <br/>sharesToAmount(uint256) returns (SolidityTypeInstance(typeDesc=uint256, location=stack)) /*(555d8ebb)*/ <br/>flashLoan(address,uint256) /*(9d9e465c)*/ <br/>totalSupply() returns (SolidityTypeInstance(typeDesc=uint256, location=stack)) /*(18160ddd)*/ <br/>allowance(address,address) returns (SolidityTypeInstance(typeDesc=uint256, location=stack)) /*(dd62ed3e)*/ </td><td><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/></td>
+</tr>

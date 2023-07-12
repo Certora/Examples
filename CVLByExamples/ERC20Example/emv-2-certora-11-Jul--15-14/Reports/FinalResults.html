@@ -1,0 +1,177 @@
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+<a name='PageTop'><h2>Certora Prover results for contract</h2></a>
+<div style='text-align: center; background-color:yellow;'><b><a href='index.html'>Go to new report</a></b></div>
+<a href='#AvailableContracts'>Go to available contracts listing</a>
+<h3>Results for main:</h3>
+<table class="table table-bordered table-hover">
+<tr class="thead-light">
+<th><a href='' target='_blank'>Rule name</a></th><th>Result</th><th>Time (seconds)</th><th>Details</th><th>Local variables</th></tr>
+<tr class="table-danger">
+<td><a href='#envfreeFuncsStaticCheck'>envfreeFuncsStaticCheck</a></td><td>&#128078;</td><td>0</td><td>Assert message: Specification marks method ERC20.transferFrom(address sender, address recipient, uint256 amount) returns (bool) as 'envfree' but the method uses restricted environment properties.<br/>            Success(Violated for: <br/>transferFrom(address,address,uint256)<br/>)<br/></td><td>no local variables</td></tr>
+<tr class="table-danger">
+<td><a href='#transferFromDoesntRevert'>transferFromDoesntRevert</a></td><td>&#128078;</td><td>2</td><td>Assert message: "rule not implemented"<br/></td><td>ERC20=ERC20 (0x2711)</td></tr>
+<tr class="table-danger">
+<td><a href='#transferFromSpec'>transferFromSpec</a></td><td>&#128078;</td><td>2</td><td>Assert message: "rule not implemented"<br/></td><td>ERC20=ERC20 (0x2711)</td></tr>
+<tr class="table-danger">
+<td><a href='#transferFromReverts'>transferFromReverts</a></td><td>&#128078;</td><td>2</td><td>Assert message: "rule not implemented"<br/></td><td>ERC20=ERC20 (0x2711)</td></tr>
+<tr class="table-success">
+<td><a href='#transferSpec'>transferSpec</a></td><td>&#128077;</td><td>6</td><td></td><td>no local variables</td></tr>
+<tr class="table-success">
+<td><a href='#transferReverts'>transferReverts</a></td><td>&#128077;</td><td>4</td><td></td><td>no local variables</td></tr>
+<tr class="table-success">
+<td><a href='#transferDoesntRevert'>transferDoesntRevert</a></td><td>&#128077;</td><td>8</td><td></td><td>no local variables</td></tr>
+<tr class="table-danger">
+<td><a href='#totalSupplyIsSumOfBalances'>totalSupplyIsSumOfBalances</a></td><td>&#128078;</td><td>13</td><td>Assert message: invariant violated in post-state<br/>            Success(Violated for: <br/>deposit(),<br/>withdraw(uint256)<br/>)<br/></td><td>no local variables</td></tr>
+<tr class="table-danger">
+<td><a href='#balancesBoundedByTotalSupply'>balancesBoundedByTotalSupply</a></td><td>&#128078;</td><td>12</td><td>Assert message: invariant violated in post-state<br/>            Success(Violated for: <br/>deposit(),<br/>burn(address,uint256),<br/>mint(address,uint256)<br/>)<br/></td><td>no local variables</td></tr>
+<tr class="table-success">
+<td><a href='#onlyHolderCanChangeAllowance'>onlyHolderCanChangeAllowance</a></td><td>&#128077;</td><td>14</td><td>            Success(All passed!<br/>)<br/></td><td>no local variables</td></tr>
+</table>
+<br/>
+<a name='envfreeFuncsStaticCheck'>
+<h3>Results for envfreeFuncsStaticCheck:</h3>
+<a href='#PageTop'>Go back to top</a>
+</a>
+<table class="table table-bordered table-hover">
+<tr class="thead-light">
+<th><a href='' target='_blank'>Rule name</a></th><th>Result</th><th>Time (seconds)</th><th>Details</th><th>Local variables</th></tr>
+<tr class="table-danger">
+<td><a href='#transferFrom(address,address,uint256)'>transferFrom(address,address,uint256)</a></td><td>&#128078;</td><td>0</td><td>Assert message: Specification marks method ERC20.transferFrom(address sender, address recipient, uint256 amount) returns (bool) as 'envfree' but the method uses restricted environment properties.<br/></td><td>no local variables</td></tr>
+<tr class="table-success">
+<td><a href='#balanceOf(address)'>balanceOf(address)</a></td><td>&#128077;</td><td>0</td><td>Success(Envfree method ERC20.balanceOf(address account) returns (uint256) is OK)<br/></td><td>no local variables</td></tr>
+<tr class="table-success">
+<td><a href='#totalSupply()'>totalSupply()</a></td><td>&#128077;</td><td>0</td><td>Success(Envfree method ERC20.totalSupply() returns (uint256) is OK)<br/></td><td>no local variables</td></tr>
+<tr class="table-success">
+<td><a href='#allowance(address,address)'>allowance(address,address)</a></td><td>&#128077;</td><td>0</td><td>Success(Envfree method ERC20.allowance(address owner, address spender) returns (uint256) is OK)<br/></td><td>no local variables</td></tr>
+</table>
+<br/>
+<a name='totalSupplyIsSumOfBalances_preserve'>
+<h3>Results for totalSupplyIsSumOfBalances_preserve:</h3>
+<a href='#PageTop'>Go back to top</a>
+</a>
+<table class="table table-bordered table-hover">
+<tr class="thead-light">
+<th><a href='' target='_blank'>Rule name</a></th><th>Result</th><th>Time (seconds)</th><th>Details</th><th>Local variables</th></tr>
+<tr class="table-success">
+<td><a href='#increaseAllowance(address,uint256)'>increaseAllowance(address,uint256)</a></td><td>&#128077;</td><td>3</td><td></td><td>no local variables</td></tr>
+<tr class="table-success">
+<td><a href='#transferFrom(address,address,uint256)'>transferFrom(address,address,uint256)</a></td><td>&#128077;</td><td>4</td><td></td><td>no local variables</td></tr>
+<tr class="table-danger">
+<td><a href='#deposit()'>deposit()</a></td><td>&#128078;</td><td>3</td><td>Assert message: invariant violated in post-state<br/>            Success(<br/>Invariant breachedArguments values: [certoraInvF=deposit(), invariantEnv={msg.sender=0x2711, msg.value=2}])<br/></td><td>ERC20=ERC20 (0x2710)<br>certoraInvF.isFallback=false<br>certoraInvF.isPayable=true<br>certoraInvF.isPure=false<br>certoraInvF.isView=false<br>certoraInvF.numberOfArguments=0<br>certoraInvF.selector=0xd0e30db0<br>invariantEnv.block.coinbase=0x401<br>invariantEnv.block.difficulty=9<br>invariantEnv.block.gaslimit=8<br>invariantEnv.block.number=7<br>invariantEnv.block.timestamp=6<br>invariantEnv.msg.sender=0x2711<br>invariantEnv.msg.value=2<br>invariantEnv.tx.origin=0x402<br>lastHasThrown=false<br>lastReverted=false</td></tr>
+<tr class="table-success">
+<td><a href='#decreaseAllowance(address,uint256)'>decreaseAllowance(address,uint256)</a></td><td>&#128077;</td><td>0</td><td></td><td>no local variables</td></tr>
+<tr class="table-success">
+<td><a href='#transfer(address,uint256)'>transfer(address,uint256)</a></td><td>&#128077;</td><td>0</td><td></td><td>no local variables</td></tr>
+<tr class="table-success">
+<td><a href='#mint(address,uint256)'>mint(address,uint256)</a></td><td>&#128077;</td><td>1</td><td></td><td>no local variables</td></tr>
+<tr class="table-danger">
+<td><a href='#withdraw(uint256)'>withdraw(uint256)</a></td><td>&#128078;</td><td>2</td><td>Assert message: invariant violated in post-state<br/>            Success(<br/>Invariant breachedArguments values: [certoraInvF=withdraw(uint256), invariantEnv={msg.sender=0x2711, msg.value=0}])<br/></td><td>ERC20=ERC20 (0x2712)<br>certoraInvF.isFallback=false<br>certoraInvF.isPayable=false<br>certoraInvF.isPure=false<br>certoraInvF.isView=false<br>certoraInvF.numberOfArguments=1<br>certoraInvF.selector=0x2e1a7d4d<br>invariantCalldata=bytemap initialized but unknown<br>invariantEnv.block.coinbase=0x402<br>invariantEnv.block.difficulty=8<br>invariantEnv.block.gaslimit=7<br>invariantEnv.block.number=5<br>invariantEnv.block.timestamp=3<br>invariantEnv.msg.sender=0x2711<br>invariantEnv.msg.value=0<br>invariantEnv.tx.origin=0x401<br>lastHasThrown=false<br>lastReverted=false</td></tr>
+<tr class="table-success">
+<td><a href='#burn(address,uint256)'>burn(address,uint256)</a></td><td>&#128077;</td><td>0</td><td></td><td>no local variables</td></tr>
+<tr class="table-success">
+<td><a href='#approve(address,uint256)'>approve(address,uint256)</a></td><td>&#128077;</td><td>0</td><td></td><td>no local variables</td></tr>
+</table>
+<br/>
+<a name='totalSupplyIsSumOfBalances'>
+<h3>Results for totalSupplyIsSumOfBalances:</h3>
+<a href='#PageTop'>Go back to top</a>
+</a>
+<table class="table table-bordered table-hover">
+<tr class="thead-light">
+<th><a href='' target='_blank'>Rule name</a></th><th>Result</th><th>Time (seconds)</th><th>Details</th><th>Local variables</th></tr>
+<tr class="table-success">
+<td><a href='#totalSupplyIsSumOfBalances_instate'>totalSupplyIsSumOfBalances_instate</a></td><td>&#128077;</td><td>0</td><td></td><td>no local variables</td></tr>
+<tr class="table-danger">
+<td><a href='#totalSupplyIsSumOfBalances_preserve'>totalSupplyIsSumOfBalances_preserve</a></td><td>&#128078;</td><td>13</td><td>Assert message: invariant violated in post-state<br/>            Success(Violated for: <br/>deposit(),<br/>withdraw(uint256)<br/>)<br/></td><td>no local variables</td></tr>
+</table>
+<br/>
+<a name='balancesBoundedByTotalSupply_preserve'>
+<h3>Results for balancesBoundedByTotalSupply_preserve:</h3>
+<a href='#PageTop'>Go back to top</a>
+</a>
+<table class="table table-bordered table-hover">
+<tr class="thead-light">
+<th><a href='' target='_blank'>Rule name</a></th><th>Result</th><th>Time (seconds)</th><th>Details</th><th>Local variables</th></tr>
+<tr class="table-success">
+<td><a href='#increaseAllowance(address,uint256)'>increaseAllowance(address,uint256)</a></td><td>&#128077;</td><td>0</td><td></td><td>no local variables</td></tr>
+<tr class="table-success">
+<td><a href='#withdraw(uint256)'>withdraw(uint256)</a></td><td>&#128077;</td><td>0</td><td></td><td>no local variables</td></tr>
+<tr class="table-success">
+<td><a href='#decreaseAllowance(address,uint256)'>decreaseAllowance(address,uint256)</a></td><td>&#128077;</td><td>0</td><td></td><td>no local variables</td></tr>
+<tr class="table-danger">
+<td><a href='#deposit()'>deposit()</a></td><td>&#128078;</td><td>1</td><td>Assert message: invariant violated in post-state<br/>            Success(<br/>Invariant breachedArguments values: [alice=0x402, bob=0x401, certoraInvF=deposit(), invariantEnv={msg.sender=0x401, msg.value=5}])<br/></td><td>ERC20=ERC20 (0x2711)<br>alice=0x402<br>bob=0x401<br>certoraInvF.isFallback=false<br>certoraInvF.isPayable=true<br>certoraInvF.isPure=false<br>certoraInvF.isView=false<br>certoraInvF.numberOfArguments=0<br>certoraInvF.selector=0xd0e30db0<br>invariantEnv.block.coinbase=0x403<br>invariantEnv.block.difficulty=10<br>invariantEnv.block.gaslimit=9<br>invariantEnv.block.number=3<br>invariantEnv.block.timestamp=8<br>invariantEnv.msg.sender=0x401<br>invariantEnv.msg.value=5<br>invariantEnv.tx.origin=0x404<br>lastHasThrown=false<br>lastReverted=false</td></tr>
+<tr class="table-success">
+<td><a href='#approve(address,uint256)'>approve(address,uint256)</a></td><td>&#128077;</td><td>0</td><td></td><td>no local variables</td></tr>
+<tr class="table-danger">
+<td><a href='#burn(address,uint256)'>burn(address,uint256)</a></td><td>&#128078;</td><td>1</td><td>Assert message: invariant violated in post-state<br/>            Success(<br/>Invariant breachedArguments values: [alice=0x475, bob=0x401, certoraInvF=burn(address,uint256), invariantEnv={msg.sender=ERC20 (0x474), msg.value=0}])<br/></td><td>ERC20=ERC20 (0x474)<br>alice=0x475<br>bob=0x401<br>certoraInvF.isFallback=false<br>certoraInvF.isPayable=false<br>certoraInvF.isPure=false<br>certoraInvF.isView=false<br>certoraInvF.numberOfArguments=2<br>certoraInvF.selector=0x9dc29fac<br>invariantCalldata=bytemap initialized but unknown<br>invariantEnv.block.coinbase=0x403<br>invariantEnv.block.difficulty=9<br>invariantEnv.block.gaslimit=8<br>invariantEnv.block.number=7<br>invariantEnv.block.timestamp=6<br>invariantEnv.msg.sender=ERC20 (0x474)<br>invariantEnv.msg.value=0<br>invariantEnv.tx.origin=0x402<br>lastHasThrown=false<br>lastReverted=false</td></tr>
+<tr class="table-danger">
+<td><a href='#mint(address,uint256)'>mint(address,uint256)</a></td><td>&#128078;</td><td>1</td><td>Assert message: invariant violated in post-state<br/>            Success(<br/>Invariant breachedArguments values: [alice=0x2712, bob=0x2712, certoraInvF=mint(address,uint256), invariantEnv={msg.sender=ERC20 (0x16dc), msg.value=0}])<br/></td><td>ERC20=ERC20 (0x16dc)<br>alice=0x2712<br>bob=0x2712<br>certoraInvF.isFallback=false<br>certoraInvF.isPayable=false<br>certoraInvF.isPure=false<br>certoraInvF.isView=false<br>certoraInvF.numberOfArguments=2<br>certoraInvF.selector=0x40c10f19<br>invariantCalldata=bytemap initialized but unknown<br>invariantEnv.block.coinbase=0x402<br>invariantEnv.block.difficulty=9<br>invariantEnv.block.gaslimit=8<br>invariantEnv.block.number=7<br>invariantEnv.block.timestamp=3<br>invariantEnv.msg.sender=ERC20 (0x16dc)<br>invariantEnv.msg.value=0<br>invariantEnv.tx.origin=0x401<br>lastHasThrown=false<br>lastReverted=false</td></tr>
+</table>
+<br/>
+<a name='balancesBoundedByTotalSupply'>
+<h3>Results for balancesBoundedByTotalSupply:</h3>
+<a href='#PageTop'>Go back to top</a>
+</a>
+<table class="table table-bordered table-hover">
+<tr class="thead-light">
+<th><a href='' target='_blank'>Rule name</a></th><th>Result</th><th>Time (seconds)</th><th>Details</th><th>Local variables</th></tr>
+<tr class="table-success">
+<td><a href='#balancesBoundedByTotalSupply_instate'>balancesBoundedByTotalSupply_instate</a></td><td>&#128077;</td><td>3</td><td></td><td>no local variables</td></tr>
+<tr class="table-danger">
+<td><a href='#balancesBoundedByTotalSupply_preserve'>balancesBoundedByTotalSupply_preserve</a></td><td>&#128078;</td><td>3</td><td>Assert message: invariant violated in post-state<br/>            Success(Violated for: <br/>deposit(),<br/>burn(address,uint256),<br/>mint(address,uint256)<br/>)<br/></td><td>no local variables</td></tr>
+<tr class="table-success">
+<td><a href='#balancesBoundedByTotalSupply_preserve_explicit_transfer(address,uint256)'>balancesBoundedByTotalSupply_preserve_explicit_transfer(address,uint256)</a></td><td>&#128077;</td><td>5</td><td></td><td>no local variables</td></tr>
+<tr class="table-success">
+<td><a href='#balancesBoundedByTotalSupply_preserve_explicit_transferFrom(address,address,uint256)'>balancesBoundedByTotalSupply_preserve_explicit_transferFrom(address,address,uint256)</a></td><td>&#128077;</td><td>1</td><td></td><td>no local variables</td></tr>
+</table>
+<br/>
+<a name='onlyHolderCanChangeAllowance'>
+<h3>Results for onlyHolderCanChangeAllowance:</h3>
+<a href='#PageTop'>Go back to top</a>
+</a>
+<table class="table table-bordered table-hover">
+<tr class="thead-light">
+<th><a href='' target='_blank'>Rule name</a></th><th>Result</th><th>Time (seconds)</th><th>Details</th><th>Local variables</th></tr>
+<tr class="table-success">
+<td><a href='#withdraw(uint256)'>withdraw(uint256)</a></td><td>&#128077;</td><td>0</td><td></td><td>no local variables</td></tr>
+<tr class="table-success">
+<td><a href='#transferFrom(address,address,uint256)'>transferFrom(address,address,uint256)</a></td><td>&#128077;</td><td>1</td><td></td><td>no local variables</td></tr>
+<tr class="table-success">
+<td><a href='#mint(address,uint256)'>mint(address,uint256)</a></td><td>&#128077;</td><td>1</td><td></td><td>no local variables</td></tr>
+<tr class="table-success">
+<td><a href='#name()'>name()</a></td><td>&#128077;</td><td>0</td><td></td><td>no local variables</td></tr>
+<tr class="table-success">
+<td><a href='#increaseAllowance(address,uint256)'>increaseAllowance(address,uint256)</a></td><td>&#128077;</td><td>3</td><td></td><td>no local variables</td></tr>
+<tr class="table-success">
+<td><a href='#balanceOf(address)'>balanceOf(address)</a></td><td>&#128077;</td><td>4</td><td></td><td>no local variables</td></tr>
+<tr class="table-success">
+<td><a href='#decreaseAllowance(address,uint256)'>decreaseAllowance(address,uint256)</a></td><td>&#128077;</td><td>0</td><td></td><td>no local variables</td></tr>
+<tr class="table-success">
+<td><a href='#totalSupply()'>totalSupply()</a></td><td>&#128077;</td><td>0</td><td></td><td>no local variables</td></tr>
+<tr class="table-success">
+<td><a href='#burn(address,uint256)'>burn(address,uint256)</a></td><td>&#128077;</td><td>1</td><td></td><td>no local variables</td></tr>
+<tr class="table-success">
+<td><a href='#decimals()'>decimals()</a></td><td>&#128077;</td><td>0</td><td></td><td>no local variables</td></tr>
+<tr class="table-success">
+<td><a href='#allowance(address,address)'>allowance(address,address)</a></td><td>&#128077;</td><td>2</td><td></td><td>no local variables</td></tr>
+<tr class="table-success">
+<td><a href='#transfer(address,uint256)'>transfer(address,uint256)</a></td><td>&#128077;</td><td>1</td><td></td><td>no local variables</td></tr>
+<tr class="table-success">
+<td><a href='#symbol()'>symbol()</a></td><td>&#128077;</td><td>0</td><td></td><td>no local variables</td></tr>
+<tr class="table-success">
+<td><a href='#deposit()'>deposit()</a></td><td>&#128077;</td><td>0</td><td></td><td>no local variables</td></tr>
+<tr class="table-success">
+<td><a href='#_owner()'>_owner()</a></td><td>&#128077;</td><td>0</td><td></td><td>no local variables</td></tr>
+<tr class="table-success">
+<td><a href='#approve(address,uint256)'>approve(address,uint256)</a></td><td>&#128077;</td><td>1</td><td></td><td>no local variables</td></tr>
+</table>
+<br/>
+<a name='AvailableContracts'><h2>Available contracts</h2></a>
+<table class="table table-bordered table-hover">
+<tr><th>Name</th><th>Address</th><th>Pre-state</th><th colspan='2'>Methods</th></tr>
+<tr>
+<td>ERC20</td>
+<td>ce4604a0000000000000000000000003</td>
+<td>{}</td>
+<td>constructor() /*(0)*/ <br/>symbol() returns (SolidityTypeInstance(typeDesc=string, location=memory)) /*(95d89b41)*/ <br/>name() returns (SolidityTypeInstance(typeDesc=string, location=memory)) /*(06fdde03)*/ <br/>_owner() returns (SolidityTypeInstance(typeDesc=address, location=stack)) /*(b2bdfa7b)*/ <br/>decimals() returns (SolidityTypeInstance(typeDesc=uint8, location=stack)) /*(313ce567)*/ <br/>transferFrom(address,address,uint256) returns (SolidityTypeInstance(typeDesc=bool, location=stack)) /*(23b872dd)*/ <br/>burn(address,uint256) /*(9dc29fac)*/ <br/>withdraw(uint256) /*(2e1a7d4d)*/ <br/>deposit() /*(d0e30db0)*/  /*potentially_payable*/ <br/>balanceOf(address) returns (SolidityTypeInstance(typeDesc=uint256, location=stack)) /*(70a08231)*/ <br/>increaseAllowance(address,uint256) returns (SolidityTypeInstance(typeDesc=bool, location=stack)) /*(39509351)*/ <br/>approve(address,uint256) returns (SolidityTypeInstance(typeDesc=bool, location=stack)) /*(095ea7b3)*/ <br/>decreaseAllowance(address,uint256) returns (SolidityTypeInstance(typeDesc=bool, location=stack)) /*(a457c2d7)*/ <br/>mint(address,uint256) /*(40c10f19)*/ <br/>transfer(address,uint256) returns (SolidityTypeInstance(typeDesc=bool, location=stack)) /*(a9059cbb)*/ <br/>totalSupply() returns (SolidityTypeInstance(typeDesc=uint256, location=stack)) /*(18160ddd)*/ <br/>allowance(address,address) returns (SolidityTypeInstance(typeDesc=uint256, location=stack)) /*(dd62ed3e)*/ </td><td><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/></td>
+</tr>

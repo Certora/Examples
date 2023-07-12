@@ -1,0 +1,208 @@
+Environment variable 'jobId' is empty; using jobId 26dd525296224dbe9b04862eccdf6dad
+Stream for topic CVT had an exception and will not be available
+AWS credentials could not be loaded
+Stream for topic Fuzzer had an exception and will not be available
+AWS credentials could not be loaded
+Stream for topic Rule had an exception and will not be available
+AWS credentials could not be loaded
+Syntax warning in spec file pool_havoc.spec:19:5: Method declaration for Pool.transfer(address, uint256) returns (bool) is neither `envfree`, `optional`, nor summarized, so it has no effect.
+Syntax warning in spec file pool_havoc.spec:20:5: Method declaration for Pool.transferFrom(address, address, uint256) returns (bool) is neither `envfree`, `optional`, nor summarized, so it has no effect.
+Syntax warning in spec file pool_havoc.spec:22:5: Method declaration for Pool.deposit(uint256) returns (uint256) is neither `envfree`, `optional`, nor summarized, so it has no effect.
+Syntax warning in spec file pool_havoc.spec:23:5: Method declaration for Pool.withdraw(uint256) returns (uint256) is neither `envfree`, `optional`, nor summarized, so it has no effect.
+Syntax warning in spec file pool_havoc.spec:26:5: Method declaration for Pool.flashLoan(address, uint256) is neither `envfree`, `optional`, nor summarized, so it has no effect.
+Memory splitting of Pool-approve(address,uint256) succeeded
+Memory splitting of Pool-calcPremium(uint256) succeeded
+Memory splitting of Pool-balanceOf(address) succeeded
+Memory splitting of Pool-transfer(address,uint256) succeeded
+Memory splitting of Pool-sharesToAmount(uint256) succeeded
+Memory splitting of Pool-amountToShares(uint256) succeeded
+Memory splitting of Pool-flashLoan(address,uint256) succeeded
+Memory splitting of Pool-deposit(uint256) succeeded
+Memory splitting of Pool-feeRate() succeeded
+Memory splitting of Pool-asset() succeeded
+Memory splitting of Pool-assetBalance() succeeded
+Memory splitting of Pool-totalSupply() succeeded
+Memory splitting of Pool-allowance(address,address) succeeded
+Memory splitting of Pool-transferFrom(address,address,uint256) succeeded
+Memory splitting of Pool-withdraw(uint256) succeeded
+Found multiple (or zero) initial writes: []
+Found multiple (or zero) initial writes: []
+Found multiple (or zero) initial writes: []
+Found multiple (or zero) initial writes: []
+Found multiple (or zero) initial writes: []
+Found multiple (or zero) initial writes: []
+Created a meta slot tacS!ce4604a0000000000000000000000007!StructAccess_offset0_base.MapAccess_base.Root_slot1
+Created a meta slot tacS!ce4604a0000000000000000000000007!StructAccess_offset0_base.MapAccess_base.StructAccess_offset0_base.MapAccess_base.Root_slot2
+Created a meta slot tacS!ce4604a0000000000000000000000007!StructAccess_offset0_base.MapAccess_base.StructAccess_offset0_base.MapAccess_base.Root_slot2
+Created a meta slot tacS!ce4604a0000000000000000000000007!StructAccess_offset0_base.MapAccess_base.Root_slot1
+Created a meta slot tacS!ce4604a0000000000000000000000007!0
+Created a meta slot tacS!ce4604a0000000000000000000000007!4!0
+Created a meta slot tacS!ce4604a0000000000000000000000007!5
+Created a meta slot tacS!ce4604a0000000000000000000000007!4!0
+Created a meta slot tacS!ce4604a0000000000000000000000007!3
+Created a meta slot tacS!ce4604a0000000000000000000000007!4!0
+Created a meta slot tacS!ce4604a0000000000000000000000007!0
+Created a meta slot tacS!ce4604a0000000000000000000000007!StructAccess_offset0_base.MapAccess_base.Root_slot1
+Created a meta slot tacS!ce4604a0000000000000000000000007!5
+Created a meta slot tacS!ce4604a0000000000000000000000007!0
+Created a meta slot tacS!ce4604a0000000000000000000000007!4!0
+Created a meta slot tacS!ce4604a0000000000000000000000007!3
+Created a meta slot tacS!ce4604a0000000000000000000000007!4!0
+Created a meta slot tacS!ce4604a0000000000000000000000007!0
+Created a meta slot tacS!ce4604a0000000000000000000000007!StructAccess_offset0_base.MapAccess_base.Root_slot1
+Created a meta slot tacS!ce4604a0000000000000000000000007!0
+Created a meta slot tacS!ce4604a0000000000000000000000007!4!0
+Created a meta slot tacS!ce4604a0000000000000000000000007!StructAccess_offset0_base.MapAccess_base.StructAccess_offset0_base.MapAccess_base.Root_slot2
+Created a meta slot tacS!ce4604a0000000000000000000000007!StructAccess_offset0_base.MapAccess_base.Root_slot1
+Created a meta slot tacS!ce4604a0000000000000000000000007!3
+Created a meta slot tacS!ce4604a0000000000000000000000007!5
+Created a meta slot tacS!ce4604a0000000000000000000000007!4!0
+
+Proved that mult can't overflow, for bound 115792089237316195423570985008687907853269984665640564039457584007913129639935, removing 1 check
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+Proved that add can't overflow for bound 115792089237316195423570985008687907853269984665640564039457584007913129639935, removing 1 check
+marking potential over-/underflowing expression class vc.data.TACExpr$Vec$Add$Binary with 'will not wrap' annotation
+there already is a replacement registered in this PatchingProgram for pointer "CmdPointer(block=4523_1009_0_2_2_1, pos=40)", only one replacement is allowed per pointer
+Proved that add can't overflow for bound 115792089237316195423570985008687907853269984665640564039457584007913129639935, removing 1 check
+marking potential over-/underflowing expression class vc.data.TACExpr$Vec$Add$Binary with 'will not wrap' annotation
+there already is a replacement registered in this PatchingProgram for pointer "CmdPointer(block=4523_1009_0_2_2_1, pos=57)", only one replacement is allowed per pointer
+Artifact output.json already registered in REPORTS
+Found variables used before being initialized in integrityOfDeposit. Enable info logs for DSA
+dumping codeMap "PresolverRule-integrityOfDeposit" in html format, but the file name "PresolverRule-integrityOfDeposit" is lacking the `.html` suffix. Appending it and dumping that file.
+prettifyModel finished.
+Diversification did not produce statistics.
+Total time for contract: 1 seconds ; Split time: 0 seconds ; Number of problems: 1 ; Solver time : 1 seconds
+Violated: integrityOfDeposit
+integrityOfDeposit: A property is violated
+Rule integrityOfDeposit: Callee contract unresolved, callee sighash resolved, method signature is balanceOf(address)
+[Rule integrityOfDeposit]: [Call Resolution Table][Caller: Pool.assetBalance() (line:81)]: The Prover could not resolve the callee, thus, havoc'd the call
+Rule integrityOfDeposit: Callee contract unresolved, callee sighash resolved, method signature is balanceOf(address)
+[Rule integrityOfDeposit]: [Call Resolution Table][Caller: Pool.deposit(uint256) (line:44)]: The Prover could not resolve the callee, thus, havoc'd the call
+Rule integrityOfDeposit: Callee contract unresolved, callee sighash resolved, method signature is balanceOf(address)
+[Rule integrityOfDeposit]: [Call Resolution Table][Caller: Pool.deposit(uint256) (line:39)]: The Prover could not resolve the callee, thus, havoc'd the call
+Rule integrityOfDeposit: Callee contract unresolved, callee sighash resolved, method signature is transferFrom(address,address,uint256)
+[Rule integrityOfDeposit]: [Call Resolution Table][Caller: Pool.deposit(uint256) (line:52)]: The Prover could not resolve the callee, thus, havoc'd the call
+Rule integrityOfDeposit: Callee contract unresolved, callee sighash resolved, method signature is balanceOf(address)
+[Rule integrityOfDeposit]: [Call Resolution Table][Caller: Pool.assetBalance() (line:81)]: The Prover could not resolve the callee, thus, havoc'd the call
+The names of the local variables are [amount, balance_after, balance_before, e.block.coinbase, e.block.difficulty, e.block.gaslimit, e.block.number, e.block.timestamp, e.msg.sender, e.msg.value, e.tx.origin]
+StorageState: Pool._balanceOf[0xffff]: 0 - STORAGE_HAVOC
+StorageState: Pool._status: 0 - STORAGE_HAVOC
+StorageState: Pool._totalSupply: 9 - STORAGE_HAVOC
+StorageState: Pool.asset: identity (0x978bbdb8) - STORAGE_HAVOC
+CallTrace: caller: balance_before = Pool.assetBalance() callee: Pool.assetBalance()
+CallTrace: internal call: (internal) assetBalance()
+Load from: asset
+StorageState: Pool._balanceOf[0xffff]: 0 - STORAGE_HAVOC
+StorageState: Pool._status: 0 - STORAGE_HAVOC
+StorageState: Pool._totalSupply: 9 - STORAGE_HAVOC
+StorageState: Pool.asset: identity (0x978bbdb8) - STORAGE_HAVOC
+(internal) Pool.assetBalance() / 15
+EXTERNAL CALL Pool.assetBalance(): all expected parameters found in value map
+EXTERNAL CALL Pool.assetBalance(): all expected return values found in value map
+Pool.assetBalance() / 15
+Got a non-constant, non-variable operand (Operand(out=CANON68:int, exp=e.msg.sender)) that is not in the builderState. Failed to construct its complete syntax-tree
+Exp e.msg.sender != currentContract has the sub expressions: [e.msg.sender == currentContract]
+CallTrace: caller: Pool.deposit(e, amount) callee: Pool.deposit(uint256)
+Load from: sender.balance
+Store at: sender.balance
+Load from: receiver.balance
+Store at: receiver.balance
+CallTrace: internal call: (internal) deposit(uint256)
+Load from: _status
+Store at: _status
+Load from: asset
+CallTrace: internal call: (internal) totalSupply()
+Load from: _totalSupply
+StorageState: Pool._balanceOf[0xffff]: 0 - STORAGE_HAVOC
+StorageState: Pool._status: 2 (changed) - STORAGE_CONCRETE
+StorageState: Pool._totalSupply: 9 - STORAGE_HAVOC
+StorageState: Pool.asset: identity (0x978bbdb8) - STORAGE_HAVOC
+(internal) ERC20.totalSupply() / 9
+CallTrace: internal call: (internal) amountToShares(uint256)
+Load from: asset
+CallTrace: internal call: (internal) totalSupply()
+Load from: _totalSupply
+StorageState: Pool._balanceOf[0xffff]: 0 - STORAGE_HAVOC
+StorageState: Pool._status: 2 - STORAGE_CONCRETE
+StorageState: Pool._totalSupply: 9 - STORAGE_HAVOC
+StorageState: Pool.asset: identity (0x978bbdb8) - STORAGE_HAVOC
+(internal) ERC20.totalSupply() / 9
+StorageState: Pool._balanceOf[0xffff]: 0 - STORAGE_HAVOC
+StorageState: Pool._status: 2 - STORAGE_CONCRETE
+StorageState: Pool._totalSupply: 9 - STORAGE_HAVOC
+StorageState: Pool.asset: identity (0x978bbdb8) - STORAGE_HAVOC
+(internal) Pool.amountToShares(amount=3) / 6
+Load from: asset
+CallTrace: internal call: (internal) _mint(address,uint256)
+Load from: _totalSupply
+Store at: _totalSupply
+Load from: _balanceOf[*]
+Store at: _balanceOf[*]
+StorageState: Pool._balanceOf[0xffff]: 6 (changed) - STORAGE_HAVOC_DEPENDENT
+StorageState: Pool._status: 2 - STORAGE_CONCRETE
+StorageState: Pool._totalSupply: 15 (changed) - STORAGE_HAVOC_DEPENDENT
+StorageState: Pool.asset: identity (0x978bbdb8) - STORAGE_HAVOC
+(internal) ERC20._mint(recipient=0xffff, amount=6) / 
+Store at: _status
+StorageState: Pool._balanceOf[0xffff]: 6 - STORAGE_HAVOC_DEPENDENT
+StorageState: Pool._status: 1 (changed) - STORAGE_CONCRETE
+StorageState: Pool._totalSupply: 15 - STORAGE_HAVOC_DEPENDENT
+StorageState: Pool.asset: identity (0x978bbdb8) - STORAGE_HAVOC
+(internal) Pool.deposit(amount=3) / 6
+EXTERNAL CALL Pool.deposit(uint256): all expected parameters found in value map
+EXTERNAL CALL Pool.deposit(uint256): all expected return values found in value map
+Pool.deposit(amount=X) / 6
+CallTrace: caller: balance_after = Pool.assetBalance() callee: Pool.assetBalance()
+CallTrace: internal call: (internal) assetBalance()
+Load from: asset
+StorageState: Pool._balanceOf[0xffff]: 6 - STORAGE_HAVOC_DEPENDENT
+StorageState: Pool._status: 1 - STORAGE_CONCRETE
+StorageState: Pool._totalSupply: 15 - STORAGE_HAVOC_DEPENDENT
+StorageState: Pool.asset: identity (0x978bbdb8) - STORAGE_HAVOC
+(internal) Pool.assetBalance() / 14
+EXTERNAL CALL Pool.assetBalance(): all expected parameters found in value map
+EXTERNAL CALL Pool.assetBalance(): all expected return values found in value map
+Pool.assetBalance() / 14
+Exp balance_after == balance_before + amount has the sub expressions: [balance_after, balance_before + amount]
+StorageState: Pool._balanceOf[0xffff]: 6 - STORAGE_HAVOC_DEPENDENT
+StorageState: Pool._status: 1 - STORAGE_CONCRETE
+StorageState: Pool._totalSupply: 15 - STORAGE_HAVOC_DEPENDENT
+StorageState: Pool.asset: identity (0x978bbdb8) - STORAGE_HAVOC
+amount=3
+balance_after=14
+balance_before=15
+e.block.coinbase=0x402
+e.block.difficulty=10
+e.block.gaslimit=8
+e.block.number=7
+e.block.timestamp=5
+e.msg.sender=0xffff
+e.msg.value=0
+e.tx.origin=0x401
+identity=identity (0x978bbdb8)
+amount=3
+balance_after=14
+balance_before=15
+e.block.coinbase=0x402
+e.block.difficulty=10
+e.block.gaslimit=8
+e.block.number=7
+e.block.timestamp=5
+e.msg.sender=0xffff
+e.msg.value=0
+e.tx.origin=0x401
+identity=identity (0x978bbdb8)
+Artifact FinalResults.html already registered in REPORTS
+amount=3
+balance_after=14
+balance_before=15
+e.block.coinbase=0x402
+e.block.difficulty=10
+e.block.gaslimit=8
+e.block.number=7
+e.block.timestamp=5
+e.msg.sender=0xffff
+e.msg.value=0
+e.tx.origin=0x401
+identity=identity (0x978bbdb8)
+Artifact FinalResults.html already registered in REPORTS

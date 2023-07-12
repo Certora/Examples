@@ -1,0 +1,2 @@
+{"EventTypeId":"event.CacheEvent.NumCacheFiles","n":1881,"isStart":true}
+{"EventTypeId":"event.CacheEvent.CacheDirSize","bytes":3260693467,"isStart":true}

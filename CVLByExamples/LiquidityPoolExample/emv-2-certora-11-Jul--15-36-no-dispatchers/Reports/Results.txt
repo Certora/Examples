@@ -1,0 +1,186 @@
+Reports in /home/sitvanit/EVMVerifier-all/examples/Examples/LiquidityPoolExample/emv-2-certora-11-Jul--15-36/Reports
+Start Tue Jul 11 15:36:05 IDT 2023
+Memory splitting of Asset-totalSupply() succeeded
+Memory splitting of Asset-allowance(address,address) succeeded
+Memory splitting of Asset-balanceOf(address) succeeded
+Memory splitting of Asset-approve(address,uint256) succeeded
+Memory splitting of Asset-transfer(address,uint256) succeeded
+Memory splitting of Asset-transferFrom(address,address,uint256) succeeded
+Memory splitting of Pool-approve(address,uint256) succeeded
+Memory splitting of Pool-balanceOf(address) succeeded
+Memory splitting of Pool-transfer(address,uint256) succeeded
+Memory splitting of Pool-sharesToAmount(uint256) succeeded
+Memory splitting of Pool-amountToShares(uint256) succeeded
+Memory splitting of Pool-flashLoan(address,uint256) succeeded
+Memory splitting of Pool-deposit(uint256) succeeded
+Memory splitting of Pool-feeRate() succeeded
+Memory splitting of Pool-asset() succeeded
+Memory splitting of Pool-calcPremium(uint256) succeeded
+Memory splitting of Pool-allowance(address,address) succeeded
+Memory splitting of Pool-totalSupply() succeeded
+Memory splitting of Pool-assetBalance() succeeded
+Memory splitting of Pool-withdraw(uint256) succeeded
+Memory splitting of Pool-transferFrom(address,address,uint256) succeeded
+The scene contains 21 contracts:
+Asset : 0xce4604a0000000000000000000000003,
+Pool : 0xce4604a000000000000000000000000d,
+ecrecover : 0x1,
+sha256 : 0x2,
+ripemd160 : 0x3,
+identity : 0x4,
+bigmod : 0x5,
+bn256Add : 0x6,
+bn256ScalarMul : 0x7,
+bn256Pairing : 0x8,
+Precompiled244 : 0xf4,
+Precompiled245 : 0xf5,
+Precompiled246 : 0xf6,
+Precompiled247 : 0xf7,
+Precompiled248 : 0xf8,
+Precompiled249 : 0xf9,
+Precompiled250 : 0xfa,
+Precompiled251 : 0xfb,
+Precompiled252 : 0xfc,
+Precompiled253 : 0xfd,
+Precompiled254 : 0xfe
+In contract Pool method assetBalance contains external calls: [asset.balanceOf(address(this))]
+In contract Pool method withdraw contains external calls: [asset.balanceOf(address(this)), asset.transferFrom(address(this),msg.sender,amountOut), asset.balanceOf(address(this))]
+In contract Pool method amountToShares contains external calls: [asset.balanceOf(address(this))]
+In contract Pool method deposit contains external calls: [asset.balanceOf(address(this)), asset.transferFrom(msg.sender,address(this),amount), asset.balanceOf(address(this))]
+In contract Pool method sharesToAmount contains external calls: [asset.balanceOf(address(this))]
+In contract Pool method flashLoan contains external calls: [asset.transferFrom(address(this),msg.sender,amount), IFlashLoanReceiver(receiverAddress).executeOperation(amount,totalPremium,msg.sender), asset.transferFrom(msg.sender,address(this),amountPlusPremium)]
+Running initial transformations
+[ForkJoinPool-21-worker-1] WARN ALLOC - Found multiple (or zero) initial writes: []
+[ForkJoinPool-20-worker-1] WARN ALLOC - Found multiple (or zero) initial writes: []
+[ForkJoinPool-17-worker-1] WARN ALLOC - Found multiple (or zero) initial writes: []
+[ForkJoinPool-42-worker-1] WARN ALLOC - Found multiple (or zero) initial writes: []
+[ForkJoinPool-41-worker-1] WARN ALLOC - Found multiple (or zero) initial writes: [][ForkJoinPool-39-worker-1] WARN ALLOC - Found multiple (or zero) initial writes: []
+
+Created a meta slot tacS!ce4604a0000000000000000000000003!StructAccess_offset0_base.MapAccess_base.Root_slot1
+Created a meta slot tacS!ce4604a0000000000000000000000003!StructAccess_offset0_base.MapAccess_base.StructAccess_offset0_base.MapAccess_base.Root_slot2
+Created a meta slot tacS!ce4604a0000000000000000000000003!StructAccess_offset0_base.MapAccess_base.StructAccess_offset0_base.MapAccess_base.Root_slot2
+Created a meta slot tacS!ce4604a0000000000000000000000003!StructAccess_offset0_base.MapAccess_base.Root_slot1
+Created a meta slot tacS!ce4604a0000000000000000000000003!0
+Created a meta slot tacS!ce4604a0000000000000000000000003!StructAccess_offset0_base.MapAccess_base.StructAccess_offset0_base.MapAccess_base.Root_slot2
+Created a meta slot tacS!ce4604a0000000000000000000000003!StructAccess_offset0_base.MapAccess_base.Root_slot1
+
+Created a meta slot tacS!ce4604a000000000000000000000000d!StructAccess_offset0_base.MapAccess_base.Root_slot1
+Created a meta slot tacS!ce4604a000000000000000000000000d!StructAccess_offset0_base.MapAccess_base.StructAccess_offset0_base.MapAccess_base.Root_slot2
+Created a meta slot tacS!ce4604a000000000000000000000000d!StructAccess_offset0_base.MapAccess_base.StructAccess_offset0_base.MapAccess_base.Root_slot2
+Created a meta slot tacS!ce4604a000000000000000000000000d!StructAccess_offset0_base.MapAccess_base.Root_slot1
+Created a meta slot tacS!ce4604a000000000000000000000000d!0
+Created a meta slot tacS!ce4604a000000000000000000000000d!4!0
+Created a meta slot tacS!ce4604a000000000000000000000000d!5
+Created a meta slot tacS!ce4604a000000000000000000000000d!4!0
+Created a meta slot tacS!ce4604a000000000000000000000000d!3
+Created a meta slot tacS!ce4604a000000000000000000000000d!4!0
+Created a meta slot tacS!ce4604a000000000000000000000000d!0
+Created a meta slot tacS!ce4604a000000000000000000000000d!StructAccess_offset0_base.MapAccess_base.Root_slot1
+Created a meta slot tacS!ce4604a000000000000000000000000d!5
+Created a meta slot tacS!ce4604a000000000000000000000000d!0
+Created a meta slot tacS!ce4604a000000000000000000000000d!4!0
+Created a meta slot tacS!ce4604a000000000000000000000000d!3
+Created a meta slot tacS!ce4604a000000000000000000000000d!4!0
+Created a meta slot tacS!ce4604a000000000000000000000000d!0
+Created a meta slot tacS!ce4604a000000000000000000000000d!StructAccess_offset0_base.MapAccess_base.Root_slot1
+Created a meta slot tacS!ce4604a000000000000000000000000d!0
+Created a meta slot tacS!ce4604a000000000000000000000000d!4!0
+Created a meta slot tacS!ce4604a000000000000000000000000d!StructAccess_offset0_base.MapAccess_base.StructAccess_offset0_base.MapAccess_base.Root_slot2
+Created a meta slot tacS!ce4604a000000000000000000000000d!StructAccess_offset0_base.MapAccess_base.Root_slot1
+Created a meta slot tacS!ce4604a000000000000000000000000d!3
+Created a meta slot tacS!ce4604a000000000000000000000000d!5
+Created a meta slot tacS!ce4604a000000000000000000000000d!4!0
+
+Inlining in Pool-assetBalance() a call to Asset-balanceOf(address)
+Inlining a call to Asset.balanceOf in Pool-assetBalance()
+Inlining in Pool-withdraw(uint256) a call to Asset-balanceOf(address)
+Inlining a call to Asset.balanceOf in Pool-withdraw(uint256)
+Inlining in Pool-withdraw(uint256) a call to Asset-transferFrom(address,address,uint256)
+Inlining a call to Asset.transferFrom in Pool-withdraw(uint256)
+Inlining in Pool-withdraw(uint256) a call to Asset-balanceOf(address)
+Inlining a call to Asset.balanceOf in Pool-withdraw(uint256)
+Inlining in Pool-amountToShares(uint256) a call to Asset-balanceOf(address)
+Inlining a call to Asset.balanceOf in Pool-amountToShares(uint256)
+Inlining in Pool-deposit(uint256) a call to Asset-balanceOf(address)
+Inlining a call to Asset.balanceOf in Pool-deposit(uint256)
+Inlining in Pool-deposit(uint256) a call to Asset-transferFrom(address,address,uint256)
+Inlining a call to Asset.transferFrom in Pool-deposit(uint256)
+Inlining in Pool-deposit(uint256) a call to Asset-balanceOf(address)
+Inlining a call to Asset.balanceOf in Pool-deposit(uint256)
+Inlining in Pool-sharesToAmount(uint256) a call to Asset-balanceOf(address)
+Inlining a call to Asset.balanceOf in Pool-sharesToAmount(uint256)
+Inlining in Pool-flashLoan(address,uint256) a call to Asset-transferFrom(address,address,uint256)
+Inlining a call to Asset.transferFrom in Pool-flashLoan(address,uint256)
+Inlining in Pool-flashLoan(address,uint256) a call to Asset-transferFrom(address,address,uint256)
+Inlining a call to Asset.transferFrom in Pool-flashLoan(address,uint256)
+For CVL If command at Missing source reference information it was found that only one branch was needed
+For CVL If command at Missing source reference information it was found that only one branch was needed
+For CVL If command at Missing source reference information it was found that only one branch was needed
+For CVL If command at Missing source reference information it was found that only one branch was needed
+For CVL If command at Missing source reference information it was found that only one branch was needed
+For CVL If command at Missing source reference information it was found that only one branch was needed
+For CVL If command at Missing source reference information it was found that only one branch was needed
+For CVL If command at Missing source reference information it was found that only one branch was needed
+For CVL If command at Missing source reference information it was found that only one branch was needed
+For CVL If command at Missing source reference information it was found that only one branch was needed
+For CVL If command at Missing source reference information it was found that only one branch was needed
+Has CVL checks.
+Checking CVL certora/specs/flashLoan_dispatcher.spec for contract Pool
+Unrolling loops 1 time, unwinding condition is asserted
+Checking rule flashLoanIncreasesBalance (1 out of 2)...
+Checking rule envfreeFuncsStaticCheck (2 out of 2)...
+Starting to run on rule flashLoanIncreasesBalance 
+Starting to run on rule envfreeFuncsStaticCheck 
+Starting to run on rule balanceOf(address) of envfreeFuncsStaticCheck
+Starting to run on rule Asset.balanceOf(address) of envfreeFuncsStaticCheck
+Result for envfreeFuncsStaticCheck: envfreeFuncsStaticCheck: Asset.balanceOf(address): SUCCESS
+balanceOf(address): SUCCESS
+Starting to run on rule flashLoanIncreasesBalance 
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+Proved that mult can't overflow, for bound 115792089237316195423570985008687907853269984665640564039457584007913129639935, removing 1 check
+Proved that add can't overflow for bound 115792089237316195423570985008687907853269984665640564039457584007913129639935, removing 1 check
+marking potential over-/underflowing expression class vc.data.TACExpr$Vec$Add$Binary with 'will not wrap' annotation
+[ForkJoinPool-107-worker-1] WARN COMMON - there already is a replacement registered in this PatchingProgram for pointer "CmdPointer(block=0_0_0_13_0_0, pos=189)", only one replacement is allowed per pointer
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+[ForkJoinPool-107-worker-1] WARN COMMON - Artifact output.json already registered in REPORTS
+[ForkJoinPool-107-worker-1] WARN DSA - Found variables used before being initialized in flashLoanIncreasesBalance. Enable info logs for DSA
+[pool-180-thread-1] WARN UI - dumping codeMap "PresolverRule-flashLoanIncreasesBalance" in html format, but the file name "PresolverRule-flashLoanIncreasesBalance" is lacking the `.html` suffix. Appending it and dumping that file.
+[ForkJoinPool-107-worker-1] WARN COMMON - Diversification did not produce statistics.
+Total time for contract: 0 seconds ; Split time: 0 seconds ; Number of problems: 1 ; Solver time : 0 seconds
+Total time for contract: 0 seconds ; Split time: 0 seconds ; Number of problems: 1 ; Solver time : 0 seconds
+Verified: flashLoanIncreasesBalance
+Verified: flashLoanIncreasesBalance
+flashLoanIncreasesBalance: Properties successfully verified on all inputs
+flashLoanIncreasesBalance: Properties successfully verified on all inputs
+Rule flashLoanIncreasesBalance: Callee contract unresolved, callee sighash resolved, method signature is executeOperation(uint256, uint256, address)
+[Rule flashLoanIncreasesBalance]: [Call Resolution Table][Caller: Pool.flashLoan(address,uint256) (line:72)]: empty dispatcher that makes all statements that follow it unreachable ('else' case is 'assume false')
+[ForkJoinPool-107-worker-1] WARN COMMON - Artifact FinalResults.html already registered in REPORTS
+Result for flashLoanIncreasesBalance: flashLoanIncreasesBalance: SUCCESS
+[main] WARN COMMON - No violated assertion found
+Results for envfreeFuncsStaticCheck:
+*---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*
+|Rule name                               |Verified     |Time (sec)|Description                                                 |Local vars                                        |
+|----------------------------------------|-------------|----------|------------------------------------------------------------|--------------------------------------------------|
+|Asset.balanceOf(address)                |Not violated |0         |                                                            |no local variables                                |
+|balanceOf(address)                      |Not violated |0         |                                                            |no local variables                                |
+*---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*
+
+Results for all:
+*---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*
+|Rule name                               |Verified     |Time (sec)|Description                                                 |Local vars                                        |
+|----------------------------------------|-------------|----------|------------------------------------------------------------|--------------------------------------------------|
+|envfreeFuncsStaticCheck                 |Not violated |0         |                                                            |no local variables                                |
+|flashLoanIncreasesBalance               |Not violated |1         |                                                            |no local variables                                |
+*---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*
+
+[main] WARN COMMON - Artifact FinalResults.html already registered in REPORTS
+Done 0m
+Reports in file:///home/sitvanit/EVMVerifier-all/examples/Examples/LiquidityPoolExample/emv-2-certora-11-Jul--15-36/Reports
+Final report in emv-2-certora-11-Jul--15-36/Reports/FinalResults.html

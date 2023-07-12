@@ -1,0 +1,15 @@
+{
+	"assertMessages": {
+		"integrityOfDeposit": "deposit must increase the underlying balance of the pool"
+	},
+	"rules": {
+		"envfreeFuncsStaticCheck": {
+			"FAIL": [],
+			"SANITY_FAIL": [],
+			"SUCCESS": ["assetBalance()", "balanceOf(address)", "totalSupply()"],
+			"TIMEOUT": [],
+			"UNKNOWN": []
+		},
+		"integrityOfDeposit": "FAIL"
+	}
+}

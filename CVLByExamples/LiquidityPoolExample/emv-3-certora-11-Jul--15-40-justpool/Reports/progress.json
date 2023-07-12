@@ -1,0 +1,7 @@
+{
+	RegisteredRule(rule=integrityOfDeposit, ruleType=spec.cvlast.SpecType$Single$FromUser$SpecFile@5436ad87, parentCVLDeclarationId=null, isCounted=true): true,
+	RegisteredRule(rule=envfreeFuncsStaticCheck, ruleType=spec.cvlast.SpecType$Group$StaticEnvFree@860ad929, parentCVLDeclarationId=null, isCounted=true): true,
+	RegisteredRule(rule=balanceOf(address), ruleType=Static(contractFunction=Pool.balanceOf(address account) returns (uint256)), parentCVLDeclarationId=envfreeFuncsStaticCheck, isCounted=true): true,
+	RegisteredRule(rule=assetBalance(), ruleType=Static(contractFunction=Pool.assetBalance() returns (uint256)), parentCVLDeclarationId=envfreeFuncsStaticCheck, isCounted=true): true,
+	RegisteredRule(rule=totalSupply(), ruleType=Static(contractFunction=Pool.totalSupply() returns (uint256)), parentCVLDeclarationId=envfreeFuncsStaticCheck, isCounted=true): true
+}

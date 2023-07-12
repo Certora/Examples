@@ -1,0 +1,1663 @@
+Reports in /home/sitvanit/EVMVerifier-all/examples/Examples/ERC20Example/emv-2-certora-11-Jul--15-14/Reports
+Start Tue Jul 11 15:14:46 IDT 2023
+Memory splitting of ERC20-balanceOf(address) succeeded
+Memory splitting of ERC20-approve(address,uint256) succeeded
+Memory splitting of ERC20-mint(address,uint256) succeeded
+Memory splitting of ERC20-burn(address,uint256) succeeded
+Memory splitting of ERC20-decreaseAllowance(address,uint256) succeeded
+Memory splitting of ERC20-increaseAllowance(address,uint256) succeeded
+Memory splitting of ERC20-transfer(address,uint256) succeeded
+Memory splitting of ERC20-withdraw(uint256) succeeded
+Memory splitting of ERC20-totalSupply() succeeded
+Memory splitting of ERC20-_owner() succeeded
+Memory splitting of ERC20-deposit() succeeded
+Memory splitting of ERC20-decimals() succeeded
+Memory splitting of ERC20-allowance(address,address) succeeded
+Memory splitting of ERC20-transferFrom(address,address,uint256) succeeded
+Memory splitting of ERC20-symbol() succeeded
+Memory splitting of ERC20-name() succeeded
+The scene contains 1 contracts:
+ERC20 : 0xce4604a0000000000000000000000003
+In contract ERC20 method withdraw contains external calls: [msg.sender.call{value: amount}("")]
+Running initial transformations
+Created a meta slot tacS!ce4604a0000000000000000000000003!StructAccess_offset0_base.MapAccess_base.Root_slot0
+Created a meta slot tacS!ce4604a0000000000000000000000003!StructAccess_offset0_base.MapAccess_base.StructAccess_offset0_base.MapAccess_base.Root_slot1
+Created a meta slot tacS!ce4604a0000000000000000000000003!StructAccess_offset0_base.MapAccess_base.StructAccess_offset0_base.MapAccess_base.Root_slot1
+Created a meta slot tacS!ce4604a0000000000000000000000003!StructAccess_offset0_base.MapAccess_base.Root_slot0
+Created a meta slot tacS!ce4604a0000000000000000000000003!StructAccess_offset0_base.MapAccess_base.Root_slot0
+Created a meta slot tacS!ce4604a0000000000000000000000003!3!0
+Created a meta slot tacS!ce4604a0000000000000000000000003!2
+Created a meta slot tacS!ce4604a0000000000000000000000003!StructAccess_offset0_base.MapAccess_base.Root_slot0
+Created a meta slot tacS!ce4604a0000000000000000000000003!StructAccess_offset0_base.MapAccess_base.StructAccess_offset0_base.MapAccess_base.Root_slot1
+Created a meta slot tacS!ce4604a0000000000000000000000003!StructAccess_offset0_base.MapAccess_base.Root_slot0
+Created a meta slot tacS!ce4604a0000000000000000000000003!StructAccess_offset0_base.MapAccess_base.StructAccess_offset0_base.MapAccess_base.Root_slot1
+Created a meta slot tacS!ce4604a0000000000000000000000003!StructAccess_offset0_base.MapAccess_base.Root_slot0
+Created a meta slot tacS!ce4604a0000000000000000000000003!2
+Created a meta slot tacS!ce4604a0000000000000000000000003!3!0
+Created a meta slot tacS!ce4604a0000000000000000000000003!2
+Created a meta slot tacS!ce4604a0000000000000000000000003!StructAccess_offset0_base.MapAccess_base.Root_slot0
+Created a meta slot tacS!ce4604a0000000000000000000000003!3!0
+Created a meta slot tacS!ce4604a0000000000000000000000003!StructAccess_offset0_base.MapAccess_base.StructAccess_offset0_base.MapAccess_base.Root_slot1
+
+Guessed an unroll constant for a loop of null, while global unroll const is 1
+Guessed an unroll constant for a loop of null, while global unroll const is 1
+Has CVL checks.
+Checking CVL certora/spec/ERC20.spec for contract ERC20
+Unrolling loops 1 time, unwinding condition is asserted
+Checking rule balancesBoundedByTotalSupply (8 out of 10)...
+Checking rule totalSupplyIsSumOfBalances (9 out of 10)...
+Checking rule transferSpec (1 out of 10)...
+Checking rule envfreeFuncsStaticCheck (10 out of 10)...Checking rule onlyHolderCanChangeAllowance (7 out of 10)...
+
+Starting to run on rule envfreeFuncsStaticCheck 
+Checking rule transferFromDoesntRevert (6 out of 10)...
+Starting to run on rule transferFromDoesntRevert 
+Checking rule transferFromReverts (5 out of 10)...
+Starting to run on rule transferFromReverts 
+Checking rule transferFromSpec (4 out of 10)...
+Starting to run on rule transferFromSpec 
+Starting to run on rule balancesBoundedByTotalSupply Starting to run on rule onlyHolderCanChangeAllowance 
+
+Starting to run on rule totalSupplyIsSumOfBalances 
+Starting to run on rule transferSpec 
+Starting to run on rule transferFrom(address,address,uint256) of envfreeFuncsStaticCheck
+Starting to run on rule totalSupplyIsSumOfBalances_preserve of totalSupplyIsSumOfBalances
+Starting to run on rule balancesBoundedByTotalSupply_preserve_explicit_transfer(address,uint256) of balancesBoundedByTotalSupply
+Starting to run on rule balanceOf(address) of envfreeFuncsStaticCheck
+Starting to run on rule totalSupply() of envfreeFuncsStaticCheck
+Starting to run on rule allowance(address,address) of envfreeFuncsStaticCheck
+Starting to run on rule transferFromDoesntRevert 
+Starting to run on rule transferFromReverts 
+Starting to run on rule transferFromSpec 
+Result for envfreeFuncsStaticCheck: envfreeFuncsStaticCheck: transferFrom(address,address,uint256): FAIL: Specification marks method ERC20.transferFrom(address sender, address recipient, uint256 amount) returns (bool) as 'envfree' but the method uses restricted environment properties.
+balanceOf(address): SUCCESS
+totalSupply(): SUCCESS
+allowance(address,address): SUCCESS
+Checking rule transferDoesntRevert (3 out of 10)...
+Starting to run on rule transferDoesntRevert 
+Starting to run on rule transferFrom(address,address,uint256) of totalSupplyIsSumOfBalances_preserve
+Starting to run on rule deposit() of totalSupplyIsSumOfBalances_preserve
+[ForkJoinPool-8-worker-7] WARN COMMON - Artifact output.json already registered in REPORTS[ForkJoinPool-8-worker-8] WARN COMMON - Artifact output.json already registered in REPORTS
+
+[ForkJoinPool-8-worker-6] WARN COMMON - Artifact output.json already registered in REPORTS
+Starting to run on rule withdraw(uint256) of totalSupplyIsSumOfBalances_preserve
+Starting to run on rule transferSpec 
+[ForkJoinPool-8-worker-8] WARN DSA - Found variables used before being initialized in transferFromSpec. Enable info logs for DSA
+[ForkJoinPool-8-worker-6] WARN DSA - Found variables used before being initialized in transferFromDoesntRevert. Enable info logs for DSA
+[ForkJoinPool-8-worker-7] WARN DSA - Found variables used before being initialized in transferFromReverts. Enable info logs for DSA
+Starting to run on rule approve(address,uint256) of totalSupplyIsSumOfBalances_preserve
+Starting to run on rule transfer(address,uint256) of totalSupplyIsSumOfBalances_preserve
+Starting to run on rule balancesBoundedByTotalSupply_preserve_explicit_transfer(address,uint256) of balancesBoundedByTotalSupply
+Starting to run on rule decreaseAllowance(address,uint256) of totalSupplyIsSumOfBalances_preserve
+Starting to run on rule burn(address,uint256) of totalSupplyIsSumOfBalances_preserve
+Starting to run on rule mint(address,uint256) of totalSupplyIsSumOfBalances_preserve
+Starting to run on rule increaseAllowance(address,uint256) of totalSupplyIsSumOfBalances_preserve
+[pool-46-thread-2] WARN UI - dumping codeMap "PresolverRule-transferFromReverts" in html format, but the file name "PresolverRule-transferFromReverts" is lacking the `.html` suffix. Appending it and dumping that file.
+[pool-46-thread-3] WARN UI - dumping codeMap "PresolverRule-transferFromSpec" in html format, but the file name "PresolverRule-transferFromSpec" is lacking the `.html` suffix. Appending it and dumping that file.
+[pool-46-thread-1] WARN UI - dumping codeMap "PresolverRule-transferFromDoesntRevert" in html format, but the file name "PresolverRule-transferFromDoesntRevert" is lacking the `.html` suffix. Appending it and dumping that file.
+Starting to run on rule transferDoesntRevert 
+Starting to run on rule transferFrom(address,address,uint256) of totalSupplyIsSumOfBalances_preserve
+Starting to run on rule balanceOf(address) of onlyHolderCanChangeAllowance
+Starting to run on rule allowance(address,address) of onlyHolderCanChangeAllowance
+Starting to run on rule transferFrom(address,address,uint256) of onlyHolderCanChangeAllowance
+Starting to run on rule name() of onlyHolderCanChangeAllowance
+Starting to run on rule deposit() of onlyHolderCanChangeAllowance
+Starting to run on rule _owner() of onlyHolderCanChangeAllowance
+Starting to run on rule symbol() of onlyHolderCanChangeAllowance
+Starting to run on rule decimals() of onlyHolderCanChangeAllowance
+Starting to run on rule totalSupply() of onlyHolderCanChangeAllowance
+Starting to run on rule withdraw(uint256) of onlyHolderCanChangeAllowance
+[ForkJoinPool-8-worker-8] WARN COMMON - Diversification did not produce statistics.
+[ForkJoinPool-8-worker-6] WARN COMMON - Diversification did not produce statistics.
+[ForkJoinPool-8-worker-7] WARN COMMON - Diversification did not produce statistics.
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+Starting to run on rule approve(address,uint256) of onlyHolderCanChangeAllowance
+Proved that add can't overflow for bound 115792089237316195423570985008687907853269984665640564039457584007913129639935, removing 1 check
+marking potential over-/underflowing expression class vc.data.TACExpr$Vec$Add$Binary with 'will not wrap' annotation
+[ForkJoinPool-8-worker-1] WARN COMMON - there already is a replacement registered in this PatchingProgram for pointer "CmdPointer(block=0_0_0_10_0_0, pos=191)", only one replacement is allowed per pointer
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+Total time for contract: 1 seconds ; Split time: 0 seconds ; Number of problems: 1 ; Solver time : 1 seconds
+Total time for contract: 1 seconds ; Split time: 0 seconds ; Number of problems: 1 ; Solver time : 1 seconds
+Total time for contract: 1 seconds ; Split time: 0 seconds ; Number of problems: 1 ; Solver time : 1 seconds
+Total time for contract: 1 seconds ; Split time: 0 seconds ; Number of problems: 1 ; Solver time : 1 seconds
+Total time for contract: 1 seconds ; Split time: 0 seconds ; Number of problems: 1 ; Solver time : 1 seconds
+Total time for contract: 1 seconds ; Split time: 0 seconds ; Number of problems: 1 ; Solver time : 1 seconds
+Violated: transferFromDoesntRevert
+Violated: transferFromDoesntRevert
+transferFromDoesntRevert: A property is violated
+transferFromDoesntRevert: A property is violated
+Violated: transferFromSpec
+Violated: transferFromSpec
+transferFromSpec: A property is violated
+transferFromSpec: A property is violated
+Violated: transferFromReverts
+Violated: transferFromReverts
+transferFromReverts: A property is violated
+transferFromReverts: A property is violated
+Starting to run on rule transfer(address,uint256) of onlyHolderCanChangeAllowance
+The names of the local variables are []
+The names of the local variables are []
+The names of the local variables are []
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+Starting to run on rule decreaseAllowance(address,uint256) of onlyHolderCanChangeAllowance
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+Proved that add can't overflow for bound 115792089237316195423570985008687907853269984665640564039457584007913129639935, removing 1 check
+marking potential over-/underflowing expression class vc.data.TACExpr$Vec$Add$Binary with 'will not wrap' annotation
+[ForkJoinPool-8-worker-4] WARN COMMON - there already is a replacement registered in this PatchingProgram for pointer "CmdPointer(block=0_0_0_11_0_0, pos=191)", only one replacement is allowed per pointer
+ERC20=ERC20 (0x2711)
+ERC20=ERC20 (0x2711)
+ERC20=ERC20 (0x2711)
+[ForkJoinPool-8-worker-6] WARN COMMON - Artifact FinalResults.html already registered in REPORTS
+Starting to run on rule burn(address,uint256) of onlyHolderCanChangeAllowance
+ERC20=ERC20 (0x2711)
+Starting to run on rule mint(address,uint256) of onlyHolderCanChangeAllowance
+Starting to run on rule increaseAllowance(address,uint256) of onlyHolderCanChangeAllowance
+Result for transferFromDoesntRevert: transferFromDoesntRevert: FAIL: "rule not implemented"
+Checking rule transferReverts (2 out of 10)...
+Starting to run on rule transferReverts 
+ERC20=ERC20 (0x2711)
+[ForkJoinPool-8-worker-7] WARN COMMON - Artifact FinalResults.html already registered in REPORTS
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+ERC20=ERC20 (0x2711)
+[ForkJoinPool-8-worker-8] WARN COMMON - Artifact FinalResults.html already registered in REPORTS
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+Proved that add can't overflow for bound 115792089237316195423570985008687907853269984665640564039457584007913129639935, removing 1 check
+Result for transferFromReverts: transferFromReverts: FAIL: "rule not implemented"
+Starting to run on rule balancesBoundedByTotalSupply_instate of balancesBoundedByTotalSupply
+[ForkJoinPool-8-worker-1] WARN COMMON - Artifact output.json already registered in REPORTS
+marking potential over-/underflowing expression class vc.data.TACExpr$Vec$Add$Binary with 'will not wrap' annotation
+[ForkJoinPool-8-worker-3] WARN COMMON - there already is a replacement registered in this PatchingProgram for pointer "CmdPointer(block=0_0_0_8_0_0, pos=201)", only one replacement is allowed per pointer
+Result for transferFromSpec: transferFromSpec: FAIL: "rule not implemented"
+Starting to run on rule balanceOf(address) of onlyHolderCanChangeAllowance
+[ForkJoinPool-8-worker-1] WARN DSA - Found variables used before being initialized in transferSpec. Enable info logs for DSA
+Starting to run on rule transferReverts 
+[ForkJoinPool-8-worker-4] WARN COMMON - Artifact output.json already registered in REPORTS
+[ForkJoinPool-8-worker-4] WARN DSA - Found variables used before being initialized in balancesBoundedByTotalSupply_preserve_explicit_transfer(address,uint256). Enable info logs for DSA
+Starting to run on rule balancesBoundedByTotalSupply_instate of balancesBoundedByTotalSupply
+[ForkJoinPool-8-worker-3] WARN COMMON - Artifact output.json already registered in REPORTS
+[ForkJoinPool-8-worker-3] WARN DSA - Found variables used before being initialized in totalSupplyIsSumOfBalances_preserve-transferFrom(address,address,uint256). Enable info logs for DSA
+Starting to run on rule increaseAllowance(address,uint256) of onlyHolderCanChangeAllowance
+[ForkJoinPool-8-worker-2] WARN COMMON - Artifact output.json already registered in REPORTS
+[ForkJoinPool-8-worker-2] WARN DSA - Found variables used before being initialized in transferDoesntRevert. Enable info logs for DSA
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+[ForkJoinPool-8-worker-7] WARN COMMON - Artifact output.json already registered in REPORTS
+[ForkJoinPool-8-worker-7] WARN DSA - Found variables used before being initialized in balancesBoundedByTotalSupply_instate. Enable info logs for DSA
+[ForkJoinPool-8-worker-5] WARN COMMON - Artifact output.json already registered in REPORTS
+[ForkJoinPool-8-worker-5] WARN DSA - Found variables used before being initialized in onlyHolderCanChangeAllowance-balanceOf(address). Enable info logs for DSA
+[ForkJoinPool-8-worker-6] WARN COMMON - Artifact output.json already registered in REPORTS
+[pool-46-thread-1] WARN UI - dumping codeMap "PresolverRule-totalSupplyIsSumOfBalances_preserve-transferFrom(address,address,uint256)" in html format, but the file name "PresolverRule-totalSupplyIsSumOfBalances_preserve-transferFrom(address,address,uint256)" is lacking the `.html` suffix. Appending it and dumping that file.
+[pool-46-thread-2] WARN UI - dumping codeMap "PresolverRule-transferSpec" in html format, but the file name "PresolverRule-transferSpec" is lacking the `.html` suffix. Appending it and dumping that file.
+[ForkJoinPool-8-worker-6] WARN DSA - Found variables used before being initialized in transferReverts. Enable info logs for DSA
+[pool-46-thread-3] WARN UI - dumping codeMap "PresolverRule-transferDoesntRevert" in html format, but the file name "PresolverRule-transferDoesntRevert" is lacking the `.html` suffix. Appending it and dumping that file.
+[pool-46-thread-4] WARN UI - dumping codeMap "PresolverRule-balancesBoundedByTotalSupply_instate" in html format, but the file name "PresolverRule-balancesBoundedByTotalSupply_instate" is lacking the `.html` suffix. Appending it and dumping that file.
+[pool-46-thread-6] WARN UI - dumping codeMap "PresolverRule-balancesBoundedByTotalSupply_preserve_explicit_transfer(address,uint256)" in html format, but the file name "PresolverRule-balancesBoundedByTotalSupply_preserve_explicit_transfer(address,uint256)" is lacking the `.html` suffix. Appending it and dumping that file.
+[pool-46-thread-5] WARN UI - dumping codeMap "PresolverRule-transferReverts" in html format, but the file name "PresolverRule-transferReverts" is lacking the `.html` suffix. Appending it and dumping that file.
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+Proved that add can't overflow for bound 115792089237316195423570985008687907853269984665640564039457584007913129639935, removing 1 check
+marking potential over-/underflowing expression class vc.data.TACExpr$Vec$Add$Binary with 'will not wrap' annotation
+[ForkJoinPool-8-worker-8] WARN COMMON - there already is a replacement registered in this PatchingProgram for pointer "CmdPointer(block=0_0_0_6_0_0, pos=85)", only one replacement is allowed per pointer
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+[pool-46-thread-1] WARN UI - dumping codeMap "PresolverRule-onlyHolderCanChangeAllowance-balanceOf(address)" in html format, but the file name "PresolverRule-onlyHolderCanChangeAllowance-balanceOf(address)" is lacking the `.html` suffix. Appending it and dumping that file.
+[ForkJoinPool-8-worker-8] WARN COMMON - Artifact output.json already registered in REPORTS
+[ForkJoinPool-8-worker-8] WARN DSA - Found variables used before being initialized in onlyHolderCanChangeAllowance-increaseAllowance(address,uint256). Enable info logs for DSA
+[ForkJoinPool-8-worker-3] WARN COMMON - Diversification did not produce statistics.
+Total time for contract: 2 seconds ; Split time: 0 seconds ; Number of problems: 1 ; Solver time : 2 seconds
+Total time for contract: 2 seconds ; Split time: 0 seconds ; Number of problems: 1 ; Solver time : 2 seconds
+Verified: totalSupplyIsSumOfBalances_preserve-transferFrom(address,address,uint256)
+Verified: totalSupplyIsSumOfBalances_preserve-transferFrom(address,address,uint256)
+totalSupplyIsSumOfBalances_preserve-transferFrom(address,address,uint256): Properties successfully verified on all inputs
+totalSupplyIsSumOfBalances_preserve-transferFrom(address,address,uint256): Properties successfully verified on all inputs
+[pool-46-thread-3] WARN UI - dumping codeMap "PresolverRule-onlyHolderCanChangeAllowance-increaseAllowance(address,uint256)" in html format, but the file name "PresolverRule-onlyHolderCanChangeAllowance-increaseAllowance(address,uint256)" is lacking the `.html` suffix. Appending it and dumping that file.
+Starting to run on rule deposit() of totalSupplyIsSumOfBalances_preserve
+[ForkJoinPool-8-worker-7] WARN COMMON - Diversification did not produce statistics.
+Total time for contract: 2 seconds ; Split time: 0 seconds ; Number of problems: 1 ; Solver time : 2 seconds
+Total time for contract: 2 seconds ; Split time: 0 seconds ; Number of problems: 1 ; Solver time : 2 seconds
+Verified: balancesBoundedByTotalSupply_instate
+Verified: balancesBoundedByTotalSupply_instate
+balancesBoundedByTotalSupply_instate: Properties successfully verified on all inputs
+balancesBoundedByTotalSupply_instate: Properties successfully verified on all inputs
+Starting to run on rule balancesBoundedByTotalSupply_preserve of balancesBoundedByTotalSupply
+[ForkJoinPool-8-worker-1] WARN COMMON - Diversification did not produce statistics.
+Total time for contract: 3 seconds ; Split time: 0 seconds ; Number of problems: 1 ; Solver time : 3 seconds
+Total time for contract: 3 seconds ; Split time: 0 seconds ; Number of problems: 1 ; Solver time : 3 seconds
+Verified: transferSpec
+Verified: transferSpec
+transferSpec: Properties successfully verified on all inputs
+transferSpec: Properties successfully verified on all inputs
+[ForkJoinPool-8-worker-1] WARN COMMON - Artifact FinalResults.html already registered in REPORTS
+[ForkJoinPool-8-worker-4] WARN COMMON - Diversification did not produce statistics.
+Total time for contract: 3 seconds ; Split time: 0 seconds ; Number of problems: 1 ; Solver time : 3 seconds
+Total time for contract: 3 seconds ; Split time: 0 seconds ; Number of problems: 1 ; Solver time : 3 seconds
+Verified: balancesBoundedByTotalSupply_preserve_explicit_transfer(address,uint256)
+Verified: balancesBoundedByTotalSupply_preserve_explicit_transfer(address,uint256)
+balancesBoundedByTotalSupply_preserve_explicit_transfer(address,uint256): Properties successfully verified on all inputs
+balancesBoundedByTotalSupply_preserve_explicit_transfer(address,uint256): Properties successfully verified on all inputs
+Starting to run on rule balancesBoundedByTotalSupply_preserve_explicit_transferFrom(address,address,uint256) of balancesBoundedByTotalSupply
+Result for transferSpec: transferSpec: SUCCESS
+Proved that add can't overflow for bound 115792089237316195423570985008687907853269984665640564039457584007913129639935, removing 1 check
+marking potential over-/underflowing expression class vc.data.TACExpr$Vec$Add$Binary with 'will not wrap' annotation
+[ForkJoinPool-8-worker-3] WARN COMMON - there already is a replacement registered in this PatchingProgram for pointer "CmdPointer(block=0_0_0_8_0_0, pos=41)", only one replacement is allowed per pointer
+[ForkJoinPool-8-worker-6] WARN COMMON - Diversification did not produce statistics.
+Total time for contract: 3 seconds ; Split time: 0 seconds ; Number of problems: 1 ; Solver time : 3 seconds
+Total time for contract: 3 seconds ; Split time: 0 seconds ; Number of problems: 1 ; Solver time : 3 seconds
+Verified: transferReverts
+Verified: transferReverts
+transferReverts: Properties successfully verified on all inputs
+transferReverts: Properties successfully verified on all inputs
+[ForkJoinPool-8-worker-6] WARN COMMON - Artifact FinalResults.html already registered in REPORTS
+[ForkJoinPool-8-worker-5] WARN COMMON - Diversification did not produce statistics.
+Total time for contract: 3 seconds ; Split time: 0 seconds ; Number of problems: 1 ; Solver time : 2 seconds
+Total time for contract: 3 seconds ; Split time: 0 seconds ; Number of problems: 1 ; Solver time : 2 seconds
+Verified: onlyHolderCanChangeAllowance-balanceOf(address)
+Verified: onlyHolderCanChangeAllowance-balanceOf(address)
+onlyHolderCanChangeAllowance-balanceOf(address): Properties successfully verified on all inputs
+onlyHolderCanChangeAllowance-balanceOf(address): Properties successfully verified on all inputs
+Result for transferReverts: transferReverts: SUCCESS
+Starting to run on rule totalSupplyIsSumOfBalances_instate of totalSupplyIsSumOfBalances
+[ForkJoinPool-8-worker-3] WARN COMMON - Artifact output.json already registered in REPORTS
+[ForkJoinPool-8-worker-3] WARN DSA - Found variables used before being initialized in totalSupplyIsSumOfBalances_preserve-deposit(). Enable info logs for DSA
+Starting to run on rule allowance(address,address) of onlyHolderCanChangeAllowance
+Starting to run on rule increaseAllowance(address,uint256) of totalSupplyIsSumOfBalances_preserve
+Starting to run on rule balancesBoundedByTotalSupply_preserve_explicit_transferFrom(address,address,uint256) of balancesBoundedByTotalSupply
+Starting to run on rule totalSupplyIsSumOfBalances_instate of totalSupplyIsSumOfBalances
+Starting to run on rule deposit() of balancesBoundedByTotalSupply_preserve
+Starting to run on rule withdraw(uint256) of balancesBoundedByTotalSupply_preserve
+[pool-46-thread-5] WARN UI - dumping codeMap "PresolverRule-totalSupplyIsSumOfBalances_preserve-deposit()" in html format, but the file name "PresolverRule-totalSupplyIsSumOfBalances_preserve-deposit()" is lacking the `.html` suffix. Appending it and dumping that file.
+Starting to run on rule approve(address,uint256) of balancesBoundedByTotalSupply_preserve
+Starting to run on rule decreaseAllowance(address,uint256) of balancesBoundedByTotalSupply_preserve
+Starting to run on rule burn(address,uint256) of balancesBoundedByTotalSupply_preserve
+[ForkJoinPool-8-worker-8] WARN COMMON - Diversification did not produce statistics.
+Total time for contract: 2 seconds ; Split time: 0 seconds ; Number of problems: 1 ; Solver time : 2 seconds
+Total time for contract: 2 seconds ; Split time: 0 seconds ; Number of problems: 1 ; Solver time : 2 seconds
+Verified: onlyHolderCanChangeAllowance-increaseAllowance(address,uint256)
+Verified: onlyHolderCanChangeAllowance-increaseAllowance(address,uint256)
+onlyHolderCanChangeAllowance-increaseAllowance(address,uint256): Properties successfully verified on all inputs
+onlyHolderCanChangeAllowance-increaseAllowance(address,uint256): Properties successfully verified on all inputs
+Starting to run on rule mint(address,uint256) of balancesBoundedByTotalSupply_preserve
+Starting to run on rule increaseAllowance(address,uint256) of balancesBoundedByTotalSupply_preserve
+Starting to run on rule mint(address,uint256) of onlyHolderCanChangeAllowance
+Starting to run on rule mint(address,uint256) of totalSupplyIsSumOfBalances_preserve
+[ForkJoinPool-8-worker-2] WARN COMMON - Artifact output.json already registered in REPORTS
+[ForkJoinPool-8-worker-2] WARN DSA - Found variables used before being initialized in totalSupplyIsSumOfBalances_instate. Enable info logs for DSA
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+Proved that add can't overflow for bound 115792089237316195423570985008687907853269984665640564039457584007913129639935, removing 1 check
+marking potential over-/underflowing expression class vc.data.TACExpr$Vec$Add$Binary with 'will not wrap' annotation
+[ForkJoinPool-8-worker-1] WARN COMMON - there already is a replacement registered in this PatchingProgram for pointer "CmdPointer(block=0_0_0_8_0_0, pos=85)", only one replacement is allowed per pointer
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+Starting to run on rule deposit() of balancesBoundedByTotalSupply_preserve
+[ForkJoinPool-8-worker-1] WARN COMMON - Artifact output.json already registered in REPORTS
+[ForkJoinPool-8-worker-1] WARN DSA - Found variables used before being initialized in totalSupplyIsSumOfBalances_preserve-increaseAllowance(address,uint256). Enable info logs for DSA
+[pool-46-thread-2] WARN UI - dumping codeMap "PresolverRule-totalSupplyIsSumOfBalances_instate" in html format, but the file name "PresolverRule-totalSupplyIsSumOfBalances_instate" is lacking the `.html` suffix. Appending it and dumping that file.
+[ForkJoinPool-8-worker-5] WARN COMMON - Artifact output.json already registered in REPORTS
+[ForkJoinPool-8-worker-5] WARN DSA - Found variables used before being initialized in onlyHolderCanChangeAllowance-allowance(address,address). Enable info logs for DSA
+[pool-46-thread-4] WARN UI - dumping codeMap "PresolverRule-totalSupplyIsSumOfBalances_preserve-increaseAllowance(address,uint256)" in html format, but the file name "PresolverRule-totalSupplyIsSumOfBalances_preserve-increaseAllowance(address,uint256)" is lacking the `.html` suffix. Appending it and dumping that file.
+[ForkJoinPool-8-worker-2] WARN COMMON - Diversification did not produce statistics.
+Total time for contract: 0 seconds ; Split time: 0 seconds ; Number of problems: 1 ; Solver time : 0 seconds
+Total time for contract: 0 seconds ; Split time: 0 seconds ; Number of problems: 1 ; Solver time : 0 seconds
+Verified: totalSupplyIsSumOfBalances_instate
+Verified: totalSupplyIsSumOfBalances_instate
+totalSupplyIsSumOfBalances_instate: Properties successfully verified on all inputs
+totalSupplyIsSumOfBalances_instate: Properties successfully verified on all inputs
+[ForkJoinPool-8-worker-2] WARN COMMON - Diversification did not produce statistics.
+Total time for contract: 6 seconds ; Split time: 0 seconds ; Number of problems: 1 ; Solver time : 6 seconds
+Total time for contract: 6 seconds ; Split time: 0 seconds ; Number of problems: 1 ; Solver time : 6 seconds
+Verified: transferDoesntRevert
+Verified: transferDoesntRevert
+transferDoesntRevert: Properties successfully verified on all inputs
+transferDoesntRevert: Properties successfully verified on all inputs
+[ForkJoinPool-8-worker-2] WARN COMMON - Artifact FinalResults.html already registered in REPORTS
+Result for transferDoesntRevert: transferDoesntRevert: SUCCESS
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+Proved that add can't overflow for bound 115792089237316195423570985008687907853269984665640564039457584007913129639935, removing 1 check
+marking potential over-/underflowing expression class vc.data.TACExpr$Vec$Add$Binary with 'will not wrap' annotation
+[ForkJoinPool-8-worker-6] WARN COMMON - there already is a replacement registered in this PatchingProgram for pointer "CmdPointer(block=0_0_0_8_0_0, pos=98)", only one replacement is allowed per pointer
+Proved that add can't overflow for bound 115792089237316195423570985008687907853269984665640564039457584007913129639935, removing 1 check
+marking potential over-/underflowing expression class vc.data.TACExpr$Vec$Add$Binary with 'will not wrap' annotation
+[ForkJoinPool-8-worker-6] WARN COMMON - there already is a replacement registered in this PatchingProgram for pointer "CmdPointer(block=0_0_0_8_0_0, pos=116)", only one replacement is allowed per pointer
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+Proved that add can't overflow for bound 115792089237316195423570985008687907853269984665640564039457584007913129639935, removing 1 check
+marking potential over-/underflowing expression class vc.data.TACExpr$Vec$Add$Binary with 'will not wrap' annotation
+[ForkJoinPool-8-worker-4] WARN COMMON - there already is a replacement registered in this PatchingProgram for pointer "CmdPointer(block=0_0_0_36_0_0, pos=224)", only one replacement is allowed per pointer
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+[pool-46-thread-1] WARN UI - dumping codeMap "PresolverRule-onlyHolderCanChangeAllowance-allowance(address,address)" in html format, but the file name "PresolverRule-onlyHolderCanChangeAllowance-allowance(address,address)" is lacking the `.html` suffix. Appending it and dumping that file.
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+Proved that add can't overflow for bound 115792089237316195423570985008687907853269984665640564039457584007913129639935, removing 1 check
+marking potential over-/underflowing expression class vc.data.TACExpr$Vec$Add$Binary with 'will not wrap' annotation
+[ForkJoinPool-8-worker-8] WARN COMMON - there already is a replacement registered in this PatchingProgram for pointer "CmdPointer(block=0_0_0_6_0_0, pos=98)", only one replacement is allowed per pointer
+Proved that add can't overflow for bound 115792089237316195423570985008687907853269984665640564039457584007913129639935, removing 1 check
+marking potential over-/underflowing expression class vc.data.TACExpr$Vec$Add$Binary with 'will not wrap' annotation
+[ForkJoinPool-8-worker-8] WARN COMMON - there already is a replacement registered in this PatchingProgram for pointer "CmdPointer(block=0_0_0_6_0_0, pos=116)", only one replacement is allowed per pointer
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+Starting to run on rule burn(address,uint256) of totalSupplyIsSumOfBalances_preserve
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+Proved that add can't overflow for bound 115792089237316195423570985008687907853269984665640564039457584007913129639935, removing 1 check
+marking potential over-/underflowing expression class vc.data.TACExpr$Vec$Add$Binary with 'will not wrap' annotation
+[ForkJoinPool-8-worker-7] WARN COMMON - there already is a replacement registered in this PatchingProgram for pointer "CmdPointer(block=0_0_0_31_0_0, pos=41)", only one replacement is allowed per pointer
+Starting to run on rule increaseAllowance(address,uint256) of balancesBoundedByTotalSupply_preserve
+[ForkJoinPool-8-worker-6] WARN COMMON - Artifact output.json already registered in REPORTS
+[ForkJoinPool-8-worker-4] WARN COMMON - Artifact output.json already registered in REPORTS
+[ForkJoinPool-8-worker-6] WARN DSA - Found variables used before being initialized in totalSupplyIsSumOfBalances_preserve-mint(address,uint256). Enable info logs for DSA
+[ForkJoinPool-8-worker-8] WARN COMMON - Artifact output.json already registered in REPORTS
+[ForkJoinPool-8-worker-4] WARN DSA - Found variables used before being initialized in balancesBoundedByTotalSupply_preserve_explicit_transferFrom(address,address,uint256). Enable info logs for DSA
+[ForkJoinPool-8-worker-8] WARN DSA - Found variables used before being initialized in onlyHolderCanChangeAllowance-mint(address,uint256). Enable info logs for DSA
+[ForkJoinPool-8-worker-7] WARN COMMON - Artifact output.json already registered in REPORTS
+[ForkJoinPool-8-worker-7] WARN DSA - Found variables used before being initialized in balancesBoundedByTotalSupply_preserve-deposit(). Enable info logs for DSA
+[pool-46-thread-6] WARN UI - dumping codeMap "PresolverRule-totalSupplyIsSumOfBalances_preserve-mint(address,uint256)" in html format, but the file name "PresolverRule-totalSupplyIsSumOfBalances_preserve-mint(address,uint256)" is lacking the `.html` suffix. Appending it and dumping that file.
+[pool-46-thread-3] WARN UI - dumping codeMap "PresolverRule-onlyHolderCanChangeAllowance-mint(address,uint256)" in html format, but the file name "PresolverRule-onlyHolderCanChangeAllowance-mint(address,uint256)" is lacking the `.html` suffix. Appending it and dumping that file.
+prettifyModel finished.
+[ForkJoinPool-8-worker-3] WARN COMMON - Diversification did not produce statistics.
+Total time for contract: 3 seconds ; Split time: 0 seconds ; Number of problems: 1 ; Solver time : 2 seconds
+Total time for contract: 3 seconds ; Split time: 0 seconds ; Number of problems: 1 ; Solver time : 2 seconds
+Violated: totalSupplyIsSumOfBalances_preserve-deposit()
+Violated: totalSupplyIsSumOfBalances_preserve-deposit()
+totalSupplyIsSumOfBalances_preserve-deposit(): A property is violated
+totalSupplyIsSumOfBalances_preserve-deposit(): A property is violated
+The names of the local variables are [certoraInvF.isFallback, certoraInvF.isPayable, certoraInvF.isPure, certoraInvF.isView, certoraInvF.numberOfArguments, certoraInvF.selector, invariantEnv.block.coinbase, invariantEnv.block.difficulty, invariantEnv.block.gaslimit, invariantEnv.block.number, invariantEnv.block.timestamp, invariantEnv.msg.sender, invariantEnv.msg.value, invariantEnv.tx.origin, lastHasThrown, lastReverted]
+StorageState: ERC20._balances[0x2711]: 0 - STORAGE_HAVOC
+StorageState: ERC20._totalSupply: 3 - STORAGE_HAVOC
+CallTrace: caller: assume invariant in pre-state callee: ERC20.totalSupply()
+CallTrace: internal call: (internal) totalSupply()
+Load from: _totalSupply
+[pool-46-thread-2] WARN UI - dumping codeMap "PresolverRule-balancesBoundedByTotalSupply_preserve-deposit()" in html format, but the file name "PresolverRule-balancesBoundedByTotalSupply_preserve-deposit()" is lacking the `.html` suffix. Appending it and dumping that file.
+StorageState: ERC20._balances[0x2711]: 0 - STORAGE_HAVOC
+StorageState: ERC20._totalSupply: 3 - STORAGE_HAVOC
+(internal) ERC20.totalSupply() / 3
+EXTERNAL CALL ERC20.totalSupply(): all expected parameters found in value map
+EXTERNAL CALL ERC20.totalSupply(): all expected return values found in value map
+ERC20.totalSupply() / 3
+[ForkJoinPool-8-worker-3] WARN COMMON - Got a non-constant, non-variable operand (Operand(out=CANON29:int, exp=to_mathint(ERC20.totalSupply() returns (uint256)()))) that is not in the builderState. Failed to construct its complete syntax-tree
+Exp to_mathint(ERC20.totalSupply()) == sum_of_balances has the sub expressions: [to_mathint(ERC20.totalSupply()), sum_of_balances]
+CallTrace: caller: check effects of step taken by one of the functions callee: ERC20.deposit()
+Load from: sender.balance
+Store at: sender.balance
+Load from: receiver.balance
+Store at: receiver.balance
+Load from: _balances[*]
+Store at: _balances[*]
+EXTERNAL CALL ERC20.deposit(): all expected parameters found in value map
+EXTERNAL CALL ERC20.deposit(): all expected return values found in value map
+ERC20.deposit() / 
+CallTrace: caller: assert invariant in post-state callee: ERC20.totalSupply()
+CallTrace: internal call: (internal) totalSupply()
+Load from: _totalSupply
+StorageState: ERC20._balances[0x2711]: 2 (changed) - STORAGE_HAVOC_DEPENDENT
+StorageState: ERC20._totalSupply: 3 - STORAGE_HAVOC
+(internal) ERC20.totalSupply() / 3
+EXTERNAL CALL ERC20.totalSupply(): all expected parameters found in value map
+EXTERNAL CALL ERC20.totalSupply(): all expected return values found in value map
+ERC20.totalSupply() / 3
+[ForkJoinPool-8-worker-3] WARN COMMON - Got a non-constant, non-variable operand (Operand(out=CANON94:int, exp=to_mathint(ERC20.totalSupply() returns (uint256)()))) that is not in the builderState. Failed to construct its complete syntax-tree
+Exp to_mathint(ERC20.totalSupply()) == sum_of_balances has the sub expressions: [to_mathint(ERC20.totalSupply()), sum_of_balances]
+StorageState: ERC20._balances[0x2711]: 2 - STORAGE_HAVOC_DEPENDENT
+StorageState: ERC20._totalSupply: 3 - STORAGE_HAVOC
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+[pool-46-thread-4] WARN UI - dumping codeMap "PresolverRule-balancesBoundedByTotalSupply_preserve_explicit_transferFrom(address,address,uint256)" in html format, but the file name "PresolverRule-balancesBoundedByTotalSupply_preserve_explicit_transferFrom(address,address,uint256)" is lacking the `.html` suffix. Appending it and dumping that file.
+[ForkJoinPool-8-worker-1] WARN COMMON - Artifact output.json already registered in REPORTS
+[ForkJoinPool-8-worker-1] WARN DSA - Found variables used before being initialized in totalSupplyIsSumOfBalances_preserve-burn(address,uint256). Enable info logs for DSA
+Starting to run on rule withdraw(uint256) of totalSupplyIsSumOfBalances_preserve
+[ForkJoinPool-8-worker-5] WARN COMMON - Diversification did not produce statistics.
+Total time for contract: 1 seconds ; Split time: 0 seconds ; Number of problems: 1 ; Solver time : 1 seconds
+Total time for contract: 1 seconds ; Split time: 0 seconds ; Number of problems: 1 ; Solver time : 1 seconds
+Verified: onlyHolderCanChangeAllowance-allowance(address,address)
+Verified: onlyHolderCanChangeAllowance-allowance(address,address)
+onlyHolderCanChangeAllowance-allowance(address,address): Properties successfully verified on all inputs
+onlyHolderCanChangeAllowance-allowance(address,address): Properties successfully verified on all inputs
+[ForkJoinPool-8-worker-6] WARN COMMON - Diversification did not produce statistics.
+Total time for contract: 0 seconds ; Split time: 0 seconds ; Number of problems: 1 ; Solver time : 0 seconds
+Total time for contract: 0 seconds ; Split time: 0 seconds ; Number of problems: 1 ; Solver time : 0 seconds
+Verified: totalSupplyIsSumOfBalances_preserve-mint(address,uint256)
+Verified: totalSupplyIsSumOfBalances_preserve-mint(address,uint256)
+totalSupplyIsSumOfBalances_preserve-mint(address,uint256): Properties successfully verified on all inputs
+totalSupplyIsSumOfBalances_preserve-mint(address,uint256): Properties successfully verified on all inputs
+[pool-46-thread-1] WARN UI - dumping codeMap "PresolverRule-totalSupplyIsSumOfBalances_preserve-burn(address,uint256)" in html format, but the file name "PresolverRule-totalSupplyIsSumOfBalances_preserve-burn(address,uint256)" is lacking the `.html` suffix. Appending it and dumping that file.
+Starting to run on rule decreaseAllowance(address,uint256) of totalSupplyIsSumOfBalances_preserve
+Starting to run on rule transferFrom(address,address,uint256) of onlyHolderCanChangeAllowance
+[ForkJoinPool-8-worker-4] WARN COMMON - Diversification did not produce statistics.
+Total time for contract: 0 seconds ; Split time: 0 seconds ; Number of problems: 1 ; Solver time : 0 seconds
+Total time for contract: 0 seconds ; Split time: 0 seconds ; Number of problems: 1 ; Solver time : 0 seconds
+Verified: balancesBoundedByTotalSupply_preserve_explicit_transferFrom(address,address,uint256)
+Verified: balancesBoundedByTotalSupply_preserve_explicit_transferFrom(address,address,uint256)
+balancesBoundedByTotalSupply_preserve_explicit_transferFrom(address,address,uint256): Properties successfully verified on all inputs
+balancesBoundedByTotalSupply_preserve_explicit_transferFrom(address,address,uint256): Properties successfully verified on all inputs
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+Proved that add can't overflow for bound 115792089237316195423570985008687907853269984665640564039457584007913129639935, removing 1 check
+marking potential over-/underflowing expression class vc.data.TACExpr$Vec$Add$Binary with 'will not wrap' annotation
+[ForkJoinPool-8-worker-2] WARN COMMON - there already is a replacement registered in this PatchingProgram for pointer "CmdPointer(block=0_0_0_31_0_0, pos=85)", only one replacement is allowed per pointer
+Starting to run on rule mint(address,uint256) of balancesBoundedByTotalSupply_preserve
+[ForkJoinPool-8-worker-8] WARN COMMON - Diversification did not produce statistics.
+Total time for contract: 0 seconds ; Split time: 0 seconds ; Number of problems: 1 ; Solver time : 0 seconds
+Total time for contract: 0 seconds ; Split time: 0 seconds ; Number of problems: 1 ; Solver time : 0 seconds
+Verified: onlyHolderCanChangeAllowance-mint(address,uint256)
+Verified: onlyHolderCanChangeAllowance-mint(address,uint256)
+onlyHolderCanChangeAllowance-mint(address,uint256): Properties successfully verified on all inputs
+onlyHolderCanChangeAllowance-mint(address,uint256): Properties successfully verified on all inputs
+[ForkJoinPool-8-worker-2] WARN COMMON - Artifact output.json already registered in REPORTS
+[ForkJoinPool-8-worker-2] WARN DSA - Found variables used before being initialized in balancesBoundedByTotalSupply_preserve-increaseAllowance(address,uint256). Enable info logs for DSA
+Starting to run on rule burn(address,uint256) of onlyHolderCanChangeAllowance
+prettifyModel finished.
+[ForkJoinPool-8-worker-7] WARN COMMON - Diversification did not produce statistics.
+Total time for contract: 0 seconds ; Split time: 0 seconds ; Number of problems: 1 ; Solver time : 0 seconds
+Total time for contract: 0 seconds ; Split time: 0 seconds ; Number of problems: 1 ; Solver time : 0 seconds
+Violated: balancesBoundedByTotalSupply_preserve-deposit()
+Violated: balancesBoundedByTotalSupply_preserve-deposit()
+balancesBoundedByTotalSupply_preserve-deposit(): A property is violated
+balancesBoundedByTotalSupply_preserve-deposit(): A property is violated
+The names of the local variables are [alice, bob, certoraInvF.isFallback, certoraInvF.isPayable, certoraInvF.isPure, certoraInvF.isView, certoraInvF.numberOfArguments, certoraInvF.selector, invariantEnv.block.coinbase, invariantEnv.block.difficulty, invariantEnv.block.gaslimit, invariantEnv.block.number, invariantEnv.block.timestamp, invariantEnv.msg.sender, invariantEnv.msg.value, invariantEnv.tx.origin, lastHasThrown, lastReverted]
+StorageState: ERC20._balances[0x401]: 0 - STORAGE_HAVOC
+StorageState: ERC20._balances[0x402]: 1 - STORAGE_HAVOC
+StorageState: ERC20._totalSupply: 2 - STORAGE_HAVOC
+CallTrace: caller: assume invariant in pre-state callee: ERC20.balanceOf(address)
+CallTrace: internal call: (internal) balanceOf(address)
+Load from: _balances[*]
+StorageState: ERC20._balances[0x401]: 0 - STORAGE_HAVOC
+StorageState: ERC20._balances[0x402]: 1 - STORAGE_HAVOC
+StorageState: ERC20._totalSupply: 2 - STORAGE_HAVOC
+(internal) ERC20.balanceOf(account=0x402) / 1
+EXTERNAL CALL ERC20.balanceOf(address): all expected parameters found in value map
+EXTERNAL CALL ERC20.balanceOf(address): all expected return values found in value map
+ERC20.balanceOf(account=X) / 1
+CallTrace: caller: assume invariant in pre-state callee: ERC20.balanceOf(address)
+CallTrace: internal call: (internal) balanceOf(address)
+Load from: _balances[*]
+StorageState: ERC20._balances[0x401]: 0 - STORAGE_HAVOC
+StorageState: ERC20._balances[0x402]: 1 - STORAGE_HAVOC
+StorageState: ERC20._totalSupply: 2 - STORAGE_HAVOC
+(internal) ERC20.balanceOf(account=0x401) / 0
+EXTERNAL CALL ERC20.balanceOf(address): all expected parameters found in value map
+EXTERNAL CALL ERC20.balanceOf(address): all expected return values found in value map
+ERC20.balanceOf(account=X) / 0
+[ForkJoinPool-8-worker-7] WARN COMMON - Got a non-constant, non-variable operand (Operand(out=I51:int, exp=ERC20.balanceOf(address account) returns (uint256)(alice))) that is not in the builderState. Failed to construct its complete syntax-tree
+[ForkJoinPool-8-worker-7] WARN COMMON - Got a non-constant, non-variable operand (Operand(out=I74:int, exp=ERC20.balanceOf(address account) returns (uint256)(bob))) that is not in the builderState. Failed to construct its complete syntax-tree
+CallTrace: caller: assume invariant in pre-state callee: ERC20.totalSupply()
+CallTrace: internal call: (internal) totalSupply()
+Load from: _totalSupply
+StorageState: ERC20._balances[0x401]: 0 - STORAGE_HAVOC
+StorageState: ERC20._balances[0x402]: 1 - STORAGE_HAVOC
+StorageState: ERC20._totalSupply: 2 - STORAGE_HAVOC
+(internal) ERC20.totalSupply() / 2
+EXTERNAL CALL ERC20.totalSupply(): all expected parameters found in value map
+EXTERNAL CALL ERC20.totalSupply(): all expected return values found in value map
+ERC20.totalSupply() / 2
+[ForkJoinPool-8-worker-7] WARN COMMON - Got a non-constant, non-variable operand (Operand(out=I89:int, exp=to_mathint(ERC20.totalSupply() returns (uint256)()))) that is not in the builderState. Failed to construct its complete syntax-tree
+Exp ERC20.balanceOf(account=alice) + ERC20.balanceOf(account=bob) <= to_mathint(ERC20.totalSupply()) has the sub expressions: [ERC20.balanceOf(account=alice) + ERC20.balanceOf(account=bob), to_mathint(ERC20.totalSupply())]
+CallTrace: caller: check effects of step taken by one of the functions callee: ERC20.deposit()
+Load from: sender.balance
+Store at: sender.balance
+Load from: receiver.balance
+Store at: receiver.balance
+Load from: _balances[*]
+Store at: _balances[*]
+EXTERNAL CALL ERC20.deposit(): all expected parameters found in value map
+EXTERNAL CALL ERC20.deposit(): all expected return values found in value map
+ERC20.deposit() / 
+CallTrace: caller: assert invariant in post-state callee: ERC20.balanceOf(address)
+CallTrace: internal call: (internal) balanceOf(address)
+Load from: _balances[*]
+StorageState: ERC20._balances[0x401]: 5 (changed) - STORAGE_HAVOC_DEPENDENT
+StorageState: ERC20._balances[0x402]: 1 - STORAGE_HAVOC
+StorageState: ERC20._totalSupply: 2 - STORAGE_HAVOC
+(internal) ERC20.balanceOf(account=0x402) / 1
+EXTERNAL CALL ERC20.balanceOf(address): all expected parameters found in value map
+EXTERNAL CALL ERC20.balanceOf(address): all expected return values found in value map
+ERC20.balanceOf(account=X) / 1
+CallTrace: caller: assert invariant in post-state callee: ERC20.balanceOf(address)
+CallTrace: internal call: (internal) balanceOf(address)
+Load from: _balances[*]
+StorageState: ERC20._balances[0x401]: 5 - STORAGE_HAVOC_DEPENDENT
+StorageState: ERC20._balances[0x402]: 1 - STORAGE_HAVOC
+StorageState: ERC20._totalSupply: 2 - STORAGE_HAVOC
+(internal) ERC20.balanceOf(account=0x401) / 5
+EXTERNAL CALL ERC20.balanceOf(address): all expected parameters found in value map
+EXTERNAL CALL ERC20.balanceOf(address): all expected return values found in value map
+ERC20.balanceOf(account=X) / 5
+[ForkJoinPool-8-worker-7] WARN COMMON - Got a non-constant, non-variable operand (Operand(out=I112:int, exp=ERC20.balanceOf(address account) returns (uint256)(alice))) that is not in the builderState. Failed to construct its complete syntax-tree
+[ForkJoinPool-8-worker-7] WARN COMMON - Got a non-constant, non-variable operand (Operand(out=I135:int, exp=ERC20.balanceOf(address account) returns (uint256)(bob))) that is not in the builderState. Failed to construct its complete syntax-tree
+CallTrace: caller: assert invariant in post-state callee: ERC20.totalSupply()
+CallTrace: internal call: (internal) totalSupply()
+Load from: _totalSupply
+StorageState: ERC20._balances[0x401]: 5 - STORAGE_HAVOC_DEPENDENT
+StorageState: ERC20._balances[0x402]: 1 - STORAGE_HAVOC
+StorageState: ERC20._totalSupply: 2 - STORAGE_HAVOC
+(internal) ERC20.totalSupply() / 2
+EXTERNAL CALL ERC20.totalSupply(): all expected parameters found in value map
+EXTERNAL CALL ERC20.totalSupply(): all expected return values found in value map
+ERC20.totalSupply() / 2
+[ForkJoinPool-8-worker-7] WARN COMMON - Got a non-constant, non-variable operand (Operand(out=I150:int, exp=to_mathint(ERC20.totalSupply() returns (uint256)()))) that is not in the builderState. Failed to construct its complete syntax-tree
+Exp ERC20.balanceOf(account=alice) + ERC20.balanceOf(account=bob) <= to_mathint(ERC20.totalSupply()) has the sub expressions: [ERC20.balanceOf(account=alice) + ERC20.balanceOf(account=bob), to_mathint(ERC20.totalSupply())]
+StorageState: ERC20._balances[0x401]: 5 - STORAGE_HAVOC_DEPENDENT
+StorageState: ERC20._balances[0x402]: 1 - STORAGE_HAVOC
+StorageState: ERC20._totalSupply: 2 - STORAGE_HAVOC
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+[ForkJoinPool-8-worker-6] WARN COMMON - Artifact output.json already registered in REPORTS
+[ForkJoinPool-8-worker-6] WARN DSA - Found variables used before being initialized in totalSupplyIsSumOfBalances_preserve-decreaseAllowance(address,uint256). Enable info logs for DSA
+[ForkJoinPool-8-worker-1] WARN COMMON - Diversification did not produce statistics.
+Total time for contract: 0 seconds ; Split time: 0 seconds ; Number of problems: 1 ; Solver time : 0 seconds
+Total time for contract: 0 seconds ; Split time: 0 seconds ; Number of problems: 1 ; Solver time : 0 seconds
+Verified: totalSupplyIsSumOfBalances_preserve-burn(address,uint256)
+Verified: totalSupplyIsSumOfBalances_preserve-burn(address,uint256)
+totalSupplyIsSumOfBalances_preserve-burn(address,uint256): Properties successfully verified on all inputs
+totalSupplyIsSumOfBalances_preserve-burn(address,uint256): Properties successfully verified on all inputs
+[ForkJoinPool-8-worker-1] WARN COMMON - Diversification did not produce statistics.
+Total time for contract: 2 seconds ; Split time: 0 seconds ; Number of problems: 1 ; Solver time : 2 seconds
+Total time for contract: 2 seconds ; Split time: 0 seconds ; Number of problems: 1 ; Solver time : 2 seconds
+Verified: totalSupplyIsSumOfBalances_preserve-increaseAllowance(address,uint256)
+Verified: totalSupplyIsSumOfBalances_preserve-increaseAllowance(address,uint256)
+totalSupplyIsSumOfBalances_preserve-increaseAllowance(address,uint256): Properties successfully verified on all inputs
+totalSupplyIsSumOfBalances_preserve-increaseAllowance(address,uint256): Properties successfully verified on all inputs
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+Starting to run on rule withdraw(uint256) of balancesBoundedByTotalSupply_preserve
+[pool-46-thread-3] WARN UI - dumping codeMap "PresolverRule-totalSupplyIsSumOfBalances_preserve-decreaseAllowance(address,uint256)" in html format, but the file name "PresolverRule-totalSupplyIsSumOfBalances_preserve-decreaseAllowance(address,uint256)" is lacking the `.html` suffix. Appending it and dumping that file.
+[pool-46-thread-5] WARN UI - dumping codeMap "PresolverRule-balancesBoundedByTotalSupply_preserve-increaseAllowance(address,uint256)" in html format, but the file name "PresolverRule-balancesBoundedByTotalSupply_preserve-increaseAllowance(address,uint256)" is lacking the `.html` suffix. Appending it and dumping that file.
+Starting to run on rule transfer(address,uint256) of totalSupplyIsSumOfBalances_preserve
+[ForkJoinPool-8-worker-3] WARN COMMON - Artifact output.json already registered in REPORTS
+[ForkJoinPool-8-worker-3] WARN DSA - Found variables used before being initialized in totalSupplyIsSumOfBalances_preserve-withdraw(uint256). Enable info logs for DSA
+[ForkJoinPool-8-worker-6] WARN COMMON - Diversification did not produce statistics.
+Total time for contract: 0 seconds ; Split time: 0 seconds ; Number of problems: 1 ; Solver time : 0 seconds
+Total time for contract: 0 seconds ; Split time: 0 seconds ; Number of problems: 1 ; Solver time : 0 seconds
+Verified: totalSupplyIsSumOfBalances_preserve-decreaseAllowance(address,uint256)
+Verified: totalSupplyIsSumOfBalances_preserve-decreaseAllowance(address,uint256)
+totalSupplyIsSumOfBalances_preserve-decreaseAllowance(address,uint256): Properties successfully verified on all inputs
+totalSupplyIsSumOfBalances_preserve-decreaseAllowance(address,uint256): Properties successfully verified on all inputs
+Starting to run on rule approve(address,uint256) of totalSupplyIsSumOfBalances_preserve
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+Proved that add can't overflow for bound 115792089237316195423570985008687907853269984665640564039457584007913129639935, removing 1 check
+marking potential over-/underflowing expression class vc.data.TACExpr$Vec$Add$Binary with 'will not wrap' annotation
+[ForkJoinPool-8-worker-4] WARN COMMON - there already is a replacement registered in this PatchingProgram for pointer "CmdPointer(block=0_0_0_31_0_0, pos=98)", only one replacement is allowed per pointer
+Proved that add can't overflow for bound 115792089237316195423570985008687907853269984665640564039457584007913129639935, removing 1 check
+marking potential over-/underflowing expression class vc.data.TACExpr$Vec$Add$Binary with 'will not wrap' annotation
+[ForkJoinPool-8-worker-4] WARN COMMON - there already is a replacement registered in this PatchingProgram for pointer "CmdPointer(block=0_0_0_31_0_0, pos=116)", only one replacement is allowed per pointer
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+[ForkJoinPool-8-worker-4] WARN COMMON - Artifact output.json already registered in REPORTS
+[ForkJoinPool-8-worker-4] WARN DSA - Found variables used before being initialized in balancesBoundedByTotalSupply_preserve-mint(address,uint256). Enable info logs for DSA
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+Proved that add can't overflow for bound 115792089237316195423570985008687907853269984665640564039457584007913129639935, removing 1 check
+marking potential over-/underflowing expression class vc.data.TACExpr$Vec$Add$Binary with 'will not wrap' annotation
+[ForkJoinPool-8-worker-5] WARN COMMON - there already is a replacement registered in this PatchingProgram for pointer "CmdPointer(block=0_0_0_6_0_0, pos=201)", only one replacement is allowed per pointer
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+[pool-46-thread-1] WARN UI - dumping codeMap "PresolverRule-totalSupplyIsSumOfBalances_preserve-withdraw(uint256)" in html format, but the file name "PresolverRule-totalSupplyIsSumOfBalances_preserve-withdraw(uint256)" is lacking the `.html` suffix. Appending it and dumping that file.
+[ForkJoinPool-8-worker-5] WARN COMMON - Artifact output.json already registered in REPORTS
+[ForkJoinPool-8-worker-8] WARN COMMON - Artifact output.json already registered in REPORTS
+[ForkJoinPool-8-worker-8] WARN DSA - Found variables used before being initialized in onlyHolderCanChangeAllowance-burn(address,uint256). Enable info logs for DSA
+[ForkJoinPool-8-worker-5] WARN DSA - Found variables used before being initialized in onlyHolderCanChangeAllowance-transferFrom(address,address,uint256). Enable info logs for DSA
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+Proved that add can't overflow for bound 115792089237316195423570985008687907853269984665640564039457584007913129639935, removing 1 check
+marking potential over-/underflowing expression class vc.data.TACExpr$Vec$Add$Binary with 'will not wrap' annotation
+[ForkJoinPool-8-worker-1] WARN COMMON - there already is a replacement registered in this PatchingProgram for pointer "CmdPointer(block=0_0_0_8_0_0, pos=117)", only one replacement is allowed per pointer
+[pool-46-thread-2] WARN UI - dumping codeMap "PresolverRule-balancesBoundedByTotalSupply_preserve-mint(address,uint256)" in html format, but the file name "PresolverRule-balancesBoundedByTotalSupply_preserve-mint(address,uint256)" is lacking the `.html` suffix. Appending it and dumping that file.
+[ForkJoinPool-8-worker-1] WARN COMMON - Artifact output.json already registered in REPORTS
+[ForkJoinPool-8-worker-1] WARN DSA - Found variables used before being initialized in totalSupplyIsSumOfBalances_preserve-transfer(address,uint256). Enable info logs for DSA
+[ForkJoinPool-8-worker-2] WARN COMMON - Diversification did not produce statistics.
+Total time for contract: 0 seconds ; Split time: 0 seconds ; Number of problems: 1 ; Solver time : 0 seconds
+Total time for contract: 0 seconds ; Split time: 0 seconds ; Number of problems: 1 ; Solver time : 0 seconds
+Verified: balancesBoundedByTotalSupply_preserve-increaseAllowance(address,uint256)
+Verified: balancesBoundedByTotalSupply_preserve-increaseAllowance(address,uint256)
+balancesBoundedByTotalSupply_preserve-increaseAllowance(address,uint256): Properties successfully verified on all inputs
+balancesBoundedByTotalSupply_preserve-increaseAllowance(address,uint256): Properties successfully verified on all inputs
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+[ForkJoinPool-8-worker-6] WARN COMMON - Artifact output.json already registered in REPORTS
+[ForkJoinPool-8-worker-6] WARN DSA - Found variables used before being initialized in totalSupplyIsSumOfBalances_preserve-approve(address,uint256). Enable info logs for DSA
+Starting to run on rule burn(address,uint256) of balancesBoundedByTotalSupply_preserve
+[pool-46-thread-4] WARN UI - dumping codeMap "PresolverRule-onlyHolderCanChangeAllowance-burn(address,uint256)" in html format, but the file name "PresolverRule-onlyHolderCanChangeAllowance-burn(address,uint256)" is lacking the `.html` suffix. Appending it and dumping that file.
+[pool-46-thread-3] WARN UI - dumping codeMap "PresolverRule-totalSupplyIsSumOfBalances_preserve-approve(address,uint256)" in html format, but the file name "PresolverRule-totalSupplyIsSumOfBalances_preserve-approve(address,uint256)" is lacking the `.html` suffix. Appending it and dumping that file.
+[pool-46-thread-6] WARN UI - dumping codeMap "PresolverRule-onlyHolderCanChangeAllowance-transferFrom(address,address,uint256)" in html format, but the file name "PresolverRule-onlyHolderCanChangeAllowance-transferFrom(address,address,uint256)" is lacking the `.html` suffix. Appending it and dumping that file.
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+[pool-46-thread-1] WARN UI - dumping codeMap "PresolverRule-totalSupplyIsSumOfBalances_preserve-transfer(address,uint256)" in html format, but the file name "PresolverRule-totalSupplyIsSumOfBalances_preserve-transfer(address,uint256)" is lacking the `.html` suffix. Appending it and dumping that file.
+[ForkJoinPool-8-worker-7] WARN COMMON - Artifact output.json already registered in REPORTS
+[ForkJoinPool-8-worker-7] WARN DSA - Found variables used before being initialized in balancesBoundedByTotalSupply_preserve-withdraw(uint256). Enable info logs for DSA
+[ForkJoinPool-8-worker-6] WARN COMMON - Diversification did not produce statistics.
+Total time for contract: 0 seconds ; Split time: 0 seconds ; Number of problems: 1 ; Solver time : 0 seconds
+Total time for contract: 0 seconds ; Split time: 0 seconds ; Number of problems: 1 ; Solver time : 0 seconds
+Verified: totalSupplyIsSumOfBalances_preserve-approve(address,uint256)
+Verified: totalSupplyIsSumOfBalances_preserve-approve(address,uint256)
+totalSupplyIsSumOfBalances_preserve-approve(address,uint256): Properties successfully verified on all inputs
+totalSupplyIsSumOfBalances_preserve-approve(address,uint256): Properties successfully verified on all inputs
+[ForkJoinPool-8-worker-1] WARN COMMON - Diversification did not produce statistics.
+Total time for contract: 0 seconds ; Split time: 0 seconds ; Number of problems: 1 ; Solver time : 0 seconds
+Total time for contract: 0 seconds ; Split time: 0 seconds ; Number of problems: 1 ; Solver time : 0 seconds
+Verified: totalSupplyIsSumOfBalances_preserve-transfer(address,uint256)
+Verified: totalSupplyIsSumOfBalances_preserve-transfer(address,uint256)
+totalSupplyIsSumOfBalances_preserve-transfer(address,uint256): Properties successfully verified on all inputs
+totalSupplyIsSumOfBalances_preserve-transfer(address,uint256): Properties successfully verified on all inputs
+Starting to run on rule decreaseAllowance(address,uint256) of onlyHolderCanChangeAllowance
+prettifyModel finished.
+[ForkJoinPool-8-worker-4] WARN COMMON - Diversification did not produce statistics.
+Total time for contract: 0 seconds ; Split time: 0 seconds ; Number of problems: 1 ; Solver time : 0 seconds
+Total time for contract: 0 seconds ; Split time: 0 seconds ; Number of problems: 1 ; Solver time : 0 seconds
+Violated: balancesBoundedByTotalSupply_preserve-mint(address,uint256)
+Violated: balancesBoundedByTotalSupply_preserve-mint(address,uint256)
+balancesBoundedByTotalSupply_preserve-mint(address,uint256): A property is violated
+balancesBoundedByTotalSupply_preserve-mint(address,uint256): A property is violated
+The names of the local variables are [alice, bob, certoraInvF.isFallback, certoraInvF.isPayable, certoraInvF.isPure, certoraInvF.isView, certoraInvF.numberOfArguments, certoraInvF.selector, invariantCalldata, invariantEnv.block.coinbase, invariantEnv.block.difficulty, invariantEnv.block.gaslimit, invariantEnv.block.number, invariantEnv.block.timestamp, invariantEnv.msg.sender, invariantEnv.msg.value, invariantEnv.tx.origin, lastHasThrown, lastReverted]
+StorageState: ERC20._balances[0x2712]: 0 - STORAGE_HAVOC
+StorageState: ERC20._owner: ERC20 (0x16dc) - STORAGE_HAVOC
+StorageState: ERC20._totalSupply: 1 - STORAGE_HAVOC
+CallTrace: caller: assume invariant in pre-state callee: ERC20.balanceOf(address)
+CallTrace: internal call: (internal) balanceOf(address)
+Load from: _balances[*]
+StorageState: ERC20._balances[0x2712]: 0 - STORAGE_HAVOC
+StorageState: ERC20._owner: ERC20 (0x16dc) - STORAGE_HAVOC
+StorageState: ERC20._totalSupply: 1 - STORAGE_HAVOC
+(internal) ERC20.balanceOf(account=0x2712) / 0
+EXTERNAL CALL ERC20.balanceOf(address): all expected parameters found in value map
+EXTERNAL CALL ERC20.balanceOf(address): all expected return values found in value map
+ERC20.balanceOf(account=X) / 0
+CallTrace: caller: assume invariant in pre-state callee: ERC20.balanceOf(address)
+CallTrace: internal call: (internal) balanceOf(address)
+Load from: _balances[*]
+StorageState: ERC20._balances[0x2712]: 0 - STORAGE_HAVOC
+StorageState: ERC20._owner: ERC20 (0x16dc) - STORAGE_HAVOC
+StorageState: ERC20._totalSupply: 1 - STORAGE_HAVOC
+(internal) ERC20.balanceOf(account=0x2712) / 0
+EXTERNAL CALL ERC20.balanceOf(address): all expected parameters found in value map
+EXTERNAL CALL ERC20.balanceOf(address): all expected return values found in value map
+ERC20.balanceOf(account=X) / 0
+[ForkJoinPool-8-worker-4] WARN COMMON - Got a non-constant, non-variable operand (Operand(out=I52:int, exp=ERC20.balanceOf(address account) returns (uint256)(alice))) that is not in the builderState. Failed to construct its complete syntax-tree
+[ForkJoinPool-8-worker-4] WARN COMMON - Got a non-constant, non-variable operand (Operand(out=I75:int, exp=ERC20.balanceOf(address account) returns (uint256)(bob))) that is not in the builderState. Failed to construct its complete syntax-tree
+CallTrace: caller: assume invariant in pre-state callee: ERC20.totalSupply()
+CallTrace: internal call: (internal) totalSupply()
+Load from: _totalSupply
+StorageState: ERC20._balances[0x2712]: 0 - STORAGE_HAVOC
+StorageState: ERC20._owner: ERC20 (0x16dc) - STORAGE_HAVOC
+StorageState: ERC20._totalSupply: 1 - STORAGE_HAVOC
+(internal) ERC20.totalSupply() / 1
+EXTERNAL CALL ERC20.totalSupply(): all expected parameters found in value map
+EXTERNAL CALL ERC20.totalSupply(): all expected return values found in value map
+ERC20.totalSupply() / 1
+[ForkJoinPool-8-worker-4] WARN COMMON - Got a non-constant, non-variable operand (Operand(out=I90:int, exp=to_mathint(ERC20.totalSupply() returns (uint256)()))) that is not in the builderState. Failed to construct its complete syntax-tree
+Exp ERC20.balanceOf(account=alice) + ERC20.balanceOf(account=bob) <= to_mathint(ERC20.totalSupply()) has the sub expressions: [ERC20.balanceOf(account=alice) + ERC20.balanceOf(account=bob), to_mathint(ERC20.totalSupply())]
+CallTrace: caller: check effects of step taken by one of the functions callee: ERC20.mint(address, uint256)
+Load from: sender.balance
+Store at: sender.balance
+Load from: receiver.balance
+Store at: receiver.balance
+CallTrace: internal call: (internal) mint(address,uint256)
+Load from: _owner
+CallTrace: internal call: (internal) _beforeTokenTransfer(address,address,uint256)
+StorageState: ERC20._balances[0x2712]: 0 - STORAGE_HAVOC
+StorageState: ERC20._owner: ERC20 (0x16dc) - STORAGE_HAVOC
+StorageState: ERC20._totalSupply: 1 - STORAGE_HAVOC
+(internal) ERC20._beforeTokenTransfer(from=0, to=0x2712, amount=5) / 
+Load from: _totalSupply
+Store at: _totalSupply
+Load from: _balances[*]
+[pool-46-thread-3] WARN UI - dumping codeMap "PresolverRule-balancesBoundedByTotalSupply_preserve-withdraw(uint256)" in html format, but the file name "PresolverRule-balancesBoundedByTotalSupply_preserve-withdraw(uint256)" is lacking the `.html` suffix. Appending it and dumping that file.
+Store at: _balances[*]
+CallTrace: internal call: (internal) _afterTokenTransfer(address,address,uint256)
+StorageState: ERC20._balances[0x2712]: 5 (changed) - STORAGE_HAVOC_DEPENDENT
+StorageState: ERC20._owner: ERC20 (0x16dc) - STORAGE_HAVOC
+StorageState: ERC20._totalSupply: 6 (changed) - STORAGE_HAVOC_DEPENDENT
+(internal) ERC20._afterTokenTransfer(from=0, to=0x2712, amount=5) / 
+StorageState: ERC20._balances[0x2712]: 5 - STORAGE_HAVOC_DEPENDENT
+StorageState: ERC20._owner: ERC20 (0x16dc) - STORAGE_HAVOC
+StorageState: ERC20._totalSupply: 6 - STORAGE_HAVOC_DEPENDENT
+(internal) ERC20.mint(account=0x2712, amount=5) / 
+EXTERNAL CALL ERC20.mint(address, uint256): all expected parameters found in value map
+EXTERNAL CALL ERC20.mint(address, uint256): all expected return values found in value map
+ERC20.mint(account=0x2712, amount=5) / 
+CallTrace: caller: assert invariant in post-state callee: ERC20.balanceOf(address)
+CallTrace: internal call: (internal) balanceOf(address)
+Load from: _balances[*]
+StorageState: ERC20._balances[0x2712]: 5 - STORAGE_HAVOC_DEPENDENT
+StorageState: ERC20._owner: ERC20 (0x16dc) - STORAGE_HAVOC
+StorageState: ERC20._totalSupply: 6 - STORAGE_HAVOC_DEPENDENT
+(internal) ERC20.balanceOf(account=0x2712) / 5
+EXTERNAL CALL ERC20.balanceOf(address): all expected parameters found in value map
+EXTERNAL CALL ERC20.balanceOf(address): all expected return values found in value map
+ERC20.balanceOf(account=X) / 5
+CallTrace: caller: assert invariant in post-state callee: ERC20.balanceOf(address)
+CallTrace: internal call: (internal) balanceOf(address)
+Load from: _balances[*]
+StorageState: ERC20._balances[0x2712]: 5 - STORAGE_HAVOC_DEPENDENT
+StorageState: ERC20._owner: ERC20 (0x16dc) - STORAGE_HAVOC
+StorageState: ERC20._totalSupply: 6 - STORAGE_HAVOC_DEPENDENT
+(internal) ERC20.balanceOf(account=0x2712) / 5
+EXTERNAL CALL ERC20.balanceOf(address): all expected parameters found in value map
+EXTERNAL CALL ERC20.balanceOf(address): all expected return values found in value map
+ERC20.balanceOf(account=X) / 5
+[ForkJoinPool-8-worker-4] WARN COMMON - Got a non-constant, non-variable operand (Operand(out=I113:int, exp=ERC20.balanceOf(address account) returns (uint256)(alice))) that is not in the builderState. Failed to construct its complete syntax-tree
+[ForkJoinPool-8-worker-4] WARN COMMON - Got a non-constant, non-variable operand (Operand(out=I136:int, exp=ERC20.balanceOf(address account) returns (uint256)(bob))) that is not in the builderState. Failed to construct its complete syntax-tree
+CallTrace: caller: assert invariant in post-state callee: ERC20.totalSupply()
+CallTrace: internal call: (internal) totalSupply()
+Load from: _totalSupply
+StorageState: ERC20._balances[0x2712]: 5 - STORAGE_HAVOC_DEPENDENT
+StorageState: ERC20._owner: ERC20 (0x16dc) - STORAGE_HAVOC
+StorageState: ERC20._totalSupply: 6 - STORAGE_HAVOC_DEPENDENT
+(internal) ERC20.totalSupply() / 6
+EXTERNAL CALL ERC20.totalSupply(): all expected parameters found in value map
+EXTERNAL CALL ERC20.totalSupply(): all expected return values found in value map
+ERC20.totalSupply() / 6
+[ForkJoinPool-8-worker-4] WARN COMMON - Got a non-constant, non-variable operand (Operand(out=I151:int, exp=to_mathint(ERC20.totalSupply() returns (uint256)()))) that is not in the builderState. Failed to construct its complete syntax-tree
+Exp ERC20.balanceOf(account=alice) + ERC20.balanceOf(account=bob) <= to_mathint(ERC20.totalSupply()) has the sub expressions: [ERC20.balanceOf(account=alice) + ERC20.balanceOf(account=bob), to_mathint(ERC20.totalSupply())]
+StorageState: ERC20._balances[0x2712]: 5 - STORAGE_HAVOC_DEPENDENT
+StorageState: ERC20._owner: ERC20 (0x16dc) - STORAGE_HAVOC
+StorageState: ERC20._totalSupply: 6 - STORAGE_HAVOC_DEPENDENT
+[ForkJoinPool-8-worker-5] WARN COMMON - Diversification did not produce statistics.
+Total time for contract: 0 seconds ; Split time: 0 seconds ; Number of problems: 1 ; Solver time : 0 seconds
+Total time for contract: 0 seconds ; Split time: 0 seconds ; Number of problems: 1 ; Solver time : 0 seconds
+Verified: onlyHolderCanChangeAllowance-transferFrom(address,address,uint256)
+Verified: onlyHolderCanChangeAllowance-transferFrom(address,address,uint256)
+onlyHolderCanChangeAllowance-transferFrom(address,address,uint256): Properties successfully verified on all inputs
+onlyHolderCanChangeAllowance-transferFrom(address,address,uint256): Properties successfully verified on all inputs
+Starting to run on rule decreaseAllowance(address,uint256) of balancesBoundedByTotalSupply_preserve
+Starting to run on rule transfer(address,uint256) of onlyHolderCanChangeAllowance
+[ForkJoinPool-8-worker-8] WARN COMMON - Diversification did not produce statistics.
+Total time for contract: 0 seconds ; Split time: 0 seconds ; Number of problems: 1 ; Solver time : 0 seconds
+Total time for contract: 0 seconds ; Split time: 0 seconds ; Number of problems: 1 ; Solver time : 0 seconds
+Verified: onlyHolderCanChangeAllowance-burn(address,uint256)
+Verified: onlyHolderCanChangeAllowance-burn(address,uint256)
+onlyHolderCanChangeAllowance-burn(address,uint256): Properties successfully verified on all inputs
+onlyHolderCanChangeAllowance-burn(address,uint256): Properties successfully verified on all inputs
+Starting to run on rule approve(address,uint256) of onlyHolderCanChangeAllowance
+Starting to run on rule name() of onlyHolderCanChangeAllowance
+Starting to run on rule withdraw(uint256) of onlyHolderCanChangeAllowance
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+[ForkJoinPool-8-worker-2] WARN COMMON - Artifact output.json already registered in REPORTS
+[ForkJoinPool-8-worker-2] WARN DSA - Found variables used before being initialized in balancesBoundedByTotalSupply_preserve-burn(address,uint256). Enable info logs for DSA
+[ForkJoinPool-8-worker-7] WARN COMMON - Diversification did not produce statistics.
+Total time for contract: 0 seconds ; Split time: 0 seconds ; Number of problems: 1 ; Solver time : 0 seconds
+Total time for contract: 0 seconds ; Split time: 0 seconds ; Number of problems: 1 ; Solver time : 0 seconds
+Verified: balancesBoundedByTotalSupply_preserve-withdraw(uint256)
+Verified: balancesBoundedByTotalSupply_preserve-withdraw(uint256)
+balancesBoundedByTotalSupply_preserve-withdraw(uint256): Properties successfully verified on all inputs
+balancesBoundedByTotalSupply_preserve-withdraw(uint256): Properties successfully verified on all inputs
+Rule withdraw(uint256): Callee contract unresolved, callee sighash unresolved
+[Rule withdraw(uint256)]: [Call Resolution Table][Caller: ERC20.withdraw(uint256) (line:407)]: The Prover could not resolve the callee, thus, havoc'd the call
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+Proved that add can't overflow for bound 115792089237316195423570985008687907853269984665640564039457584007913129639935, removing 1 check
+marking potential over-/underflowing expression class vc.data.TACExpr$Vec$Add$Binary with 'will not wrap' annotation
+[ForkJoinPool-8-worker-1] WARN COMMON - there already is a replacement registered in this PatchingProgram for pointer "CmdPointer(block=0_0_0_6_0_0, pos=117)", only one replacement is allowed per pointer
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+[ForkJoinPool-8-worker-3] WARN COMMON - Artifact output.json already registered in REPORTS
+[ForkJoinPool-8-worker-3] WARN DSA - Found variables used before being initialized in onlyHolderCanChangeAllowance-decreaseAllowance(address,uint256). Enable info logs for DSA
+[ForkJoinPool-8-worker-1] WARN COMMON - Artifact output.json already registered in REPORTS
+[ForkJoinPool-8-worker-1] WARN DSA - Found variables used before being initialized in onlyHolderCanChangeAllowance-transfer(address,uint256). Enable info logs for DSA
+Starting to run on rule approve(address,uint256) of balancesBoundedByTotalSupply_preserve
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+[ForkJoinPool-8-worker-5] WARN COMMON - Artifact output.json already registered in REPORTS
+[pool-46-thread-4] WARN UI - dumping codeMap "PresolverRule-onlyHolderCanChangeAllowance-decreaseAllowance(address,uint256)" in html format, but the file name "PresolverRule-onlyHolderCanChangeAllowance-decreaseAllowance(address,uint256)" is lacking the `.html` suffix. Appending it and dumping that file.
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+[ForkJoinPool-8-worker-5] WARN DSA - Found variables used before being initialized in onlyHolderCanChangeAllowance-name(). Enable info logs for DSA
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+[pool-46-thread-6] WARN UI - dumping codeMap "PresolverRule-balancesBoundedByTotalSupply_preserve-burn(address,uint256)" in html format, but the file name "PresolverRule-balancesBoundedByTotalSupply_preserve-burn(address,uint256)" is lacking the `.html` suffix. Appending it and dumping that file.
+[ForkJoinPool-8-worker-6] WARN COMMON - Artifact output.json already registered in REPORTS
+[ForkJoinPool-8-worker-6] WARN DSA - Found variables used before being initialized in onlyHolderCanChangeAllowance-approve(address,uint256). Enable info logs for DSA
+[pool-46-thread-1] WARN UI - dumping codeMap "PresolverRule-onlyHolderCanChangeAllowance-transfer(address,uint256)" in html format, but the file name "PresolverRule-onlyHolderCanChangeAllowance-transfer(address,uint256)" is lacking the `.html` suffix. Appending it and dumping that file.
+[ForkJoinPool-8-worker-4] WARN COMMON - Artifact output.json already registered in REPORTS
+[ForkJoinPool-8-worker-4] WARN DSA - Found variables used before being initialized in balancesBoundedByTotalSupply_preserve-decreaseAllowance(address,uint256). Enable info logs for DSA
+[pool-46-thread-2] WARN UI - dumping codeMap "PresolverRule-onlyHolderCanChangeAllowance-approve(address,uint256)" in html format, but the file name "PresolverRule-onlyHolderCanChangeAllowance-approve(address,uint256)" is lacking the `.html` suffix. Appending it and dumping that file.
+[pool-46-thread-5] WARN UI - dumping codeMap "PresolverRule-onlyHolderCanChangeAllowance-name()" in html format, but the file name "PresolverRule-onlyHolderCanChangeAllowance-name()" is lacking the `.html` suffix. Appending it and dumping that file.
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+[ForkJoinPool-8-worker-7] WARN COMMON - Artifact output.json already registered in REPORTS
+[pool-46-thread-3] WARN UI - dumping codeMap "PresolverRule-balancesBoundedByTotalSupply_preserve-decreaseAllowance(address,uint256)" in html format, but the file name "PresolverRule-balancesBoundedByTotalSupply_preserve-decreaseAllowance(address,uint256)" is lacking the `.html` suffix. Appending it and dumping that file.
+[ForkJoinPool-8-worker-7] WARN DSA - Found variables used before being initialized in balancesBoundedByTotalSupply_preserve-approve(address,uint256). Enable info logs for DSA
+[ForkJoinPool-8-worker-8] WARN COMMON - Artifact output.json already registered in REPORTS
+[ForkJoinPool-8-worker-8] WARN DSA - Found variables used before being initialized in onlyHolderCanChangeAllowance-withdraw(uint256). Enable info logs for DSA
+[ForkJoinPool-8-worker-3] WARN COMMON - Diversification did not produce statistics.
+Total time for contract: 0 seconds ; Split time: 0 seconds ; Number of problems: 1 ; Solver time : 0 seconds
+Total time for contract: 0 seconds ; Split time: 0 seconds ; Number of problems: 1 ; Solver time : 0 seconds
+Verified: onlyHolderCanChangeAllowance-decreaseAllowance(address,uint256)
+Verified: onlyHolderCanChangeAllowance-decreaseAllowance(address,uint256)
+onlyHolderCanChangeAllowance-decreaseAllowance(address,uint256): Properties successfully verified on all inputs
+onlyHolderCanChangeAllowance-decreaseAllowance(address,uint256): Properties successfully verified on all inputs
+[pool-46-thread-4] WARN UI - dumping codeMap "PresolverRule-balancesBoundedByTotalSupply_preserve-approve(address,uint256)" in html format, but the file name "PresolverRule-balancesBoundedByTotalSupply_preserve-approve(address,uint256)" is lacking the `.html` suffix. Appending it and dumping that file.
+prettifyModel finished.
+[ForkJoinPool-8-worker-2] WARN COMMON - Diversification did not produce statistics.
+Total time for contract: 0 seconds ; Split time: 0 seconds ; Number of problems: 1 ; Solver time : 0 seconds
+Total time for contract: 0 seconds ; Split time: 0 seconds ; Number of problems: 1 ; Solver time : 0 seconds
+Violated: balancesBoundedByTotalSupply_preserve-burn(address,uint256)
+Violated: balancesBoundedByTotalSupply_preserve-burn(address,uint256)
+balancesBoundedByTotalSupply_preserve-burn(address,uint256): A property is violated
+balancesBoundedByTotalSupply_preserve-burn(address,uint256): A property is violated
+The names of the local variables are [alice, bob, certoraInvF.isFallback, certoraInvF.isPayable, certoraInvF.isPure, certoraInvF.isView, certoraInvF.numberOfArguments, certoraInvF.selector, invariantCalldata, invariantEnv.block.coinbase, invariantEnv.block.difficulty, invariantEnv.block.gaslimit, invariantEnv.block.number, invariantEnv.block.timestamp, invariantEnv.msg.sender, invariantEnv.msg.value, invariantEnv.tx.origin, lastHasThrown, lastReverted]
+StorageState: ERC20._balances[14]: 0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc83 - STORAGE_HAVOC
+StorageState: ERC20._balances[0x401]: 15 - STORAGE_HAVOC
+StorageState: ERC20._balances[0x475]: 5 - STORAGE_HAVOC
+StorageState: ERC20._owner: ERC20 (0x474) - STORAGE_HAVOC
+StorageState: ERC20._totalSupply: 86 - STORAGE_HAVOC
+CallTrace: caller: assume invariant in pre-state callee: ERC20.balanceOf(address)
+CallTrace: internal call: (internal) balanceOf(address)
+Load from: _balances[*]
+StorageState: ERC20._balances[14]: 0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc83 - STORAGE_HAVOC
+StorageState: ERC20._balances[0x401]: 15 - STORAGE_HAVOC
+StorageState: ERC20._balances[0x475]: 5 - STORAGE_HAVOC
+StorageState: ERC20._owner: ERC20 (0x474) - STORAGE_HAVOC
+StorageState: ERC20._totalSupply: 86 - STORAGE_HAVOC
+(internal) ERC20.balanceOf(account=0x475) / 5
+EXTERNAL CALL ERC20.balanceOf(address): all expected parameters found in value map
+EXTERNAL CALL ERC20.balanceOf(address): all expected return values found in value map
+ERC20.balanceOf(account=X) / 5
+CallTrace: caller: assume invariant in pre-state callee: ERC20.balanceOf(address)
+CallTrace: internal call: (internal) balanceOf(address)
+Load from: _balances[*]
+StorageState: ERC20._balances[14]: 0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc83 - STORAGE_HAVOC
+StorageState: ERC20._balances[0x401]: 15 - STORAGE_HAVOC
+StorageState: ERC20._balances[0x475]: 5 - STORAGE_HAVOC
+StorageState: ERC20._owner: ERC20 (0x474) - STORAGE_HAVOC
+StorageState: ERC20._totalSupply: 86 - STORAGE_HAVOC
+(internal) ERC20.balanceOf(account=0x401) / 15
+EXTERNAL CALL ERC20.balanceOf(address): all expected parameters found in value map
+EXTERNAL CALL ERC20.balanceOf(address): all expected return values found in value map
+ERC20.balanceOf(account=X) / 15
+[ForkJoinPool-8-worker-2] WARN COMMON - Got a non-constant, non-variable operand (Operand(out=I52:int, exp=ERC20.balanceOf(address account) returns (uint256)(alice))) that is not in the builderState. Failed to construct its complete syntax-tree
+[ForkJoinPool-8-worker-2] WARN COMMON - Got a non-constant, non-variable operand (Operand(out=I75:int, exp=ERC20.balanceOf(address account) returns (uint256)(bob))) that is not in the builderState. Failed to construct its complete syntax-tree
+CallTrace: caller: assume invariant in pre-state callee: ERC20.totalSupply()
+CallTrace: internal call: (internal) totalSupply()
+Load from: _totalSupply
+StorageState: ERC20._balances[14]: 0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc83 - STORAGE_HAVOC
+StorageState: ERC20._balances[0x401]: 15 - STORAGE_HAVOC
+StorageState: ERC20._balances[0x475]: 5 - STORAGE_HAVOC
+StorageState: ERC20._owner: ERC20 (0x474) - STORAGE_HAVOC
+StorageState: ERC20._totalSupply: 86 - STORAGE_HAVOC
+(internal) ERC20.totalSupply() / 86
+EXTERNAL CALL ERC20.totalSupply(): all expected parameters found in value map
+EXTERNAL CALL ERC20.totalSupply(): all expected return values found in value map
+ERC20.totalSupply() / 86
+[ForkJoinPool-8-worker-2] WARN COMMON - Got a non-constant, non-variable operand (Operand(out=I90:int, exp=to_mathint(ERC20.totalSupply() returns (uint256)()))) that is not in the builderState. Failed to construct its complete syntax-tree
+Exp ERC20.balanceOf(account=alice) + ERC20.balanceOf(account=bob) <= to_mathint(ERC20.totalSupply()) has the sub expressions: [ERC20.balanceOf(account=alice) + ERC20.balanceOf(account=bob), to_mathint(ERC20.totalSupply())]
+CallTrace: caller: check effects of step taken by one of the functions callee: ERC20.burn(address, uint256)
+Load from: sender.balance
+Store at: sender.balance
+Load from: receiver.balance
+Store at: receiver.balance
+CallTrace: internal call: (internal) burn(address,uint256)
+Load from: _owner
+CallTrace: internal call: (internal) _beforeTokenTransfer(address,address,uint256)
+StorageState: ERC20._balances[14]: 0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc83 - STORAGE_HAVOC
+StorageState: ERC20._balances[0x401]: 15 - STORAGE_HAVOC
+StorageState: ERC20._balances[0x475]: 5 - STORAGE_HAVOC
+StorageState: ERC20._owner: ERC20 (0x474) - STORAGE_HAVOC
+StorageState: ERC20._totalSupply: 86 - STORAGE_HAVOC
+(internal) ERC20._beforeTokenTransfer(from=14, to=0, amount=83) / 
+Load from: _balances[*]
+Store at: _balances[*]
+Load from: _totalSupply
+Store at: _totalSupply
+CallTrace: internal call: (internal) _afterTokenTransfer(address,address,uint256)
+StorageState: ERC20._balances[14]: 0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc30 (changed) - STORAGE_HAVOC_DEPENDENT
+StorageState: ERC20._balances[0x401]: 15 - STORAGE_HAVOC
+StorageState: ERC20._balances[0x475]: 5 - STORAGE_HAVOC
+StorageState: ERC20._owner: ERC20 (0x474) - STORAGE_HAVOC
+StorageState: ERC20._totalSupply: 3 (changed) - STORAGE_HAVOC_DEPENDENT
+(internal) ERC20._afterTokenTransfer(from=14, to=0, amount=83) / 
+StorageState: ERC20._balances[14]: 0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc30 - STORAGE_HAVOC_DEPENDENT
+StorageState: ERC20._balances[0x401]: 15 - STORAGE_HAVOC
+StorageState: ERC20._balances[0x475]: 5 - STORAGE_HAVOC
+StorageState: ERC20._owner: ERC20 (0x474) - STORAGE_HAVOC
+StorageState: ERC20._totalSupply: 3 - STORAGE_HAVOC_DEPENDENT
+(internal) ERC20.burn(account=14, amount=83) / 
+EXTERNAL CALL ERC20.burn(address, uint256): all expected parameters found in value map
+EXTERNAL CALL ERC20.burn(address, uint256): all expected return values found in value map
+ERC20.burn(account=14, amount=83) / 
+CallTrace: caller: assert invariant in post-state callee: ERC20.balanceOf(address)
+CallTrace: internal call: (internal) balanceOf(address)
+Load from: _balances[*]
+StorageState: ERC20._balances[14]: 0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc30 - STORAGE_HAVOC_DEPENDENT
+StorageState: ERC20._balances[0x401]: 15 - STORAGE_HAVOC
+StorageState: ERC20._balances[0x475]: 5 - STORAGE_HAVOC
+StorageState: ERC20._owner: ERC20 (0x474) - STORAGE_HAVOC
+StorageState: ERC20._totalSupply: 3 - STORAGE_HAVOC_DEPENDENT
+(internal) ERC20.balanceOf(account=0x475) / 5
+EXTERNAL CALL ERC20.balanceOf(address): all expected parameters found in value map
+EXTERNAL CALL ERC20.balanceOf(address): all expected return values found in value map
+ERC20.balanceOf(account=X) / 5
+CallTrace: caller: assert invariant in post-state callee: ERC20.balanceOf(address)
+CallTrace: internal call: (internal) balanceOf(address)
+Load from: _balances[*]
+StorageState: ERC20._balances[14]: 0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc30 - STORAGE_HAVOC_DEPENDENT
+StorageState: ERC20._balances[0x401]: 15 - STORAGE_HAVOC
+StorageState: ERC20._balances[0x475]: 5 - STORAGE_HAVOC
+StorageState: ERC20._owner: ERC20 (0x474) - STORAGE_HAVOC
+StorageState: ERC20._totalSupply: 3 - STORAGE_HAVOC_DEPENDENT
+(internal) ERC20.balanceOf(account=0x401) / 15
+EXTERNAL CALL ERC20.balanceOf(address): all expected parameters found in value map
+EXTERNAL CALL ERC20.balanceOf(address): all expected return values found in value map
+ERC20.balanceOf(account=X) / 15
+[ForkJoinPool-8-worker-2] WARN COMMON - Got a non-constant, non-variable operand (Operand(out=I113:int, exp=ERC20.balanceOf(address account) returns (uint256)(alice))) that is not in the builderState. Failed to construct its complete syntax-tree
+[ForkJoinPool-8-worker-2] WARN COMMON - Got a non-constant, non-variable operand (Operand(out=I136:int, exp=ERC20.balanceOf(address account) returns (uint256)(bob))) that is not in the builderState. Failed to construct its complete syntax-tree
+CallTrace: caller: assert invariant in post-state callee: ERC20.totalSupply()
+CallTrace: internal call: (internal) totalSupply()
+Load from: _totalSupply
+StorageState: ERC20._balances[14]: 0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc30 - STORAGE_HAVOC_DEPENDENT
+StorageState: ERC20._balances[0x401]: 15 - STORAGE_HAVOC
+StorageState: ERC20._balances[0x475]: 5 - STORAGE_HAVOC
+StorageState: ERC20._owner: ERC20 (0x474) - STORAGE_HAVOC
+StorageState: ERC20._totalSupply: 3 - STORAGE_HAVOC_DEPENDENT
+(internal) ERC20.totalSupply() / 3
+EXTERNAL CALL ERC20.totalSupply(): all expected parameters found in value map
+EXTERNAL CALL ERC20.totalSupply(): all expected return values found in value map
+ERC20.totalSupply() / 3
+[ForkJoinPool-8-worker-2] WARN COMMON - Got a non-constant, non-variable operand (Operand(out=I151:int, exp=to_mathint(ERC20.totalSupply() returns (uint256)()))) that is not in the builderState. Failed to construct its complete syntax-tree
+Exp ERC20.balanceOf(account=alice) + ERC20.balanceOf(account=bob) <= to_mathint(ERC20.totalSupply()) has the sub expressions: [ERC20.balanceOf(account=alice) + ERC20.balanceOf(account=bob), to_mathint(ERC20.totalSupply())]
+StorageState: ERC20._balances[14]: 0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc30 - STORAGE_HAVOC_DEPENDENT
+StorageState: ERC20._balances[0x401]: 15 - STORAGE_HAVOC
+StorageState: ERC20._balances[0x475]: 5 - STORAGE_HAVOC
+StorageState: ERC20._owner: ERC20 (0x474) - STORAGE_HAVOC
+StorageState: ERC20._totalSupply: 3 - STORAGE_HAVOC_DEPENDENT
+prettifyModel finished.
+[ForkJoinPool-8-worker-3] WARN COMMON - Diversification did not produce statistics.
+Total time for contract: 2 seconds ; Split time: 0 seconds ; Number of problems: 1 ; Solver time : 2 seconds
+Total time for contract: 2 seconds ; Split time: 0 seconds ; Number of problems: 1 ; Solver time : 2 seconds
+Violated: totalSupplyIsSumOfBalances_preserve-withdraw(uint256)
+Violated: totalSupplyIsSumOfBalances_preserve-withdraw(uint256)
+totalSupplyIsSumOfBalances_preserve-withdraw(uint256): A property is violated
+totalSupplyIsSumOfBalances_preserve-withdraw(uint256): A property is violated
+Rule withdraw(uint256): Callee contract unresolved, callee sighash unresolved
+[Rule withdraw(uint256)]: [Call Resolution Table][Caller: ERC20.withdraw(uint256) (line:407)]: The Prover could not resolve the callee, thus, havoc'd the call
+The names of the local variables are [certoraInvF.isFallback, certoraInvF.isPayable, certoraInvF.isPure, certoraInvF.isView, certoraInvF.numberOfArguments, certoraInvF.selector, invariantCalldata, invariantEnv.block.coinbase, invariantEnv.block.difficulty, invariantEnv.block.gaslimit, invariantEnv.block.number, invariantEnv.block.timestamp, invariantEnv.msg.sender, invariantEnv.msg.value, invariantEnv.tx.origin, lastHasThrown, lastReverted]
+StorageState: ERC20._balances[0x2711]: 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffdf53 - STORAGE_HAVOC
+StorageState: ERC20._totalSupply: 6 - STORAGE_HAVOC
+CallTrace: caller: assume invariant in pre-state callee: ERC20.totalSupply()
+CallTrace: internal call: (internal) totalSupply()
+Load from: _totalSupply
+StorageState: ERC20._balances[0x2711]: 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffdf53 - STORAGE_HAVOC
+StorageState: ERC20._totalSupply: 6 - STORAGE_HAVOC
+(internal) ERC20.totalSupply() / 6
+EXTERNAL CALL ERC20.totalSupply(): all expected parameters found in value map
+EXTERNAL CALL ERC20.totalSupply(): all expected return values found in value map
+ERC20.totalSupply() / 6
+[ForkJoinPool-8-worker-3] WARN COMMON - Got a non-constant, non-variable operand (Operand(out=CANON29:int, exp=to_mathint(ERC20.totalSupply() returns (uint256)()))) that is not in the builderState. Failed to construct its complete syntax-tree
+Exp to_mathint(ERC20.totalSupply()) == sum_of_balances has the sub expressions: [to_mathint(ERC20.totalSupply()), sum_of_balances]
+CallTrace: caller: check effects of step taken by one of the functions callee: ERC20.withdraw(uint256)
+Load from: sender.balance
+Store at: sender.balance
+Load from: receiver.balance
+Store at: receiver.balance
+Load from: _balances[*]
+Load from: _balances[*]
+Store at: _balances[*]
+Load from: sender.balance
+Store at: sender.balance
+Load from: receiver.balance
+Store at: receiver.balance
+EXTERNAL CALL ERC20.withdraw(uint256): all expected parameters found in value map
+EXTERNAL CALL ERC20.withdraw(uint256): all expected return values found in value map
+ERC20.withdraw(amount=2) / 
+CallTrace: caller: assert invariant in post-state callee: ERC20.totalSupply()
+CallTrace: internal call: (internal) totalSupply()
+Load from: _totalSupply
+StorageState: ERC20._balances[0x2711]: 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffdf51 (changed) - STORAGE_HAVOC_DEPENDENT
+StorageState: ERC20._totalSupply: 6 - STORAGE_HAVOC
+(internal) ERC20.totalSupply() / 6
+EXTERNAL CALL ERC20.totalSupply(): all expected parameters found in value map
+EXTERNAL CALL ERC20.totalSupply(): all expected return values found in value map
+ERC20.totalSupply() / 6
+[ForkJoinPool-8-worker-3] WARN COMMON - Got a non-constant, non-variable operand (Operand(out=CANON107:int, exp=to_mathint(ERC20.totalSupply() returns (uint256)()))) that is not in the builderState. Failed to construct its complete syntax-tree
+Exp to_mathint(ERC20.totalSupply()) == sum_of_balances has the sub expressions: [to_mathint(ERC20.totalSupply()), sum_of_balances]
+[pool-46-thread-5] WARN UI - dumping codeMap "PresolverRule-onlyHolderCanChangeAllowance-withdraw(uint256)" in html format, but the file name "PresolverRule-onlyHolderCanChangeAllowance-withdraw(uint256)" is lacking the `.html` suffix. Appending it and dumping that file.
+StorageState: ERC20._balances[0x2711]: 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffdf51 - STORAGE_HAVOC_DEPENDENT
+StorageState: ERC20._totalSupply: 6 - STORAGE_HAVOC
+ERC20=ERC20 (0x2710)
+certoraInvF.isFallback=false
+certoraInvF.isPayable=true
+certoraInvF.isPure=false
+certoraInvF.isView=false
+certoraInvF.numberOfArguments=0
+certoraInvF.selector=0xd0e30db0
+invariantEnv.block.coinbase=0x401
+invariantEnv.block.difficulty=9
+invariantEnv.block.gaslimit=8
+invariantEnv.block.number=7
+invariantEnv.block.timestamp=6
+invariantEnv.msg.sender=0x2711
+invariantEnv.msg.value=2
+invariantEnv.tx.origin=0x402
+lastHasThrown=false
+lastReverted=false
+ERC20=ERC20 (0x2712)
+certoraInvF.isFallback=false
+certoraInvF.isPayable=false
+certoraInvF.isPure=false
+certoraInvF.isView=false
+certoraInvF.numberOfArguments=1
+certoraInvF.selector=0x2e1a7d4d
+invariantCalldata=bytemap initialized but unknown
+invariantEnv.block.coinbase=0x402
+invariantEnv.block.difficulty=8
+invariantEnv.block.gaslimit=7
+invariantEnv.block.number=5
+invariantEnv.block.timestamp=3
+invariantEnv.msg.sender=0x2711
+invariantEnv.msg.value=0
+invariantEnv.tx.origin=0x401
+lastHasThrown=false
+lastReverted=false
+[ForkJoinPool-8-worker-3] WARN COMMON - Artifact FinalResults.html already registered in REPORTS
+[ForkJoinPool-8-worker-1] WARN COMMON - Diversification did not produce statistics.
+Total time for contract: 0 seconds ; Split time: 0 seconds ; Number of problems: 1 ; Solver time : 0 seconds
+Total time for contract: 0 seconds ; Split time: 0 seconds ; Number of problems: 1 ; Solver time : 0 seconds
+Verified: onlyHolderCanChangeAllowance-transfer(address,uint256)
+Verified: onlyHolderCanChangeAllowance-transfer(address,uint256)
+onlyHolderCanChangeAllowance-transfer(address,uint256): Properties successfully verified on all inputs
+onlyHolderCanChangeAllowance-transfer(address,uint256): Properties successfully verified on all inputs
+Result for totalSupplyIsSumOfBalances: totalSupplyIsSumOfBalances: totalSupplyIsSumOfBalances_preserve: increaseAllowance(address,uint256): SUCCESS
+transferFrom(address,address,uint256): SUCCESS
+deposit(): FAIL: invariant violated in post-state
+decreaseAllowance(address,uint256): SUCCESS
+transfer(address,uint256): SUCCESS
+mint(address,uint256): SUCCESS
+withdraw(uint256): FAIL: invariant violated in post-state
+burn(address,uint256): SUCCESS
+approve(address,uint256): SUCCESS
+totalSupplyIsSumOfBalances_instate: SUCCESS
+totalSupplyIsSumOfBalances_skipped_preserve_symbol(): Rule-check skipped. Skipping reason: Non state-modifying function.
+totalSupplyIsSumOfBalances_skipped_preserve_name(): Rule-check skipped. Skipping reason: Non state-modifying function.
+totalSupplyIsSumOfBalances_skipped_preserve__owner(): Rule-check skipped. Skipping reason: Non state-modifying function.
+totalSupplyIsSumOfBalances_skipped_preserve_decimals(): Rule-check skipped. Skipping reason: Non state-modifying function.
+totalSupplyIsSumOfBalances_skipped_preserve_balanceOf(address): Rule-check skipped. Skipping reason: Non state-modifying function.
+totalSupplyIsSumOfBalances_skipped_preserve_totalSupply(): Rule-check skipped. Skipping reason: Non state-modifying function.
+totalSupplyIsSumOfBalances_skipped_preserve_allowance(address,address): Rule-check skipped. Skipping reason: Non state-modifying function.
+[ForkJoinPool-8-worker-5] WARN COMMON - Diversification did not produce statistics.
+Total time for contract: 0 seconds ; Split time: 0 seconds ; Number of problems: 1 ; Solver time : 0 seconds
+Total time for contract: 0 seconds ; Split time: 0 seconds ; Number of problems: 1 ; Solver time : 0 seconds
+Verified: onlyHolderCanChangeAllowance-name()
+Verified: onlyHolderCanChangeAllowance-name()
+onlyHolderCanChangeAllowance-name(): Properties successfully verified on all inputs
+onlyHolderCanChangeAllowance-name(): Properties successfully verified on all inputs
+Starting to run on rule totalSupply() of onlyHolderCanChangeAllowance
+Starting to run on rule decimals() of onlyHolderCanChangeAllowance
+Starting to run on rule deposit() of onlyHolderCanChangeAllowance
+[ForkJoinPool-8-worker-4] WARN COMMON - Diversification did not produce statistics.
+Total time for contract: 0 seconds ; Split time: 0 seconds ; Number of problems: 1 ; Solver time : 0 seconds
+Total time for contract: 0 seconds ; Split time: 0 seconds ; Number of problems: 1 ; Solver time : 0 seconds
+Verified: balancesBoundedByTotalSupply_preserve-decreaseAllowance(address,uint256)
+Verified: balancesBoundedByTotalSupply_preserve-decreaseAllowance(address,uint256)
+balancesBoundedByTotalSupply_preserve-decreaseAllowance(address,uint256): Properties successfully verified on all inputs
+balancesBoundedByTotalSupply_preserve-decreaseAllowance(address,uint256): Properties successfully verified on all inputs
+[ForkJoinPool-8-worker-6] WARN COMMON - Diversification did not produce statistics.
+Starting to run on rule symbol() of onlyHolderCanChangeAllowance
+Total time for contract: 0 seconds ; Split time: 0 seconds ; Number of problems: 1 ; Solver time : 0 seconds
+Total time for contract: 0 seconds ; Split time: 0 seconds ; Number of problems: 1 ; Solver time : 0 seconds
+Verified: onlyHolderCanChangeAllowance-approve(address,uint256)
+Verified: onlyHolderCanChangeAllowance-approve(address,uint256)
+onlyHolderCanChangeAllowance-approve(address,uint256): Properties successfully verified on all inputs
+onlyHolderCanChangeAllowance-approve(address,uint256): Properties successfully verified on all inputs
+Starting to run on rule _owner() of onlyHolderCanChangeAllowance
+[ForkJoinPool-8-worker-7] WARN COMMON - Diversification did not produce statistics.
+Total time for contract: 0 seconds ; Split time: 0 seconds ; Number of problems: 1 ; Solver time : 0 seconds
+Total time for contract: 0 seconds ; Split time: 0 seconds ; Number of problems: 1 ; Solver time : 0 seconds
+[ForkJoinPool-8-worker-8] WARN COMMON - Diversification did not produce statistics.
+Verified: balancesBoundedByTotalSupply_preserve-approve(address,uint256)
+Verified: balancesBoundedByTotalSupply_preserve-approve(address,uint256)
+balancesBoundedByTotalSupply_preserve-approve(address,uint256): Properties successfully verified on all inputs
+balancesBoundedByTotalSupply_preserve-approve(address,uint256): Properties successfully verified on all inputs
+Total time for contract: 0 seconds ; Split time: 0 seconds ; Number of problems: 1 ; Solver time : 0 seconds
+Total time for contract: 0 seconds ; Split time: 0 seconds ; Number of problems: 1 ; Solver time : 0 seconds
+Verified: onlyHolderCanChangeAllowance-withdraw(uint256)
+Verified: onlyHolderCanChangeAllowance-withdraw(uint256)
+onlyHolderCanChangeAllowance-withdraw(uint256): Properties successfully verified on all inputs
+onlyHolderCanChangeAllowance-withdraw(uint256): Properties successfully verified on all inputs
+ERC20=ERC20 (0x2711)
+alice=0x402
+bob=0x401
+certoraInvF.isFallback=false
+certoraInvF.isPayable=true
+certoraInvF.isPure=false
+certoraInvF.isView=false
+certoraInvF.numberOfArguments=0
+certoraInvF.selector=0xd0e30db0
+invariantEnv.block.coinbase=0x403
+invariantEnv.block.difficulty=10
+invariantEnv.block.gaslimit=9
+invariantEnv.block.number=3
+invariantEnv.block.timestamp=8
+invariantEnv.msg.sender=0x401
+invariantEnv.msg.value=5
+invariantEnv.tx.origin=0x404
+lastHasThrown=false
+lastReverted=false
+ERC20=ERC20 (0x474)
+alice=0x475
+bob=0x401
+certoraInvF.isFallback=false
+certoraInvF.isPayable=false
+certoraInvF.isPure=false
+certoraInvF.isView=false
+certoraInvF.numberOfArguments=2
+certoraInvF.selector=0x9dc29fac
+invariantCalldata=bytemap initialized but unknown
+invariantEnv.block.coinbase=0x403
+invariantEnv.block.difficulty=9
+invariantEnv.block.gaslimit=8
+invariantEnv.block.number=7
+invariantEnv.block.timestamp=6
+invariantEnv.msg.sender=ERC20 (0x474)
+invariantEnv.msg.value=0
+invariantEnv.tx.origin=0x402
+lastHasThrown=false
+lastReverted=false
+ERC20=ERC20 (0x16dc)
+alice=0x2712
+bob=0x2712
+certoraInvF.isFallback=false
+certoraInvF.isPayable=false
+certoraInvF.isPure=false
+certoraInvF.isView=false
+certoraInvF.numberOfArguments=2
+certoraInvF.selector=0x40c10f19
+invariantCalldata=bytemap initialized but unknown
+invariantEnv.block.coinbase=0x402
+invariantEnv.block.difficulty=9
+invariantEnv.block.gaslimit=8
+invariantEnv.block.number=7
+invariantEnv.block.timestamp=3
+invariantEnv.msg.sender=ERC20 (0x16dc)
+invariantEnv.msg.value=0
+invariantEnv.tx.origin=0x401
+lastHasThrown=false
+lastReverted=false
+[ForkJoinPool-8-worker-4] WARN COMMON - Artifact FinalResults.html already registered in REPORTS
+Rule withdraw(uint256): Callee contract unresolved, callee sighash unresolved
+[Rule withdraw(uint256)]: [Call Resolution Table][Caller: ERC20.withdraw(uint256) (line:407)]: The Prover could not resolve the callee, thus, havoc'd the call
+Result for balancesBoundedByTotalSupply: balancesBoundedByTotalSupply: balancesBoundedByTotalSupply_preserve_explicit_transfer(address,uint256): SUCCESS
+balancesBoundedByTotalSupply_preserve_explicit_transferFrom(address,address,uint256): SUCCESS
+balancesBoundedByTotalSupply_preserve: increaseAllowance(address,uint256): SUCCESS
+withdraw(uint256): SUCCESS
+decreaseAllowance(address,uint256): SUCCESS
+deposit(): FAIL: invariant violated in post-state
+approve(address,uint256): SUCCESS
+burn(address,uint256): FAIL: invariant violated in post-state
+mint(address,uint256): FAIL: invariant violated in post-state
+balancesBoundedByTotalSupply_instate: SUCCESS
+balancesBoundedByTotalSupply_skipped_preserve_symbol(): Rule-check skipped. Skipping reason: Non state-modifying function.
+balancesBoundedByTotalSupply_skipped_preserve_name(): Rule-check skipped. Skipping reason: Non state-modifying function.
+balancesBoundedByTotalSupply_skipped_preserve__owner(): Rule-check skipped. Skipping reason: Non state-modifying function.
+balancesBoundedByTotalSupply_skipped_preserve_decimals(): Rule-check skipped. Skipping reason: Non state-modifying function.
+balancesBoundedByTotalSupply_skipped_preserve_balanceOf(address): Rule-check skipped. Skipping reason: Non state-modifying function.
+balancesBoundedByTotalSupply_skipped_preserve_totalSupply(): Rule-check skipped. Skipping reason: Non state-modifying function.
+balancesBoundedByTotalSupply_skipped_preserve_allowance(address,address): Rule-check skipped. Skipping reason: Non state-modifying function.
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+[ForkJoinPool-8-worker-1] WARN COMMON - Artifact output.json already registered in REPORTS
+[ForkJoinPool-8-worker-1] WARN DSA - Found variables used before being initialized in onlyHolderCanChangeAllowance-decimals(). Enable info logs for DSA
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+Proved that add can't overflow for bound 115792089237316195423570985008687907853269984665640564039457584007913129639935, removing 1 check
+marking potential over-/underflowing expression class vc.data.TACExpr$Vec$Add$Binary with 'will not wrap' annotation
+[ForkJoinPool-8-worker-5] WARN COMMON - there already is a replacement registered in this PatchingProgram for pointer "CmdPointer(block=0_0_0_6_0_0, pos=41)", only one replacement is allowed per pointer
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+[ForkJoinPool-8-worker-3] WARN COMMON - Artifact output.json already registered in REPORTS
+[ForkJoinPool-8-worker-3] WARN DSA - Found variables used before being initialized in onlyHolderCanChangeAllowance-symbol(). Enable info logs for DSA
+[ForkJoinPool-8-worker-2] WARN COMMON - Artifact output.json already registered in REPORTS
+[ForkJoinPool-8-worker-2] WARN DSA - Found variables used before being initialized in onlyHolderCanChangeAllowance-totalSupply(). Enable info logs for DSA
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+[ForkJoinPool-8-worker-5] WARN COMMON - Artifact output.json already registered in REPORTS
+[ForkJoinPool-8-worker-5] WARN DSA - Found variables used before being initialized in onlyHolderCanChangeAllowance-deposit(). Enable info logs for DSA
+[ForkJoinPool-8-worker-6] WARN COMMON - Artifact output.json already registered in REPORTS
+[pool-46-thread-6] WARN UI - dumping codeMap "PresolverRule-onlyHolderCanChangeAllowance-decimals()" in html format, but the file name "PresolverRule-onlyHolderCanChangeAllowance-decimals()" is lacking the `.html` suffix. Appending it and dumping that file.
+[ForkJoinPool-8-worker-6] WARN DSA - Found variables used before being initialized in onlyHolderCanChangeAllowance-_owner(). Enable info logs for DSA
+[pool-46-thread-2] WARN UI - dumping codeMap "PresolverRule-onlyHolderCanChangeAllowance-symbol()" in html format, but the file name "PresolverRule-onlyHolderCanChangeAllowance-symbol()" is lacking the `.html` suffix. Appending it and dumping that file.
+[pool-46-thread-5] WARN UI - dumping codeMap "PresolverRule-onlyHolderCanChangeAllowance-totalSupply()" in html format, but the file name "PresolverRule-onlyHolderCanChangeAllowance-totalSupply()" is lacking the `.html` suffix. Appending it and dumping that file.
+[pool-46-thread-3] WARN UI - dumping codeMap "PresolverRule-onlyHolderCanChangeAllowance-deposit()" in html format, but the file name "PresolverRule-onlyHolderCanChangeAllowance-deposit()" is lacking the `.html` suffix. Appending it and dumping that file.
+[pool-46-thread-4] WARN UI - dumping codeMap "PresolverRule-onlyHolderCanChangeAllowance-_owner()" in html format, but the file name "PresolverRule-onlyHolderCanChangeAllowance-_owner()" is lacking the `.html` suffix. Appending it and dumping that file.
+[ForkJoinPool-8-worker-2] WARN COMMON - Diversification did not produce statistics.
+[ForkJoinPool-8-worker-1] WARN COMMON - Diversification did not produce statistics.
+Total time for contract: 0 seconds ; Split time: 0 seconds ; Number of problems: 1 ; Solver time : 0 seconds
+Total time for contract: 0 seconds ; Split time: 0 seconds ; Number of problems: 1 ; Solver time : 0 seconds
+Verified: onlyHolderCanChangeAllowance-totalSupply()
+Verified: onlyHolderCanChangeAllowance-totalSupply()
+onlyHolderCanChangeAllowance-totalSupply(): Properties successfully verified on all inputs
+onlyHolderCanChangeAllowance-totalSupply(): Properties successfully verified on all inputs
+Total time for contract: 0 seconds ; Split time: 0 seconds ; Number of problems: 1 ; Solver time : 0 seconds
+Total time for contract: 0 seconds ; Split time: 0 seconds ; Number of problems: 1 ; Solver time : 0 seconds
+Verified: onlyHolderCanChangeAllowance-decimals()
+Verified: onlyHolderCanChangeAllowance-decimals()
+onlyHolderCanChangeAllowance-decimals(): Properties successfully verified on all inputs
+onlyHolderCanChangeAllowance-decimals(): Properties successfully verified on all inputs
+[ForkJoinPool-8-worker-5] WARN COMMON - Diversification did not produce statistics.
+[ForkJoinPool-8-worker-3] WARN COMMON - Diversification did not produce statistics.
+Total time for contract: 0 seconds ; Split time: 0 seconds ; Number of problems: 1 ; Solver time : 0 seconds
+Total time for contract: 0 seconds ; Split time: 0 seconds ; Number of problems: 1 ; Solver time : 0 seconds
+Verified: onlyHolderCanChangeAllowance-symbol()
+Verified: onlyHolderCanChangeAllowance-symbol()
+onlyHolderCanChangeAllowance-symbol(): Properties successfully verified on all inputs
+onlyHolderCanChangeAllowance-symbol(): Properties successfully verified on all inputs
+Total time for contract: 0 seconds ; Split time: 0 seconds ; Number of problems: 1 ; Solver time : 0 seconds
+Total time for contract: 0 seconds ; Split time: 0 seconds ; Number of problems: 1 ; Solver time : 0 seconds
+Verified: onlyHolderCanChangeAllowance-deposit()
+Verified: onlyHolderCanChangeAllowance-deposit()
+onlyHolderCanChangeAllowance-deposit(): Properties successfully verified on all inputs
+onlyHolderCanChangeAllowance-deposit(): Properties successfully verified on all inputs
+[ForkJoinPool-8-worker-6] WARN COMMON - Diversification did not produce statistics.
+Total time for contract: 0 seconds ; Split time: 0 seconds ; Number of problems: 1 ; Solver time : 0 seconds
+Total time for contract: 0 seconds ; Split time: 0 seconds ; Number of problems: 1 ; Solver time : 0 seconds
+Verified: onlyHolderCanChangeAllowance-_owner()
+Verified: onlyHolderCanChangeAllowance-_owner()
+onlyHolderCanChangeAllowance-_owner(): Properties successfully verified on all inputs
+onlyHolderCanChangeAllowance-_owner(): Properties successfully verified on all inputs
+[ForkJoinPool-8-worker-5] WARN COMMON - Artifact FinalResults.html already registered in REPORTS
+Result for onlyHolderCanChangeAllowance: onlyHolderCanChangeAllowance: withdraw(uint256): SUCCESS
+transferFrom(address,address,uint256): SUCCESS
+mint(address,uint256): SUCCESS
+name(): SUCCESS
+increaseAllowance(address,uint256): SUCCESS
+balanceOf(address): SUCCESS
+decreaseAllowance(address,uint256): SUCCESS
+totalSupply(): SUCCESS
+burn(address,uint256): SUCCESS
+decimals(): SUCCESS
+allowance(address,address): SUCCESS
+transfer(address,uint256): SUCCESS
+symbol(): SUCCESS
+deposit(): SUCCESS
+_owner(): SUCCESS
+approve(address,uint256): SUCCESS
+Report alert: Function transferFrom(address,address,uint256) was declared `envfree` but depends on the environment. Rules that call this function (without an `env` argument) may produce wrong results, or trigger internal errors.
+hint: Remove the `envfree` annotation from transferFrom(address,address,uint256)
+[main] WARN COMMON - No violated assertion found
+[main] WARN COMMON - No violated assertion found
+[main] WARN COMMON - No violated assertion found
+[main] WARN COMMON - No violated assertion found
+[main] WARN COMMON - No violated assertion found
+ERC20=ERC20 (0x2711)
+ERC20=ERC20 (0x2711)
+ERC20=ERC20 (0x2711)
+ERC20=ERC20 (0x2710)
+certoraInvF.isFallback=false
+certoraInvF.isPayable=true
+certoraInvF.isPure=false
+certoraInvF.isView=false
+certoraInvF.numberOfArguments=0
+certoraInvF.selector=0xd0e30db0
+invariantEnv.block.coinbase=0x401
+invariantEnv.block.difficulty=9
+invariantEnv.block.gaslimit=8
+invariantEnv.block.number=7
+invariantEnv.block.timestamp=6
+invariantEnv.msg.sender=0x2711
+invariantEnv.msg.value=2
+invariantEnv.tx.origin=0x402
+lastHasThrown=false
+lastReverted=false
+ERC20=ERC20 (0x2712)
+certoraInvF.isFallback=false
+certoraInvF.isPayable=false
+certoraInvF.isPure=false
+certoraInvF.isView=false
+certoraInvF.numberOfArguments=1
+certoraInvF.selector=0x2e1a7d4d
+invariantCalldata=bytemap initialized but unknown
+invariantEnv.block.coinbase=0x402
+invariantEnv.block.difficulty=8
+invariantEnv.block.gaslimit=7
+invariantEnv.block.number=5
+invariantEnv.block.timestamp=3
+invariantEnv.msg.sender=0x2711
+invariantEnv.msg.value=0
+invariantEnv.tx.origin=0x401
+lastHasThrown=false
+lastReverted=false
+ERC20=ERC20 (0x2711)
+alice=0x402
+bob=0x401
+certoraInvF.isFallback=false
+certoraInvF.isPayable=true
+certoraInvF.isPure=false
+certoraInvF.isView=false
+certoraInvF.numberOfArguments=0
+certoraInvF.selector=0xd0e30db0
+invariantEnv.block.coinbase=0x403
+invariantEnv.block.difficulty=10
+invariantEnv.block.gaslimit=9
+invariantEnv.block.number=3
+invariantEnv.block.timestamp=8
+invariantEnv.msg.sender=0x401
+invariantEnv.msg.value=5
+invariantEnv.tx.origin=0x404
+lastHasThrown=false
+lastReverted=false
+ERC20=ERC20 (0x474)
+alice=0x475
+bob=0x401
+certoraInvF.isFallback=false
+certoraInvF.isPayable=false
+certoraInvF.isPure=false
+certoraInvF.isView=false
+certoraInvF.numberOfArguments=2
+certoraInvF.selector=0x9dc29fac
+invariantCalldata=bytemap initialized but unknown
+invariantEnv.block.coinbase=0x403
+invariantEnv.block.difficulty=9
+invariantEnv.block.gaslimit=8
+invariantEnv.block.number=7
+invariantEnv.block.timestamp=6
+invariantEnv.msg.sender=ERC20 (0x474)
+invariantEnv.msg.value=0
+invariantEnv.tx.origin=0x402
+lastHasThrown=false
+lastReverted=false
+ERC20=ERC20 (0x16dc)
+alice=0x2712
+bob=0x2712
+certoraInvF.isFallback=false
+certoraInvF.isPayable=false
+certoraInvF.isPure=false
+certoraInvF.isView=false
+certoraInvF.numberOfArguments=2
+certoraInvF.selector=0x40c10f19
+invariantCalldata=bytemap initialized but unknown
+invariantEnv.block.coinbase=0x402
+invariantEnv.block.difficulty=9
+invariantEnv.block.gaslimit=8
+invariantEnv.block.number=7
+invariantEnv.block.timestamp=3
+invariantEnv.msg.sender=ERC20 (0x16dc)
+invariantEnv.msg.value=0
+invariantEnv.tx.origin=0x401
+lastHasThrown=false
+lastReverted=false
+Results for envfreeFuncsStaticCheck:
+*---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*
+|Rule name                               |Verified     |Time (sec)|Description                                                 |Local vars                                        |
+|----------------------------------------|-------------|----------|------------------------------------------------------------|--------------------------------------------------|
+|transferFrom(address,address,uint256)   |Violated     |0         |Assert message: Specification marks method                  |no local variables                                |
+|                                        |             |          |ERC20.transferFrom(address sender, address recipient,       |                                                  |
+|                                        |             |          |uint256 amount) returns (bool) as 'envfree' but the method  |                                                  |
+|                                        |             |          |uses restricted environment properties.                     |                                                  |
+|balanceOf(address)                      |Not violated |0         |                                                            |no local variables                                |
+|totalSupply()                           |Not violated |0         |                                                            |no local variables                                |
+|allowance(address,address)              |Not violated |0         |                                                            |no local variables                                |
+*---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*
+
+Results for totalSupplyIsSumOfBalances_preserve:
+*---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*
+|Rule name                               |Verified     |Time (sec)|Description                                                 |Local vars                                        |
+|----------------------------------------|-------------|----------|------------------------------------------------------------|--------------------------------------------------|
+|increaseAllowance(address,uint256)      |Not violated |3         |                                                            |no local variables                                |
+|transferFrom(address,address,uint256)   |Not violated |4         |                                                            |no local variables                                |
+|deposit()                               |Violated     |3         |Assert message: invariant violated in post-state            |ERC20=ERC20 (0x2710)                              |
+|                                        |             |          |                                                            |certoraInvF.isFallback=false                      |
+|                                        |             |          |                                                            |certoraInvF.isPayable=true                        |
+|                                        |             |          |                                                            |certoraInvF.isPure=false                          |
+|                                        |             |          |                                                            |certoraInvF.isView=false                          |
+|                                        |             |          |                                                            |certoraInvF.numberOfArguments=0                   |
+|                                        |             |          |                                                            |certoraInvF.selector=0xd0e30db0                   |
+|                                        |             |          |                                                            |invariantEnv.block.coinbase=0x401                 |
+|                                        |             |          |                                                            |invariantEnv.block.difficulty=9                   |
+|                                        |             |          |                                                            |invariantEnv.block.gaslimit=8                     |
+|                                        |             |          |                                                            |invariantEnv.block.number=7                       |
+|                                        |             |          |                                                            |invariantEnv.block.timestamp=6                    |
+|                                        |             |          |                                                            |invariantEnv.msg.sender=0x2711                    |
+|                                        |             |          |                                                            |invariantEnv.msg.value=2                          |
+|                                        |             |          |                                                            |invariantEnv.tx.origin=0x402                      |
+|                                        |             |          |                                                            |lastHasThrown=false                               |
+|                                        |             |          |                                                            |lastReverted=false                                |
+|decreaseAllowance(address,uint256)      |Not violated |0         |                                                            |no local variables                                |
+|transfer(address,uint256)               |Not violated |0         |                                                            |no local variables                                |
+|mint(address,uint256)                   |Not violated |1         |                                                            |no local variables                                |
+|withdraw(uint256)                       |Violated     |2         |Assert message: invariant violated in post-state            |ERC20=ERC20 (0x2712)                              |
+|                                        |             |          |                                                            |certoraInvF.isFallback=false                      |
+|                                        |             |          |                                                            |certoraInvF.isPayable=false                       |
+|                                        |             |          |                                                            |certoraInvF.isPure=false                          |
+|                                        |             |          |                                                            |certoraInvF.isView=false                          |
+|                                        |             |          |                                                            |certoraInvF.numberOfArguments=1                   |
+|                                        |             |          |                                                            |certoraInvF.selector=0x2e1a7d4d                   |
+|                                        |             |          |                                                            |invariantCalldata=bytemap initialized but unknown |
+|                                        |             |          |                                                            |invariantEnv.block.coinbase=0x402                 |
+|                                        |             |          |                                                            |invariantEnv.block.difficulty=8                   |
+|                                        |             |          |                                                            |invariantEnv.block.gaslimit=7                     |
+|                                        |             |          |                                                            |invariantEnv.block.number=5                       |
+|                                        |             |          |                                                            |invariantEnv.block.timestamp=3                    |
+|                                        |             |          |                                                            |invariantEnv.msg.sender=0x2711                    |
+|                                        |             |          |                                                            |invariantEnv.msg.value=0                          |
+|                                        |             |          |                                                            |invariantEnv.tx.origin=0x401                      |
+|                                        |             |          |                                                            |lastHasThrown=false                               |
+|                                        |             |          |                                                            |lastReverted=false                                |
+|burn(address,uint256)                   |Not violated |0         |                                                            |no local variables                                |
+|approve(address,uint256)                |Not violated |0         |                                                            |no local variables                                |
+*---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*
+
+Results for totalSupplyIsSumOfBalances:
+*---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*
+|Rule name                               |Verified     |Time (sec)|Description                                                 |Local vars                                        |
+|----------------------------------------|-------------|----------|------------------------------------------------------------|--------------------------------------------------|
+|totalSupplyIsSumOfBalances_preserve     |Violated     |13        |Assert message: invariant violated in post-state            |no local variables                                |
+|totalSupplyIsSumOfBalances_instate      |Not violated |0         |                                                            |no local variables                                |
+*---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*
+
+Results for balancesBoundedByTotalSupply_preserve:
+*---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*
+|Rule name                               |Verified     |Time (sec)|Description                                                 |Local vars                                        |
+|----------------------------------------|-------------|----------|------------------------------------------------------------|--------------------------------------------------|
+|increaseAllowance(address,uint256)      |Not violated |0         |                                                            |no local variables                                |
+|withdraw(uint256)                       |Not violated |0         |                                                            |no local variables                                |
+|decreaseAllowance(address,uint256)      |Not violated |0         |                                                            |no local variables                                |
+|deposit()                               |Violated     |1         |Assert message: invariant violated in post-state            |ERC20=ERC20 (0x2711)                              |
+|                                        |             |          |                                                            |alice=0x402                                       |
+|                                        |             |          |                                                            |bob=0x401                                         |
+|                                        |             |          |                                                            |certoraInvF.isFallback=false                      |
+|                                        |             |          |                                                            |certoraInvF.isPayable=true                        |
+|                                        |             |          |                                                            |certoraInvF.isPure=false                          |
+|                                        |             |          |                                                            |certoraInvF.isView=false                          |
+|                                        |             |          |                                                            |certoraInvF.numberOfArguments=0                   |
+|                                        |             |          |                                                            |certoraInvF.selector=0xd0e30db0                   |
+|                                        |             |          |                                                            |invariantEnv.block.coinbase=0x403                 |
+|                                        |             |          |                                                            |invariantEnv.block.difficulty=10                  |
+|                                        |             |          |                                                            |invariantEnv.block.gaslimit=9                     |
+|                                        |             |          |                                                            |invariantEnv.block.number=3                       |
+|                                        |             |          |                                                            |invariantEnv.block.timestamp=8                    |
+|                                        |             |          |                                                            |invariantEnv.msg.sender=0x401                     |
+|                                        |             |          |                                                            |invariantEnv.msg.value=5                          |
+|                                        |             |          |                                                            |invariantEnv.tx.origin=0x404                      |
+|                                        |             |          |                                                            |lastHasThrown=false                               |
+|                                        |             |          |                                                            |lastReverted=false                                |
+|approve(address,uint256)                |Not violated |0         |                                                            |no local variables                                |
+|burn(address,uint256)                   |Violated     |1         |Assert message: invariant violated in post-state            |ERC20=ERC20 (0x474)                               |
+|                                        |             |          |                                                            |alice=0x475                                       |
+|                                        |             |          |                                                            |bob=0x401                                         |
+|                                        |             |          |                                                            |certoraInvF.isFallback=false                      |
+|                                        |             |          |                                                            |certoraInvF.isPayable=false                       |
+|                                        |             |          |                                                            |certoraInvF.isPure=false                          |
+|                                        |             |          |                                                            |certoraInvF.isView=false                          |
+|                                        |             |          |                                                            |certoraInvF.numberOfArguments=2                   |
+|                                        |             |          |                                                            |certoraInvF.selector=0x9dc29fac                   |
+|                                        |             |          |                                                            |invariantCalldata=bytemap initialized but unknown |
+|                                        |             |          |                                                            |invariantEnv.block.coinbase=0x403                 |
+|                                        |             |          |                                                            |invariantEnv.block.difficulty=9                   |
+|                                        |             |          |                                                            |invariantEnv.block.gaslimit=8                     |
+|                                        |             |          |                                                            |invariantEnv.block.number=7                       |
+|                                        |             |          |                                                            |invariantEnv.block.timestamp=6                    |
+|                                        |             |          |                                                            |invariantEnv.msg.sender=ERC20 (0x474)             |
+|                                        |             |          |                                                            |invariantEnv.msg.value=0                          |
+|                                        |             |          |                                                            |invariantEnv.tx.origin=0x402                      |
+|                                        |             |          |                                                            |lastHasThrown=false                               |
+|                                        |             |          |                                                            |lastReverted=false                                |
+|mint(address,uint256)                   |Violated     |1         |Assert message: invariant violated in post-state            |ERC20=ERC20 (0x16dc)                              |
+|                                        |             |          |                                                            |alice=0x2712                                      |
+|                                        |             |          |                                                            |bob=0x2712                                        |
+|                                        |             |          |                                                            |certoraInvF.isFallback=false                      |
+|                                        |             |          |                                                            |certoraInvF.isPayable=false                       |
+|                                        |             |          |                                                            |certoraInvF.isPure=false                          |
+|                                        |             |          |                                                            |certoraInvF.isView=false                          |
+|                                        |             |          |                                                            |certoraInvF.numberOfArguments=2                   |
+|                                        |             |          |                                                            |certoraInvF.selector=0x40c10f19                   |
+|                                        |             |          |                                                            |invariantCalldata=bytemap initialized but unknown |
+|                                        |             |          |                                                            |invariantEnv.block.coinbase=0x402                 |
+|                                        |             |          |                                                            |invariantEnv.block.difficulty=9                   |
+|                                        |             |          |                                                            |invariantEnv.block.gaslimit=8                     |
+|                                        |             |          |                                                            |invariantEnv.block.number=7                       |
+|                                        |             |          |                                                            |invariantEnv.block.timestamp=3                    |
+|                                        |             |          |                                                            |invariantEnv.msg.sender=ERC20 (0x16dc)            |
+|                                        |             |          |                                                            |invariantEnv.msg.value=0                          |
+|                                        |             |          |                                                            |invariantEnv.tx.origin=0x401                      |
+|                                        |             |          |                                                            |lastHasThrown=false                               |
+|                                        |             |          |                                                            |lastReverted=false                                |
+*---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*
+
+Results for balancesBoundedByTotalSupply:
+*---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*
+|Rule name                               |Verified     |Time (sec)|Description                                                 |Local vars                                        |
+|----------------------------------------|-------------|----------|------------------------------------------------------------|--------------------------------------------------|
+|balancesBoundedByTotalSupply_preserve_ex|Not violated |5         |                                                            |no local variables                                |
+|plicit_transfer(address,uint256)        |             |          |                                                            |                                                  |
+|balancesBoundedByTotalSupply_preserve_ex|Not violated |1         |                                                            |no local variables                                |
+|plicit_transferFrom(address,address,uint|             |          |                                                            |                                                  |
+|256)                                    |             |          |                                                            |                                                  |
+|balancesBoundedByTotalSupply_preserve   |Violated     |3         |Assert message: invariant violated in post-state            |no local variables                                |
+|balancesBoundedByTotalSupply_instate    |Not violated |3         |                                                            |no local variables                                |
+*---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*
+
+Results for onlyHolderCanChangeAllowance:
+*---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*
+|Rule name                               |Verified     |Time (sec)|Description                                                 |Local vars                                        |
+|----------------------------------------|-------------|----------|------------------------------------------------------------|--------------------------------------------------|
+|withdraw(uint256)                       |Not violated |0         |                                                            |no local variables                                |
+|transferFrom(address,address,uint256)   |Not violated |1         |                                                            |no local variables                                |
+|mint(address,uint256)                   |Not violated |1         |                                                            |no local variables                                |
+|name()                                  |Not violated |0         |                                                            |no local variables                                |
+|increaseAllowance(address,uint256)      |Not violated |3         |                                                            |no local variables                                |
+|balanceOf(address)                      |Not violated |4         |                                                            |no local variables                                |
+|decreaseAllowance(address,uint256)      |Not violated |0         |                                                            |no local variables                                |
+|totalSupply()                           |Not violated |0         |                                                            |no local variables                                |
+|burn(address,uint256)                   |Not violated |1         |                                                            |no local variables                                |
+|decimals()                              |Not violated |0         |                                                            |no local variables                                |
+|allowance(address,address)              |Not violated |2         |                                                            |no local variables                                |
+|transfer(address,uint256)               |Not violated |1         |                                                            |no local variables                                |
+|symbol()                                |Not violated |0         |                                                            |no local variables                                |
+|deposit()                               |Not violated |0         |                                                            |no local variables                                |
+|_owner()                                |Not violated |0         |                                                            |no local variables                                |
+|approve(address,uint256)                |Not violated |1         |                                                            |no local variables                                |
+*---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*
+
+Results for all:
+*---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*
+|Rule name                               |Verified     |Time (sec)|Description                                                 |Local vars                                        |
+|----------------------------------------|-------------|----------|------------------------------------------------------------|--------------------------------------------------|
+|envfreeFuncsStaticCheck                 |Violated     |0         |Assert message: Specification marks method                  |no local variables                                |
+|                                        |             |          |ERC20.transferFrom(address sender, address recipient,       |                                                  |
+|                                        |             |          |uint256 amount) returns (bool) as 'envfree' but the method  |                                                  |
+|                                        |             |          |uses restricted environment properties.                     |                                                  |
+|transferFromDoesntRevert                |Violated     |2         |Assert message: "rule not implemented"                      |ERC20=ERC20 (0x2711)                              |
+|transferFromSpec                        |Violated     |2         |Assert message: "rule not implemented"                      |ERC20=ERC20 (0x2711)                              |
+|transferFromReverts                     |Violated     |2         |Assert message: "rule not implemented"                      |ERC20=ERC20 (0x2711)                              |
+|balancesBoundedByTotalSupply_instate    |Not violated |3         |                                                            |no local variables                                |
+|transferSpec                            |Not violated |6         |                                                            |no local variables                                |
+|transferReverts                         |Not violated |4         |                                                            |no local variables                                |
+|totalSupplyIsSumOfBalances_instate      |Not violated |0         |                                                            |no local variables                                |
+|transferDoesntRevert                    |Not violated |8         |                                                            |no local variables                                |
+|totalSupplyIsSumOfBalances              |Violated     |13        |Assert message: invariant violated in post-state            |no local variables                                |
+|balancesBoundedByTotalSupply            |Violated     |12        |Assert message: invariant violated in post-state            |no local variables                                |
+|onlyHolderCanChangeAllowance            |Not violated |14        |                                                            |no local variables                                |
+*---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*
+
+Failures summary:
+Failed on envfreeFuncsStaticCheck:
+Assert message: Specification marks method ERC20.transferFrom(address sender, address recipient, uint256 amount) returns (bool) as 'envfree' but the method uses restricted environment properties.
+Violated for: 
+transferFrom(address,address,uint256)
+
+Failed on transferFromDoesntRevert:
+Assert message: "rule not implemented"
+
+
+Failed on transferFromSpec:
+Assert message: "rule not implemented"
+
+
+Failed on transferFromReverts:
+Assert message: "rule not implemented"
+
+
+Failed on totalSupplyIsSumOfBalances:
+Assert message: invariant violated in post-state
+Violated for: 
+deposit(),
+withdraw(uint256)
+
+Failed on balancesBoundedByTotalSupply:
+Assert message: invariant violated in post-state
+Violated for: 
+deposit(),
+burn(address,uint256),
+mint(address,uint256)
+
+
+[main] WARN COMMON - Artifact FinalResults.html already registered in REPORTS
+Done 0m
+Reports in file:///home/sitvanit/EVMVerifier-all/examples/Examples/ERC20Example/emv-2-certora-11-Jul--15-14/Reports
+Final report in emv-2-certora-11-Jul--15-14/Reports/FinalResults.html

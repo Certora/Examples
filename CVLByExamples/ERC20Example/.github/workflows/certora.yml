@@ -1,0 +1,104 @@
+# This is an example configuration file for running Certora verification
+# through github actions.  You can see the results for each push in the
+# "Actions" tab on the github website.
+#
+name: Certora verification
+
+on:
+  push: {}
+  pull_request: {}
+  workflow_dispatch: {}
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      # check out the current version
+      - uses: actions/checkout@v2
+
+      # install Certora dependencies and CLI
+      - name: Install python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.10'
+          cache: 'pip'
+      - name: Install certora
+        run: pip install certora-cli
+
+      # the following is only necessary if your project depends on contracts
+      # installed using yarn
+      # - name: Install yarn
+      #   uses: actions/setup-node@v3
+      #   with:
+      #     node-version: 16
+      #     cache: 'yarn'
+      # - name: Install dependencies
+      #   run: yarn
+
+      # Install the appropriate version of solc
+      - name: Install solc
+        run: |
+          wget https://github.com/ethereum/solidity/releases/download/v0.8.0/solc-static-linux
+          sudo mv solc-static-linux /usr/local/bin/solc-0.8.0
+          chmod +x /usr/local/bin/solc-0.8.0
+
+      # Do the actual verification.  The `run` field could be simply
+      #
+      #   certoraRun certora/configs/${{ matrix.params }}
+      # 
+      # but we do a little extra work to get the commit messages into the
+      # `--msg` argument to `certoraRun`
+      #
+      # Here ${{ matrix.params }} gets replaced with each of the parameters
+      # listed in the `params` section below.
+      - name: Verify rule ${{ matrix.params.name }}
+        run: >
+          message="$(git log -n 1 --pretty=format:'CI ${{matrix.params.name}} %h .... %s')";
+          certoraRun \
+            certora/configs/${{ matrix.params.command }} \
+            --msg "$(echo $message | sed 's/[^a-zA-Z0-9., _-]/ /g')"
+        env:
+          # For this to work, you must set your CERTORAKEY secret on the github
+          # website (settings > secrets > actions > new repository secret)
+          CERTORAKEY: ${{ secrets.CERTORAKEY }}
+
+      # The following two steps save the output json as a github artifact.
+      # This can be useful for automation that collects the output.
+      - name: Download output json
+        if: always()
+        run: >
+          outputLink=$(sed 's/zipOutput/output/g' .zip-output-url.txt | sed 's/?/\/output.json?/g');
+          curl -L -b "certoraKey=$CERTORAKEY;" ${outputLink} --output output.json || true;
+          touch output.json;
+
+      - name: Archive output json
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: output for ${{ matrix.params.name }}
+          path: output.json
+
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix:
+        params:
+          # each of these commands is passed to the "Verify rule" step above,
+          # which runs certoraRun on certora/configs/<contents of the command>
+          #
+          # Note that each of these lines will appear as a separate run on
+          # prover.certora.com
+          #
+          # It is often helpful to split up by rule or even by method for a
+          # parametric rule, although it is certainly possible to run everything
+          # at once by not passing the `--rule` or `--method` options
+          - {name: transferSpec,                 command: 'ERC20.conf --rule transferSpec'}
+          - {name: transferReverts,              command: 'ERC20.conf --rule transferReverts'}
+          - {name: transferDoesntRevert,         command: 'ERC20.conf --rule transferDoesntRevert'}
+          - {name: transferFromSpec,             command: 'ERC20.conf --rule transferFromSpec'}
+          - {name: transferFromReverts,          command: 'ERC20.conf --rule transferFromReverts'}
+          - {name: transferFromDoesntRevert,     command: 'ERC20.conf --rule transferFromDoesntRevert'}
+          - {name: onlyHolderCanChangeAllowance, command: 'ERC20.conf --rule onlyHolderCanChangeAllowance'}
+          - {name: balancesBoundedByTotalSupply, command: 'ERC20.conf --rule balancesBoundedByTotalSupply'}
+          - {name: totalSupplyIsSumOfBalances,   command: 'ERC20.conf --rule totalSupplyIsSumOfBalances'}
+

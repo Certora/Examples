@@ -1,0 +1,513 @@
+        <!DOCTYPE html>
+        <html>
+        <!-- Tue Jul 11 15:15:23 IDT 2023 -->
+        <head>
+            <title>PresolverRule-onlyHolderCanChangeAllowance-approve(address,uint256) - Code Map</title>
+            <meta charset="utf-8"/>
+            <style>
+                .tooltip {
+                  position: relative;
+                  display: inline-block;
+                  border-bottom: 1px dotted black;
+                }
+
+                .tooltip .tooltiptext {
+                  visibility: hidden;
+                  width: 900px;
+                  background-color: red;
+                  color: #fff;
+                  text-align: center;
+                  border-radius: 6px;
+                  padding: 5px 0;
+
+                  /* Position the tooltip */
+                  position: fixed;
+                  z-index: 100000;
+                  top: 0;
+                  left: 25%;
+                  margin-left: -60px;
+                }
+
+                .deflink {
+                    color: inherit;
+                }
+            </style>
+            <script src="https://certora-web-resources.s3-us-west-2.amazonaws.com/svg-pan-zoom.min.js"></script>
+            <script type="text/javascript">
+                var highlightedAnchor = null;
+                var lastNodeColor = "white";
+
+                function highlightAnchor(anchorId) {
+                    var messagesDiv = document.getElementById("messages"); // must be not null
+                    messagesDiv.innerHTML = "";
+                    if (highlightedAnchor != null) {
+                        var lastBlock = document.getElementById("block"+highlightedAnchor);
+                        var lastEdgeS = document.getElementById("edgeS"+highlightedAnchor);
+                        var lastEdgeT = document.getElementById("edgeT"+highlightedAnchor);
+                        var lastEdgeP = document.getElementById("edgeP"+highlightedAnchor);
+                        var lastNode = document.getElementById(highlightedAnchor);
+                        if (lastBlock != null) {
+                            lastBlock.style.backgroundColor="white";
+                            if (lastEdgeS != null) lastEdgeS.style.backgroundColor="white";
+                            if (lastEdgeT != null) lastEdgeT.style.backgroundColor="white";
+                            if (lastEdgeP != null) lastEdgeP.style.backgroundColor="white";
+                        } else {
+                            //messagesDiv.innerHTML += "block " + highlightedAnchor + " does not exist.<br/>";
+                        }
+                        if (lastNode != null) {
+                            lastNode.children[1].attributes[0].value=lastNodeColor;
+                        }
+                    }
+                    highlightedAnchor = anchorId;
+                    var newBlock = document.getElementById("block"+highlightedAnchor);
+                    var newEdgeS = document.getElementById("edgeS"+highlightedAnchor);
+                    var newEdgeT = document.getElementById("edgeT"+highlightedAnchor);
+                    var newEdgeP = document.getElementById("edgeP"+highlightedAnchor);
+                    var newNode = document.getElementById(highlightedAnchor);
+                    if (newBlock != null) {
+                        newBlock.style.backgroundColor="yellow";
+                        if (newEdgeS != null) newEdgeS.style.backgroundColor="yellow";
+                        if (newEdgeT != null) newEdgeT.style.backgroundColor="yellow";
+                        if (newEdgeP != null) newEdgeP.style.backgroundColor="yellow";
+                    } else {
+                        messagesDiv.innerHTML += "block " + highlightedAnchor + " does not exist.<br/>";
+                    }
+                    if (newNode != null) {
+                        lastNodeColor = newNode.children[1].attributes[0].value
+                        newNode.children[1].attributes[0].value="yellow";
+                    }
+                    if (newEdgeS != null) {
+                        newEdgeS.scrollIntoView();
+                        //location.href = "#"+newEdgeS.id;
+                    }
+                    if (newEdgeP != null) {
+                        newEdgeP.scrollIntoView();
+                    }
+                }
+
+                function toggleSize() {
+                    var divCex = document.getElementById("cex");
+                    if (divCex != null) {
+                        if (divCex.style.width == "250px") {
+                            divCex.style.width = "900px";
+                        } else {
+                            divCex.style.width = "250px";
+                        }
+                    }
+                }
+
+                var lastSvgEventListener = null;
+
+                var currentSVG = "0";
+                function toggleSVG(svgId) {
+                    var _svgcurrent = document.getElementById("svgOf"+currentSVG);
+                    var _svgnew = document.getElementById("svgOf"+svgId);
+                    _svgcurrent.style.visibility = "hidden";
+                    _svgnew.style.visibility = "visible";
+
+                    var _blockscurrent = document.getElementById("blocksAndEdges"+currentSVG);
+                    var _blocksnew = document.getElementById("blocksAndEdges"+svgId);
+                    _blockscurrent.style.visibility = "hidden";
+                    _blocksnew.style.visibility = "visible";
+
+                    var _magCurrent = document.getElementById("mag_" + currentSVG);
+                    var _magNew = document.getElementById("mag_" + svgId);
+                    _magCurrent.style.visibility = "hidden";
+                    _magNew.style.visibility = "visible";
+
+                    if (currentSVG != "0")
+						var _pannedsvgcurrent = document.getElementById("theSVG"+currentSVG)
+					else
+						var _pannedsvgcurrent = document.getElementById("theSVG");
+					if (svgId != "0")
+						var svgsuffix = svgId
+					else
+						var svgsuffix = "";
+					var _pannedsvgnew = document.getElementById("theSVG"+svgsuffix);
+
+                    if (_pannedsvgcurrent != null) {
+					    svgPanZoom(_pannedsvgcurrent).destroy();
+                    }
+
+                    if (_pannedsvgnew != null) {
+                        lastSvgEventListener = svgPanZoom('#theSVG'+svgsuffix, {
+                                      zoomEnabled: true,
+                                      controlIconsEnabled: true,
+                                      fit: true,
+                                      center: true,
+                                      // viewportSelector: document.getElementById('theSVG').querySelector('#g4') // this option will make library to misbehave. Viewport should have no transform attribute
+                                    });
+                    }
+
+                    currentSVG = svgId;
+                }
+
+                var highlightedDef = null;
+                var highlightedUseCls = null;
+                var lastNodeColor = "white";
+                function highlightDef(def) {
+                    var messagesDiv = document.getElementById("messages"); // must be not null
+                    messagesDiv.innerHTML = "";
+                    if (highlightedDef != null) {
+                        var lastDef = document.getElementById(highlightedDef);
+                        if (lastDef != null) {
+                            lastDef.style.backgroundColor = "white";
+                        }
+                        var useElements = document.getElementsByClassName(highlightedUseCls);
+                        for (var i = 0 ; i < useElements.length; i++) {
+                            useElements[i].style.backgroundColor = "white";
+                        }
+                    }
+                    highlightedDef = "def_" + def;
+                    highlightedUseCls = "use_" + def;
+                    var newDef = document.getElementById(highlightedDef);
+                    if (newDef != null) {
+                        newDef.style.backgroundColor = "yellow";
+                        var useElements = document.getElementsByClassName(highlightedUseCls);
+                        for (var i = 0 ; i < useElements.length; i++) {
+                            useElements[i].style.backgroundColor = "yellow";
+                        }
+                    } else {
+                        messagesDiv.innerHTML += "def " + def + " does not exist in this method.<br/>"
+                    }
+                }
+
+                var highlightedIntFun = null;
+                function toggleInternalFun(id) {
+                    if (highlightedIntFun != null) {
+                        var lastStart = document.getElementById("intfunStart_"+highlightedIntFun);
+                        var lastEnd = document.getElementById("intfunEnd_"+highlightedIntFun);
+                        if (lastStart != null) {
+                            lastStart.style.backgroundColor="white";
+                        }
+                        if (lastEnd != null) {
+                            lastEnd.style.backgroundColor="white";
+                        }
+                    }
+
+                    highlightedIntFun = id;
+                    var newStart = document.getElementById("intfunStart_"+highlightedIntFun);
+                    var newEnd = document.getElementById("intfunEnd_"+highlightedIntFun);
+                    if (newStart != null) {
+                        newStart.style.backgroundColor="#ffccff"
+                    }
+                    if (newEnd != null) {
+                        newEnd.style.backgroundColor="#ffccff"
+                    }
+                }
+            </script>
+            <style>
+                html {
+                    height:100%;
+                    margin:0;
+                    padding:0;
+                }
+                body {
+                    font-family: monospace;
+                    height:100%;
+                    overflow: hidden;
+                    margin:0;
+                    padding:0;
+                }
+                svg { width: 100%; height: auto; }
+            </style>
+        </head>
+        <body>
+
+            <div style="position:fixed;width:250px;top:0;right:0;color:black;background-color:#e6e6e6;z-index:100;overflow-y: auto;max-height:400px;" id="cex" ondblclick="toggleSize()">
+                <div style="display:inline-block;z-index:100;">
+                Full variable assignments<br/>
+                <b>Double click to show/hide</b>
+                <br/><br/>
+                
+                </div>
+            </div>
+
+            <div style="position:fixed;width:300px;top:420px;right:0;color:blue;background-color:#e6e6e6;z-index:100;overflow-y:auto;max-height:200px;" id="tabs">
+                <div style="display:inline-block;z-index:100;">
+                    Method calls quick lookup:<br/>
+                    <a style="background-color: #e6e6e6;" href="#blank0" onclick="toggleSVG('0')">0:  main<span id="mag_0" style="visibility:visible;">&nbsp;🔍</span></a><br/><a style="background-color: #e6e6e6;" href="#blank1" onclick="toggleSVG('1')">1: <span style="color:#15942a;"><b>→</b></span> ERC20.allowance<span id="mag_1" style="visibility:hidden;">&nbsp;🔍</span></a><br/><a style="background-color: #e6e6e6;" href="#blank2" onclick="toggleSVG('2')">2: <span style="color:#15942a;"><b>→</b></span> ERC20.approve<span id="mag_2" style="visibility:hidden;">&nbsp;🔍</span></a><br/><a style="background-color: #e6e6e6;" href="#blank3" onclick="toggleSVG('3')">3: <span style="color:#15942a;"><b>→</b></span> ERC20.allowance<span id="mag_3" style="visibility:hidden;">&nbsp;🔍</span></a>
+                </div>
+            </div>
+
+            <div style="position:fixed;bottom:0;left:0;color:white;background-color:red;" id="messages"></div>
+
+            <!-- SVG -->
+                                <div id="svgOf0" style="position:absolute;left:40%;top:0;overflow:scroll;height:90%;visibility:visible"><svg id="theSVG" width="215pt" height="476pt"
+ viewBox="0.00 0.00 214.68 476.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 472)">
+<title>PresolverRule&#45;onlyHolderCanChangeAllowance&#45;approve(address,uint256)_main</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-472 210.68,-472 210.68,4 -4,4"/>
+<!-- 0_0_0_0_0_0 -->
+<g id="0_0_0_0_0_0" class="node">
+<title>0_0_0_0_0_0</title>
+<ellipse fill="none" stroke="black" cx="103.34" cy="-450" rx="67.69" ry="18"/>
+<a href="#block0_0_0_0_0_0" onclick="highlightAnchor('0_0_0_0_0_0')"><text text-anchor="middle" x="103.34" y="-446.3" font-family="Times,serif" font-size="14.00">0_0_0_0_0_0</text></a>
+</g>
+<!-- 1: ERC20.allowance -->
+<g id="1: ERC20.allowance" class="node">
+<title>1: ERC20.allowance</title>
+<ellipse fill="none" stroke="black" stroke-dasharray="5,2" cx="103.34" cy="-378" rx="103.18" ry="18"/>
+<a href="#blank1" onclick="toggleSVG('1')"><text text-anchor="middle" x="103.34" y="-374.3" font-family="Times,serif" font-size="14.00">1: ERC20.allowance</text></a>
+</g>
+<!-- 0_0_0_0_0_0&#45;&gt;1: ERC20.allowance -->
+<g id="edge1" class="edge">
+<title>0_0_0_0_0_0&#45;&gt;1: ERC20.allowance</title>
+<path fill="none" stroke="black" d="M103.34,-431.7C103.34,-423.98 103.34,-414.71 103.34,-406.11"/>
+<polygon fill="black" stroke="black" points="106.84,-406.1 103.34,-396.1 99.84,-406.1 106.84,-406.1"/>
+</g>
+<!-- 1_0_0_0_0_0 -->
+<g id="1_0_0_0_0_0" class="node">
+<title>1_0_0_0_0_0</title>
+<ellipse fill="none" stroke="black" cx="103.34" cy="-306" rx="67.69" ry="18"/>
+<a href="#block1_0_0_0_0_0" onclick="highlightAnchor('1_0_0_0_0_0')"><text text-anchor="middle" x="103.34" y="-302.3" font-family="Times,serif" font-size="14.00">1_0_0_0_0_0</text></a>
+</g>
+<!-- 2: ERC20.approve -->
+<g id="2: ERC20.approve" class="node">
+<title>2: ERC20.approve</title>
+<ellipse fill="none" stroke="black" stroke-dasharray="5,2" cx="103.34" cy="-234" rx="94.78" ry="18"/>
+<a href="#blank2" onclick="toggleSVG('2')"><text text-anchor="middle" x="103.34" y="-230.3" font-family="Times,serif" font-size="14.00">2: ERC20.approve</text></a>
+</g>
+<!-- 1_0_0_0_0_0&#45;&gt;2: ERC20.approve -->
+<g id="edge2" class="edge">
+<title>1_0_0_0_0_0&#45;&gt;2: ERC20.approve</title>
+<path fill="none" stroke="black" d="M103.34,-287.7C103.34,-279.98 103.34,-270.71 103.34,-262.11"/>
+<polygon fill="black" stroke="black" points="106.84,-262.1 103.34,-252.1 99.84,-262.1 106.84,-262.1"/>
+</g>
+<!-- 3_0_0_0_0_0 -->
+<g id="3_0_0_0_0_0" class="node">
+<title>3_0_0_0_0_0</title>
+<ellipse fill="none" stroke="black" cx="103.34" cy="-18" rx="67.69" ry="18"/>
+<a href="#block3_0_0_0_0_0" onclick="highlightAnchor('3_0_0_0_0_0')"><text text-anchor="middle" x="103.34" y="-14.3" font-family="Times,serif" font-size="14.00">3_0_0_0_0_0</text></a>
+</g>
+<!-- 2_0_0_0_0_0 -->
+<g id="2_0_0_0_0_0" class="node">
+<title>2_0_0_0_0_0</title>
+<ellipse fill="none" stroke="black" cx="103.34" cy="-162" rx="67.69" ry="18"/>
+<a href="#block2_0_0_0_0_0" onclick="highlightAnchor('2_0_0_0_0_0')"><text text-anchor="middle" x="103.34" y="-158.3" font-family="Times,serif" font-size="14.00">2_0_0_0_0_0</text></a>
+</g>
+<!-- 3: ERC20.allowance -->
+<g id="3: ERC20.allowance" class="node">
+<title>3: ERC20.allowance</title>
+<ellipse fill="none" stroke="black" stroke-dasharray="5,2" cx="103.34" cy="-90" rx="103.18" ry="18"/>
+<a href="#blank3" onclick="toggleSVG('3')"><text text-anchor="middle" x="103.34" y="-86.3" font-family="Times,serif" font-size="14.00">3: ERC20.allowance</text></a>
+</g>
+<!-- 2_0_0_0_0_0&#45;&gt;3: ERC20.allowance -->
+<g id="edge3" class="edge">
+<title>2_0_0_0_0_0&#45;&gt;3: ERC20.allowance</title>
+<path fill="none" stroke="black" d="M103.34,-143.7C103.34,-135.98 103.34,-126.71 103.34,-118.11"/>
+<polygon fill="black" stroke="black" points="106.84,-118.1 103.34,-108.1 99.84,-118.1 106.84,-118.1"/>
+</g>
+<!-- 1: ERC20.allowance&#45;&gt;1_0_0_0_0_0 -->
+<g id="edge4" class="edge">
+<title>1: ERC20.allowance&#45;&gt;1_0_0_0_0_0</title>
+<path fill="none" stroke="black" d="M103.34,-359.7C103.34,-351.98 103.34,-342.71 103.34,-334.11"/>
+<polygon fill="black" stroke="black" points="106.84,-334.1 103.34,-324.1 99.84,-334.1 106.84,-334.1"/>
+</g>
+<!-- 2: ERC20.approve&#45;&gt;2_0_0_0_0_0 -->
+<g id="edge5" class="edge">
+<title>2: ERC20.approve&#45;&gt;2_0_0_0_0_0</title>
+<path fill="none" stroke="black" d="M103.34,-215.7C103.34,-207.98 103.34,-198.71 103.34,-190.11"/>
+<polygon fill="black" stroke="black" points="106.84,-190.1 103.34,-180.1 99.84,-190.1 106.84,-190.1"/>
+</g>
+<!-- 3: ERC20.allowance&#45;&gt;3_0_0_0_0_0 -->
+<g id="edge6" class="edge">
+<title>3: ERC20.allowance&#45;&gt;3_0_0_0_0_0</title>
+<path fill="none" stroke="black" d="M103.34,-71.7C103.34,-63.98 103.34,-54.71 103.34,-46.11"/>
+<polygon fill="black" stroke="black" points="106.84,-46.1 103.34,-36.1 99.84,-46.1 106.84,-46.1"/>
+</g>
+</g>
+</svg></div>
+                                <div id="svgOf1" style="position:absolute;left:40%;top:0;overflow:scroll;height:90%;visibility:hidden"><svg id="theSVG1" width="143pt" height="44pt"
+ viewBox="0.00 0.00 143.19 44.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 40)">
+<title>PresolverRule&#45;onlyHolderCanChangeAllowance&#45;approve(address,uint256)1</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-40 139.19,-40 139.19,4 -4,4"/>
+<!-- 0_0_0_1_0_0 -->
+<g id="0_0_0_1_0_0" class="node">
+<title>0_0_0_1_0_0</title>
+<ellipse fill="none" stroke="black" cx="67.59" cy="-18" rx="67.69" ry="18"/>
+<a href="#block0_0_0_1_0_0" onclick="highlightAnchor('0_0_0_1_0_0')"><text text-anchor="middle" x="67.59" y="-14.3" font-family="Times,serif" font-size="14.00">0_0_0_1_0_0</text></a>
+</g>
+</g>
+</svg></div>
+                    <div id="svgOf2" style="position:absolute;left:40%;top:0;overflow:scroll;height:90%;visibility:hidden"><svg id="theSVG2" width="143pt" height="44pt"
+ viewBox="0.00 0.00 143.19 44.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 40)">
+<title>PresolverRule&#45;onlyHolderCanChangeAllowance&#45;approve(address,uint256)2</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-40 139.19,-40 139.19,4 -4,4"/>
+<!-- 0_0_0_2_0_0 -->
+<g id="0_0_0_2_0_0" class="node">
+<title>0_0_0_2_0_0</title>
+<ellipse fill="none" stroke="black" cx="67.59" cy="-18" rx="67.69" ry="18"/>
+<a href="#block0_0_0_2_0_0" onclick="highlightAnchor('0_0_0_2_0_0')"><text text-anchor="middle" x="67.59" y="-14.3" font-family="Times,serif" font-size="14.00">0_0_0_2_0_0</text></a>
+</g>
+</g>
+</svg></div>
+                    <div id="svgOf3" style="position:absolute;left:40%;top:0;overflow:scroll;height:90%;visibility:hidden"><svg id="theSVG3" width="143pt" height="44pt"
+ viewBox="0.00 0.00 143.19 44.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 40)">
+<title>PresolverRule&#45;onlyHolderCanChangeAllowance&#45;approve(address,uint256)3</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-40 139.19,-40 139.19,4 -4,4"/>
+<!-- 0_0_0_3_0_0 -->
+<g id="0_0_0_3_0_0" class="node">
+<title>0_0_0_3_0_0</title>
+<ellipse fill="none" stroke="black" cx="67.59" cy="-18" rx="67.69" ry="18"/>
+<a href="#block0_0_0_3_0_0" onclick="highlightAnchor('0_0_0_3_0_0')"><text text-anchor="middle" x="67.59" y="-14.3" font-family="Times,serif" font-size="14.00">0_0_0_3_0_0</text></a>
+</g>
+</g>
+</svg></div>
+
+            <!-- BLOCKS -->
+            <div id="blocksAndEdges0" style="position:fixed;height:100%;width:40%;display:inline-block;border:1px">
+                            <div id="blocksHtml0" style="overflow: scroll; height: 90%;"><a name="block0_0_0_0_0_0" id="block0_0_0_0_0_0" href="#block0_0_0_0_0_0" onclick="highlightAnchor('0_0_0_0_0_0')">Block 0_0_0_0_0_0:</a>
+<span id="def_tacExtcodesize!!0">tacExtcodesize!!0</span> = havoc</br><span id="def_tacBalance!!2">tacBalance!!2</span> = havoc</br><span id="def_CANON12">CANON12</span> = havoc</br><span id="def_CANON13">CANON13</span> = havoc</br><span id="def_CANON28!!3">CANON28!!3</span> = havoc</br><span id="def_CANON34">CANON34</span> = havoc</br><span id="def_CANON35">CANON35</span> = havoc</br><span id="def_CANON36">CANON36</span> = havoc</br><span id="def_CANON37">CANON37</span> = havoc</br><span id="def_CANON38">CANON38</span> = havoc</br><span id="def_CANON39">CANON39</span> = havoc</br><span id="def_CANON40">CANON40</span> = havoc</br><span id="def_CANON41">CANON41</span> = havoc</br><span id="def_CANON48">CANON48</span> = havoc</br><span id="def_CANON50">CANON50</span> = havoc</br><span id="def_R4">R4</span> = havoc</br><span id="def_tacSighash!!5">tacSighash!!5</span> = havoc</br><span id="def_tacSighash!!6">tacSighash!!6</span> = havoc</br><span id="def_tacSighash!!7">tacSighash!!7</span> = havoc</br><span id="def_CANON0">CANON0</span> = 0x95ea7b3</br><span id="def_CANON1">CANON1</span> = false</br><span id="def_CANON2">CANON2</span> = false</br><span id="def_CANON3">CANON3</span> = false</br><span id="def_CANON4">CANON4</span> = 0x2</br><span id="def_CANON5">CANON5</span> = false</br><span style="color:#156194;"><span style="color:#15942a;"><b>→</b></span> Setup</span></br><span style="color:#156194;"><span style="color:#15942a;"><b>→</b></span> multi contract setup</span></br><span style="color:#156194;"><span style="color:#FF0000;"><b>←</b></span></span></br><span style="color:#156194;"><span style="color:#15942a;"><b>→</b></span> rule parameters setup</span></br><span style="color:#156194;"><span style="color:#FF0000;"><b>←</b></span></span></br><span style="color:#156194;"><span style="color:#15942a;"><b>→</b></span> contract address vars initialized</span></br><span style="color:#156194;"><span style="color:#FF0000;"><b>←</b></span></span></br><span style="color:#156194;"><span style="color:#15942a;"><b>→</b></span> setup read tracking instrumentation</span></br><span style="color:#156194;"><span style="color:#FF0000;"><b>←</b></span></span></br><span style="color:#156194;"><span style="color:#15942a;"><b>→</b></span> last storage initialize</span></br><span style="color:#FF8C00;">Take snapshot of storage  in <a href="#def_lastStorage" class="deflink use_lastStorage" onclick="highlightDef('lastStorage')">lastStorage</a></span></br><span style="color:#156194;"><span style="color:#FF0000;"><b>←</b></span></span></br><span style="color:#156194;"><span style="color:#15942a;"><b>→</b></span> assumptions about extcodesize</span></br><span id="def_B8">B8</span> = <a href="#def_tacExtcodesize!!0" class="deflink use_tacExtcodesize!!0" onclick="highlightDef('tacExtcodesize!!0')">tacExtcodesize!!0</a>[to_skey:bif(<a href="#def_R4" class="deflink use_R4" onclick="highlightDef('R4')">R4</a>)]&gt;0x0</br><span style="color:#CC29E9;">assume <a href="#def_B8" class="deflink use_B8" onclick="highlightDef('B8')">B8</a></span></br><span style="color:#156194;"><span style="color:#FF0000;"><b>←</b></span></span></br><span style="color:#156194;"><span style="color:#15942a;"><b>→</b></span> assumptions about contracts' addresses</span></br><span style="color:#CC29E9;">assume <a href="#def_R4" class="deflink use_R4" onclick="highlightDef('R4')">R4</a>&gt;0x0</span></br><span style="color:#CC29E9;">assume <a href="#def_R4" class="deflink use_R4" onclick="highlightDef('R4')">R4</a>&lt;=MASK160</span></br><span style="color:#156194;"><span style="color:#FF0000;"><b>←</b></span></span></br><span style="color:#156194;"><span style="color:#15942a;"><b>→</b></span> assumptions about starting balances</span></br><span id="def_R11">R11</span> = <a href="#def_tacBalance!!2" class="deflink use_tacBalance!!2" onclick="highlightDef('tacBalance!!2')">tacBalance!!2</a>[to_skey:bif(<a href="#def_R4" class="deflink use_R4" onclick="highlightDef('R4')">R4</a>)]</br><span style="color:#CC29E9;">assume <a href="#def_R11" class="deflink use_R11" onclick="highlightDef('R11')">R11</a>&gt;=0x0</span></br><span style="color:#156194;"><span style="color:#FF0000;"><b>←</b></span></span></br><span style="color:#156194;"><span style="color:#15942a;"><b>→</b></span> assumptions about static addresses</span></br><span style="color:#156194;"><span style="color:#FF0000;"><b>←</b></span></span></br><span style="color:#156194;"><span style="color:#15942a;"><b>→</b></span> assumptions about uniqueness of contracts' addressses</span></br><span style="color:#156194;"><span style="color:#FF0000;"><b>←</b></span></span></br><span style="color:#156194;"><span style="color:#15942a;"><b>→</b></span> record starting nonces</span></br><span style="color:#156194;"><span style="color:#FF0000;"><b>←</b></span></span></br><span style="color:#156194;"><span style="color:#15942a;"><b>→</b></span> cloned contracts have no balances</span></br><span style="color:#156194;"><span style="color:#FF0000;"><b>←</b></span></span></br><span style="color:#156194;"><span style="color:#15942a;"><b>→</b></span> Linked immutable setup</span></br><span style="color:#156194;"><span style="color:#FF0000;"><b>←</b></span></span></br><span style="color:#156194;"><span style="color:#FF0000;"><b>←</b></span></span></br><span style="color:#CC29E9;">assume (<a href="#def_CANON12" class="deflink use_CANON12" onclick="highlightDef('CANON12')">CANON12</a>&lt;=MASK160)&&(<a href="#def_CANON12" class="deflink use_CANON12" onclick="highlightDef('CANON12')">CANON12</a>&gt;=0x0)</span></br><span style="color:#CC29E9;">assume (<a href="#def_CANON13" class="deflink use_CANON13" onclick="highlightDef('CANON13')">CANON13</a>&lt;=MASK160)&&(<a href="#def_CANON13" class="deflink use_CANON13" onclick="highlightDef('CANON13')">CANON13</a>&gt;=0x0)</span></br><span style="color:#156194;"><span style="color:#15942a;"><b>→</b></span> allowance_before = ERC20.allowance(owner=holder, spender=spender)</span></br><span id="def_I15">I15</span> = <a href="#def_CANON12" class="deflink use_CANON12" onclick="highlightDef('CANON12')">CANON12</a></br><span id="def_I16">I16</span> = <a href="#def_CANON13" class="deflink use_CANON13" onclick="highlightDef('CANON13')">CANON13</a>
+<br/></br><a name="block1_0_0_0_0_0" id="block1_0_0_0_0_0" href="#block1_0_0_0_0_0" onclick="highlightAnchor('1_0_0_0_0_0')">Block 1_0_0_0_0_0:</a>
+<span style="color:#CC29E9;">assume !false</span></br><span style="color:#CC29E9;">assume !false</span></br><span style="color:#FF8C00;">Take snapshot of storage  in <a href="#def_lastStorage" class="deflink use_lastStorage" onclick="highlightDef('lastStorage')">lastStorage</a></span></br><span style="color:#156194;"><span style="color:#FF0000;"><b>←</b></span></span></br><span style="color:#CC29E9;">assume (<a href="#def_CANON34" class="deflink use_CANON34" onclick="highlightDef('CANON34')">CANON34</a>&lt;=MASK160)&&(<a href="#def_CANON34" class="deflink use_CANON34" onclick="highlightDef('CANON34')">CANON34</a>&gt;=0x0)</span></br><span style="color:#CC29E9;">assume (<a href="#def_CANON35" class="deflink use_CANON35" onclick="highlightDef('CANON35')">CANON35</a>&lt;=MASK256)&&(<a href="#def_CANON35" class="deflink use_CANON35" onclick="highlightDef('CANON35')">CANON35</a>&gt;=0x0)</span></br><span style="color:#CC29E9;">assume (<a href="#def_CANON36" class="deflink use_CANON36" onclick="highlightDef('CANON36')">CANON36</a>&lt;=MASK160)&&(<a href="#def_CANON36" class="deflink use_CANON36" onclick="highlightDef('CANON36')">CANON36</a>&gt;=0x0)</span></br><span style="color:#CC29E9;">assume (<a href="#def_CANON37" class="deflink use_CANON37" onclick="highlightDef('CANON37')">CANON37</a>&lt;=MASK160)&&(<a href="#def_CANON37" class="deflink use_CANON37" onclick="highlightDef('CANON37')">CANON37</a>&gt;=0x0)</span></br><span style="color:#CC29E9;">assume (<a href="#def_CANON38" class="deflink use_CANON38" onclick="highlightDef('CANON38')">CANON38</a>&lt;=MASK256)&&(<a href="#def_CANON38" class="deflink use_CANON38" onclick="highlightDef('CANON38')">CANON38</a>&gt;=0x0)</span></br><span style="color:#CC29E9;">assume (<a href="#def_CANON39" class="deflink use_CANON39" onclick="highlightDef('CANON39')">CANON39</a>&lt;=MASK256)&&(<a href="#def_CANON39" class="deflink use_CANON39" onclick="highlightDef('CANON39')">CANON39</a>&gt;=0x0)</span></br><span style="color:#CC29E9;">assume (<a href="#def_CANON40" class="deflink use_CANON40" onclick="highlightDef('CANON40')">CANON40</a>&lt;=MASK256)&&(<a href="#def_CANON40" class="deflink use_CANON40" onclick="highlightDef('CANON40')">CANON40</a>&gt;=0x0)</span></br><span style="color:#CC29E9;">assume (<a href="#def_CANON41" class="deflink use_CANON41" onclick="highlightDef('CANON41')">CANON41</a>&lt;=MASK256)&&(<a href="#def_CANON41" class="deflink use_CANON41" onclick="highlightDef('CANON41')">CANON41</a>&gt;=0x0)</span></br><span style="color:#156194;"><span style="color:#15942a;"><b>→</b></span> ERC20.f(e, args)</span></br><span style="color:#156194;"><span title="PushRecord(callee=MethodRef(contractId=274184521717934524641157099916833587203, sigHash=SigHash(95ea7b3), attr=COMMON), summary=null, calleeId=2)"><span style="color:#15942a;"><b>→</b></span> Solidity call 2</span></span></br><span style="color:#CC29E9;">assume <a href="#def_CANON50" class="deflink use_CANON50" onclick="highlightDef('CANON50')">CANON50</a>&gt;=0x44</span></br><span style="color:#CC29E9;">assume MASK255&gt;=<a href="#def_CANON50" class="deflink use_CANON50" onclick="highlightDef('CANON50')">CANON50</a></span></br><span id="def_R103">R103</span> = <a href="#def_CANON48" class="deflink use_CANON48" onclick="highlightDef('CANON48')">CANON48</a>[0x4]</br><span id="def_tacCalldatabufCANON0@2">tacCalldatabufCANON0@2</span> = <a href="#def_R103" class="deflink use_R103" onclick="highlightDef('R103')">R103</a></br><span id="def_R104">R104</span> = <a href="#def_CANON48" class="deflink use_CANON48" onclick="highlightDef('CANON48')">CANON48</a>[0x24]</br><span id="def_tacCalldatabufCANON1@2">tacCalldatabufCANON1@2</span> = <a href="#def_R104" class="deflink use_R104" onclick="highlightDef('R104')">R104</a></br><span id="def_B106">B106</span> = (MASK256&gt;=<a href="#def_CANON34" class="deflink use_CANON34" onclick="highlightDef('CANON34')">CANON34</a>)&&(0x0&lt;=<a href="#def_CANON34" class="deflink use_CANON34" onclick="highlightDef('CANON34')">CANON34</a>)</br><span style="color:#FF0000;">assert <a href="#def_B106" class="deflink use_B106" onclick="highlightDef('B106')">B106</a>, sanity bounds check on cvl to vm encoding of tacTmp!2090:int failed</span></br><span id="def_R107">R107</span> = safe_math_narrow:bif(<a href="#def_CANON34" class="deflink use_CANON34" onclick="highlightDef('CANON34')">CANON34</a>)</br><span style="color:#CC29E9;">assume (<a href="#def_R107" class="deflink use_R107" onclick="highlightDef('R107')">R107</a>&lt;=MASK160)&&(<a href="#def_R107" class="deflink use_R107" onclick="highlightDef('R107')">R107</a>&gt;=0x0)</span></br><span id="def_B111">B111</span> = (MASK256&gt;=<a href="#def_CANON35" class="deflink use_CANON35" onclick="highlightDef('CANON35')">CANON35</a>)&&(0x0&lt;=<a href="#def_CANON35" class="deflink use_CANON35" onclick="highlightDef('CANON35')">CANON35</a>)</br><span style="color:#FF0000;">assert <a href="#def_B111" class="deflink use_B111" onclick="highlightDef('B111')">B111</a>, sanity bounds check on cvl to vm encoding of tacTmp!2093:int failed</span></br><span id="def_R112">R112</span> = safe_math_narrow:bif(<a href="#def_CANON35" class="deflink use_CANON35" onclick="highlightDef('CANON35')">CANON35</a>)</br><span style="color:#CC29E9;">assume (<a href="#def_R112" class="deflink use_R112" onclick="highlightDef('R112')">R112</a>&lt;=MASK256)&&(<a href="#def_R112" class="deflink use_R112" onclick="highlightDef('R112')">R112</a>&gt;=0x0)</span></br><span id="def_B117">B117</span> = (MASK256&gt;=<a href="#def_CANON36" class="deflink use_CANON36" onclick="highlightDef('CANON36')">CANON36</a>)&&(0x0&lt;=<a href="#def_CANON36" class="deflink use_CANON36" onclick="highlightDef('CANON36')">CANON36</a>)</br><span style="color:#FF0000;">assert <a href="#def_B117" class="deflink use_B117" onclick="highlightDef('B117')">B117</a>, sanity bounds check on cvl to vm encoding of tacTmp!2097:int failed</span></br><span id="def_R118">R118</span> = safe_math_narrow:bif(<a href="#def_CANON36" class="deflink use_CANON36" onclick="highlightDef('CANON36')">CANON36</a>)</br><span style="color:#CC29E9;">assume (<a href="#def_R118" class="deflink use_R118" onclick="highlightDef('R118')">R118</a>&lt;=MASK160)&&(<a href="#def_R118" class="deflink use_R118" onclick="highlightDef('R118')">R118</a>&gt;=0x0)</span></br><span id="def_B122">B122</span> = (MASK256&gt;=<a href="#def_CANON40" class="deflink use_CANON40" onclick="highlightDef('CANON40')">CANON40</a>)&&(0x0&lt;=<a href="#def_CANON40" class="deflink use_CANON40" onclick="highlightDef('CANON40')">CANON40</a>)</br><span style="color:#FF0000;">assert <a href="#def_B122" class="deflink use_B122" onclick="highlightDef('B122')">B122</a>, sanity bounds check on cvl to vm encoding of tacTmp!2100:int failed</span></br><span id="def_R123">R123</span> = safe_math_narrow:bif(<a href="#def_CANON40" class="deflink use_CANON40" onclick="highlightDef('CANON40')">CANON40</a>)</br><span style="color:#CC29E9;">assume (<a href="#def_R123" class="deflink use_R123" onclick="highlightDef('R123')">R123</a>&lt;=MASK256)&&(<a href="#def_R123" class="deflink use_R123" onclick="highlightDef('R123')">R123</a>&gt;=0x0)</span></br><span id="def_B127">B127</span> = (MASK256&gt;=<a href="#def_CANON41" class="deflink use_CANON41" onclick="highlightDef('CANON41')">CANON41</a>)&&(0x0&lt;=<a href="#def_CANON41" class="deflink use_CANON41" onclick="highlightDef('CANON41')">CANON41</a>)</br><span style="color:#FF0000;">assert <a href="#def_B127" class="deflink use_B127" onclick="highlightDef('B127')">B127</a>, sanity bounds check on cvl to vm encoding of tacTmp!2103:int failed</span></br><span id="def_R128">R128</span> = safe_math_narrow:bif(<a href="#def_CANON41" class="deflink use_CANON41" onclick="highlightDef('CANON41')">CANON41</a>)</br><span style="color:#CC29E9;">assume (<a href="#def_R128" class="deflink use_R128" onclick="highlightDef('R128')">R128</a>&lt;=MASK256)&&(<a href="#def_R128" class="deflink use_R128" onclick="highlightDef('R128')">R128</a>&gt;=0x0)</span></br><span id="def_B132">B132</span> = (MASK256&gt;=<a href="#def_CANON35" class="deflink use_CANON35" onclick="highlightDef('CANON35')">CANON35</a>)&&(0x0&lt;=<a href="#def_CANON35" class="deflink use_CANON35" onclick="highlightDef('CANON35')">CANON35</a>)</br><span style="color:#FF0000;">assert <a href="#def_B132" class="deflink use_B132" onclick="highlightDef('B132')">B132</a>, sanity bounds check on cvl to vm encoding of tacTmp!2106:int failed</span></br><span id="def_R133">R133</span> = safe_math_narrow:bif(<a href="#def_CANON35" class="deflink use_CANON35" onclick="highlightDef('CANON35')">CANON35</a>)</br><span id="def_B135">B135</span> = (MASK256&gt;=<a href="#def_CANON34" class="deflink use_CANON34" onclick="highlightDef('CANON34')">CANON34</a>)&&(0x0&lt;=<a href="#def_CANON34" class="deflink use_CANON34" onclick="highlightDef('CANON34')">CANON34</a>)</br><span style="color:#FF0000;">assert <a href="#def_B135" class="deflink use_B135" onclick="highlightDef('B135')">B135</a>, sanity bounds check on cvl to vm encoding of tacTmp!2109:int failed</span></br><span id="def_R136">R136</span> = safe_math_narrow:bif(<a href="#def_CANON34" class="deflink use_CANON34" onclick="highlightDef('CANON34')">CANON34</a>)</br><span id="def_R139">R139</span> = <a href="#def_tacBalance!!2" class="deflink use_tacBalance!!2" onclick="highlightDef('tacBalance!!2')">tacBalance!!2</a>[to_skey:bif(<a href="#def_R136" class="deflink use_R136" onclick="highlightDef('R136')">R136</a>)]</br><span id="def_I140">I140</span> = <a href="#def_R139" class="deflink use_R139" onclick="highlightDef('R139')">R139</a> -int <a href="#def_R133" class="deflink use_R133" onclick="highlightDef('R133')">R133</a></br><span id="def_tacBalance!!141">tacBalance!!141</span> = Store(<a href="#def_tacBalance!!2" class="deflink use_tacBalance!!2" onclick="highlightDef('tacBalance!!2')">tacBalance!!2</a> to_skey:bif(<a href="#def_R136" class="deflink use_R136" onclick="highlightDef('R136')">R136</a>) <a href="#def_I140" class="deflink use_I140" onclick="highlightDef('I140')">I140</a>)</br><span id="def_R142">R142</span> = <a href="#def_tacBalance!!141" class="deflink use_tacBalance!!141" onclick="highlightDef('tacBalance!!141')">tacBalance!!141</a>[to_skey:bif(<a href="#def_R4" class="deflink use_R4" onclick="highlightDef('R4')">R4</a>)]</br><span id="def_R143">R143</span> = <a href="#def_R142" class="deflink use_R142" onclick="highlightDef('R142')">R142</a>+<a href="#def_R133" class="deflink use_R133" onclick="highlightDef('R133')">R133</a></br><span style="color:#CC29E9;">assume add_noofl:bif(<a href="#def_R142" class="deflink use_R142" onclick="highlightDef('R142')">R142</a>,<a href="#def_R133" class="deflink use_R133" onclick="highlightDef('R133')">R133</a>)</span></br><span style="color:#156194;">Transferring <a href="#def_R133" class="deflink use_R133" onclick="highlightDef('R133')">R133</a> from <a href="#def_R136" class="deflink use_R136" onclick="highlightDef('R136')">R136</a> to <a href="#def_R4" class="deflink use_R4" onclick="highlightDef('R4')">R4</a></span></br>goto: <a href="#block0_0_0_2_0_0" onclick="highlightAnchor('0_0_0_2_0_0')">0_0_0_2_0_0</a>
+<br/></br><a name="block3_0_0_0_0_0" id="block3_0_0_0_0_0" href="#block3_0_0_0_0_0" onclick="highlightAnchor('3_0_0_0_0_0')">Block 3_0_0_0_0_0:</a>
+<span style="color:#CC29E9;">assume !false</span></br><span style="color:#CC29E9;">assume !false</span></br><span style="color:#FF8C00;">Take snapshot of storage  in <a href="#def_lastStorage" class="deflink use_lastStorage" onclick="highlightDef('lastStorage')">lastStorage</a></span></br><span style="color:#156194;"><span style="color:#FF0000;"><b>←</b></span></span></br><span style="color:#156194;"><span style="color:#15942a;"><b>→</b></span> assert allowance_after > allowance_before => e.msg.sender == holder</span></br><span id="def_I145">I145</span> = <a href="#def_CANON100" class="deflink use_CANON100" onclick="highlightDef('CANON100')">CANON100</a></br><span id="def_I146">I146</span> = <a href="#def_CANON33" class="deflink use_CANON33" onclick="highlightDef('CANON33')">CANON33</a></br><span id="def_B147">B147</span> = <a href="#def_I145" class="deflink use_I145" onclick="highlightDef('I145')">I145</a>&gt;<a href="#def_I146" class="deflink use_I146" onclick="highlightDef('I146')">I146</a></br><span id="def_I149">I149</span> = <a href="#def_CANON12" class="deflink use_CANON12" onclick="highlightDef('CANON12')">CANON12</a></br><span id="def_CANON106!!150">CANON106!!150</span> = <a href="#def_CANON34" class="deflink use_CANON34" onclick="highlightDef('CANON34')">CANON34</a>==<a href="#def_I149" class="deflink use_I149" onclick="highlightDef('I149')">I149</a></br><span id="def_CANON108!!151">CANON108!!151</span> = !<a href="#def_B147" class="deflink use_B147" onclick="highlightDef('B147')">B147</a>||<a href="#def_CANON106!!150" class="deflink use_CANON106!!150" onclick="highlightDef('CANON106!!150')">CANON106!!150</a></br><span style="color:#FF0000;">assert <a href="#def_CANON108!!151" class="deflink use_CANON108!!151" onclick="highlightDef('CANON108!!151')">CANON108!!151</a>, "approve must only change the sender's allowance"</span></br><span style="color:#156194;"><span style="color:#FF0000;"><b>←</b></span></span></br><span style="color:#156194;"><span style="color:#15942a;"><b>→</b></span> assert allowance_after > allowance_before => f.selector == sig:ERC20.approve(address, uint256).selector || f.selector == sig:ERC20.increaseAllowance(address, uint256).selector</span></br><span id="def_CANON112">CANON112</span> = true</br><span id="def_CANON113">CANON113</span> = false</br><span id="def_CANON114">CANON114</span> = true</br><span id="def_CANON115">CANON115</span> = true</br><span style="color:#FF0000;">assert true, "only approve and increaseAllowance can increase allowances"</span></br><span style="color:#156194;"><span style="color:#FF0000;"><b>←</b></span></span>
+<br/></br><a name="block2_0_0_0_0_0" id="block2_0_0_0_0_0" href="#block2_0_0_0_0_0" onclick="highlightAnchor('2_0_0_0_0_0')">Block 2_0_0_0_0_0:</a>
+<span style="color:#156194;"><span title="PopRecord(calleeId=2)"><span style="color:#FF0000;"><b>←</b></span> Solidity call 2</span></span></br><span style="color:#CC29E9;">assume !false</span></br><span style="color:#CC29E9;">assume !false</span></br><span style="color:#FF8C00;">Take snapshot of storage  in <a href="#def_lastStorage" class="deflink use_lastStorage" onclick="highlightDef('lastStorage')">lastStorage</a></span></br><span style="color:#156194;"><span style="color:#FF0000;"><b>←</b></span></span></br><span style="color:#156194;"><span style="color:#15942a;"><b>→</b></span> allowance_after = ERC20.allowance(owner=holder, spender=spender)</span></br><span id="def_I178">I178</span> = <a href="#def_CANON12" class="deflink use_CANON12" onclick="highlightDef('CANON12')">CANON12</a></br><span id="def_I179">I179</span> = <a href="#def_CANON13" class="deflink use_CANON13" onclick="highlightDef('CANON13')">CANON13</a>
+<br/></br><a name="block0_0_0_1_0_0" id="block0_0_0_1_0_0" href="#block0_0_0_1_0_0" onclick="highlightAnchor('0_0_0_1_0_0')">Block 0_0_0_1_0_0:</a>
+<span style="color:#737373;">::1: ERC20.allowance::</span>
+<br/></br><a name="block0_0_0_2_0_0" id="block0_0_0_2_0_0" href="#block0_0_0_2_0_0" onclick="highlightAnchor('0_0_0_2_0_0')">Block 0_0_0_2_0_0:</a>
+<span style="color:#737373;">::2: ERC20.approve::</span>
+<br/></br><a name="block0_0_0_3_0_0" id="block0_0_0_3_0_0" href="#block0_0_0_3_0_0" onclick="highlightAnchor('0_0_0_3_0_0')">Block 0_0_0_3_0_0:</a>
+<span style="color:#737373;">::3: ERC20.allowance::</span>
+<br/></div>
+            <div id="edgesHtml0" style="overflow: scroll; height: 10%;">Successor map:<br/>Edge <a name="edgeS1_0_0_0_0_0" id="edgeS1_0_0_0_0_0" href="#block1_0_0_0_0_0" onclick="highlightAnchor('1_0_0_0_0_0')">1_0_0_0_0_0</a>
+    -> <a name="edgeT0_0_0_2_0_0" id="edgeT0_0_0_2_0_0" href="#block0_0_0_2_0_0" onclick="highlightAnchor('0_0_0_2_0_0')">0_0_0_2_0_0</a>:
+true </br>Edge <a name="edgeS0_0_0_2_0_0" id="edgeS0_0_0_2_0_0" href="#block0_0_0_2_0_0" onclick="highlightAnchor('0_0_0_2_0_0')">0_0_0_2_0_0</a>
+    -> <a name="edgeT2_0_0_0_0_0" id="edgeT2_0_0_0_0_0" href="#block2_0_0_0_0_0" onclick="highlightAnchor('2_0_0_0_0_0')">2_0_0_0_0_0</a>:
+true </br>Edge <a name="edgeS0_0_0_3_0_0" id="edgeS0_0_0_3_0_0" href="#block0_0_0_3_0_0" onclick="highlightAnchor('0_0_0_3_0_0')">0_0_0_3_0_0</a>
+    -> <a name="edgeT3_0_0_0_0_0" id="edgeT3_0_0_0_0_0" href="#block3_0_0_0_0_0" onclick="highlightAnchor('3_0_0_0_0_0')">3_0_0_0_0_0</a>:
+true </br>Edge <a name="edgeS2_0_0_0_0_0" id="edgeS2_0_0_0_0_0" href="#block2_0_0_0_0_0" onclick="highlightAnchor('2_0_0_0_0_0')">2_0_0_0_0_0</a>
+    -> <a name="edgeT0_0_0_3_0_0" id="edgeT0_0_0_3_0_0" href="#block0_0_0_3_0_0" onclick="highlightAnchor('0_0_0_3_0_0')">0_0_0_3_0_0</a>:
+true </br>Edge <a name="edgeS0_0_0_0_0_0" id="edgeS0_0_0_0_0_0" href="#block0_0_0_0_0_0" onclick="highlightAnchor('0_0_0_0_0_0')">0_0_0_0_0_0</a>
+    -> <a name="edgeT0_0_0_1_0_0" id="edgeT0_0_0_1_0_0" href="#block0_0_0_1_0_0" onclick="highlightAnchor('0_0_0_1_0_0')">0_0_0_1_0_0</a>:
+true </br>Edge <a name="edgeS0_0_0_1_0_0" id="edgeS0_0_0_1_0_0" href="#block0_0_0_1_0_0" onclick="highlightAnchor('0_0_0_1_0_0')">0_0_0_1_0_0</a>
+    -> <a name="edgeT1_0_0_0_0_0" id="edgeT1_0_0_0_0_0" href="#block1_0_0_0_0_0" onclick="highlightAnchor('1_0_0_0_0_0')">1_0_0_0_0_0</a>:
+true </div>
+            </div>
+                                    <div id="blocksAndEdges1" style="position:fixed;height:100%;width:40%;display:inline-block;border:1px;visibility:hidden;">
+                                    <div id="blocksHtml1" style="overflow: scroll; height: 90%;"><a name="block0_0_0_1_0_0" id="block0_0_0_1_0_0" href="#block0_0_0_1_0_0" onclick="highlightAnchor('0_0_0_1_0_0')">Block 0_0_0_1_0_0:</a>
+<span style="color:#156194;"><span title="PushRecord(callee=MethodRef(contractId=274184521717934524641157099916833587203, sigHash=SigHash(dd62ed3e), attr=COMMON), summary=null, calleeId=1)"><span style="color:#15942a;"><b>→</b></span> Solidity call 1</span></span></br><span id="def_tacCalldatasize!!17">tacCalldatasize!!17</span> = havoc</br><span style="color:#CC29E9;">assume add_noofl:bif(0x4,0x40)</span></br><span style="color:#CC29E9;">assume add_noofl:bif(0x4,0x0)</span></br><span id="def_B20">B20</span> = (MASK256&gt;=<a href="#def_I15" class="deflink use_I15" onclick="highlightDef('I15')">I15</a>)&&(0x0&lt;=<a href="#def_I15" class="deflink use_I15" onclick="highlightDef('I15')">I15</a>)</br><span style="color:#FF0000;">assert <a href="#def_B20" class="deflink use_B20" onclick="highlightDef('B20')">B20</a>, sanity bounds check on cvl to vm encoding of certoraArg14071410:int failed</span></br><span id="def_R21">R21</span> = safe_math_narrow:bif(<a href="#def_I15" class="deflink use_I15" onclick="highlightDef('I15')">I15</a>)</br><span style="color:#CC29E9;">assume add_noofl:bif(0x4,0x20)</span></br><span id="def_B23">B23</span> = (MASK256&gt;=<a href="#def_I16" class="deflink use_I16" onclick="highlightDef('I16')">I16</a>)&&(0x0&lt;=<a href="#def_I16" class="deflink use_I16" onclick="highlightDef('I16')">I16</a>)</br><span style="color:#FF0000;">assert <a href="#def_B23" class="deflink use_B23" onclick="highlightDef('B23')">B23</a>, sanity bounds check on cvl to vm encoding of certoraArg14111412:int failed</span></br><span id="def_R24">R24</span> = safe_math_narrow:bif(<a href="#def_I16" class="deflink use_I16" onclick="highlightDef('I16')">I16</a>)</br><span style="color:#CC29E9;">assume 0x44==<a href="#def_tacCalldatasize!!17" class="deflink use_tacCalldatasize!!17" onclick="highlightDef('tacCalldatasize!!17')">tacCalldatasize!!17</a></span></br><span style="color:#737373;">::Start procedure ERC20-allowance(address,address)::</span></br><span style="color:#737373;">TRANSIENT::fps.free-pointer-is-scalarized=true::</span></br><span id="def_R27">R27</span> = <a href="#def_tacExtcodesize!!0" class="deflink use_tacExtcodesize!!0" onclick="highlightDef('tacExtcodesize!!0')">tacExtcodesize!!0</a>[to_skey:bif(<a href="#def_R4" class="deflink use_R4" onclick="highlightDef('R4')">R4</a>)]</br><span style="color:#CC29E9;">assume <a href="#def_R27" class="deflink use_R27" onclick="highlightDef('R27')">R27</a>&gt;0x0</span></br><span style="color:#15942a;">No unresolved internal functions!</span></br><span style="color:#737373;">TRANSIENT::fps.free-pointer-is-scalarized=true::</span></br><span style="color:#CC29E9;">assume !(<a href="#def_tacCalldatasize!!17" class="deflink use_tacCalldatasize!!17" onclick="highlightDef('tacCalldatasize!!17')">tacCalldatasize!!17</a>&lt;0x4)</span></br><span style="color:#CC29E9;">assume !(0x70a08231&gt;<a href="#def_tacSighash!!5" class="deflink use_tacSighash!!5" onclick="highlightDef('tacSighash!!5')">tacSighash!!5</a>)</span></br><span style="color:#CC29E9;">assume !(0xa9059cbb&gt;<a href="#def_tacSighash!!5" class="deflink use_tacSighash!!5" onclick="highlightDef('tacSighash!!5')">tacSighash!!5</a>)</span></br><span style="color:#CC29E9;">assume !(0xa9059cbb==<a href="#def_tacSighash!!5" class="deflink use_tacSighash!!5" onclick="highlightDef('tacSighash!!5')">tacSighash!!5</a>)</span></br><span style="color:#CC29E9;">assume !(0xb2bdfa7b==<a href="#def_tacSighash!!5" class="deflink use_tacSighash!!5" onclick="highlightDef('tacSighash!!5')">tacSighash!!5</a>)</span></br><span style="color:#CC29E9;">assume !(0xd0e30db0==<a href="#def_tacSighash!!5" class="deflink use_tacSighash!!5" onclick="highlightDef('tacSighash!!5')">tacSighash!!5</a>)</span></br><span style="color:#CC29E9;">assume 0xdd62ed3e==<a href="#def_tacSighash!!5" class="deflink use_tacSighash!!5" onclick="highlightDef('tacSighash!!5')">tacSighash!!5</a></span></br><span class="tooltip"><span style="color:#CC29E9;">assume true</span> <span class="tooltiptext" tooltipatt="1"></span></span></br><span id="def_R36">R36</span> = <a href="#def_tacCalldatasize!!17" class="deflink use_tacCalldatasize!!17" onclick="highlightDef('tacCalldatasize!!17')">tacCalldatasize!!17</a>-0x4</br><span style="color:#CC29E9;">assume !(<a href="#def_R36" class="deflink use_R36" onclick="highlightDef('R36')">R36</a>s&lt;0x40)</span></br><span style="color:#CC29E9;">assume <a href="#def_R21" class="deflink use_R21" onclick="highlightDef('R21')">R21</a>&lt;=MASK160</span></br><span style="color:#CC29E9;">assume <a href="#def_R24" class="deflink use_R24" onclick="highlightDef('R24')">R24</a>&lt;=MASK160</span></br><span style="color:#156194;"><span title="InternalFuncStartAnnotation(id=0, startPc=4858, args=[InternalFuncArg(s=R21:bv256, offset=1, sort=SCALAR), InternalFuncArg(s=R24:bv256, offset=2, sort=SCALAR)], methodSignature=ERC20.allowance(address owner, address spender) returns (uint256), stackOffsetToArgPos={1=0, 2=1}, callSiteSrc=(5647:535:0:0xce4604a0000000000000000000000003) // contracts/ERC20.sol)"><span style="color:#15942a;"><b>→</b></span> Method call <a id="intfunStart_0" onclick="toggleInternalFun(0)"><u>0</u></a> to allowance(address owner = <a href="#def_R21" class="deflink use_R21" onclick="highlightDef('R21')">R21</a>, address spender = <a href="#def_R24" class="deflink use_R24" onclick="highlightDef('R24')">R24</a>)</span></span></br><span class="tooltip"><span id="def_R44">R44</span> = hash_3_keccak:bif(skey_basic:bif(0x40),to_skey:bif(<a href="#def_R21" class="deflink use_R21" onclick="highlightDef('R21')">R21</a>),skey_basic:bif(0x1)) <span class="tooltiptext" tooltipatt="2"></span></span></br><span class="tooltip"><span id="def_R48">R48</span> = hash_3_keccak:bif(skey_basic:bif(0x40),to_skey:bif(<a href="#def_R24" class="deflink use_R24" onclick="highlightDef('R24')">R24</a>),<a href="#def_R44" class="deflink use_R44" onclick="highlightDef('R44')">R44</a>) <span class="tooltiptext" tooltipatt="3"></span></span></br><span class="tooltip"><span id="def_R49">R49</span> = <a href="#def_CANON28!!3" class="deflink use_CANON28!!3" onclick="highlightDef('CANON28!!3')">CANON28!!3</a>[<a href="#def_R48" class="deflink use_R48" onclick="highlightDef('R48')">R48</a>] <span style="color:#15942a;">// accessPaths = _allowances[k = R21:bv256][k = R24:bv256]</span> <span class="tooltiptext" tooltipatt="3"></span></span></br><span style="color:#737373;">TRANSIENT::snippet.cmd=LoadSnippet(value=R49:bv256, displayPath=_allowances[k = R21:bv256][k = R24:bv256], storageType=uint256, contractInstance=274184521717934524641157099916833587203, linkableStorageReadId=vc.data.SnippetCmd$EVMSnippetCmd$StorageSnippet$LoadSnippet$None@6d1e4eb8)::</span></br><span style="color:#156194;"><span title="InternalFuncExitAnnotation(id=0, rets=[InternalFuncRet(s=R49:bv256, offset=0)], functionLayout={0=InternalFuncValueLocation.Scalar})"><span style="color:#FF0000;"><b>←</b></span> Method call <a id="intfunEnd_0" onclick="toggleInternalFun(0)"><u>0</u></a></span></span></br><span style="color:#737373;">TRANSIENT::snippet.cmd=EVMFunctionReturnWrite(returnbufOffset=0, returnValueSym=R49:bv256, callIndex=1)::</span></br><span style="color:#737373;">TRANSIENT::tac.return.path=NoValue::</span></br><span style="color:#737373;">::End procedure ERC20-allowance(address,address)::</span></br><span id="def_CANON33">CANON33</span> = <a href="#def_R49" class="deflink use_R49" onclick="highlightDef('R49')">R49</a></br><span style="color:#156194;"><span title="PopRecord(calleeId=1)"><span style="color:#FF0000;"><b>←</b></span> Solidity call 1</span></span>
+<br/></div>
+            <div id="edgesHtml1" style="overflow: scroll; height: 10%;">Successor map:<br/>Edge <a name="edgeS0_0_0_0_0_0" id="edgeS0_0_0_0_0_0" href="#block0_0_0_0_0_0" onclick="highlightAnchor('0_0_0_0_0_0')">0_0_0_0_0_0</a>
+    -> <a name="edgeT0_0_0_1_0_0" id="edgeT0_0_0_1_0_0" href="#block0_0_0_1_0_0" onclick="highlightAnchor('0_0_0_1_0_0')">0_0_0_1_0_0</a>:
+true </br>Edge <a name="edgeS0_0_0_1_0_0" id="edgeS0_0_0_1_0_0" href="#block0_0_0_1_0_0" onclick="highlightAnchor('0_0_0_1_0_0')">0_0_0_1_0_0</a>
+    -> <a name="edgeT1_0_0_0_0_0" id="edgeT1_0_0_0_0_0" href="#block1_0_0_0_0_0" onclick="highlightAnchor('1_0_0_0_0_0')">1_0_0_0_0_0</a>:
+true </div>
+                        </div>
+                        <div id="blocksAndEdges2" style="position:fixed;height:100%;width:40%;display:inline-block;border:1px;visibility:hidden;">
+                                    <div id="blocksHtml2" style="overflow: scroll; height: 90%;"><a name="block0_0_0_2_0_0" id="block0_0_0_2_0_0" href="#block0_0_0_2_0_0" onclick="highlightAnchor('0_0_0_2_0_0')">Block 0_0_0_2_0_0:</a>
+<span style="color:#737373;">::Start procedure ERC20-approve(address,uint256)::</span></br><span style="color:#737373;">TRANSIENT::fps.free-pointer-is-scalarized=true::</span></br><span id="def_R152">R152</span> = <a href="#def_tacExtcodesize!!0" class="deflink use_tacExtcodesize!!0" onclick="highlightDef('tacExtcodesize!!0')">tacExtcodesize!!0</a>[to_skey:bif(<a href="#def_R4" class="deflink use_R4" onclick="highlightDef('R4')">R4</a>)]</br><span style="color:#CC29E9;">assume <a href="#def_R152" class="deflink use_R152" onclick="highlightDef('R152')">R152</a>&gt;0x0</span></br><span style="color:#15942a;">No unresolved internal functions!</span></br><span style="color:#737373;">TRANSIENT::fps.free-pointer-is-scalarized=true::</span></br><span style="color:#CC29E9;">assume !(<a href="#def_CANON50" class="deflink use_CANON50" onclick="highlightDef('CANON50')">CANON50</a>&lt;0x4)</span></br><span style="color:#CC29E9;">assume 0x70a08231&gt;<a href="#def_tacSighash!!6" class="deflink use_tacSighash!!6" onclick="highlightDef('tacSighash!!6')">tacSighash!!6</a></span></br><span style="color:#CC29E9;">assume 0x2e1a7d4d&gt;<a href="#def_tacSighash!!6" class="deflink use_tacSighash!!6" onclick="highlightDef('tacSighash!!6')">tacSighash!!6</a></span></br><span style="color:#CC29E9;">assume !(0x6fdde03==<a href="#def_tacSighash!!6" class="deflink use_tacSighash!!6" onclick="highlightDef('tacSighash!!6')">tacSighash!!6</a>)</span></br><span style="color:#CC29E9;">assume 0x95ea7b3==<a href="#def_tacSighash!!6" class="deflink use_tacSighash!!6" onclick="highlightDef('tacSighash!!6')">tacSighash!!6</a></span></br><span style="color:#CC29E9;">assume <a href="#def_R112" class="deflink use_R112" onclick="highlightDef('R112')">R112</a>==0x0</span></br><span id="def_R160">R160</span> = <a href="#def_CANON50" class="deflink use_CANON50" onclick="highlightDef('CANON50')">CANON50</a>-0x4</br><span style="color:#CC29E9;">assume !(<a href="#def_R160" class="deflink use_R160" onclick="highlightDef('R160')">R160</a>s&lt;0x40)</span></br><span id="def_R162">R162</span> = <a href="#def_tacCalldatabufCANON0@2" class="deflink use_tacCalldatabufCANON0@2" onclick="highlightDef('tacCalldatabufCANON0@2')">tacCalldatabufCANON0@2</a></br><span style="color:#CC29E9;">assume <a href="#def_R103" class="deflink use_R103" onclick="highlightDef('R103')">R103</a>&lt;=MASK160</span></br><span id="def_R164">R164</span> = <a href="#def_tacCalldatabufCANON1@2" class="deflink use_tacCalldatabufCANON1@2" onclick="highlightDef('tacCalldatabufCANON1@2')">tacCalldatabufCANON1@2</a></br><span style="color:#156194;"><span title="InternalFuncStartAnnotation(id=1, startPc=1158, args=[InternalFuncArg(s=R162:bv256, offset=1, sort=SCALAR), InternalFuncArg(s=R164:bv256, offset=2, sort=SCALAR)], methodSignature=ERC20.approve(address spender, uint256 amount) returns (bool), stackOffsetToArgPos={1=0, 2=1}, callSiteSrc=(6320:541:0:0xce4604a0000000000000000000000003) // contracts/ERC20.sol)"><span style="color:#15942a;"><b>→</b></span> Method call <a id="intfunStart_1" onclick="toggleInternalFun(1)"><u>1</u></a> to approve(address spender = <a href="#def_R162" class="deflink use_R162" onclick="highlightDef('R162')">R162</a>, uint256 amount = <a href="#def_R164" class="deflink use_R164" onclick="highlightDef('R164')">R164</a>)</span></span></br><span style="color:#156194;"><span title="InternalFuncStartAnnotation(id=2, startPc=5140, args=[InternalFuncArg(s=R107:bv256, offset=1, sort=SCALAR), InternalFuncArg(s=R162:bv256, offset=2, sort=SCALAR), InternalFuncArg(s=R164:bv256, offset=3, sort=SCALAR)], methodSignature=ERC20._approve(address owner, address spender, uint256 amount), stackOffsetToArgPos={1=0, 2=1, 3=2}, callSiteSrc=(6796:37:0:0xce4604a0000000000000000000000003) // contracts/ERC20.sol)"><span style="color:#15942a;"><b>→</b></span> Method call <a id="intfunStart_2" onclick="toggleInternalFun(2)"><u>2</u></a> to _approve(address owner = <a href="#def_R107" class="deflink use_R107" onclick="highlightDef('R107')">R107</a>, address spender = <a href="#def_R162" class="deflink use_R162" onclick="highlightDef('R162')">R162</a>, uint256 amount = <a href="#def_R164" class="deflink use_R164" onclick="highlightDef('R164')">R164</a>)</span></span></br><span style="color:#CC29E9;">assume !(<a href="#def_R107" class="deflink use_R107" onclick="highlightDef('R107')">R107</a>==0x0)</span></br><span style="color:#CC29E9;">assume !(<a href="#def_R103" class="deflink use_R103" onclick="highlightDef('R103')">R103</a>==0x0)</span></br><span class="tooltip"><span id="def_R171">R171</span> = hash_3_keccak:bif(skey_basic:bif(0x40),to_skey:bif(<a href="#def_R107" class="deflink use_R107" onclick="highlightDef('R107')">R107</a>),skey_basic:bif(0x1)) <span class="tooltiptext" tooltipatt="4"></span></span></br><span id="def_R172">R172</span> = <a href="#def_tacCalldatabufCANON0@2" class="deflink use_tacCalldatabufCANON0@2" onclick="highlightDef('tacCalldatabufCANON0@2')">tacCalldatabufCANON0@2</a></br><span class="tooltip"><span id="def_R175">R175</span> = hash_3_keccak:bif(skey_basic:bif(0x40),to_skey:bif(<a href="#def_R103" class="deflink use_R103" onclick="highlightDef('R103')">R103</a>),<a href="#def_R171" class="deflink use_R171" onclick="highlightDef('R171')">R171</a>) <span class="tooltiptext" tooltipatt="5"></span></span></br><span class="tooltip"><span id="def_CANON28!!176">CANON28!!176</span> = Store(<a href="#def_CANON28!!3" class="deflink use_CANON28!!3" onclick="highlightDef('CANON28!!3')">CANON28!!3</a> <a href="#def_R175" class="deflink use_R175" onclick="highlightDef('R175')">R175</a> <a href="#def_R104" class="deflink use_R104" onclick="highlightDef('R104')">R104</a>) <span style="color:#15942a;">// accessPaths = _allowances[k = R107:bv256][k = R172:bv256]</span> <span class="tooltiptext" tooltipatt="6"></span></span></br><span style="color:#737373;">TRANSIENT::snippet.cmd=StoreSnippet(value=R164:bv256, displayPath=_allowances[k = R107:bv256][k = R172:bv256], storageType=uint256, contractInstance=274184521717934524641157099916833587203)::</span></br><span style="color:#156194;"><span title="InternalFuncExitAnnotation(id=2, rets=[], functionLayout={})"><span style="color:#FF0000;"><b>←</b></span> Method call <a id="intfunEnd_2" onclick="toggleInternalFun(2)"><u>2</u></a></span></span></br><span id="def_R177">R177</span> = 0x1</br><span style="color:#156194;"><span title="InternalFuncExitAnnotation(id=1, rets=[InternalFuncRet(s=R177:bv256, offset=0)], functionLayout={0=InternalFuncValueLocation.Scalar})"><span style="color:#FF0000;"><b>←</b></span> Method call <a id="intfunEnd_1" onclick="toggleInternalFun(1)"><u>1</u></a></span></span></br><span style="color:#737373;">TRANSIENT::snippet.cmd=EVMFunctionReturnWrite(returnbufOffset=0, returnValueSym=true, callIndex=2)::</span></br><span style="color:#737373;">TRANSIENT::tac.return.path=NoValue::</span></br><span style="color:#737373;">::End procedure ERC20-approve(address,uint256)::</span></br><span style="color:#737373;">::Jump to 2_0_0_0_0_0::</span>
+<br/></div>
+            <div id="edgesHtml2" style="overflow: scroll; height: 10%;">Successor map:<br/>Edge <a name="edgeS1_0_0_0_0_0" id="edgeS1_0_0_0_0_0" href="#block1_0_0_0_0_0" onclick="highlightAnchor('1_0_0_0_0_0')">1_0_0_0_0_0</a>
+    -> <a name="edgeT0_0_0_2_0_0" id="edgeT0_0_0_2_0_0" href="#block0_0_0_2_0_0" onclick="highlightAnchor('0_0_0_2_0_0')">0_0_0_2_0_0</a>:
+true </br>Edge <a name="edgeS0_0_0_2_0_0" id="edgeS0_0_0_2_0_0" href="#block0_0_0_2_0_0" onclick="highlightAnchor('0_0_0_2_0_0')">0_0_0_2_0_0</a>
+    -> <a name="edgeT2_0_0_0_0_0" id="edgeT2_0_0_0_0_0" href="#block2_0_0_0_0_0" onclick="highlightAnchor('2_0_0_0_0_0')">2_0_0_0_0_0</a>:
+true </div>
+                        </div>
+                        <div id="blocksAndEdges3" style="position:fixed;height:100%;width:40%;display:inline-block;border:1px;visibility:hidden;">
+                                    <div id="blocksHtml3" style="overflow: scroll; height: 90%;"><a name="block0_0_0_3_0_0" id="block0_0_0_3_0_0" href="#block0_0_0_3_0_0" onclick="highlightAnchor('0_0_0_3_0_0')">Block 0_0_0_3_0_0:</a>
+<span style="color:#156194;"><span title="PushRecord(callee=MethodRef(contractId=274184521717934524641157099916833587203, sigHash=SigHash(dd62ed3e), attr=COMMON), summary=null, calleeId=3)"><span style="color:#15942a;"><b>→</b></span> Solidity call 3</span></span></br><span id="def_tacCalldatasize!!51">tacCalldatasize!!51</span> = havoc</br><span style="color:#CC29E9;">assume add_noofl:bif(0x4,0x40)</span></br><span style="color:#CC29E9;">assume add_noofl:bif(0x4,0x0)</span></br><span id="def_B54">B54</span> = (MASK256&gt;=<a href="#def_I178" class="deflink use_I178" onclick="highlightDef('I178')">I178</a>)&&(0x0&lt;=<a href="#def_I178" class="deflink use_I178" onclick="highlightDef('I178')">I178</a>)</br><span style="color:#FF0000;">assert <a href="#def_B54" class="deflink use_B54" onclick="highlightDef('B54')">B54</a>, sanity bounds check on cvl to vm encoding of certoraArg23342335:int failed</span></br><span id="def_R55">R55</span> = safe_math_narrow:bif(<a href="#def_I178" class="deflink use_I178" onclick="highlightDef('I178')">I178</a>)</br><span style="color:#CC29E9;">assume add_noofl:bif(0x4,0x20)</span></br><span id="def_B57">B57</span> = (MASK256&gt;=<a href="#def_I179" class="deflink use_I179" onclick="highlightDef('I179')">I179</a>)&&(0x0&lt;=<a href="#def_I179" class="deflink use_I179" onclick="highlightDef('I179')">I179</a>)</br><span style="color:#FF0000;">assert <a href="#def_B57" class="deflink use_B57" onclick="highlightDef('B57')">B57</a>, sanity bounds check on cvl to vm encoding of certoraArg23362337:int failed</span></br><span id="def_R58">R58</span> = safe_math_narrow:bif(<a href="#def_I179" class="deflink use_I179" onclick="highlightDef('I179')">I179</a>)</br><span style="color:#CC29E9;">assume 0x44==<a href="#def_tacCalldatasize!!51" class="deflink use_tacCalldatasize!!51" onclick="highlightDef('tacCalldatasize!!51')">tacCalldatasize!!51</a></span></br><span style="color:#737373;">::Start procedure ERC20-allowance(address,address)::</span></br><span style="color:#737373;">TRANSIENT::fps.free-pointer-is-scalarized=true::</span></br><span id="def_R61">R61</span> = <a href="#def_tacExtcodesize!!0" class="deflink use_tacExtcodesize!!0" onclick="highlightDef('tacExtcodesize!!0')">tacExtcodesize!!0</a>[to_skey:bif(<a href="#def_R4" class="deflink use_R4" onclick="highlightDef('R4')">R4</a>)]</br><span style="color:#CC29E9;">assume <a href="#def_R61" class="deflink use_R61" onclick="highlightDef('R61')">R61</a>&gt;0x0</span></br><span style="color:#15942a;">No unresolved internal functions!</span></br><span style="color:#737373;">TRANSIENT::fps.free-pointer-is-scalarized=true::</span></br><span style="color:#CC29E9;">assume !(<a href="#def_tacCalldatasize!!51" class="deflink use_tacCalldatasize!!51" onclick="highlightDef('tacCalldatasize!!51')">tacCalldatasize!!51</a>&lt;0x4)</span></br><span style="color:#CC29E9;">assume !(0x70a08231&gt;<a href="#def_tacSighash!!7" class="deflink use_tacSighash!!7" onclick="highlightDef('tacSighash!!7')">tacSighash!!7</a>)</span></br><span style="color:#CC29E9;">assume !(0xa9059cbb&gt;<a href="#def_tacSighash!!7" class="deflink use_tacSighash!!7" onclick="highlightDef('tacSighash!!7')">tacSighash!!7</a>)</span></br><span style="color:#CC29E9;">assume !(0xa9059cbb==<a href="#def_tacSighash!!7" class="deflink use_tacSighash!!7" onclick="highlightDef('tacSighash!!7')">tacSighash!!7</a>)</span></br><span style="color:#CC29E9;">assume !(0xb2bdfa7b==<a href="#def_tacSighash!!7" class="deflink use_tacSighash!!7" onclick="highlightDef('tacSighash!!7')">tacSighash!!7</a>)</span></br><span style="color:#CC29E9;">assume !(0xd0e30db0==<a href="#def_tacSighash!!7" class="deflink use_tacSighash!!7" onclick="highlightDef('tacSighash!!7')">tacSighash!!7</a>)</span></br><span style="color:#CC29E9;">assume 0xdd62ed3e==<a href="#def_tacSighash!!7" class="deflink use_tacSighash!!7" onclick="highlightDef('tacSighash!!7')">tacSighash!!7</a></span></br><span class="tooltip"><span style="color:#CC29E9;">assume true</span> <span class="tooltiptext" tooltipatt="1"></span></span></br><span id="def_R70">R70</span> = <a href="#def_tacCalldatasize!!51" class="deflink use_tacCalldatasize!!51" onclick="highlightDef('tacCalldatasize!!51')">tacCalldatasize!!51</a>-0x4</br><span style="color:#CC29E9;">assume !(<a href="#def_R70" class="deflink use_R70" onclick="highlightDef('R70')">R70</a>s&lt;0x40)</span></br><span style="color:#CC29E9;">assume <a href="#def_R55" class="deflink use_R55" onclick="highlightDef('R55')">R55</a>&lt;=MASK160</span></br><span style="color:#CC29E9;">assume <a href="#def_R58" class="deflink use_R58" onclick="highlightDef('R58')">R58</a>&lt;=MASK160</span></br><span style="color:#156194;"><span title="InternalFuncStartAnnotation(id=3, startPc=4858, args=[InternalFuncArg(s=R55:bv256, offset=1, sort=SCALAR), InternalFuncArg(s=R58:bv256, offset=2, sort=SCALAR)], methodSignature=ERC20.allowance(address owner, address spender) returns (uint256), stackOffsetToArgPos={1=0, 2=1}, callSiteSrc=(5647:535:0:0xce4604a0000000000000000000000003) // contracts/ERC20.sol)"><span style="color:#15942a;"><b>→</b></span> Method call <a id="intfunStart_3" onclick="toggleInternalFun(3)"><u>3</u></a> to allowance(address owner = <a href="#def_R55" class="deflink use_R55" onclick="highlightDef('R55')">R55</a>, address spender = <a href="#def_R58" class="deflink use_R58" onclick="highlightDef('R58')">R58</a>)</span></span></br><span class="tooltip"><span id="def_R78">R78</span> = hash_3_keccak:bif(skey_basic:bif(0x40),to_skey:bif(<a href="#def_R55" class="deflink use_R55" onclick="highlightDef('R55')">R55</a>),skey_basic:bif(0x1)) <span class="tooltiptext" tooltipatt="2"></span></span></br><span class="tooltip"><span id="def_R82">R82</span> = hash_3_keccak:bif(skey_basic:bif(0x40),to_skey:bif(<a href="#def_R58" class="deflink use_R58" onclick="highlightDef('R58')">R58</a>),<a href="#def_R78" class="deflink use_R78" onclick="highlightDef('R78')">R78</a>) <span class="tooltiptext" tooltipatt="3"></span></span></br><span class="tooltip"><span id="def_R83">R83</span> = <a href="#def_CANON28!!176" class="deflink use_CANON28!!176" onclick="highlightDef('CANON28!!176')">CANON28!!176</a>[<a href="#def_R82" class="deflink use_R82" onclick="highlightDef('R82')">R82</a>] <span style="color:#15942a;">// accessPaths = _allowances[k = R55:bv256][k = R58:bv256]</span> <span class="tooltiptext" tooltipatt="3"></span></span></br><span style="color:#737373;">TRANSIENT::snippet.cmd=LoadSnippet(value=R83:bv256, displayPath=_allowances[k = R55:bv256][k = R58:bv256], storageType=uint256, contractInstance=274184521717934524641157099916833587203, linkableStorageReadId=vc.data.SnippetCmd$EVMSnippetCmd$StorageSnippet$LoadSnippet$None@6d1e4eb8)::</span></br><span style="color:#156194;"><span title="InternalFuncExitAnnotation(id=3, rets=[InternalFuncRet(s=R83:bv256, offset=0)], functionLayout={0=InternalFuncValueLocation.Scalar})"><span style="color:#FF0000;"><b>←</b></span> Method call <a id="intfunEnd_3" onclick="toggleInternalFun(3)"><u>3</u></a></span></span></br><span style="color:#737373;">TRANSIENT::snippet.cmd=EVMFunctionReturnWrite(returnbufOffset=0, returnValueSym=R83:bv256, callIndex=3)::</span></br><span style="color:#737373;">TRANSIENT::tac.return.path=NoValue::</span></br><span style="color:#737373;">::End procedure ERC20-allowance(address,address)::</span></br><span id="def_CANON100">CANON100</span> = <a href="#def_R83" class="deflink use_R83" onclick="highlightDef('R83')">R83</a></br><span style="color:#156194;"><span title="PopRecord(calleeId=3)"><span style="color:#FF0000;"><b>←</b></span> Solidity call 3</span></span>
+<br/></div>
+            <div id="edgesHtml3" style="overflow: scroll; height: 10%;">Successor map:<br/>Edge <a name="edgeS0_0_0_3_0_0" id="edgeS0_0_0_3_0_0" href="#block0_0_0_3_0_0" onclick="highlightAnchor('0_0_0_3_0_0')">0_0_0_3_0_0</a>
+    -> <a name="edgeT3_0_0_0_0_0" id="edgeT3_0_0_0_0_0" href="#block3_0_0_0_0_0" onclick="highlightAnchor('3_0_0_0_0_0')">3_0_0_0_0_0</a>:
+true </br>Edge <a name="edgeS2_0_0_0_0_0" id="edgeS2_0_0_0_0_0" href="#block2_0_0_0_0_0" onclick="highlightAnchor('2_0_0_0_0_0')">2_0_0_0_0_0</a>
+    -> <a name="edgeT0_0_0_3_0_0" id="edgeT0_0_0_3_0_0" href="#block0_0_0_3_0_0" onclick="highlightAnchor('0_0_0_3_0_0')">0_0_0_3_0_0</a>:
+true </div>
+                        </div>
+            <div style="position:fixed;left:40%;top:90%;width:60%;overflow:scroll;height:10%;">
+            Predecessor map:<br/>
+                       
+   <a name="edgeP0_0_0_2_0_0" id="edgeP0_0_0_2_0_0" href="#block0_0_0_2_0_0" onclick="highlightAnchor('0_0_0_2_0_0')">0_0_0_2_0_0</a>
+<- 
+   <a href="#block1_0_0_0_0_0" onclick="highlightAnchor('1_0_0_0_0_0')">1_0_0_0_0_0</a>
+
+<br/>
+           
+   <a name="edgeP2_0_0_0_0_0" id="edgeP2_0_0_0_0_0" href="#block2_0_0_0_0_0" onclick="highlightAnchor('2_0_0_0_0_0')">2_0_0_0_0_0</a>
+<- 
+   <a href="#block0_0_0_2_0_0" onclick="highlightAnchor('0_0_0_2_0_0')">0_0_0_2_0_0</a>
+
+<br/>
+           
+   <a name="edgeP3_0_0_0_0_0" id="edgeP3_0_0_0_0_0" href="#block3_0_0_0_0_0" onclick="highlightAnchor('3_0_0_0_0_0')">3_0_0_0_0_0</a>
+<- 
+   <a href="#block0_0_0_3_0_0" onclick="highlightAnchor('0_0_0_3_0_0')">0_0_0_3_0_0</a>
+
+<br/>
+           
+   <a name="edgeP0_0_0_3_0_0" id="edgeP0_0_0_3_0_0" href="#block0_0_0_3_0_0" onclick="highlightAnchor('0_0_0_3_0_0')">0_0_0_3_0_0</a>
+<- 
+   <a href="#block2_0_0_0_0_0" onclick="highlightAnchor('2_0_0_0_0_0')">2_0_0_0_0_0</a>
+
+<br/>
+           
+   <a name="edgeP0_0_0_1_0_0" id="edgeP0_0_0_1_0_0" href="#block0_0_0_1_0_0" onclick="highlightAnchor('0_0_0_1_0_0')">0_0_0_1_0_0</a>
+<- 
+   <a href="#block0_0_0_0_0_0" onclick="highlightAnchor('0_0_0_0_0_0')">0_0_0_0_0_0</a>
+
+<br/>
+           
+   <a name="edgeP1_0_0_0_0_0" id="edgeP1_0_0_0_0_0" href="#block1_0_0_0_0_0" onclick="highlightAnchor('1_0_0_0_0_0')">1_0_0_0_0_0</a>
+<- 
+   <a href="#block0_0_0_1_0_0" onclick="highlightAnchor('0_0_0_1_0_0')">0_0_0_1_0_0</a>
+
+<br/>
+           
+   <a name="edgeP0_0_0_0_0_0" id="edgeP0_0_0_0_0_0" href="#block0_0_0_0_0_0" onclick="highlightAnchor('0_0_0_0_0_0')">0_0_0_0_0_0</a>
+<- 
+            </div>
+
+            <script>
+            // Load tooltips callbacks
+            var tooltip_cache = {1:`contracts/ERC20.sol:133: function allowance(address owner, address spender)
+        public
+        view
+        virtual
+        override
+        returns (uint256)
+    {assembly { mstore(0xffffff6e4604afefe123321beef1b01fffffffffffffffffffffffff00100000, 1037618708496) mstore(0xffffff6e4604afefe123321beef1b01fffffffffffffffffffffffff00100001, 2) mstore(0xffffff6e4604afefe123321beef1b01fffffffffffffffffffffffff00100003, 5) mstore(0xffffff6e4604afefe123321beef1b01fffffffffffffffffffffffff00106001, spender) }
+        return _allowances[owner][spender];
+    }`,2:`contracts/ERC20.sol:140: _allowances[owner]`,3:`contracts/ERC20.sol:140: _allowances[owner][spender]`,4:`contracts/ERC20.sol:356: _allowances[owner]`,5:`contracts/ERC20.sol:356: _allowances[owner][spender]`,6:`contracts/ERC20.sol:356: _allowances[owner][spender] = amount`};
+
+            var tooltips_spans = document.getElementsByClassName('tooltip');
+            for (var i=0; i<tooltips_spans.length; ++i) {
+                var me = tooltips_spans[i];
+                tooltips_spans[i].addEventListener("mouseover", function() {
+                     for (var j=0; j < this.children.length ; ++j) {
+                        if (this.children[j].className=="tooltiptext") {
+                            var attribs = this.children[j].attributes;
+                            if (attribs["tooltipatt"] != null) {
+                                var id = attribs["tooltipatt"].value;
+                                this.children[j].innerHTML = tooltip_cache[id];
+                                this.children[j].style.visibility = "visible";
+                            }
+                        }
+                    }
+                }.bind(me));
+				tooltips_spans[i].addEventListener("mouseout", function() {
+                    for (var j=0; j < this.children.length ; ++j) {
+                        if (this.children[j].className=="tooltiptext") {
+                            this.children[j].innerHTML = "";
+                            this.children[j].style.visibility="hidden";
+                        }
+                    }
+				}.bind(me));
+            }
+
+
+            lastSvgEventListener = svgPanZoom('#theSVG', {
+								  zoomEnabled: true,
+								  controlIconsEnabled: true,
+								  fit: true,
+								  center: true,
+								  // viewportSelector: document.getElementById('theSVG').querySelector('#g4') // this option will make library to misbehave. Viewport should have no transform attribute
+								});
+                document.getElementById("cex").style.display = "none";
+            </script>
+        </body>
+        </html>

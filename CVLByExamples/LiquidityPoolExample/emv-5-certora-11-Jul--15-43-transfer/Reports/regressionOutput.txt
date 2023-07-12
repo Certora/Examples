@@ -1,0 +1,334 @@
+Environment variable 'jobId' is empty; using jobId 6b0aa0f99abc4da9a161b64a89f64f35
+Stream for topic CVT had an exception and will not be available
+AWS credentials could not be loaded
+Stream for topic Fuzzer had an exception and will not be available
+AWS credentials could not be loaded
+Stream for topic Rule had an exception and will not be available
+AWS credentials could not be loaded
+Memory splitting of Asset-balanceOf(address) succeeded
+Memory splitting of Asset-approve(address,uint256) succeeded
+Memory splitting of Asset-totalSupply() succeeded
+Memory splitting of TrivialReceiver-executeOperation(uint256,uint256,address) succeeded
+Memory splitting of Asset-transfer(address,uint256) succeeded
+Memory splitting of TransferReceiver-executeOperation(uint256,uint256,address) succeeded
+Memory splitting of Asset-allowance(address,address) succeeded
+Memory splitting of Asset-transferFrom(address,address,uint256) succeeded
+Memory splitting of Pool-approve(address,uint256) succeeded
+Memory splitting of Pool-balanceOf(address) succeeded
+Memory splitting of Pool-transfer(address,uint256) succeeded
+Memory splitting of Pool-amountToShares(uint256) succeeded
+Memory splitting of Pool-sharesToAmount(uint256) succeeded
+Memory splitting of Pool-feeRate() succeeded
+Memory splitting of Pool-asset() succeeded
+Memory splitting of Pool-allowance(address,address) succeeded
+Memory splitting of Pool-calcPremium(uint256) succeeded
+Memory splitting of Pool-deposit(uint256) succeeded
+Memory splitting of Pool-flashLoan(address,uint256) succeeded
+Memory splitting of Pool-totalSupply() succeeded
+Memory splitting of Pool-assetBalance() succeeded
+Memory splitting of Pool-withdraw(uint256) succeeded
+Memory splitting of Pool-transferFrom(address,address,uint256) succeeded
+Found multiple (or zero) initial writes: []
+Found multiple (or zero) initial writes: []
+Found multiple (or zero) initial writes: []
+Found multiple (or zero) initial writes: []
+Found multiple (or zero) initial writes: []
+Found multiple (or zero) initial writes: []
+Created a meta slot tacS!ce4604a0000000000000000000000003!0!0
+Created a meta slot tacS!ce4604a0000000000000000000000003!2!0
+Created a meta slot tacS!ce4604a0000000000000000000000003!1
+
+Created a meta slot tacS!ce4604a000000000000000000000000d!StructAccess_offset0_base.MapAccess_base.Root_slot1
+Created a meta slot tacS!ce4604a000000000000000000000000d!StructAccess_offset0_base.MapAccess_base.StructAccess_offset0_base.MapAccess_base.Root_slot2
+Created a meta slot tacS!ce4604a000000000000000000000000d!StructAccess_offset0_base.MapAccess_base.StructAccess_offset0_base.MapAccess_base.Root_slot2
+Created a meta slot tacS!ce4604a000000000000000000000000d!StructAccess_offset0_base.MapAccess_base.Root_slot1
+Created a meta slot tacS!ce4604a000000000000000000000000d!0
+Created a meta slot tacS!ce4604a000000000000000000000000d!StructAccess_offset0_base.MapAccess_base.StructAccess_offset0_base.MapAccess_base.Root_slot2
+Created a meta slot tacS!ce4604a000000000000000000000000d!StructAccess_offset0_base.MapAccess_base.Root_slot1
+
+Created a meta slot tacS!ce4604a0000000000000000000000017!StructAccess_offset0_base.MapAccess_base.Root_slot1
+Created a meta slot tacS!ce4604a0000000000000000000000017!StructAccess_offset0_base.MapAccess_base.StructAccess_offset0_base.MapAccess_base.Root_slot2
+Created a meta slot tacS!ce4604a0000000000000000000000017!StructAccess_offset0_base.MapAccess_base.StructAccess_offset0_base.MapAccess_base.Root_slot2
+Created a meta slot tacS!ce4604a0000000000000000000000017!StructAccess_offset0_base.MapAccess_base.Root_slot1
+Created a meta slot tacS!ce4604a0000000000000000000000017!0
+Created a meta slot tacS!ce4604a0000000000000000000000017!4!0
+Created a meta slot tacS!ce4604a0000000000000000000000017!5
+Created a meta slot tacS!ce4604a0000000000000000000000017!4!0
+Created a meta slot tacS!ce4604a0000000000000000000000017!3
+Created a meta slot tacS!ce4604a0000000000000000000000017!4!0
+Created a meta slot tacS!ce4604a0000000000000000000000017!0
+Created a meta slot tacS!ce4604a0000000000000000000000017!StructAccess_offset0_base.MapAccess_base.Root_slot1
+Created a meta slot tacS!ce4604a0000000000000000000000017!5
+Created a meta slot tacS!ce4604a0000000000000000000000017!0
+Created a meta slot tacS!ce4604a0000000000000000000000017!4!0
+Created a meta slot tacS!ce4604a0000000000000000000000017!3
+Created a meta slot tacS!ce4604a0000000000000000000000017!4!0
+Created a meta slot tacS!ce4604a0000000000000000000000017!0
+Created a meta slot tacS!ce4604a0000000000000000000000017!StructAccess_offset0_base.MapAccess_base.Root_slot1
+Created a meta slot tacS!ce4604a0000000000000000000000017!0
+Created a meta slot tacS!ce4604a0000000000000000000000017!4!0
+Created a meta slot tacS!ce4604a0000000000000000000000017!StructAccess_offset0_base.MapAccess_base.StructAccess_offset0_base.MapAccess_base.Root_slot2
+Created a meta slot tacS!ce4604a0000000000000000000000017!StructAccess_offset0_base.MapAccess_base.Root_slot1
+Created a meta slot tacS!ce4604a0000000000000000000000017!3
+Created a meta slot tacS!ce4604a0000000000000000000000017!5
+Created a meta slot tacS!ce4604a0000000000000000000000017!4!0
+
+Inlining a call to Asset.balanceOf in Pool-assetBalance()
+Inlining a call to Asset.balanceOf in Pool-withdraw(uint256)
+Inlining a call to Asset.transferFrom in Pool-withdraw(uint256)
+Inlining a call to Asset.balanceOf in Pool-withdraw(uint256)
+Inlining a call to Asset.balanceOf in Pool-amountToShares(uint256)
+Inlining a call to Asset.balanceOf in Pool-deposit(uint256)
+Inlining a call to Asset.transferFrom in Pool-deposit(uint256)
+Inlining a call to Asset.balanceOf in Pool-deposit(uint256)
+Inlining a call to Asset.balanceOf in Pool-sharesToAmount(uint256)
+Inlining a call to Asset.transferFrom in Pool-flashLoan(address,uint256)
+Inlining a call to Asset.transferFrom in Pool-flashLoan(address,uint256)
+Inlining a call to Asset.transferFrom in TransferReceiver-executeOperation(uint256,uint256,address)
+For CVL If command at Missing source reference information it was found that only one branch was needed
+For CVL If command at Missing source reference information it was found that only one branch was needed
+For CVL If command at Missing source reference information it was found that only one branch was needed
+For CVL If command at Missing source reference information it was found that only one branch was needed
+For CVL If command at Missing source reference information it was found that only one branch was needed
+For CVL If command at Missing source reference information it was found that only one branch was needed
+For CVL If command at Missing source reference information it was found that only one branch was needed
+For CVL If command at Missing source reference information it was found that only one branch was needed
+For CVL If command at Missing source reference information it was found that only one branch was needed
+For CVL If command at Missing source reference information it was found that only one branch was needed
+For CVL If command at Missing source reference information it was found that only one branch was needed
+For CVL If command at Missing source reference information it was found that only one branch was needed
+Inlining a call to TransferReceiver.executeOperation in flashLoanIncreasesBalance
+Inlining a call to TrivialReceiver.executeOperation in flashLoanIncreasesBalance
+For CVL If command at Missing source reference information it was found that only one branch was needed
+For CVL If command at Missing source reference information it was found that only one branch was needed
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+marking potential over-/underflowing expression class vc.data.TACExpr$BinOp$Sub with 'will not wrap' annotation
+Proved that mult can't overflow, for bound 115792089237316195423570985008687907853269984665640564039457584007913129639935, removing 1 check
+Proved that add can't overflow for bound 115792089237316195423570985008687907853269984665640564039457584007913129639935, removing 1 check
+marking potential over-/underflowing expression class vc.data.TACExpr$Vec$Add$Binary with 'will not wrap' annotation
+there already is a replacement registered in this PatchingProgram for pointer "CmdPointer(block=0_0_0_14_0_0, pos=189)", only one replacement is allowed per pointer
+Artifact output.json already registered in REPORTS
+Found variables used before being initialized in flashLoanIncreasesBalance. Enable info logs for DSA
+dumping codeMap "PresolverRule-flashLoanIncreasesBalance" in html format, but the file name "PresolverRule-flashLoanIncreasesBalance" is lacking the `.html` suffix. Appending it and dumping that file.
+prettifyModel finished.
+Diversification did not produce statistics.
+Total time for contract: 2 seconds ; Split time: 0 seconds ; Number of problems: 1 ; Solver time : 2 seconds
+Violated: flashLoanIncreasesBalance
+flashLoanIncreasesBalance: A property is violated
+Rule flashLoanIncreasesBalance: Callee contract unresolved, callee sighash resolved, method signature is executeOperation(uint256, uint256, address)
+The names of the local variables are [amount, balance_after, balance_before, e.block.coinbase, e.block.difficulty, e.block.gaslimit, e.block.number, e.block.timestamp, e.msg.sender, e.msg.value, e.tx.origin, lastHasThrown, lastReverted, receiver]
+StorageState: TransferReceiver.pool: Pool (15) - STORAGE_HAVOC
+StorageState: TransferReceiver.transfer_amount: 5 - STORAGE_HAVOC
+StorageState: TransferReceiver.underlying: identity (0xffffffffffffffffffffffffffffffffffffffff (MAX_EVM_ADDRESS)) - STORAGE_HAVOC
+StorageState: Asset._allowance[Pool (15)][Pool (15)]: 7 - STORAGE_HAVOC
+StorageState: Asset._allowance[Pool (15)][TransferReceiver (0xfffe)]: 5 - STORAGE_HAVOC
+StorageState: Asset._allowance[0xffff][Pool (15)]: 4 - STORAGE_HAVOC
+StorageState: Asset._balanceOf[Pool (15)]: 8 - STORAGE_HAVOC
+StorageState: Asset._balanceOf[TransferReceiver (0xfffe)]: 0 - STORAGE_HAVOC
+StorageState: Asset._balanceOf[0xffff]: 1 - STORAGE_HAVOC
+StorageState: Pool._status: 0 - STORAGE_HAVOC
+StorageState: Pool.asset: identity (0xffffffffffffffffffffffffffffffffffffffff (MAX_EVM_ADDRESS)) - STORAGE_HAVOC
+StorageState: Pool.feeRate: 0xd06 - STORAGE_HAVOC
+Got a non-constant, non-variable operand (Operand(out=CANON67:int, exp=e.msg.sender)) that is not in the builderState. Failed to construct its complete syntax-tree
+Exp e.msg.sender != currentContract has the sub expressions: [e.msg.sender == currentContract]
+CallTrace: caller: balance_before = Asset.balanceOf(account=currentContract) callee: Asset.balanceOf(address)
+CallTrace: internal call: (internal) balanceOf(address)
+Load from: _balanceOf[*]
+StorageState: TransferReceiver.pool: Pool (15) - STORAGE_HAVOC
+StorageState: TransferReceiver.transfer_amount: 5 - STORAGE_HAVOC
+StorageState: TransferReceiver.underlying: identity (0xffffffffffffffffffffffffffffffffffffffff (MAX_EVM_ADDRESS)) - STORAGE_HAVOC
+StorageState: Asset._allowance[Pool (15)][Pool (15)]: 7 - STORAGE_HAVOC
+StorageState: Asset._allowance[Pool (15)][TransferReceiver (0xfffe)]: 5 - STORAGE_HAVOC
+StorageState: Asset._allowance[0xffff][Pool (15)]: 4 - STORAGE_HAVOC
+StorageState: Asset._balanceOf[Pool (15)]: 8 - STORAGE_HAVOC
+StorageState: Asset._balanceOf[TransferReceiver (0xfffe)]: 0 - STORAGE_HAVOC
+StorageState: Asset._balanceOf[0xffff]: 1 - STORAGE_HAVOC
+StorageState: Pool._status: 0 - STORAGE_HAVOC
+StorageState: Pool.asset: identity (0xffffffffffffffffffffffffffffffffffffffff (MAX_EVM_ADDRESS)) - STORAGE_HAVOC
+StorageState: Pool.feeRate: 0xd06 - STORAGE_HAVOC
+(internal) Asset.balanceOf(account=Pool (15)) / 8
+EXTERNAL CALL Asset.balanceOf(address): all expected parameters found in value map
+EXTERNAL CALL Asset.balanceOf(address): all expected return values found in value map
+Asset.balanceOf(account=X) / 8
+CallTrace: caller: Pool.flashLoan(e, receiver, amount) callee: Pool.flashLoan(address, uint256)
+Load from: sender.balance
+Store at: sender.balance
+Load from: receiver.balance
+Store at: receiver.balance
+CallTrace: internal call: (internal) flashLoan(address,uint256)
+Load from: _status
+Store at: _status
+CallTrace: internal call: (internal) calcPremium(uint256)
+Load from: feeRate
+StorageState: TransferReceiver.pool: Pool (15) - STORAGE_HAVOC
+StorageState: TransferReceiver.transfer_amount: 5 - STORAGE_HAVOC
+StorageState: TransferReceiver.underlying: identity (0xffffffffffffffffffffffffffffffffffffffff (MAX_EVM_ADDRESS)) - STORAGE_HAVOC
+StorageState: Asset._allowance[Pool (15)][Pool (15)]: 7 - STORAGE_HAVOC
+StorageState: Asset._allowance[Pool (15)][TransferReceiver (0xfffe)]: 5 - STORAGE_HAVOC
+StorageState: Asset._allowance[0xffff][Pool (15)]: 4 - STORAGE_HAVOC
+StorageState: Asset._balanceOf[Pool (15)]: 8 - STORAGE_HAVOC
+StorageState: Asset._balanceOf[TransferReceiver (0xfffe)]: 0 - STORAGE_HAVOC
+StorageState: Asset._balanceOf[0xffff]: 1 - STORAGE_HAVOC
+StorageState: Pool._status: 2 (changed) - STORAGE_CONCRETE
+StorageState: Pool.asset: identity (0xffffffffffffffffffffffffffffffffffffffff (MAX_EVM_ADDRESS)) - STORAGE_HAVOC
+StorageState: Pool.feeRate: 0xd06 - STORAGE_HAVOC
+(internal) Pool.calcPremium(amount=3) / 1
+Load from: asset
+CallTrace: caller: (internal) Pool.flashLoan(address receiverAddress, uint256 amount) callee: Asset.transferFrom(address, address, uint256)
+Load from: _allowance[*][*]
+Load from: _allowance[*][*]
+Store at: _allowance[*][*]
+Load from: _balanceOf[*]
+Store at: _balanceOf[*]
+Load from: _balanceOf[*]
+Store at: _balanceOf[*]
+EXTERNAL CALL Asset.transferFrom(address, address, uint256): all expected parameters found in value map
+EXTERNAL CALL Asset.transferFrom(address, address, uint256): all expected return values found in value map
+Asset.transferFrom(from=Pool (15), recipient=0xffff, amount=3) / true
+CallTrace: caller: executeOperation(uint256,uint256,address): UNRESOLVED DISPATCHER(optimistic = true) summary @ flashLoan_dispatcher.spec:29:70 callee: TransferReceiver.executeOperation(uint256, uint256, address)
+Load from: underlying
+Load from: pool
+Load from: transfer_amount
+CallTrace: caller: TransferReceiver.executeOperation(uint256, uint256, address) callee: Asset.transferFrom(address, address, uint256)
+Load from: _allowance[*][*]
+Load from: _allowance[*][*]
+Store at: _allowance[*][*]
+Load from: _balanceOf[*]
+Store at: _balanceOf[*]
+Load from: _balanceOf[*]
+Store at: _balanceOf[*]
+EXTERNAL CALL Asset.transferFrom(address, address, uint256): all expected parameters found in value map
+EXTERNAL CALL Asset.transferFrom(address, address, uint256): all expected return values found in value map
+Asset.transferFrom(from=Pool (15), recipient=TransferReceiver (0xfffe), amount=5) / true
+EXTERNAL CALL TransferReceiver.executeOperation(uint256, uint256, address): all expected parameters found in value map
+EXTERNAL CALL TransferReceiver.executeOperation(uint256, uint256, address): all expected return values found in value map
+TransferReceiver.executeOperation(amount=3, premium=1, initiator=0xffff) / true
+Load from: asset
+CallTrace: caller: (internal) Pool.flashLoan(address receiverAddress, uint256 amount) callee: Asset.transferFrom(address, address, uint256)
+Load from: _allowance[*][*]
+Load from: _allowance[*][*]
+Store at: _allowance[*][*]
+Load from: _balanceOf[*]
+Store at: _balanceOf[*]
+Load from: _balanceOf[*]
+Store at: _balanceOf[*]
+EXTERNAL CALL Asset.transferFrom(address, address, uint256): all expected parameters found in value map
+EXTERNAL CALL Asset.transferFrom(address, address, uint256): all expected return values found in value map
+Asset.transferFrom(from=0xffff, recipient=Pool (15), amount=4) / true
+Store at: _status
+StorageState: TransferReceiver.pool: Pool (15) - STORAGE_HAVOC
+StorageState: TransferReceiver.transfer_amount: 5 - STORAGE_HAVOC
+StorageState: TransferReceiver.underlying: identity (0xffffffffffffffffffffffffffffffffffffffff (MAX_EVM_ADDRESS)) - STORAGE_HAVOC
+StorageState: Asset._allowance[Pool (15)][Pool (15)]: 4 (changed) - STORAGE_HAVOC_DEPENDENT
+StorageState: Asset._allowance[Pool (15)][TransferReceiver (0xfffe)]: 0 (changed) - STORAGE_HAVOC_DEPENDENT
+StorageState: Asset._allowance[0xffff][Pool (15)]: 0 (changed) - STORAGE_UNKNOWN
+StorageState: Asset._balanceOf[Pool (15)]: 4 (changed) - STORAGE_UNKNOWN
+StorageState: Asset._balanceOf[TransferReceiver (0xfffe)]: 5 (changed) - STORAGE_HAVOC_DEPENDENT
+StorageState: Asset._balanceOf[0xffff]: 0 (changed) - STORAGE_UNKNOWN
+StorageState: Pool._status: 1 (changed) - STORAGE_CONCRETE
+StorageState: Pool.asset: identity (0xffffffffffffffffffffffffffffffffffffffff (MAX_EVM_ADDRESS)) - STORAGE_HAVOC
+StorageState: Pool.feeRate: 0xd06 - STORAGE_HAVOC
+(internal) Pool.flashLoan(receiverAddress=TransferReceiver (0xfffe), amount=3) / 
+EXTERNAL CALL Pool.flashLoan(address, uint256): all expected parameters found in value map
+EXTERNAL CALL Pool.flashLoan(address, uint256): all expected return values found in value map
+Pool.flashLoan(receiverAddress=X, amount=X) / 
+CallTrace: caller: balance_after = Asset.balanceOf(account=currentContract) callee: Asset.balanceOf(address)
+CallTrace: internal call: (internal) balanceOf(address)
+Load from: _balanceOf[*]
+StorageState: TransferReceiver.pool: Pool (15) - STORAGE_HAVOC
+StorageState: TransferReceiver.transfer_amount: 5 - STORAGE_HAVOC
+StorageState: TransferReceiver.underlying: identity (0xffffffffffffffffffffffffffffffffffffffff (MAX_EVM_ADDRESS)) - STORAGE_HAVOC
+StorageState: Asset._allowance[Pool (15)][Pool (15)]: 4 - STORAGE_HAVOC_DEPENDENT
+StorageState: Asset._allowance[Pool (15)][TransferReceiver (0xfffe)]: 0 - STORAGE_HAVOC_DEPENDENT
+StorageState: Asset._allowance[0xffff][Pool (15)]: 0 - STORAGE_UNKNOWN
+StorageState: Asset._balanceOf[Pool (15)]: 4 - STORAGE_UNKNOWN
+StorageState: Asset._balanceOf[TransferReceiver (0xfffe)]: 5 - STORAGE_HAVOC_DEPENDENT
+StorageState: Asset._balanceOf[0xffff]: 0 - STORAGE_UNKNOWN
+StorageState: Pool._status: 1 - STORAGE_CONCRETE
+StorageState: Pool.asset: identity (0xffffffffffffffffffffffffffffffffffffffff (MAX_EVM_ADDRESS)) - STORAGE_HAVOC
+StorageState: Pool.feeRate: 0xd06 - STORAGE_HAVOC
+(internal) Asset.balanceOf(account=Pool (15)) / 4
+EXTERNAL CALL Asset.balanceOf(address): all expected parameters found in value map
+EXTERNAL CALL Asset.balanceOf(address): all expected return values found in value map
+Asset.balanceOf(account=X) / 4
+Exp balance_after >= balance_before has the sub expressions: [balance_after, balance_before]
+StorageState: TransferReceiver.pool: Pool (15) - STORAGE_HAVOC
+StorageState: TransferReceiver.transfer_amount: 5 - STORAGE_HAVOC
+StorageState: TransferReceiver.underlying: identity (0xffffffffffffffffffffffffffffffffffffffff (MAX_EVM_ADDRESS)) - STORAGE_HAVOC
+StorageState: Asset._allowance[Pool (15)][Pool (15)]: 4 - STORAGE_HAVOC_DEPENDENT
+StorageState: Asset._allowance[Pool (15)][TransferReceiver (0xfffe)]: 0 - STORAGE_HAVOC_DEPENDENT
+StorageState: Asset._allowance[0xffff][Pool (15)]: 0 - STORAGE_UNKNOWN
+StorageState: Asset._balanceOf[Pool (15)]: 4 - STORAGE_UNKNOWN
+StorageState: Asset._balanceOf[TransferReceiver (0xfffe)]: 5 - STORAGE_HAVOC_DEPENDENT
+StorageState: Asset._balanceOf[0xffff]: 0 - STORAGE_UNKNOWN
+StorageState: Pool._status: 1 - STORAGE_CONCRETE
+StorageState: Pool.asset: identity (0xffffffffffffffffffffffffffffffffffffffff (MAX_EVM_ADDRESS)) - STORAGE_HAVOC
+StorageState: Pool.feeRate: 0xd06 - STORAGE_HAVOC
+Pool=Pool (15)
+TransferReceiver=TransferReceiver (0xfffe)
+TrivialReceiver=TrivialReceiver (0x95ea7b3)
+amount=3
+balance_after=4
+balance_before=8
+e.block.coinbase=0x402
+e.block.difficulty=10
+e.block.gaslimit=9
+e.block.number=6
+e.block.timestamp=2
+e.msg.sender=0xffff
+e.msg.value=0
+e.tx.origin=0x401
+identity=identity (0xffffffffffffffffffffffffffffffffffffffff (MAX_EVM_ADDRESS))
+lastHasThrown=false
+lastReverted=false
+receiver=TransferReceiver (0xfffe)
+Pool=Pool (15)
+TransferReceiver=TransferReceiver (0xfffe)
+TrivialReceiver=TrivialReceiver (0x95ea7b3)
+amount=3
+balance_after=4
+balance_before=8
+e.block.coinbase=0x402
+e.block.difficulty=10
+e.block.gaslimit=9
+e.block.number=6
+e.block.timestamp=2
+e.msg.sender=0xffff
+e.msg.value=0
+e.tx.origin=0x401
+identity=identity (0xffffffffffffffffffffffffffffffffffffffff (MAX_EVM_ADDRESS))
+lastHasThrown=false
+lastReverted=false
+receiver=TransferReceiver (0xfffe)
+Artifact FinalResults.html already registered in REPORTS
+Pool=Pool (15)
+TransferReceiver=TransferReceiver (0xfffe)
+TrivialReceiver=TrivialReceiver (0x95ea7b3)
+amount=3
+balance_after=4
+balance_before=8
+e.block.coinbase=0x402
+e.block.difficulty=10
+e.block.gaslimit=9
+e.block.number=6
+e.block.timestamp=2
+e.msg.sender=0xffff
+e.msg.value=0
+e.tx.origin=0x401
+identity=identity (0xffffffffffffffffffffffffffffffffffffffff (MAX_EVM_ADDRESS))
+lastHasThrown=false
+lastReverted=false
+receiver=TransferReceiver (0xfffe)
+Artifact FinalResults.html already registered in REPORTS

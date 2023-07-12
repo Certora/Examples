@@ -1,0 +1,8 @@
+Environment variable 'jobId' is empty; using jobId c2b5e69cae7b4ca3b23742da03bd3710
+Stream for topic CVT had an exception and will not be available
+AWS credentials could not be loaded
+Stream for topic Fuzzer had an exception and will not be available
+AWS credentials could not be loaded
+Stream for topic Rule had an exception and will not be available
+AWS credentials could not be loaded
+Error in spec file (BallGame.spec:8:5): could not type expression "ballPosition()", message: Missing environment parameter to non-envfree function BallGame.ballPosition() returns (uint8)
