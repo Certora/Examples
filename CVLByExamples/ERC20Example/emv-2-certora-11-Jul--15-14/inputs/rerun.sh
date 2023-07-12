@@ -1,1 +1,0 @@
-java -jar $CERTORA/emv.jar -buildDirectory .certora_internal/23_07_11_15_14_45_593 # you can remove -buildDirectory (but will still work inside inputs dir)

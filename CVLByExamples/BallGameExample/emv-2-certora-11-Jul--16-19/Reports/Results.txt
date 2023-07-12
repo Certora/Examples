@@ -1,3 +1,0 @@
-Reports in /home/sitvanit/EVMVerifier-all/examples/Examples/BallGameExample/emv-2-certora-11-Jul--16-19/Reports
-Start Tue Jul 11 16:19:09 IDT 2023
-[main] ERROR ALWAYS - Error in spec file (BallGame.spec:8:5): could not type expression "ballPosition()", message: Missing environment parameter to non-envfree function BallGame.ballPosition() returns (uint8)

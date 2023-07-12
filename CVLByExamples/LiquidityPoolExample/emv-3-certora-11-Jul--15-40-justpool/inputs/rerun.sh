@@ -1,1 +1,0 @@
-java -jar $CERTORA/emv.jar -cache 8461651832195852563-optimisticFalse-iterNone-None--certora-cli-4.3.1 -buildDirectory .certora_internal/23_07_11_15_40_09_267 # you can remove -buildDirectory (but will still work inside inputs dir)

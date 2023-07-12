@@ -1,1 +1,0 @@
-[{"type":"GENERAL","severity":"ERROR","message":"The Certora CLI version is incompatible with the Certora Cloud version. You may need to update your Certora CLI.Users running on a specific Prover branch may need to install a specific CLI release.","timeStamp":"11/07/2023-15:03:32:572"}]

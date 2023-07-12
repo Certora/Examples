@@ -1,1 +1,0 @@
-{"treeViewPath":{"ruleName":"integrityOfDeposit","assertId":null,"assertMessage":null,"next":null},"graph_link":"PresolverRule-integrityOfDeposit.html","jumpToDefinition":[{"file":"certora/specs/pool_link.spec","line":31,"col":0}],"result":"VERIFIED","assertMessage":null,"callResolution":[],"callResolutionWarnings":[]}
