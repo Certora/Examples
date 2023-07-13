@@ -1,9 +1,9 @@
 /**/.certora_internal/*
 
 # Dependency directories
-CVLByExamples/ERC20Example/node_modules/
+**/node_modules/
 
-CVLByExamples/aave-token-v3/cache/
+**/cache/
 CVLByExamples/aave-token-v3/out/
 CVLByExamples/aave-token-v3/.idea
 CVLByExamples/aave-token-v3/node_modules

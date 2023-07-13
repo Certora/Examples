@@ -1,28 +1,23 @@
-# LiquidityPoolExample
+# Liquidity Pool Example
 
 Example Certora verification for a simple multi-contract system.
 
-This repository is a work in progress; see [the Certora Tutorial][tutorial] and
-[the Certora Documentation][docs] in the mean time.
-
-[tutorial]: https://github.com/Certora/Tutorials
-[docs]: https://docs.certora.com/
-
-The main contract is 'Pool.sol`. There are several configuration files that run the prover with different
+The main contract is `Pool.sol`. There are several configuration files that run the Prover with different
 run arguments.
 
+## Incorrect Configurations
 `Pool.sol` without additional files
 Failing rules:
-integrityOfDeposit
+`integrityOfDeposit`
 
-Command to run:
+Commands to run:
 ```certoraRun certora/conf/JustPool.conf```
 
 ```certoraRun certora/conf/FlashLoanTransfer.conf```
 
 
 
-Correct configurations:
+## Correct Configurations:
 
 Commands to run:
 ```certoraRun certora/conf/Pool.conf```
