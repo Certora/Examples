@@ -1,6 +1,6 @@
 This directory contains two versions of the ConstantProductPool contract.
 
-1. ConstantProductPool.sol is a faulty version with the following failing rules:
+1. `ConstantProductPool.sol` is a faulty version with the following failing rules:
 
     integrityOfSwap - there is a switch between the token and the recipient in swap:
             Should be transfer( recipient, tokenOut, amountOut);
@@ -16,17 +16,8 @@ This directory contains two versions of the ConstantProductPool contract.
 
     This version can be verified by running
 
-    certoraRun certora/conf/runFixed.conf
+    ```certoraRun certora/conf/run.conf```
 
 2. ConstantProductPoolFixed.sol - a version in which the bug in swap is fixed and all the rules pass.
     This contract can be verified by running
-    certoraRun certora/conf/run.conf
-
-
-
-
-
-
-
-
-
+    ```certoraRun certora/conf/runFixed.conf```

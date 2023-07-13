@@ -1,4 +1,0 @@
-{
-    "name": "certora-prover",
-    "image": "certora/certora-prover:ubuntu"
-}
