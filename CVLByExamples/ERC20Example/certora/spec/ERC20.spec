@@ -72,22 +72,6 @@ rule transferDoesntRevert {
     assert !lastReverted;
 }
 
-rule transferFromSpec {
-    // TODO!
-    assert false, "rule not implemented";
-}
-
-
-rule transferFromReverts {
-    // TODO!
-    assert false, "rule not implemented";
-}
-
-rule transferFromDoesntRevert {
-    // TODO!
-    assert false, "rule not implemented";
-}
-
 //// ## Part 2: parametric rules ///////////////////////////////////////////////
 
 /// If `approve` changes a holder's allowance, then it was called by the holder

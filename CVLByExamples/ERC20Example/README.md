@@ -8,4 +8,15 @@ This is a work in progress; see [the Certora Tutorial][tutorial] and
 [tutorial]: https://github.com/Certora/Tutorials
 [docs]: https://docs.certora.com/
 
+For the contract `contracts/broken/ERC20.sol` 
+The following rules fail:
+
+balancesBoundedByTotalSupply - fail for functions burn, deposit, mint.
+totalSupplyIsSumOfBalances - fail for functions deposit and withdraw.
+
+This version can be verified by running
+
+    ```certoraRun certora/conf/ERC20.conf```
+
+
 
