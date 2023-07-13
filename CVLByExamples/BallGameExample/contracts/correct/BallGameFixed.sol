@@ -13,7 +13,7 @@ pragma solidity ^0.8.0;
  * Player 1 starts with the ball; the game is lost if player 2 ever gets the
  * ball.
  */
-contract BallGame {
+contract BallGameFixed {
 
     /// The current position of the ball
     uint8 public ballPosition;
