@@ -11,8 +11,8 @@ This is a work in progress; see [the Certora Tutorial][tutorial] and
 For the contract `contracts/broken/ERC20.sol` 
 The following rules fail:
 
-balancesBoundedByTotalSupply - fail for functions burn, deposit, mint.
-totalSupplyIsSumOfBalances - fail for functions deposit and withdraw.
+balancesBoundedByTotalSupply - fails for functions burn, deposit, mint.
+totalSupplyIsSumOfBalances - fails for functions deposit and withdraw.
 
 This version can be verified by running
 
