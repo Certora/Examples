@@ -1,4 +1,6 @@
-# Examples
-An index repository with submodules for different examples of Certora projects.
+# Certora Prover and CVL Examples
+This repository contains a collection of examples illustrating CVL usage.
+The specifications are compatible with CVL2.
 
-Note - `FullProjects` directory still contains CVL1 specs.
+For a reference manual and full user guide for the Certora Prover, please visit https://docs.certora.com.
+
