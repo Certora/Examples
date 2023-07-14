@@ -1,5 +1,5 @@
 /*
-The following system is based on a simplified version of the Trident bug that was found by the certora prover.
+The following system is based on a simplified version of the Trident bug that was found by the Certora Prover.
 Here's a brief explanation about the original system and bug:
 https://medium.com/certora/exploiting-an-invariant-break-how-we-found-a-pool-draining-bug-in-sushiswaps-trident-585bd98a4d4f 
 
