@@ -2,11 +2,11 @@
 
 Example Certora verification for a simple multi-contract system.
 
-The main contract is `Pool.sol`. There are several configuration files that run the Prover with different
-run arguments.
+The main contract is `Pool.sol`. There are several configuration files that run the Prover with different run arguments.
 
 ## Incorrect Configurations
-`Pool.sol` without additional files
+`Pool.sol` without additional files.
+
 Failing rules:
 `integrityOfDeposit`
 
@@ -19,7 +19,7 @@ Commands to run:
 
 ## Correct Configurations:
 
-Commands to run:
+Run:
 ```certoraRun certora/conf/Pool.conf```
 
 ```certoraRun certora/conf/WithLinking.conf```
