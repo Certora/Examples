@@ -1,38 +1,9 @@
-/**/.certora_internal/*
+/**/.certora_internal
+**/.last_confs
 
-# Dependency directories
 **/node_modules/
-
+**/.env
+**/resource_errors.json
+**/package-lock.json
+**/.idea/
 **/cache/
-CVLByExamples/aave-token-v3/out/
-CVLByExamples/aave-token-v3/.idea
-CVLByExamples/aave-token-v3/node_modules
-CVLByExamples/aave-token-v3/package-lock.json
-CVLByExamples/aave-token-v3/.env
-
-CVLByExamples/BallGameExample/node_modules/
-CVLByExamples/LiquidityPoolExample/node_modules/
-
-# Certora
-CVLByExamples/ERC20Example/.certora*
-CVLByExamples/ERC20Example/.last_confs
-CVLByExamples/ERC20Example/certora_*
-CVLByExamples/ERC20Example/resource_errors.json
-
-CVLByExamples/aave-token-v3/.certora_config/
-CVLByExamples/aave-token-v3/.last_confs/
-CVLByExamples/aave-token-v3/CVLByExamples/aave-token-v3/.certora_*
-CVLByExamples/aave-token-v3/certora/munged
-
-CVLByExamples/BallGameExample/.certora*
-CVLByExamples/BallGameExample/.last_confs
-CVLByExamples/BallGameExample/certora_*
-CVLByExamples/BallGameExample/resource_errors.json
-CVLByExamples/BallGameExample/.zip-output-url.txt
-
-CVLByExamples/LiquidityPoolExample/.certora*
-CVLByExamples/LiquidityPoolExample/.last_confs
-CVLByExamples/LiquidityPoolExample/certora_*
-CVLByExamples/LiquidityPoolExample/resource_errors.json
-CVLByExamples/LiquidityPoolExample/.zip-output-url.txt
-
