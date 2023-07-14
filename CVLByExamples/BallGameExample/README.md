@@ -9,18 +9,9 @@ A method `pass` defines how players pass the ball. Each player passes the ball t
 
 We wish to show that the ball can never reach player 2, and wrote the invariant `playerTwoNeverReceivesBall`, that can be found in `certora/specs/BallGame.spec`.
 
-## Incorrect Code
+## Incorrect
 
-The buggy version is in `broken/BallGameBroken.sol`. 
-The invariant `playerTwoNeverReceivesBall` is not preserved because the ball gets to player 4.
-
-To run the incorrect version:
-```certoraRun certora/specs/runBroken.conf```
-
-## Correct Code
-
-A correct contract version is `correct/BallGameCorrect.sol`.
-However, even when we try to verify this contract with the spec `BallGame.spec` the invariant fails because the invariant is not strong enough. 
+When we try to verify the contract at `contracts/BallGame.sol` with the spec `BallGame.spec` the invariant fails because the invariant is not strong enough. 
 The Prover starts from an arbitrary state, only assuming player 2 does not have the ball.
 But actually if in our starting state the ball can be at player 4, player 4 passes the ball to player 2, violating the invariant.
 
