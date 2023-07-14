@@ -16,14 +16,14 @@ The Prover starts from an arbitrary state, only assuming player 2 does not have 
 But actually if in our starting state the ball can be at player 4, player 4 passes the ball to player 2, violating the invariant.
 
 To run the correct version, still getting a violation:
-```certoraRun certora/specs/runWeakInvariant.conf```
+```certoraRun certora/conf/runWeakInvariant.conf```
 
 ## Correct Code and Spec
 
 This is fixed by the stronger spec `BallGameCorrect.spec`, requiring that in fact the ball can be held either by player 1 or by player 3.
 
 The command for running this version:
-```certoraRun certora/specs/runFixed.conf```
+```certoraRun certora/conf/runFixed.conf```
 
 
 
