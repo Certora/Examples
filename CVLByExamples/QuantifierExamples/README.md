@@ -3,7 +3,7 @@ This repository contains examples of Certora specs using quantifiers and
 quantified invariants.  These examples were presented in the advanced webinar
 on quantifiers:
 
-[<img src="https://github.com/jhoenicke/seahaven/blob/master/resources/screenshot.svg?raw=true" />](https://youtu.be/IEB6adfjsA8)
+[<img src="./webinar-quantifiers.png" width="50%" />](https://youtu.be/IEB6adfjsA8)
 
 - [Recording on YouTube](https://youtu.be/IEB6adfjsA8)
 - [Slides from the Webinar](./webinar-quantifiers.pdf)
