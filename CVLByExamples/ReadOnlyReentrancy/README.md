@@ -5,7 +5,7 @@ This directory contains two versions of a "bank" contract and a spec that applie
 ## Incorrect Code
 In `VulnerableBank.sol` the rule `readOnlyReentrancy` fails because of a possible Read-Only Reentrancy weakness at external call site at file `contracts/VulnerableBank.sol`, in function `withdraw()`.
 
-This contract Can be checked by running: 
+This contract can be checked by running: 
 ```certoraRun certora/conf/BuiltinROReentrancyVulnerableBank.conf```
 
 ## Correct Code

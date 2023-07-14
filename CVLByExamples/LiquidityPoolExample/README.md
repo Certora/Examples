@@ -27,7 +27,7 @@ Commands to run:
 
 ### Pool
 Run:
-```certoraRun certora/conf/Pool.conf``` (note: requires solc v0.8.2)
+```certoraRun certora/conf/Pool.conf``` (note: requires solc v0.8.2 due to `USDT.sol`)
 
 ```certoraRun certora/conf/WithLinking.conf```
 
