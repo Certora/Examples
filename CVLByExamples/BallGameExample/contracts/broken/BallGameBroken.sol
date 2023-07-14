@@ -10,6 +10,8 @@ pragma solidity ^0.8.0;
  *   - player 3 will pass back to player 1
  *   - any other player will pass to player 2
  *
+ * ...except this version has a bug
+ *
  * Player 1 starts with the ball; the game is lost if player 2 ever gets the
  * ball.
  */
@@ -27,9 +29,11 @@ contract BallGame {
     ///   - player 1 will pass to player 3
     ///   - player 3 will pass to player 1
     ///   - everyone else will pass to player 2
+    ///
+    /// @dev this version has a known bug
     function pass() external {
         if (ballPosition == 1)
-            ballPosition = 3;
+            ballPosition = 4;
         else if (ballPosition == 3)
             ballPosition = 1;
         else

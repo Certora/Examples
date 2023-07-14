@@ -4,7 +4,7 @@ methods {
 }
 
 /// The ball should never get to player 2
-invariant playerTwoNeverWins() 
+invariant playerTwoNeverReceivesBall() 
     ballPosition() == 1 || ballPosition() == 3;
 
 
