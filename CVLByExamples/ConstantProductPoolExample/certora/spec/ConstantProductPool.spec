@@ -10,9 +10,10 @@ using DummyERC20B as _token1;
 
 
 /*
-    Declaration of methods that are used in the rules. envfree indicate that
-    the method is not dependent on the environment (msg.value, msg.sender).
-    Methods that are not declared here are assumed to be dependent on env.
+    Declaration of methods that are used in the rules. `envfree` indicates that
+    the method is not dependent on the environment (`msg.value`, `msg.sender`).
+    Methods that are not declared here are assumed to be dependent on the
+    environment.
 */
 
 methods{
