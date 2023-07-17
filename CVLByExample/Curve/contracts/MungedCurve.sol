@@ -16,7 +16,26 @@ contract MintableToken is ERC20 {
     }
 }
 
-contract Curve is ReentrancyGuard{
+
+contract MungedCurve is ReentrancyGuard{
+    //Munge
+    bytes4 public solghost_executeFunction1;
+    bytes4 public solghost_executeFunction2;
+    uint256 public solghost_return_func1;
+    bool solghost_trigger_check;
+    // SOLIDITY GHOST Functions
+    function func1_caller() public returns(uint256)
+    {
+        return getVirtualPrice();
+    }
+
+    function sample_view_functions() internal{
+        // Sample the values
+        solghost_return_func1 = getVirtualPrice();
+        // Trigger the check in CVL
+        solghost_trigger_check = true;
+    }
+
     //uint128 public constant  2 = 2;
     uint256  constant A_PRECISION =100;
     uint256  constant PRECISION = 10e18;
@@ -26,8 +45,8 @@ contract Curve is ReentrancyGuard{
     uint256  initial_A;
     uint256[2]  admin_balances;
     // storage var "address[2] coins" was seperated to be able to link
-    address  public coins_0;
-    address  public coins_1;
+    address public coins_0;
+    address public coins_1;
     address  public lp_token;
     address  owner;
     // address  public underlying_token; // would be linked to ERC20 and equal to coins[1], but can't do directly due to CVL limitations
@@ -118,21 +137,11 @@ contract Curve is ReentrancyGuard{
         }
     }
     
-    function _balances(uint256 _value) internal view returns(uint256[2] memory) {
+    function _balances(uint256 _value) public view returns(uint256[2] memory) {
         return [
             address(this).balance - admin_balances[0] - _value,
             ERC20(coins_1).balanceOf(address(this)) - admin_balances[1]];
     }
-
-    // function _balances_guarded(uint256 _value) public view returns(uint256[2] memory) {
-    //     require(!_reentrancyGuardEntered(), "reading during reentrancy not allowed!");
-    //     return _balances(_value);
-    // }
-
-    // function getVirtualPrice_guarded() public view returns(uint256) {
-    //     require(!_reentrancyGuardEntered(), "reading during reentrancy not allowed!");
-    //     return getVirtualPrice();
-    // }
 
     function getVirtualPrice() public view returns(uint256){
         uint256 D = this.get_D(_balances(0),_A());
@@ -157,16 +166,14 @@ contract Curve is ReentrancyGuard{
             amounts[i] = value;
             if (i == 0){
                 msg.sender.call{value:value}("");
+                sample_view_functions();
+
             }
             else{
                 assert (ERC20(coins_1).transfer(msg.sender, value));
             }
         }
         return amounts;
-    }
-
-    function addScenarioEther() public payable {
-
     }
 
 }
@@ -186,20 +193,20 @@ contract scenario {
         CurveTokenExample lp_token = new CurveTokenExample(); 
         MintableToken token = new MintableToken("example", "ex");
 
-        // setup Curve contract and its ETH and shares BEFORE the attacker
+        // setup MungedCurve contract and its ETH and shares BEFORE the attacker
         require(msg.value >= deposited_ether_before + attacker_deposit_eth, "Not enough funds sent to init the scenario");
-        Curve _curve = new Curve{value: deposited_ether_before}(address(lp_token), address(token));
+        MungedCurve _curve = new MungedCurve{value: deposited_ether_before}(address(lp_token), address(token));
         lp_token.mint(other_user, other_user_lp);
         token.mint(address(_curve), underlying_asset_before);
 
         // Log the price before the attacker
         // console.log("before the attacker got in the price is %s", _curve.getVirtualPrice());
 
-        // attakcer contract
+        // attacker contract
         attacker _attContract = new attacker(address(_curve));
 
         // setup state (mints)
-        _curve.addScenarioEther{value: attacker_deposit_eth}();
+        // _curve.addScenarioEther{value: attacker_deposit_eth}();
         lp_token.mint(address(_attContract), attacker_lp);
         token.mint(address(_curve), attacker_underlying);
 
@@ -212,12 +219,12 @@ contract scenario {
 }
 
 contract attacker{
-    Curve public attacked;
+    MungedCurve public attacked;
     ERC20 token;
     CurveTokenExample lp_token;
 
     constructor(address attackedAddr){
-        attacked = Curve(attackedAddr);
+        attacked = MungedCurve(attackedAddr);
         token = ERC20(attacked.coins_1());
         lp_token = CurveTokenExample(attacked.lp_token());
     }
