@@ -1,0 +1,8 @@
+{
+    "importFilesToOrigRelpaths": {},
+    "primary_contract": "curve",
+    "specfile": "certora/specs/ViewReentrancy.spec",
+    "specfileOrigRelpath": "certora/specs/ViewReentrancy.spec",
+    "specfilesToImportDecls": {},
+    "type": "spec"
+}

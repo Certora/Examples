@@ -1,0 +1,51 @@
+{
+    "CLI_version": "",
+    "branch": "sitvanit/add-curve",
+    "conf": {
+        "files": [
+            "contracts/curve.sol",
+            "contracts/curve.sol:CurveTokenExample",
+            "contracts/ERC20.sol"
+        ],
+        "link": [
+            "curve:lp_token=CurveTokenExample",
+            "curve:coins_1=ERC20"
+        ],
+        "loop_iter": "6",
+        "msg": "Curve builtin linking coins_1 w/ view guard",
+        "optimistic_loop": true,
+        "process": "emv",
+        "prover_args": [
+            " -optimisticFallback true"
+        ],
+        "send_only": true,
+        "solc": "solc8.13",
+        "verify": "curve:certora/specs/ViewReentrancy.spec"
+    },
+    "cwd_relative": "CVLByExample/curve",
+    "dirty": true,
+    "origin": "git@github.com:Certora/Examples.git",
+    "raw_args": [
+        "/home/sitvanit/EVMVerifier-all/Build/certoraRun.py",
+        "contracts/curve.sol",
+        "contracts/curve.sol:CurveTokenExample",
+        "contracts/ERC20.sol",
+        "--verify",
+        "curve:certora/specs/ViewReentrancy.spec",
+        "--link",
+        "curve:lp_token=CurveTokenExample",
+        "curve:coins_1=ERC20",
+        "--solc",
+        "solc8.13",
+        "--optimistic_loop",
+        "--loop_iter",
+        "6",
+        "--send_only",
+        "--prover_args",
+        "-optimisticFallback true",
+        "--msg",
+        "Curve builtin linking coins_1 w/ view guard"
+    ],
+    "revision": "2d729bcc944a776d94676a86044163fb545df28e",
+    "timestamp": "1689508341.315873"
+}

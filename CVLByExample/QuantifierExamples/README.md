@@ -1,4 +1,4 @@
-# QuantifierExamples
+# Quantifier Examples
 This repository contains examples of Certora specs using quantifiers and
 quantified invariants.  These examples were presented in the advanced webinar
 on quantifiers:

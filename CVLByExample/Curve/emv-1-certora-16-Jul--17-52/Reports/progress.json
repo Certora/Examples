@@ -1,0 +1,14 @@
+{
+	RegisteredRule(rule=no_read_only_reentrancy, ruleType=spec.cvlast.SpecType$Single$FromUser$SpecFile@5436ad87, parentCVLDeclarationId=null, isCounted=true): true,
+	RegisteredRule(rule=remove_liquidity(uint256,uint256[2]), ruleType=spec.cvlast.SpecType$Single$FromUser$SpecFile@5436ad87, parentCVLDeclarationId=no_read_only_reentrancy, isCounted=true): true,
+	RegisteredRule(rule=coins_0(), ruleType=spec.cvlast.SpecType$Single$FromUser$SpecFile@5436ad87, parentCVLDeclarationId=no_read_only_reentrancy, isCounted=true): true,
+	RegisteredRule(rule=solghost_return_func1(), ruleType=spec.cvlast.SpecType$Single$FromUser$SpecFile@5436ad87, parentCVLDeclarationId=no_read_only_reentrancy, isCounted=true): true,
+	RegisteredRule(rule=_balances(uint256), ruleType=spec.cvlast.SpecType$Single$FromUser$SpecFile@5436ad87, parentCVLDeclarationId=no_read_only_reentrancy, isCounted=true): true,
+	RegisteredRule(rule=lp_token(), ruleType=spec.cvlast.SpecType$Single$FromUser$SpecFile@5436ad87, parentCVLDeclarationId=no_read_only_reentrancy, isCounted=true): true,
+	RegisteredRule(rule=coins_1(), ruleType=spec.cvlast.SpecType$Single$FromUser$SpecFile@5436ad87, parentCVLDeclarationId=no_read_only_reentrancy, isCounted=true): true,
+	RegisteredRule(rule=solghost_executeFunction2(), ruleType=spec.cvlast.SpecType$Single$FromUser$SpecFile@5436ad87, parentCVLDeclarationId=no_read_only_reentrancy, isCounted=true): true,
+	RegisteredRule(rule=get_D(uint256[2],uint256), ruleType=spec.cvlast.SpecType$Single$FromUser$SpecFile@5436ad87, parentCVLDeclarationId=no_read_only_reentrancy, isCounted=true): true,
+	RegisteredRule(rule=solghost_executeFunction1(), ruleType=spec.cvlast.SpecType$Single$FromUser$SpecFile@5436ad87, parentCVLDeclarationId=no_read_only_reentrancy, isCounted=true): true,
+	RegisteredRule(rule=getVirtualPrice(), ruleType=spec.cvlast.SpecType$Single$FromUser$SpecFile@5436ad87, parentCVLDeclarationId=no_read_only_reentrancy, isCounted=true): true,
+	RegisteredRule(rule=func1_caller(), ruleType=spec.cvlast.SpecType$Single$FromUser$SpecFile@5436ad87, parentCVLDeclarationId=no_read_only_reentrancy, isCounted=true): true
+}

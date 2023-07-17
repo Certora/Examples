@@ -1,0 +1,14 @@
+{
+	"assertMessages": {
+
+	},
+	"rules": {
+		"viewReentrancy": {
+			"FAIL": ["remove_liquidity(uint256,uint256[2])"],
+			"SANITY_FAIL": [],
+			"SUCCESS": ["func1_caller()"],
+			"TIMEOUT": [],
+			"UNKNOWN": []
+		}
+	}
+}

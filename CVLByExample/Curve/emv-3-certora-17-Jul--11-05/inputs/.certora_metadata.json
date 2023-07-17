@@ -1,0 +1,33 @@
+{
+    "CLI_version": "",
+    "branch": "sitvanit/add-curve",
+    "conf": {
+        "files": [
+            "contracts/Curve.sol",
+            "contracts/CurveTokenExample.sol",
+            "contracts/ERC20.sol"
+        ],
+        "link": [
+            "Curve:lp_token=CurveTokenExample",
+            "Curve:coins_1=ERC20"
+        ],
+        "loop_iter": "6",
+        "msg": "Curve builtin linking coins_1 w/ view guard",
+        "optimistic_loop": true,
+        "process": "emv",
+        "prover_args": [
+            "-optimisticFallback true"
+        ],
+        "send_only": true,
+        "verify": "Curve:certora/specs/BuiltinViewReentrancy.spec"
+    },
+    "cwd_relative": "CVLByExample/Curve",
+    "dirty": true,
+    "origin": "git@github.com:Certora/Examples.git",
+    "raw_args": [
+        "/home/sitvanit/EVMVerifier-all/Build/certoraRun.py",
+        "certora/conf/runViewReentrancyBuiltinRule.conf"
+    ],
+    "revision": "2d729bcc944a776d94676a86044163fb545df28e",
+    "timestamp": "1689570347.324401"
+}

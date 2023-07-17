@@ -1,0 +1,14 @@
+{
+	"assertMessages": {
+
+	},
+	"rules": {
+		"no_read_only_reentrancy": {
+			"FAIL": ["remove_liquidity(uint256,uint256[2])"],
+			"SANITY_FAIL": [],
+			"SUCCESS": ["_balances(uint256)", "coins_0()", "coins_1()", "func1_caller()", "getVirtualPrice()", "get_D(uint256[2],uint256)", "lp_token()", "solghost_executeFunction1()", "solghost_executeFunction2()", "solghost_return_func1()"],
+			"TIMEOUT": [],
+			"UNKNOWN": []
+		}
+	}
+}
