@@ -1,5 +1,0 @@
-{
-	RegisteredRule(rule=viewReentrancy, ruleType=BuiltIn(birId=viewReentrancy), parentCVLDeclarationId=null, isCounted=true): true,
-	RegisteredRule(rule=remove_liquidity(uint256,uint256[2]), ruleType=BuiltIn(birId=viewReentrancy), parentCVLDeclarationId=viewReentrancy, isCounted=true): true,
-	RegisteredRule(rule=func1_caller(), ruleType=BuiltIn(birId=viewReentrancy), parentCVLDeclarationId=viewReentrancy, isCounted=true): true
-}

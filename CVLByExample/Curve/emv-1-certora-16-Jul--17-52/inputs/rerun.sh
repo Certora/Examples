@@ -1,1 +1,0 @@
-java -jar $CERTORA/emv.jar -cache 1777176403237640156-optimisticTrue-iter6-None- -assumeUnwindCond -b 6 -optimisticFallback true -buildDirectory .certora_internal/23_07_16_17_52_21_279 # you can remove -buildDirectory (but will still work inside inputs dir)
