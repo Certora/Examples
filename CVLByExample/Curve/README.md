@@ -15,7 +15,7 @@ certora/specs contains two spec files for exposing this weakness.
     2. The value of getVirtualPrice() before the unresolved call present in the solidity function.
     3. The value of getVirtualPrice() after the unresolved call present in the solidity function.
     4. The existence of read only weakness with respect to getVirtualPrice().
-    Two hooks are defined. One for updating (1) and one for updating (2).
+    Two hooks are defined. One for updating (1) and one for updating (4).
 
 Both rules check the existence of the weakness by checking 
 the result of a view function after an
