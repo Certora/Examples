@@ -41,23 +41,16 @@ contract Curve is ReentrancyGuard{
 
     mapping(uint256 => mapping(uint256 => mapping(uint256 => uint256))) _DEMO_D_MAPPING;
 
-
-
-    
-    // constructor(uint256 _future_A_time, uint256 _future_A, uint256 _initial_A_time, uint256 _initial_A, address owner ) {
-
     constructor(address _lp_token, address _token_addr) payable {
         lp_token = _lp_token;
         coins_1 = _token_addr;
     }
 
-
-    // function get_D(uint xp_0, uint xp_1)
-
+    // The symplification returns the sum of the first two entries of xp.
     function get_D(uint256[2] memory xp,uint256 amp) public view returns(uint256) {
         uint256 S = 0;
         uint256 Dprev = 0;
-        // Demo simplificaiton - unconstrained CONST
+        // Demo simplificaiton - in order to reduce the running time of the example.
         // get_D currently crashes the prover's pre-SMT analysis or something
         // uint256 x; 
         // return _DEMO_D; 
@@ -65,34 +58,39 @@ contract Curve is ReentrancyGuard{
         return xp[0] + xp[1];
         // Simplification end
 
-        for (uint256 _x=0;_x<xp.length;_x++){
-            S +=xp[_x];
-        }
-        if(S == 0){
-            return 0;
-        }
+        // Commenting out unreachable code of the simplification.
+        // The symplification does not affect the view reentrancy weakness 
+        // because the fields that are changed
+        // before/ after the unresolved call are still read by the calling view function.
 
-        uint256 D=S;
-        uint256 Ann = amp * 2;
-        for (uint _i=0;_i<255;++_i){
-            uint256 D_P = D;
-            for (uint256 _x=0;_x<xp.length;_x++){
-                D_P = D_P * D / (xp[_x] * 2 +1);
-            }
-            Dprev = D;
-            D = (Ann * S / A_PRECISION + D_P * 2) * D / ((Ann - A_PRECISION) * D / A_PRECISION + (2 + 1) * D_P);
-            if (D > Dprev){
-                if (D - Dprev <= 1){
-                    return D;
-                }
-            }
-            else{
-                if (Dprev - D <= 1){
-                    return D;
-                }
-            }
-        }
-        revert();
+        // for (uint256 _x=0;_x<xp.length;_x++){
+        //     S +=xp[_x];
+        // }
+        // if(S == 0){
+        //     return 0;
+        // }
+
+        // uint256 D=S;
+        // uint256 Ann = amp * 2;
+        // for (uint _i=0;_i<255;++_i){
+        //     uint256 D_P = D;
+        //     for (uint256 _x=0;_x<xp.length;_x++){
+        //         D_P = D_P * D / (xp[_x] * 2 +1);
+        //     }
+        //     Dprev = D;
+        //     D = (Ann * S / A_PRECISION + D_P * 2) * D / ((Ann - A_PRECISION) * D / A_PRECISION + (2 + 1) * D_P);
+        //     if (D > Dprev){
+        //         if (D - Dprev <= 1){
+        //             return D;
+        //         }
+        //     }
+        //     else{
+        //         if (Dprev - D <= 1){
+        //             return D;
+        //         }
+        //     }
+        // }
+        // revert();
     }
 
     function _A() view internal returns(uint256) {
@@ -101,21 +99,21 @@ contract Curve is ReentrancyGuard{
         return future_A;
         // Simplification end
 
-        uint256 t1 = future_A_time;
-        uint256 A1 = future_A;
-        if (block.timestamp < t1){
-            uint256 A0 = initial_A;
-            uint256 t0 = initial_A_time;
-            if (A1 > A0){
-                return A0 + (A1 - A0) * (block.timestamp - t0) / (t1 - t0);
-            }
-            else{
-                return A0 - (A0 - A1) * (block.timestamp - t0) / (t1 - t0);
-            }
-        }
-        else{
-            return A1;
-        }
+        // uint256 t1 = future_A_time;
+        // uint256 A1 = future_A;
+        // if (block.timestamp < t1){
+        //     uint256 A0 = initial_A;
+        //     uint256 t0 = initial_A_time;
+        //     if (A1 > A0){
+        //         return A0 + (A1 - A0) * (block.timestamp - t0) / (t1 - t0);
+        //     }
+        //     else{
+        //         return A0 - (A0 - A1) * (block.timestamp - t0) / (t1 - t0);
+        //     }
+        // }
+        // else{
+        //     return A1;
+        // }
     }
     
     function _balances(uint256 _value) internal view returns(uint256[2] memory) {
