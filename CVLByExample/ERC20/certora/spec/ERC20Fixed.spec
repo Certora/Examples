@@ -8,7 +8,6 @@ methods {
     function balanceOf(address)         external returns(uint) envfree;
     function allowance(address,address) external returns(uint) envfree;
     function totalSupply()              external returns(uint) envfree;
-    // function transferFrom(address,address,uint) external returns(bool) envfree;
 }
 
 //// ## Part 1: Basic rules ////////////////////////////////////////////////////
@@ -119,19 +118,9 @@ invariant balancesBoundedByTotalSupply(address alice, address bob)
         require e3.msg.sender == alice || e3.msg.sender == bob;
     }
 
-    preserved deposit() with (env e4) {
-        require alice != bob;
-        require e4.msg.sender == alice || e4.msg.sender == bob;
-    }
-
     preserved withdraw(uint256 amount) with (env e5) {
         require e5.msg.sender == alice || e5.msg.sender == bob;
     }
-
-    // preserved mint(address account, uint256 amount) with (env e) {
-    //     require account        == alice || account        == bob;
-    //     require e.msg.sender == alice || e.msg.sender == bob;
-    // }
 }
 
 //// ## Part 4: ghosts and hooks ///////////////////////////////////////////////

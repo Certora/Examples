@@ -31,7 +31,7 @@ import "../IERC20Metadata.sol";
  * functions have been added to mitigate the well-known issues around setting
  * allowances. See {IERC20-approve}.
  */
-contract ERC20 is IERC20, IERC20Metadata {
+contract ERC20Fixed is IERC20, IERC20Metadata {
     mapping(address => uint256) private _balances;
 
     mapping(address => mapping(address => uint256)) private _allowances;
@@ -403,11 +403,11 @@ contract ERC20 is IERC20, IERC20Metadata {
         _totalSupply += msg.value;
     }
 
-    function withdraw(uint256 amount) external payable{
+    function withdraw(uint256 amount) external {
         require(amount <= _balances[msg.sender]);
         _balances[msg.sender] -= amount;
         _totalSupply -= amount;
-        (bool success, ) = msg.sender.call{value: amount}("unresolved");
+        (bool success, ) = msg.sender.call{value: amount}("");
         require(success);
     }
 }
