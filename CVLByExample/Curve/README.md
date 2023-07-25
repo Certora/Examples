@@ -1,7 +1,9 @@
 
 #Curve 
 
-This directory contains the `Curve` contract which has the read only reentrancy weakness. 
+This directory contains a mock contract we've written that is based on the past 
+read only reentrancy vulnerability of one of the `Curve`
+ pools. 
 
 ##Contracts
 The original contract is `Curve`` whose weakness is found by the builtin rule viewReentrancy. In addition we have the
