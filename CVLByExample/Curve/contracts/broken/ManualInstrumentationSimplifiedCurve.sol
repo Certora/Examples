@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: Unlicense
 pragma solidity ^0.8.13;
-import "./ERC20.sol";
-import "./ReentrancyGuard.sol";
-import "./CurveToken.sol";
-import "./CurveTokenExample.sol";
+import "../ERC20.sol";
+import "../ReentrancyGuard.sol";
+import "../CurveToken.sol";
+import "../CurveTokenExample.sol";
 
 contract MintableToken is ERC20 {
 
@@ -17,7 +17,7 @@ contract MintableToken is ERC20 {
 }
 
 
-contract ManualInstrumentationCurve is ReentrancyGuard{
+contract ManualInstrumentationSimplifiedCurve is ReentrancyGuard{
     // Manual instrumentation
     uint256 public solghost_return_func1;
     bool solghost_trigger_check;
@@ -191,9 +191,9 @@ contract scenario {
         CurveTokenExample lp_token = new CurveTokenExample(); 
         MintableToken token = new MintableToken("example", "ex");
 
-        // setup ManualInstrumentationCurve contract and its ETH and shares BEFORE the attacker
+        // setup ManualInstrumentationSimplifiedCurve contract and its ETH and shares BEFORE the attacker
         require(msg.value >= deposited_ether_before + attacker_deposit_eth, "Not enough funds sent to init the scenario");
-        ManualInstrumentationCurve _curve = new ManualInstrumentationCurve{value: deposited_ether_before}(address(lp_token), address(token));
+        ManualInstrumentationSimplifiedCurve _curve = new ManualInstrumentationSimplifiedCurve{value: deposited_ether_before}(address(lp_token), address(token));
         lp_token.mint(other_user, other_user_lp);
         token.mint(address(_curve), underlying_asset_before);
 
@@ -217,12 +217,12 @@ contract scenario {
 }
 
 contract attacker{
-    ManualInstrumentationCurve public attacked;
+    ManualInstrumentationSimplifiedCurve public attacked;
     ERC20 token;
     CurveTokenExample lp_token;
 
     constructor(address attackedAddr){
-        attacked = ManualInstrumentationCurve(attackedAddr);
+        attacked = ManualInstrumentationSimplifiedCurve(attackedAddr);
         token = ERC20(attacked.coins_1());
         lp_token = CurveTokenExample(attacked.lp_token());
     }
