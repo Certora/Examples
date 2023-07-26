@@ -46,6 +46,7 @@ contract SimplifiedCurve is ReentrancyGuard{
         coins_1 = _token_addr;
     }
 
+    // Compute parameter D of Curve's price function.
     // The symplification returns the sum of the first two entries of xp.
     function get_D(uint256[2] memory xp,uint256 amp) public view returns(uint256) {
         uint256 S = 0;

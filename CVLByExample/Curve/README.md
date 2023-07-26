@@ -5,7 +5,7 @@ This directory contains a simplified contract that is based on the past
 `read-only reentrancy` vulnerability of one of the `Curve` pools. 
 
 ##Contracts
-The original simplified contract is `SimplifiedCurve`` whose weakness is found by the builtin rule `viewReentrancy`. 
+The original simplified contract is `SimplifiedCurve` whose weakness is found by the builtin rule `viewReentrancy`. 
 Another 
 contract is `ManualInstrumentationCurve` that allows finding the weakness also with a regular rule. This is used to 
 demonstrate what the builtin rule actually does.
@@ -48,7 +48,7 @@ For running the regular rule run
 
 The report of this run can be found in
 
-```https://prover.certora.com/output/1902/fac7a9437752438d85472b0446247aff?anonymousKey=a1fb2c1b2e88bd10a64601831ce2cd8912d2de53```
+[Report of failure with regular rule](https://prover.certora.com/output/1902/fac7a9437752438d85472b0446247aff?anonymousKey=a1fb2c1b2e88bd10a64601831ce2cd8912d2de53)
 
 ## Correct Code
 
@@ -62,7 +62,7 @@ on this contract is
 
 The report of this run can be found in
 
-https://prover.certora.com/output/1902/a2845c679b6a4028af918b842916ad8c?anonymousKey=fe54be4932f20347abe18ac7f7afeb9665d2a8f8
+[Report of correctness with builtin rule](https://prover.certora.com/output/1902/a2845c679b6a4028af918b842916ad8c?anonymousKey=fe54be4932f20347abe18ac7f7afeb9665d2a8f8)
 
 
 The resulting code with instrumentation is `ManualInstrumentationSimplifiedCurveFixed`. The command to check the regular rule
@@ -72,6 +72,6 @@ on this contract is
 
 The report of this run can be found in
 
-https://prover.certora.com/output/1902/a411fe10787b4a778f0b63848da18d78?anonymousKey=5c2538f9a28f026d9e471c76651212bb610bf488
+[Report of correctness with regular rule](https://prover.certora.com/output/1902/a411fe10787b4a778f0b63848da18d78?anonymousKey=5c2538f9a28f026d9e471c76651212bb610bf488)
 
 

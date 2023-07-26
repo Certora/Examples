@@ -70,7 +70,7 @@ contract ManualInstrumentationSimplifiedCurveFixed is ReentrancyGuard{
 
 
     // function get_D(uint xp_0, uint xp_1)
-
+    // Compute parameter D of Curve's price function.
     function get_D(uint256[2] memory xp,uint256 amp) public view returns(uint256) {
         require (!_reentrancyGuardEntered());
         uint256 S = 0;

@@ -47,6 +47,7 @@ contract SimplifiedCurveFixed is ReentrancyGuard{
     }
 
     // The symplification returns the sum of the first two entries of xp.
+    // Compute parameter D of Curve's price function. 
     function get_D(uint256[2] memory xp,uint256 amp) public view returns(uint256) {
         require (!_reentrancyGuardEntered());
         uint256 S = 0;
