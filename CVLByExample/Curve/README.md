@@ -2,7 +2,7 @@
 #Curve 
 
 This directory contains a simplified contract that is based on the past 
-`read-only reentrancy` vulnerability of one of the `Curve` pools. 
+`read-only reentrancy` vulnerability of one of the `Curve` pools described [here](https://chainsecurity.com/curve-lp-oracle-manipulation-post-mortem/)
 
 ##Contracts
 The original simplified contract is `SimplifiedCurve` whose weakness is found by the builtin rule `viewReentrancy`. 
