@@ -6,8 +6,8 @@ For a reference manual and full user guide for the Certora Prover, please visit 
 
 ## Examples for CVL Commands
 1. `envFree` 
-   - [ERC20](https://github.com/Certora/Examples/blob/master/CVLByExample/ERC20/README.md)
-   - [Vat](https://github.com/Certora/Examples/blob/sitvanit/add-fund-eq-of-dai/CVLByExample/fund-eq-of-dai-certora/README.md)
+   - [ERC20](https://github.com/Certora/Examples/blob/master/CVLByExample/ERC20)
+   - [Vat](https://github.com/Certora/Examples/blob/sitvanit/add-fund-eq-of-dai/CVLByExample/fund-eq-of-dai-certora)
 
 2. `ghost`
    - [Vat](https://github.com/Certora/Examples/blob/sitvanit/add-fund-eq-of-dai/CVLByExample/fund-eq-of-dai-certora/README.md)
