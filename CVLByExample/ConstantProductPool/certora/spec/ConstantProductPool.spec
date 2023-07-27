@@ -1,6 +1,5 @@
-
 /***
-This example explains many features of Certora Verification Language. 
+This example explains the many features of the Certora Verification Language. 
 See https://docs.certora.com for a complete guide.
 ***/
 
@@ -52,9 +51,10 @@ function setup(env e){
 /*
 Property: For all possible scenarios of swapping token1 for token0, the balance of the recipient is updated as expected. 
 
-This property is implemented as a unit-test style rule - it checks one method but on all possible scenarios.
-Note that it also takes into account if the recipient is the contract itself, in which case this property does not hold since the balance is unchanged.
-As a result, we add a require that the recipient is not the currentContract.
+This property is implemented as a unit-test style rule. It checks one method but on all possible scenarios.
+Note:
+ It also takes into account if the recipient is the contract itself, in which case this property does not hold since the balance is unchanged.
+As a result, we add a requirement that the recipient is not the currentContract.
 
 This property catches a bug in which there is a switch between the token and the recipient:
         transfer( recipient, tokenOut, amountOut);
@@ -76,11 +76,11 @@ rule integrityOfSwap(address recipient) {
 }
 
 /*
-Property: Only the user itself or an allowed spender can decrease the user's LP balance.
+Property: Only the user  or an allowed spender can decrease the user's LP balance.
 
 This property is implemented as a parametric rule - it checks all public/external methods of the contract.
 
-This property catches a bug in which there is a switch between the token and the recipient in burnSingle:
+This property catches a bug when there is a switch between the token and the recipient in burnSingle:
         transfer( recipient, tokenOut, amountOut);
 
 Formula:
@@ -109,8 +109,8 @@ rule noDecreaseByOther(method f, address account) {
 Property: For both token0 and token1 the balance of the system is at least as much as the reserves.
 
 This property is implemented as an invariant. 
-Invariants are a specification of a condition that should always be true once an operation is concluded.
-In addition, the invariant also checks that it holds right after the constructor of the code runs.
+Invariants are defined as a specification of a condition that should always be true once an operation is concluded.
+In addition, the invariant also checks that it holds immediately after the constructor of the code runs.
 
 This invariant also catches the bug in which there is a switch between the token and the recipient in burnSingle:
         transfer( recipient, tokenOut, amountOut);
@@ -134,7 +134,7 @@ invariant balanceGreaterThanReserve()
 Property: Integrity of totalSupply with respect to the amount of reserves. 
 
 This is a high level property of the system - the ability to pay back liquidity providers.
-If there are any LP tokens (the totalSupply is greater than 0), then neither reserves0 nor reserves1 should ever become zero (otherwise the pool could not produce the underlying tokens).
+If there are any LP tokens (the totalSupply is greater than 0), then neither reserves0 nor reserves1 should ever be zero (otherwise the pool could not produce the underlying tokens).
 
 This invariant catches the original bug in Trident where the amount to receive is computed as a function of the balances and not the reserves.
 
@@ -161,7 +161,7 @@ Property: Monotonicity of mint.
 The more tokens a user transfers to the system the more LP tokens that user should receive. 
 This property is implemented as a relational property - it compares two different executions on the same state.
 
-This invariant catches a bug in mint where the LP tokens of the first depositor are not computed correctly and the less he transfers the more LP-tokens he receives. 
+This invariant catches a bug in mint where the LP tokens of the first depositor are not computed correctly and the less he transfers the more LP tokens he receives. 
 
 Formula:
     { x > y }
@@ -192,9 +192,9 @@ rule monotonicityOfMint(uint256 x, uint256 y, address recipient) {
 /*
 Property: Sum of balances
 
-The sum of all balances equals the total supply 
+The sum of all balances is equal to the total supply.
 
-This property is implemented with a ghost, an additional variable that tracks changes to the balance mapping
+This property is implemented with a ghost, an additional variable that tracks changes to the balance mapping.
 
 Formula:
     
@@ -222,10 +222,9 @@ invariant sumFunds()
 /*
 Property: Full withdraw example
 
-Give an example demonstrating a case where the user's deposit (transfer or mint) can be full refunded
-by burning the liquidity provided.
+Give an example demonstrating a case where the user's deposit (transfer or mint) can be fully refunded by burning the liquidity provided.
 
-This property uses the `satisfy` command, which causes the Prover to produce successful examples of expected properties, rather than counterexamples.  In particular, this rule does not prove that every deposit can be fully withdrawn.
+This property uses the `satisfy` command, which causes the Prover to produce successful examples of expected properties rather than counterexamples.  In particular, this rule does not prove that every deposit can be fully withdrawn.
 
 */
 rule possibleToFullyWithdraw(address sender, uint256 amount) {
@@ -249,16 +248,16 @@ rule possibleToFullyWithdraw(address sender, uint256 amount) {
 /*
 Property: Zero withdraw has no effect
 
-Withdraw (burn) of zero liquidity provides nothing - all the storage of all the contracts (including the ERC20s) stays the same 
+Withdraw (burn) of zero liquidity provides nothing - all the storage of all the contracts (including the ERC20s) stays the same. 
 
-This property is implemented by saving the storage state before the transaction and comparing  that after the transaction the storage is the same
+This property is implemented by saving the storage state before the transaction and comparing  that after the transaction the storage is the same.
 
 */
 
 rule zeroWithdrawNoEffect(address to) {
     env e;
     setup(e);
-    // need to assume no skimming 
+    // The assumption is  no skimming 
     require getReserve0() == _token0.balanceOf(currentContract) && getReserve1() == _token1.balanceOf(currentContract);
     storage before = lastStorage;
     burnSingle(e, _token0, 0, to);
