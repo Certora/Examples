@@ -180,7 +180,6 @@ contract ERC20Fixed is IERC20, IERC20Metadata {
             currentAllowance >= amount,
             "ERC20: transfer amount exceeds allowance"
         ); 
-        require( sender != recipient );
         unchecked {
             _approve(sender, msg.sender, currentAllowance - amount);
         }

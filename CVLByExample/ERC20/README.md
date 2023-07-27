@@ -16,13 +16,14 @@ These rules fail for the following reasons:
 ## Incorrect Spec
 1. The function `transferFrom(address,address,uint)` is defined in the method block of `ERC20.spec` as
    `envfree` but it refers to `env` so cannot be defined as such.
-2. The invariant `balancesBoundedByTotalSupply` allows the receiver and sender in `transferFrom` to be the same.
-3. The invariant `balancesBoundedByTotalSupply` checks the balances of `alice` and `bob` and therefore assumes
+2. The invariant `balancesBoundedByTotalSupply` checks the balances of `alice` and `bob` and therefore assumes
    that the invariant holds in the pre-state only for `alice` and `bob` so there is a counter example with a 
    different sender. 
 
 This version can be checked by running:
 ```certoraRun certora/conf/ERC20.conf```
+
+[The Prover report of this run](https://prover.certora.com/output/1902/0f92c84924ff4a67b4b23747595f2d98?anonymousKey=2bb886e487aa83d1fa16eb07ed67404cb92fca9f)
 
 ## Correct Spec
 
@@ -31,5 +32,5 @@ This version can be checked by running:
 It can be checked by running:
 ```certoraRun certora/conf/ERC20Fixed.conf```
 
-
+[The Prover report of this run](https://vaas-stg.certora.com/output/1902/b8098c82fc064cf8b4d5fd994351c61d/)
 
