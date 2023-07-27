@@ -10,20 +10,20 @@ For a reference manual and full user guide for the Certora Prover, please visit 
    - [Vat](https://github.com/Certora/Examples/blob/sitvanit/add-fund-eq-of-dai/CVLByExample/fund-eq-of-dai-certora)
 
 2. `ghost`
-   - [Vat](https://github.com/Certora/Examples/blob/sitvanit/add-fund-eq-of-dai/CVLByExample/fund-eq-of-dai-certora/README.md)
+   - [Vat](https://github.com/Certora/Examples/blob/sitvanit/add-fund-eq-of-dai/CVLByExample/fund-eq-of-dai-certora)
 
 3. `hook`
-   - [Vat](https://github.com/Certora/Examples/blob/sitvanit/add-fund-eq-of-dai/CVLByExample/fund-eq-of-dai-certora/README.md)
+   - [Vat](https://github.com/Certora/Examples/blob/sitvanit/add-fund-eq-of-dai/CVLByExample/fund-eq-of-dai-certora)
 
 4. `invariant`
    1. Strengthening Invariants 
-      - [BallGame](https://github.com/Certora/Examples/blob/master/CVLByExample/BallGame/README.md)
-      - [ERC20](https://github.com/Certora/Examples/blob/master/CVLByExample/ERC20/README.md)
-      - [Vat](https://github.com/Certora/Examples/blob/sitvanit/add-fund-eq-of-dai/CVLByExample/fund-eq-of-dai-certora/README.md)
+      - [BallGame](https://github.com/Certora/Examples/blob/master/CVLByExample/BallGame)
+      - [ERC20](https://github.com/Certora/Examples/blob/master/CVLByExample/ERC20)
+      - [Vat](https://github.com/Certora/Examples/blob/sitvanit/add-fund-eq-of-dai/CVLByExample/fund-eq-of-dai-certora)
 
 5. `methods` block 
-   - [ERC20](https://github.com/Certora/Examples/blob/master/CVLByExample/ERC20/README.md)
-   - [Vat](https://github.com/Certora/Examples/blob/sitvanit/add-fund-eq-of-dai/CVLByExample/fund-eq-of-dai-certora/README.md)
+   - [ERC20](https://github.com/Certora/Examples/blob/master/CVLByExample/ERC20)
+   - [Vat](https://github.com/Certora/Examples/blob/sitvanit/add-fund-eq-of-dai/CVLByExample/fund-eq-of-dai-certora)
 
 6. `preserved`
-   - [ERC20](https://github.com/Certora/Examples/blob/master/CVLByExample/ERC20/README.md)
+   - [ERC20](https://github.com/Certora/Examples/blob/master/CVLByExample/ERC20)
