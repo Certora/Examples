@@ -1,6 +1,6 @@
 /*
 The following system is based on a simplified version of the Trident bug that was found by the Certora Prover.
-Here's a brief explanation about the original system and bug:
+You can find a brief explanation about the original system and bug here:
 https://medium.com/certora/exploiting-an-invariant-break-how-we-found-a-pool-draining-bug-in-sushiswaps-trident-585bd98a4d4f 
 
 */
@@ -11,18 +11,17 @@ import "../ERC20.sol";
 
 
 /*
-In constant-product pools liquidity providers (LPs) deposit two types of underlying tokens (Token0 and Token1) in exchange for LP tokens. 
+In constant-product pools, liquidity providers (LPs) deposit two types of underlying tokens (Token0 and Token1) in exchange for LP tokens. 
 They can later burn LP tokens to reclaim a proportional amount of Token0 and Token1.
-Trident users can swap one underlying token for the other by transferring some tokens of one type to the pool and receiving some number of the other token.
-To determine the exchange rate, the pool returns enough tokens to ensure that
-(reserves0 ⋅ reserves1)ᵖʳᵉ =(reserves0 ⋅ reserves1)ᵖᵒˢᵗ
-where reserves0 and reserves1 are the amount of token0, token1 the system holds. 
+Trident users can swap one underlying token for the other by transferring some tokens of one type to the pool and receiving a number of the other token.
+To determine the exchange rate, the pool returns enough tokens to ensure 
+(reserves0 ⋅ reserves1)ᵖʳᵉ =(reserves0 ⋅ reserves1)ᵖᵒˢᵗ where reserves0 and reserves1 are the amount of token0 and token1 that the system holds. 
 
-On first liquidity deposit the system transfers 1000 LP tokens to address 0 to ensure the pool cannot be emptied.  
+On first liquidity deposit, the system transfers 1000 LP tokens to address 0 to ensure the pool cannot be emptied.  
 */
 
 contract ConstantProductPool is ERC20 {
-    uint256 internal constant MINIMUM_LIQUIDTY = 1000;
+    uint256 internal constant MINIMUM_LIQUIDITY = 1000;
     address public token0;
     address public token1;
     uint256 internal reserve0;
@@ -46,7 +45,7 @@ contract ConstantProductPool is ERC20 {
     }
 
     // Mints LP tokens - this is called after an external transfer of token0 and token1
-    function mint(address recipent) public lock returns (uint256 liquidity) {
+    function mint(address recipient) public lock returns (uint256 liquidity) {
         (uint256 _reserve0, uint256 _reserve1) = _getReserves();
         (uint256 _balance0, uint256 _balance1) = _getBalances();
 
@@ -57,29 +56,29 @@ contract ConstantProductPool is ERC20 {
         uint256 _totalSupply = totalSupply();
         uint256 k = kLast;
         if (_totalSupply == 0) {
-            /* Bug: On a first deposit the total liquidity minted (and split between address zero and the msg.sender) should be the value computed.
-                This bug violates the "monotonicity of mint" property 
+            /* Bug: On a first deposit, the total liquidity minted (and split between address zero and the msg.sender) should be the value computed.
+                This bug violates the "monotonicity of mint" property. 
             */
             //liquidity = MINIMUM_LIQUIDTY - computed;
-            liquidity = computed - MINIMUM_LIQUIDTY;
+            liquidity = computed - MINIMUM_LIQUIDITY;
             require(amount0 > 0 && amount1 > 0, "INVALID AMOUNTS");
             /* Bug: just updating balance, without updating totalsupply
             */
             //_balances[address(0)] = MINIMUM_LIQUIDTY;
-            _mint(address(0), MINIMUM_LIQUIDTY);
+            _mint(address(0), MINIMUM_LIQUIDITY);
         } else {
             uint256 kIncrease = computed - k;
             liquidity = (kIncrease * _totalSupply) / k;
         }
-        require(liquidity != 0, "INSUFFICENT LIQUIDITY");
-        _mint(recipent, liquidity);
+        require(liquidity != 0, "INSUFFICIENT LIQUIDITY");
+        _mint(recipient, liquidity);
         kLast = computed;
         _update(_balance0, _balance1);
     }
 
     // Burns LP tokens and swaps one of the output tokens for another
-    // User receives amountOut in tokenOut
-    function burnSingle(address tokenOut, uint256 liquidity, address recipent)
+    // The user receives amountOut in tokenOut
+    function burnSingle(address tokenOut, uint256 liquidity, address recipient)
         public
         lock
         returns (uint256 amountOut)
@@ -89,7 +88,7 @@ contract ConstantProductPool is ERC20 {
         uint256 _totalSupply = totalSupply();
 
         /* Bug: the amounts computed should be according to the reserve, otherwise one can swap for all of the other tokens.
-           This bug violates the integrity of totalSupply property
+           This bug violates the integrity of the totalSupply property.
         */
         //uint256 amount0 = (liquidity * balance0 ) / _totalSupply;
         //uint256 amount1 = (liquidity * balance1 ) / _totalSupply;
@@ -97,9 +96,9 @@ contract ConstantProductPool is ERC20 {
         uint256 amount1 = (liquidity * _reserve1 ) / _totalSupply;
 
         /* Bug: the LP tokens burned should be the msg.sender's
-           This bug violates the no change by other property
+           This bug violates the no change rule by other property
         */
-        //_burn( recipent, liquidity);
+        //_burn( recipient, liquidity);
         _burn( msg.sender, liquidity);
         if (tokenOut == token0) {
             amount1 += _getAmountOut(
@@ -107,7 +106,7 @@ contract ConstantProductPool is ERC20 {
                 _reserve0 - amount0,
                 _reserve1 - amount1
             );
-            transfer(recipent,token1, amount1);
+            transfer(recipient,token1, amount1);
             balance1 -= amount1;
             amountOut = amount1;
             amount0 = 0;
@@ -118,7 +117,7 @@ contract ConstantProductPool is ERC20 {
                 _reserve1 - amount1,
                 _reserve0 - amount0
             );
-            transfer(recipent, token0, amount0);
+            transfer(recipient, token0, amount0);
             balance0 -= amount0;
             amountOut = amount0;
             amount1 = 0;
@@ -131,7 +130,7 @@ contract ConstantProductPool is ERC20 {
         public
         lock
         returns (uint256 amountOut)
-    {
+   {
         (uint256 _reserve0, uint256 _reserve1) = _getReserves();
         (uint256 balance0, uint256 balance1) = _getBalances();
         require(_reserve0 > 0);
@@ -149,8 +148,8 @@ contract ConstantProductPool is ERC20 {
             amountOut = _getAmountOut(amountIn, _reserve1, _reserve0);
             balance0 -= amountOut;
         }
-        /* Bug: the first and second parameters are switched
-           This bug violates the integrity of swap rule
+        /* Bug: the first and second parameters are switched.
+           This bug violates the integrity of the swap rule.
         */
         // transfer(tokenOut, recipient, amountOut);
         transfer( recipient, tokenOut, amountOut);
@@ -210,3 +209,4 @@ contract ConstantProductPool is ERC20 {
         _balance1 = ERC20(token1).balanceOf(address(this));
     }
 }
+
