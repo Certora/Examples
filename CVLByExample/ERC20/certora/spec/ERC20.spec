@@ -93,24 +93,7 @@ rule onlyHolderCanChangeAllowance {
         "only approve and increaseAllowance can increase allowances";
 }
 
-//// ## Part 3: invariants /////////////////////////////////////////////////////
-
-/// @dev This rule is unsound!
-// invariant balancesBoundedByTotalSupply(address alice, address bob)
-//     balanceOf(alice) + balanceOf(bob) <= to_mathint(totalSupply())
-// {
-//     preserved transfer(address recip, uint256 amount) with (env e) {
-//         require recip        == alice || recip        == bob;
-//         require e.msg.sender == alice || e.msg.sender == bob;
-//     }
-
-//     preserved transferFrom(address from, address to, uint256 amount) {
-//         require from == alice || from == bob;
-//         require to   == alice || to   == bob;
-//     }
-// }
-
-//// ## Part 4: ghosts and hooks ///////////////////////////////////////////////
+//// ## Part 3: ghosts and hooks ///////////////////////////////////////////////
 
 ghost mathint sum_of_balances {
     init_state axiom sum_of_balances == 0;
@@ -120,6 +103,8 @@ hook Sstore _balances[KEY address a] uint new_value (uint old_value) STORAGE {
     // when balance changes, update ghost
     sum_of_balances = sum_of_balances + new_value - old_value;
 }
+
+//// ## Part 4: invariants ///////////////////////////////////////////////
 
 /** `totalSupply()` returns the sum of `balanceOf(u)` over all users `u`. */
 invariant totalSupplyIsSumOfBalances()
