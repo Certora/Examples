@@ -37,6 +37,7 @@ rule transferSpec {
 }
 
 
+
 /// Transfer must revert if the sender's balance is too small
 rule transferReverts {
     env e; address recip; uint amount;
@@ -144,4 +145,27 @@ rule sanity {
   method f;
   f(e, arg);
   satisfy true;
+}
+
+rule transferSpecCoverage {
+    address sender; address recip; uint amount;
+
+    env e;
+    require e.msg.sender == sender;
+
+    mathint balance_sender_before = balanceOf(sender);
+    mathint balance_recip_before = balanceOf(recip);
+
+    transfer(e, recip, amount);
+
+    mathint balance_sender_after = balanceOf(sender);
+    mathint balance_recip_after = balanceOf(recip);
+
+    // require sender != recip;
+
+    satisfy balance_sender_after == balance_sender_before - amount,
+        "transfer must decrease sender's balance by amount";
+
+    satisfy balance_recip_after == balance_recip_before + amount,
+        "transfer must increase recipient's balance by amount";
 }

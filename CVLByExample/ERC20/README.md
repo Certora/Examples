@@ -21,16 +21,16 @@ These rules fail for the following reasons:
    different sender. 
 
 This version can be checked by running:
-```certoraRun certora/conf/ERC20.conf```
+```certoraRun certora/conf/runERC20.conf```
 
-[The Prover report of this run](https://prover.certora.com/output/1902/0f92c84924ff4a67b4b23747595f2d98?anonymousKey=2bb886e487aa83d1fa16eb07ed67404cb92fca9f)
+[The Prover report of this run](https://prover.certora.com/output/1902/d6a8960c7d86450ba5345b073f587ec2?anonymousKey=dab741a3726843b0143b35c3f3d5961b43384759)
 
 ## Correct Spec
 
 `contracts/correct/ERC20Fixed.sol` is a version in which the above failures were fixed.
 
 It can be checked by running:
-```certoraRun certora/conf/ERC20Fixed.conf```
+```certoraRun certora/conf/runERC20Fixed.conf```
 
-[The Prover report of this run](https://vaas-stg.certora.com/output/1902/b8098c82fc064cf8b4d5fd994351c61d/)
+[The Prover report of this run](https://prover.certora.com/output/1902/c08ded2b830a4696b115b33baece1cb0?anonymousKey=7fbb3ba5b671d89278be7fb60ab85c92cddd4bae)
 
