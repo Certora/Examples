@@ -93,38 +93,7 @@ rule onlyHolderCanChangeAllowance {
         "only approve and increaseAllowance can increase allowances";
 }
 
-//// ## Part 3: invariants /////////////////////////////////////////////////////
-
-/// @dev This rule is unsound!
-invariant balancesBoundedByTotalSupply(address alice, address bob)
-    balanceOf(alice) + balanceOf(bob) <= to_mathint(totalSupply())
-{
-    preserved with (env e) {
-        require alice != bob;
-    }
-    preserved transfer(address recip, uint256 amount) with (env e1) {
-        require alice != bob;
-        require recip        == alice || recip        == bob;
-        require e1.msg.sender == alice || e1.msg.sender == bob;
-    }
-
-    preserved transferFrom(address from, address to, uint256 amount) with (env e2){
-        require alice != bob;
-        require from == alice || from == bob;
-        require to   == alice || to   == bob;
-    }
-
-    preserved burn(address recip, uint256 amount) with (env e3) {
-        require recip        == alice || recip        == bob;
-        require e3.msg.sender == alice || e3.msg.sender == bob;
-    }
-
-    preserved withdraw(uint256 amount) with (env e5) {
-        require e5.msg.sender == alice || e5.msg.sender == bob;
-    }
-}
-
-//// ## Part 4: ghosts and hooks ///////////////////////////////////////////////
+//// ## Part 3: ghosts and hooks ///////////////////////////////////////////////
 
 ghost mathint sum_of_balances {
     init_state axiom sum_of_balances == 0;
@@ -134,6 +103,8 @@ hook Sstore _balances[KEY address a] uint new_value (uint old_value) STORAGE {
     // when balance changes, update ghost
     sum_of_balances = sum_of_balances + new_value - old_value;
 }
+
+//// ## Part 4: invariants
 
 /** `totalSupply()` returns the sum of `balanceOf(u)` over all users `u`. */
 invariant totalSupplyIsSumOfBalances()
@@ -145,27 +116,4 @@ rule sanity {
   method f;
   f(e, arg);
   satisfy true;
-}
-
-rule transferSpecCoverage {
-    address sender; address recip; uint amount;
-
-    env e;
-    require e.msg.sender == sender;
-
-    mathint balance_sender_before = balanceOf(sender);
-    mathint balance_recip_before = balanceOf(recip);
-
-    transfer(e, recip, amount);
-
-    mathint balance_sender_after = balanceOf(sender);
-    mathint balance_recip_after = balanceOf(recip);
-
-    // require sender != recip;
-
-    satisfy balance_sender_after == balance_sender_before - amount,
-        "transfer must decrease sender's balance by amount";
-
-    satisfy balance_recip_after == balance_recip_before + amount,
-        "transfer must increase recipient's balance by amount";
 }
