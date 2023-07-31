@@ -104,7 +104,22 @@ hook Sstore _balances[KEY address a] uint new_value (uint old_value) STORAGE {
     sum_of_balances = sum_of_balances + new_value - old_value;
 }
 
-//// ## Part 4: invariants ///////////////////////////////////////////////
+//// ## Part 4: invariants /////////////////////////////////////////////////////
+
+/// @dev This rule is unsound!
+invariant balancesBoundedByTotalSupply(address alice, address bob)
+    balanceOf(alice) + balanceOf(bob) <= to_mathint(totalSupply())
+{
+    preserved transfer(address recip, uint256 amount) with (env e) {
+        require recip        == alice || recip        == bob;
+        require e.msg.sender == alice || e.msg.sender == bob;
+    }
+
+    preserved transferFrom(address from, address to, uint256 amount) {
+        require from == alice || from == bob;
+        require to   == alice || to   == bob;
+    }
+}
 
 /** `totalSupply()` returns the sum of `balanceOf(u)` over all users `u`. */
 invariant totalSupplyIsSumOfBalances()

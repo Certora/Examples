@@ -6,24 +6,30 @@ Example Certora verification for ERC20 contracts.
 For the contract `contracts/broken/ERC20.sol` 
 the following rules fail:
 
-`balancesBoundedByTotalSupply` - fails for functions `burn`, `deposit`, and `mint`.
-`totalSupplyIsSumOfBalances` - fails for functions `deposit` and `withdraw`.
+1. `balancesBoundedByTotalSupply` - fails for functions `burn`, `deposit`, and `mint`.
 
-These rules fail for the following reasons:
-1. `deposit` updates `_balances[msg.sender]` but does not update `_totalSupply` accordingly.
-2. `withdraw updates `_balances[msg.sender]` but does not update `_totalSupply` accordingly.
+2. `totalSupplyIsSumOfBalances` - fails for functions `deposit` and `withdraw`.
+
+The fault of the code for these failures is that
+`deposit` and `withdraw` update `_balances[msg.sender]` but do not update `_totalSupply` accordingly.
 
 ## Incorrect Spec
+The faults of the spec for these failures:
 1. The function `transferFrom(address,address,uint)` is defined in the method block of `ERC20.spec` as
    `envfree` but it refers to `env` so cannot be defined as such.
-2. The invariant `balancesBoundedByTotalSupply` checks the balances of `alice` and `bob` and therefore assumes
-   that the invariant holds in the pre-state only for `alice` and `bob` so there is a counter example with a 
-   different sender. 
+2. The invariant `balancesBoundedByTotalSupply` checks the sum of balances of `alice` and `bob` and therefore assumes
+   that the invariant holds in the pre-state only for `alice` and `bob`. The counter example demonstrates a
+   deposit by another player, that is not restricted in the pre state, to `bob`, what makes the sum of balances of `alice` and `bob` larger than `totalSupply``.
+   Note that this
+   invariant is implied by the stronger invariant `totalSupplyIsSumOfBalances` because if `totalSupply`
+   is equal to the sum of all balances, then the sum of any two balances is less than `totalSupply`.
+3. The invariant `totalSupplyIsSumOfBalances` **is** inductive but it fails because of the fault of 
+   `deposit` and `withdraw` described above.
 
 This version can be checked by running:
 ```certoraRun certora/conf/runERC20.conf```
 
-[The Prover report of this run](https://prover.certora.com/output/1902/d6a8960c7d86450ba5345b073f587ec2?anonymousKey=dab741a3726843b0143b35c3f3d5961b43384759)
+[The Prover report of this run](https://prover.certora.com/output/1902/75fc2841d5c3439db9a49b4598947ee0?anonymousKey=a7a3cfa3287f811997f58cebc03b80674349902e)
 
 ## Correct Spec
 
