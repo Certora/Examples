@@ -125,3 +125,10 @@ invariant balancesBoundedByTotalSupply(address alice, address bob)
 invariant totalSupplyIsSumOfBalances()
     to_mathint(totalSupply()) == sum_of_balances;
 
+rule sanity {
+  env e;
+  calldataarg arg;
+  method f;
+  f(e, arg);
+  satisfy true;
+}

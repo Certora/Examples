@@ -33,7 +33,9 @@ This version can be checked by running:
 
 ## Correct Spec
 
-`contracts/correct/ERC20Fixed.sol` is a version in which the above failures were fixed.
+`contracts/correct/ERC20Fixed.sol` is a version in which the above rule failures were fixed. the corrections are:
+1. Removing the incorrect envfree. 
+2. Removing the redundant invariant balancesBoundedByTotalSupply.
 
 It can be checked by running:
 ```certoraRun certora/conf/runERC20Fixed.conf```
