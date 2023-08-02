@@ -51,7 +51,7 @@ rule transferReverts {
 }
 
 
-/// Transfer must not revert unless
+/// Transfer shouldn't revert unless
 ///  the sender doesn't have enough funds,
 ///  or the message value is nonzero,
 ///  or the recipient's balance would overflow,
