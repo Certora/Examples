@@ -11,7 +11,7 @@ methods {
     function transferFrom(address,address,uint) external returns(bool) envfree;
 }
 
-//// ## Part 1: Basic rules ////////////////////////////////////////////////////
+//// ## Part 1: Basic Rules ////////////////////////////////////////////////////
 
 /// Transfer must move `amount` tokens from the caller's account to `recipient`
 rule transferSpec {
@@ -72,7 +72,7 @@ rule transferDoesntRevert {
     assert !lastReverted;
 }
 
-//// ## Part 2: parametric rules ///////////////////////////////////////////////
+//// ## Part 2: Parametric Rules ///////////////////////////////////////////////
 
 /// If `approve` changes a holder's allowance, then it was called by the holder
 rule onlyHolderCanChangeAllowance {
@@ -93,7 +93,7 @@ rule onlyHolderCanChangeAllowance {
         "only approve and increaseAllowance can increase allowances";
 }
 
-//// ## Part 3: ghosts and hooks ///////////////////////////////////////////////
+//// ## Part 3: Ghosts and Hooks ///////////////////////////////////////////////
 
 ghost mathint sum_of_balances {
     init_state axiom sum_of_balances == 0;
@@ -104,7 +104,7 @@ hook Sstore _balances[KEY address a] uint new_value (uint old_value) STORAGE {
     sum_of_balances = sum_of_balances + new_value - old_value;
 }
 
-//// ## Part 4: invariants /////////////////////////////////////////////////////
+//// ## Part 4: Invariants /////////////////////////////////////////////////////
 
 /// @dev This rule is unsound!
 invariant balancesBoundedByTotalSupply(address alice, address bob)
