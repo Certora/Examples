@@ -28,17 +28,14 @@ certoraRun ConstantProductPoolExample/certora/conf/runFixed.conf
    - [simple variable example](https://github.com/Certora/Examples/blob/2d729bcc944a776d94676a86044163fb545df28e/CVLByExample/ERC20/certora/spec/ERC20.spec#L115)
 
 3. `hook`
-   - [Vat](https://github.com/Certora/Examples/blob/sitvanit/add-fund-eq-of-dai/CVLByExample/fund-eq-of-dai-certora)
+   - [Sstore](https://github.com/Certora/Examples/blob/master/CVLByExample/ERC20/certora/specs/ERC20.spec)
+   - [Sload]
 
 4. `invariant`
-   1. Strengthening Invariants 
-      - [BallGame](https://github.com/Certora/Examples/blob/master/CVLByExample/BallGame)
-      - [ERC20](https://github.com/Certora/Examples/blob/master/CVLByExample/ERC20)
-      - [Vat](https://github.com/Certora/Examples/blob/sitvanit/add-fund-eq-of-dai/CVLByExample/fund-eq-of-dai-certora)
+   - [Simple](https://github.com/Certora/Examples/blob/5d7145a760e6b1a3aba692ae556aa078adc88cf4/CVLByExample/BallGame/certora/specs/BallGameCorrect.spec#L7C1-L7C40)
+    - [strengthening](https://github.com/Certora/Examples/blob/5d7145a760e6b1a3aba692ae556aa078adc88cf4/CVLByExample/ERC20/certora/specs/ERC20.spec)
+    - [preserved](https://github.com/Certora/Examples/blob/master/CVLByExample/ERC20)
 
 5. `methods` block 
    - [ERC20](https://github.com/Certora/Examples/blob/master/CVLByExample/ERC20)
-   - [Vat](https://github.com/Certora/Examples/blob/sitvanit/add-fund-eq-of-dai/CVLByExample/fund-eq-of-dai-certora)
 
-6. `preserved`
-   - [ERC20](https://github.com/Certora/Examples/blob/master/CVLByExample/ERC20)
