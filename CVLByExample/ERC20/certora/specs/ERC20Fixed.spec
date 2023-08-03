@@ -8,6 +8,7 @@ methods {
     function balanceOf(address)         external returns(uint) envfree;
     function allowance(address,address) external returns(uint) envfree;
     function totalSupply()              external returns(uint) envfree;
+    function add(uint256 x, uint256 y)  external returns(uint256) envfree;          
 }
 
 //// ## Part 1: Basic Rules ////////////////////////////////////////////////////
@@ -104,6 +105,10 @@ hook Sstore _balances[KEY address a] uint new_value (uint old_value) STORAGE {
     sum_of_balances = sum_of_balances + new_value - old_value;
 }
 
+hook Sload uint256 balance _balances[KEY address a]  STORAGE {
+  require sum_of_balances >= to_mathint(balance);
+}
+
 //// ## Part 4: Invariants
 
 /** `totalSupply()` returns the sum of `balanceOf(u)` over all users `u`. */
@@ -116,4 +121,93 @@ rule sanity {
   method f;
   f(e, arg);
   satisfy true;
+}
+
+
+// satisfy examples
+
+rule satisfyFirstDepositSucceeds(){
+    env e;
+    require totalSupply() == 0;
+    deposit(e);
+    satisfy totalSupply() == e.msg.value;
+}
+
+rule weakSatisfyFirstDepositSucceeds(){
+    env e;
+    require totalSupply() == 0;
+    deposit(e);
+    satisfy totalSupply() >= e.msg.value;
+}
+
+rule satisfyLastWithdrawSucceeds() {
+    env e;
+    uint256 amount;
+    requireInvariant totalSupplyIsSumOfBalances();
+    require totalSupply() > 0 && amount > 0;
+    withdraw(e, amount);
+    assert totalSupply() == 0;
+}
+
+rule satisfyWithManyOps(){
+    env e; address recipient; uint amount;
+
+    require balanceOf(e.msg.sender) > amount;
+    require e.msg.value == 0;
+    require balanceOf(recipient) + amount < max_uint;
+    require e.msg.sender != 0;
+    require recipient != 0;
+    deposit(e);
+    depositAmount(e, amount);
+    transfer@withrevert(e, recipient, amount);
+    satisfy totalSupply() > 0;  
+}
+
+
+
+/// Transfer must revert if the sender's balance is too small
+rule satisfyVacuityCorrection {
+    env e; address recip; uint amount;
+
+    require balanceOf(e.msg.sender) > 0;
+
+    transfer@withrevert(e, recip, amount);
+
+    satisfy balanceOf(e.msg.sender) == 0;
+}
+
+
+// New features for webinar
+
+// safe casting
+// add has unchecked therefore not checking for overflow. With the `require add(amount1, amount2) < max_uint` the
+// rule passes even when there is an overflow.
+rule requireHidesOverflow() {
+    env e1;
+    env e2;
+    uint256 amount1;
+    uint256 amount2;
+    uint256 totalBefore = totalSupply();
+    mathint sum = add(amount1, amount2);
+    
+    require sum < max_uint;
+    depositAmount(e1, amount1);
+    depositAmount(e2, amount2);
+
+    assert (totalSupply() == add(totalBefore, sum) , "Overflow hidden by require.");
+}
+
+rule catchOverflow() {
+    env e;
+    uint256 amount1;
+    uint256 amount2;
+
+    uint256 totalBefore = totalSupply();
+    mathint sum = add(amount1, amount2);
+
+    // requireInvariant totalSupplyIsSumOfBalances();
+    depositAmount(e, amount1);
+    depositAmount(e, amount2);
+
+    assert totalSupply() == add(totalBefore, sum) ;
 }

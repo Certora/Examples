@@ -132,3 +132,18 @@ rule sanity {
   f(e, arg);
   satisfy true;
 }
+
+// New features
+
+// SATISFY
+/// Transfer must revert if the sender's balance is too small
+rule vacuousSatisfyAfterRevert {
+    env e; address recip; uint amount;
+
+    require balanceOf(e.msg.sender) > 0;
+    require balanceOf(e.msg.sender) < amount;
+
+    transfer@withrevert(e, recip, amount);
+
+    satisfy balanceOf(e.msg.sender) == 0;
+}
