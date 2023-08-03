@@ -93,6 +93,21 @@ rule onlyHolderCanChangeAllowance {
         "only approve and increaseAllowance can increase allowances";
 }
 
+rule onlyApproveIncreasesAllowance {
+    address holder; address spender;
+
+    mathint allowance_before = allowance(holder, spender);
+
+    method f; env e; calldataarg args; // was: env e; uint256 amount;
+    f(e, args);                        // was: approve(e, spender, amount);
+
+    mathint allowance_after = allowance(holder, spender);
+
+    satisfy allowance_after > allowance_before =>
+        (f.selector == sig:approve(address,uint).selector),
+        "only approve and increaseAllowance can increase allowances";
+}
+
 //// ## Part 3: Ghosts and Hooks ///////////////////////////////////////////////
 
 ghost mathint sum_of_balances {

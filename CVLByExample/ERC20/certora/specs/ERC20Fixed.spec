@@ -133,13 +133,21 @@ rule satisfyFirstDepositSucceeds(){
     satisfy totalSupply() == e.msg.value;
 }
 
+rule satisfyFirstDepositSucceeds(){
+    env e;
+    require totalSupply() == 0;
+    rewuire e.msg.value > 0;
+    deposit(e);
+    satisfy totalSupply() == e.msg.value;
+}
+
 
 // Generate an example trace for a withdraw that results totalSupply == 0.
 rule satisfyLastWithdrawSucceeds() {
     env e;
     uint256 amount;
     requireInvariant totalSupplyIsSumOfBalances();
-    require totalSupply() > 0 && amount > 0;
+    require totalSupply() > 0;
     withdraw(e, amount);
     satisfy totalSupply() == 0;
 }
