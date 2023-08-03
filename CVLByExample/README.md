@@ -18,3 +18,27 @@ For the fixed version, ConstantProductPoolFixed.sol run:
 ```
 certoraRun ConstantProductPoolExample/certora/conf/runFixed.conf 
 ```
+
+## Examples for CVL Commands
+1. `envFree` 
+   - [envfree](https://github.com/Certora/Examples/tree/master/CVLByExample/ERC20#:~:text=ERC20.spec%20as-,envfree,-but%20it%20refers)
+
+2. `ghost`
+   - [ghost variable](https://docs.certora.com/en/latest/docs/confluence/anatomy/definitions.html?highlight=ghost#basic-definitions )
+   - [simple variable example](https://github.com/Certora/Examples/blob/2d729bcc944a776d94676a86044163fb545df28e/CVLByExample/ERC20/certora/spec/ERC20.spec#L115)
+
+3. `hook`
+   - [Vat](https://github.com/Certora/Examples/blob/sitvanit/add-fund-eq-of-dai/CVLByExample/fund-eq-of-dai-certora)
+
+4. `invariant`
+   1. Strengthening Invariants 
+      - [BallGame](https://github.com/Certora/Examples/blob/master/CVLByExample/BallGame)
+      - [ERC20](https://github.com/Certora/Examples/blob/master/CVLByExample/ERC20)
+      - [Vat](https://github.com/Certora/Examples/blob/sitvanit/add-fund-eq-of-dai/CVLByExample/fund-eq-of-dai-certora)
+
+5. `methods` block 
+   - [ERC20](https://github.com/Certora/Examples/blob/master/CVLByExample/ERC20)
+   - [Vat](https://github.com/Certora/Examples/blob/sitvanit/add-fund-eq-of-dai/CVLByExample/fund-eq-of-dai-certora)
+
+6. `preserved`
+   - [ERC20](https://github.com/Certora/Examples/blob/master/CVLByExample/ERC20)
