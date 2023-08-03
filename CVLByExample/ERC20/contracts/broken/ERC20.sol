@@ -410,8 +410,10 @@ contract ERC20 is IERC20, IERC20Metadata {
 
 
     function depositAmount(uint256 amount) external {
-        _balances[msg.sender] += amount;
-        _totalSupply += amount;
+        unchecked {
+            _balances[msg.sender] += amount;
+            _totalSupply += amount;
+        }
     }
 
     function add(uint256 x, uint256 y) external pure returns(uint256) {

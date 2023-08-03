@@ -125,7 +125,7 @@ rule sanity {
 
 
 // satisfy examples
-
+// Generate an example trace for a first deposit operation that succeeds.
 rule satisfyFirstDepositSucceeds(){
     env e;
     require totalSupply() == 0;
@@ -133,21 +133,17 @@ rule satisfyFirstDepositSucceeds(){
     satisfy totalSupply() == e.msg.value;
 }
 
-rule weakSatisfyFirstDepositSucceeds(){
-    env e;
-    require totalSupply() == 0;
-    deposit(e);
-    satisfy totalSupply() >= e.msg.value;
-}
 
+// Generate an example trace for a withdraw that results totalSupply == 0.
 rule satisfyLastWithdrawSucceeds() {
     env e;
     uint256 amount;
     requireInvariant totalSupplyIsSumOfBalances();
     require totalSupply() > 0 && amount > 0;
     withdraw(e, amount);
-    assert totalSupply() == 0;
+    satisfy totalSupply() == 0;
 }
+
 
 rule satisfyWithManyOps(){
     env e; address recipient; uint amount;
@@ -165,7 +161,8 @@ rule satisfyWithManyOps(){
 
 
 
-/// Transfer must revert if the sender's balance is too small
+// Transfer must revert if the sender's balance is too small.
+// A non-vacuous example where transfer() does not revert.
 rule satisfyVacuityCorrection {
     env e; address recip; uint amount;
 
@@ -176,38 +173,21 @@ rule satisfyVacuityCorrection {
     satisfy balanceOf(e.msg.sender) == 0;
 }
 
-
-// New features for webinar
-
-// safe casting
-// add has unchecked therefore not checking for overflow. With the `require add(amount1, amount2) < max_uint` the
-// rule passes even when there is an overflow.
-rule requireHidesOverflow() {
-    env e1;
-    env e2;
-    uint256 amount1;
-    uint256 amount2;
-    uint256 totalBefore = totalSupply();
-    mathint sum = add(amount1, amount2);
-    
-    require sum < max_uint;
-    depositAmount(e1, amount1);
-    depositAmount(e2, amount2);
-
-    assert (totalSupply() == add(totalBefore, sum) , "Overflow hidden by require.");
-}
-
-rule catchOverflow() {
+// No overflow because depositAmount() checks for overflow.
+rule noOverflow() {
     env e;
     uint256 amount1;
     uint256 amount2;
 
-    uint256 totalBefore = totalSupply();
-    mathint sum = add(amount1, amount2);
-
     // requireInvariant totalSupplyIsSumOfBalances();
+
+    storage initial = lastStorage;
     depositAmount(e, amount1);
     depositAmount(e, amount2);
+    storage afterTwoSteps = lastStorage;
 
-    assert totalSupply() == add(totalBefore, sum) ;
+    depositAmount(e, assert_uint256(amount1 + amount2)) at initial;
+    storage afterOneStep = lastStorage;
+    assert afterOneStep == afterTwoSteps;
+    
 }
