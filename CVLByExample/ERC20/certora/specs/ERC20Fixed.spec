@@ -105,6 +105,7 @@ hook Sstore _balances[KEY address a] uint new_value (uint old_value) STORAGE {
     sum_of_balances = sum_of_balances + new_value - old_value;
 }
 
+// This `sload` makes `sum_of_balances >= to_mathint(balance)` hold at the beginning of each rule.
 hook Sload uint256 balance _balances[KEY address a]  STORAGE {
   require sum_of_balances >= to_mathint(balance);
 }
@@ -133,15 +134,6 @@ rule satisfyFirstDepositSucceeds(){
     satisfy totalSupply() == e.msg.value;
 }
 
-rule satisfyFirstDepositSucceeds(){
-    env e;
-    require totalSupply() == 0;
-    rewuire e.msg.value > 0;
-    deposit(e);
-    satisfy totalSupply() == e.msg.value;
-}
-
-
 // Generate an example trace for a withdraw that results totalSupply == 0.
 rule satisfyLastWithdrawSucceeds() {
     env e;
@@ -169,7 +161,6 @@ rule satisfyWithManyOps(){
 
 
 
-// Transfer must revert if the sender's balance is too small.
 // A non-vacuous example where transfer() does not revert.
 rule satisfyVacuityCorrection {
     env e; address recip; uint amount;
@@ -181,7 +172,7 @@ rule satisfyVacuityCorrection {
     satisfy balanceOf(e.msg.sender) == 0;
 }
 
-// No overflow because depositAmount() checks for overflow.
+// No overflow in this rule because depositAmount() checks for overflow.
 rule noOverflow() {
     env e;
     uint256 amount1;

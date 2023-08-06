@@ -164,7 +164,7 @@ rule vacuousSatisfyAfterRevert() {
     satisfy balanceOf(e.msg.sender) == 0;
 }
 
-// safe casting
+// Safe casting examples
 // depositAmount() uses `unchecked` therefore is not checking for overflow. With the  `require_uint256(amount1 + amount2))` the
 // rule passes although an overflow exists.
 rule requireHidesOverflow() {
