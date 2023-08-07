@@ -10,6 +10,8 @@ methods {
     function totalSupply()             external returns(uint) envfree;
     function getCustomer(address a) external returns(BankAccounts.Customer) envfree;
     function withZeroBalance() external envfree;
+    // Define a tuple of the struct fields as the return type for a function returning a struct. 
+    // Regardless of the function being envfree.
     function cannotWithdraw(uint account) external returns (address, uint) envfree;
 }
 
@@ -31,7 +33,7 @@ rule canTransferOnlyIfCanWithdraw() {
     BankAccounts.EmptyAccount fa;
 
     // Assigment of structs, e.g. fa = EmptyAccount(e.msg.sender, account) is not supported in order to avoid overriding.
-    // require is used instead.
+    // `require` is used instead.
     require fa.id == e.msg.sender && e.msg.sender == from;
     require fa.account == account;
     transfer(e, to, amount, fa.account, toAccount);
