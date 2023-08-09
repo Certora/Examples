@@ -1,32 +1,32 @@
-contract BankAccounts{
+import "./BankAccountRecord.sol";
+import "./OtherContract.sol";
 
-    mapping(address => Customer) public _customers;
+
+contract Bank {
+    mapping(address => BankAccountRecord.Customer) public _customers;
 
     // Axiliary array for indexing into the customer map.
     address[] private _customerAddresses;
 
     uint256 private _totalSupply;
 
+    mapping (address => uint) m;
+	uint x;
+
+	mapping (uint => address[]) foo;
+
     // Custormers with zero balance.
-    EmptyAccount[] public cannotWithdraw;
+    BankAccountRecord.EmptyAccount[] public cannotWithdraw;
 
-    struct BankAccount {
-        uint256   accountNumber;
-        uint256 balance; 
+    event Received(address, uint256);
+    receive() external payable {
+        emit Received(msg.sender, msg.value);
     }
 
-    struct EmptyAccount {
-        address id;
-        uint256 account;
+    fallback() external payable {  
     }
 
-    struct Customer {
-        // string name;
-        address id;
-        BankAccount[] accounts;
-    }
-
-    function canWithdraw(Customer memory c, uint256 account) public pure returns(bool) {
+    function canWithdraw(BankAccountRecord.Customer memory c, uint256 account) public pure returns(bool) {
         require(account < c.accounts.length);
         return c.accounts[account].balance > 0;
     }
@@ -37,18 +37,18 @@ contract BankAccounts{
         for (uint256 i; i < _customerAddresses.length; i++) {
             for (uint256 j = 0; j < _customers[_customerAddresses[i]].accounts.length; j++)
             if (!canWithdraw(_customers[_customerAddresses[i]], j)){
-                cannotWithdraw.push(EmptyAccount(_customerAddresses[i], j));
+                cannotWithdraw.push(BankAccountRecord.EmptyAccount(_customerAddresses[i], j));
             }
         }
     }
 
-    function addCustomer(Customer calldata c) external {
+    function addCustomer(BankAccountRecord.Customer calldata c) external {
         _customers[c.id] = c;
         _customerAddresses.push(c.id);
 
     }
 
-    function getCustomer(address a) external view returns(BankAccounts.Customer memory) {
+    function getCustomer(address a) external view returns(BankAccountRecord.Customer memory) {
         return _customers[a];
     }
 
@@ -58,9 +58,12 @@ contract BankAccounts{
 
     // Deposit amount to account number `account` of msg.sender
     function deposit(uint256 amount, uint256 account) public payable {
+        require( address(this) != msg.sender );
         require(account < _customers[msg.sender].accounts.length);
         _customers[msg.sender].accounts[account].balance += amount;
         _totalSupply += amount;
+        (bool success,) = payable(msg.sender).call{value: amount}("");
+        require (success);
     }
 
     // transfer `amount` from acount number `fromAccount` of msg.sender to account `toAccount` of `to`.
@@ -72,17 +75,31 @@ contract BankAccounts{
         _customers[to].accounts[toAccount].balance += amount;
     }
 
-    function withdraw(uint256 account) public returns (bool success)  {
+    function withdraw(uint256 account) public returns (bool)  {
         require(account < _customers[msg.sender].accounts.length);
+        require(msg.sender.balance > 0);
         uint256 amount = _customers[msg.sender].accounts[account].balance;
         _customers[msg.sender].accounts[account].balance = 0;
         _burn(msg.sender, amount, account);
-        success = payable(msg.sender).send(amount);
+        (bool success,) = payable(msg.sender).call{value: amount}("");
+        require (success);
+        // bool success = payable(msg.sender).send(amount);
         return success;
     }
 
+    // function withdrawNative(uint256 account) public payable returns (bool)  {
+    //     require(account < _customers[msg.sender].accounts.length);
+    //     require(msg.sender.balance > 0);
+    //     uint256 amount = _customers[msg.sender].accounts[account].balance;
+    //     _customers[msg.sender].accounts[account].balance = 0;
+    //     _burn(msg.sender, amount, account);
+    //     (bool success,) = payable(msg.sender).call{value: amount}("");
+    //     require (success);
+    //     return success;
+    // }
+
     // Returns sum of all accounts of customer with id a.
-    function balanceOf(address a) external view returns (uint256 balance) {
+    function balanceOf(address a) external view returns (uint256) {
         uint256 sum = 0;
         for (uint256 i = 0; i < _customers[a].accounts.length; i++)
             sum += _customers[a].accounts[i].balance;
@@ -90,7 +107,7 @@ contract BankAccounts{
     }
 
     // Returns the balance of account `account` of customer a.
-    function balanceOfAccount(address a, uint256 account) external view returns (uint256 balance) {
+    function balanceOfAccount(address a, uint256 account) external view returns (uint256) {
         require(account < _customers[a].accounts.length);
         return _customers[a].accounts[account].balance;
     }
@@ -106,6 +123,5 @@ contract BankAccounts{
          _totalSupply -= amount;
         _customers[user].accounts[account].balance -= amount;
     }
-	 
-}
 
+}
