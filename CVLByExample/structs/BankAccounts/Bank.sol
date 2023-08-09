@@ -28,7 +28,7 @@ contract Bank {
 
     function canWithdraw(BankAccountRecord.Customer memory c, uint256 account) public pure returns(bool) {
         require(account < c.accounts.length);
-        return c.accounts[account].balance > 0;
+        return c.accounts[account].accountBalance > 0;
     }
 
     // Fill the array of empty accounts.
@@ -60,26 +60,23 @@ contract Bank {
     function deposit(uint256 amount, uint256 account) public payable {
         require( address(this) != msg.sender );
         require(account < _customers[msg.sender].accounts.length);
-        _customers[msg.sender].accounts[account].balance += amount;
+        _customers[msg.sender].accounts[account].accountBalance += amount;
         _totalSupply += amount;
-        (bool success,) = payable(msg.sender).call{value: amount}("");
-        require (success);
     }
 
     // transfer `amount` from acount number `fromAccount` of msg.sender to account `toAccount` of `to`.
     function transfer(address to, uint256 amount, uint256 fromAccount, uint256 toAccount) public {
         require(fromAccount < _customers[msg.sender].accounts.length);
         require(toAccount < _customers[to].accounts.length);
-        require(_customers[msg.sender].accounts[fromAccount].balance > amount);
-        _customers[msg.sender].accounts[fromAccount].balance -= amount;
-        _customers[to].accounts[toAccount].balance += amount;
+        require(_customers[msg.sender].accounts[fromAccount].accountBalance > amount);
+        _customers[msg.sender].accounts[fromAccount].accountBalance -= amount;
+        _customers[to].accounts[toAccount].accountBalance += amount;
     }
 
     function withdraw(uint256 account) public returns (bool)  {
         require(account < _customers[msg.sender].accounts.length);
-        require(msg.sender.balance > 0);
-        uint256 amount = _customers[msg.sender].accounts[account].balance;
-        _customers[msg.sender].accounts[account].balance = 0;
+        uint256 amount = _customers[msg.sender].accounts[account].accountBalance;
+        _customers[msg.sender].accounts[account].accountBalance = 0;
         _burn(msg.sender, amount, account);
         (bool success,) = payable(msg.sender).call{value: amount}("");
         require (success);
@@ -89,9 +86,9 @@ contract Bank {
 
     // function withdrawNative(uint256 account) public payable returns (bool)  {
     //     require(account < _customers[msg.sender].accounts.length);
-    //     require(msg.sender.balance > 0);
-    //     uint256 amount = _customers[msg.sender].accounts[account].balance;
-    //     _customers[msg.sender].accounts[account].balance = 0;
+    //     require(msg.sender.accountBalance > 0);
+    //     uint256 amount = _customers[msg.sender].accounts[account].accountBalance;
+    //     _customers[msg.sender].accounts[account].accountBalance = 0;
     //     _burn(msg.sender, amount, account);
     //     (bool success,) = payable(msg.sender).call{value: amount}("");
     //     require (success);
@@ -102,14 +99,14 @@ contract Bank {
     function balanceOf(address a) external view returns (uint256) {
         uint256 sum = 0;
         for (uint256 i = 0; i < _customers[a].accounts.length; i++)
-            sum += _customers[a].accounts[i].balance;
+            sum += _customers[a].accounts[i].accountBalance;
         return sum;
     }
 
     // Returns the balance of account `account` of customer a.
     function balanceOfAccount(address a, uint256 account) external view returns (uint256) {
         require(account < _customers[a].accounts.length);
-        return _customers[a].accounts[account].balance;
+        return _customers[a].accounts[account].accountBalance;
     }
 
     function ercBalance() public view returns (uint256) {
@@ -121,7 +118,7 @@ contract Bank {
     function _burn(address user, uint256 amount, uint256 account) internal {
         require(account < _customers[user].accounts.length);
          _totalSupply -= amount;
-        _customers[user].accounts[account].balance -= amount;
+        _customers[user].accounts[account].accountBalance -= amount;
     }
 
 }

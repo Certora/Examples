@@ -12,7 +12,7 @@ library BankAccountRecord{
 
     struct BankAccount {
         uint256   accountNumber;
-        uint256 balance; 
+        uint256 accountBalance; 
     }
 
     struct EmptyAccount {

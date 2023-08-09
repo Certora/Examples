@@ -76,9 +76,9 @@ rule transferFromCustomerAccountShouldPass(BankAccountRecord.Customer c) {
     address to;
     uint256 toAccount;
 
-    require c.accounts[accountNum].balance > 0;
-    transfer(e, to, assert_uint256(c.accounts[accountNum].balance/2), accountNum, toAccount);
-    satisfy c.accounts[accountNum].balance < balanceOfAccount(to, toAccount);
+    require c.accounts[accountNum].accountBalance > 0;
+    transfer(e, to, assert_uint256(c.accounts[accountNum].accountBalance/2), accountNum, toAccount);
+    satisfy c.accounts[accountNum].accountBalance < balanceOfAccount(to, toAccount);
 }
 
 // withdraw from a non-necessarily empty account might not change the state.
@@ -145,23 +145,32 @@ rule compareChangedFieldAfterAddingCustomersShouldPass(BankAccountRecord.Custome
     assert init[nativeBalances] == lastStorage[nativeBalances];
 }
 
+// Withdrawing balanceOfAccount(e.msg.sender, bankAccount) eth.
+// No restriction on the balance of account so can be Zero.
+// Therefore the rule can fail.
 rule compareBalanceAfterWithdrawShouldFail() {
     uint256 bankAccount;
     env e;
     storage initBalance = lastStorage;
+    uint256 balance = balanceOfAccount(e.msg.sender, bankAccount);
+    require balance > 0; // balance should change by withdraw.
     bool success = withdraw(e, bankAccount);
     storage lastBalance = lastStorage;
     assert (success => initBalance[nativeBalances] == lastBalance[nativeBalances]);
 }
 
-rule compareBalanceAfterDepositShouldPass() {
+// deposit msg.value to this.
+rule balanceShouldChangeByDeposit() {
     uint256 bankAccount;
     env e;
+    require e.msg.sender < max_address;
     storage initBalance = lastStorage;
-    require e.msg.value > 0; // balance should change by withdraw.
+    require e.msg.value > 0; // balance should change by deposit.
+    // deposit msg.value to account `bankAccount` and to the native balance of msg.sender.
     deposit(e, e.msg.value, bankAccount);
     storage lastBalance = lastStorage;
     assert (initBalance[nativeBalances] != lastBalance[nativeBalances], "deposit does not change balances");
+    
 }
 
 // withdraw that changes native balances.
@@ -171,12 +180,14 @@ rule compareBalanceAfterDepositShouldPass() {
 rule compareBalanceAfterWithdrawShouldPass() {
     uint256 bankAccount;
     env e;
+    require e.msg.sender < max_address;
     storage initBalance = lastStorage;
-    uint256 balance = nativeBalances[e.msg.sender];
+    uint256 balance = balanceOfAccount(e.msg.sender, bankAccount);
+    // uint256 balance = nativeBalances[e.msg.sender];
     require balance > 0; // balance should change by withdraw.
     bool success = withdraw(e, bankAccount);
     storage lastBalance = lastStorage;
-    assert ((balance > 0 && success) => initBalance[nativeBalances] != lastBalance[nativeBalances]);
+    assert (success => initBalance[nativeBalances] != lastBalance[nativeBalances]);
 }
 
 
