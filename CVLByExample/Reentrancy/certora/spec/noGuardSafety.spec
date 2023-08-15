@@ -10,7 +10,7 @@ ghost bool called_extcall;
 ghost bool storage_access_before_call;
 ghost bool storage_access_after_call;
 
-//we are hooking here on "CALL" opcodes in order to simulate reentrancy to a non-view function and check that the function reverts
+//we are hooking here on "CALL" opcodes in order capture if there was a storage access before or/and after a call
 hook CALL(uint g, address addr, uint value, uint argsOffset, uint argsLength, uint retOffset, uint retLength) uint rc {
     called_extcall = true;
 }
@@ -33,9 +33,9 @@ hook ALL_SLOAD(uint loc) uint v {
 } 
 
 rule reentrancySafety(method f) {
-    require called_extcall== false &&
-            storage_access_before_call==false && 
-            storage_access_after_call==false;
+    //start with all flags false 
+    require !called_extcall && !storage_access_before_call && 
+            !storage_access_after_call;
 
     calldataarg args;
     env e;

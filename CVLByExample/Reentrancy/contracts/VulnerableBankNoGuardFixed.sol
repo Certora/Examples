@@ -1,6 +1,5 @@
 
 
-/* A bad fix - that might sill have reentracy problem ut passes the rule */
 contract VulnerableBankNoGuardFixed  {
     mapping (address => uint256) private userBalances;
 
