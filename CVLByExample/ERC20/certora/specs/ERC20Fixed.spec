@@ -190,3 +190,21 @@ rule noOverflow() {
     assert afterOneStep == afterTwoSteps;
     
 }
+
+// depositAmount() uses `unchecked` therefore is not checking for overflow. The `assert_uint256(amount1 + amount2))`
+// catches the overflow.
+rule catchOverflow() {
+    env e;
+    uint256 amount1;
+    uint256 amount2;
+
+    storage initial = lastStorage;
+    depositAmount(e, amount1);
+    depositAmount(e, amount2);
+    storage afterTwoSteps = lastStorage;
+
+    depositAmount(e, assert_uint256(amount1 + amount2)) at initial;
+    storage afterOneStep = lastStorage;
+    assert afterOneStep == afterTwoSteps;
+    
+}

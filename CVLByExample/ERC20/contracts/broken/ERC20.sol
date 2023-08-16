@@ -416,9 +416,4 @@ contract ERC20 is IERC20, IERC20Metadata {
         }
     }
 
-    function add(uint256 x, uint256 y) external pure returns(uint256) {
-        unchecked {
-         return x + y;
-        }
-    }
 }

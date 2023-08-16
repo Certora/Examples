@@ -150,20 +150,6 @@ rule sanity {
 
 // New features
 
-// SATISFY
-// Transfer must revert if the sender's balance is too small
-// satisfy doesn't find a trace because transfer reverts.
-rule vacuousSatisfyAfterRevert() {
-    env e; address recip; uint amount;
-
-    require balanceOf(e.msg.sender) > 0;
-    require balanceOf(e.msg.sender) < amount;
-
-    transfer@withrevert(e, recip, amount);
-
-    satisfy balanceOf(e.msg.sender) == 0;
-}
-
 // Safe casting examples
 // depositAmount() uses `unchecked` therefore is not checking for overflow. With the  `require_uint256(amount1 + amount2))` the
 // rule passes although an overflow exists.
@@ -182,21 +168,5 @@ rule requireHidesOverflow() {
     assert afterOneStep == afterTwoSteps;
 }
 
-// depositAmount() uses `unchecked` therefore is not checking for overflow. The `assert_uint256(amount1 + amount2))`
-// catches the overflow.
-rule catchOverflow() {
-    env e;
-    uint256 amount1;
-    uint256 amount2;
 
-    storage initial = lastStorage;
-    depositAmount(e, amount1);
-    depositAmount(e, amount2);
-    storage afterTwoSteps = lastStorage;
-
-    depositAmount(e, assert_uint256(amount1 + amount2)) at initial;
-    storage afterOneStep = lastStorage;
-    assert afterOneStep == afterTwoSteps;
-    
-}
 
