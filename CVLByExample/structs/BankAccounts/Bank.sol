@@ -75,25 +75,16 @@ contract Bank {
 
     function withdraw(uint256 account) public returns (bool)  {
         require(account < _customers[msg.sender].accounts.length);
-        uint256 amount = _customers[msg.sender].accounts[account].accountBalance;
-        _customers[msg.sender].accounts[account].accountBalance = 0;
+        // uint256 amount = _customers[msg.sender].accounts[account].accountBalance;
+        uint256 amount = balanceOfAccount(msg.sender, account);
+        require( amount > 0);
+        // _customers[msg.sender].accounts[account].accountBalance = 0;
         _burn(msg.sender, amount, account);
         (bool success,) = payable(msg.sender).call{value: amount}("");
         require (success);
         // bool success = payable(msg.sender).send(amount);
         return success;
     }
-
-    // function withdrawNative(uint256 account) public payable returns (bool)  {
-    //     require(account < _customers[msg.sender].accounts.length);
-    //     require(msg.sender.accountBalance > 0);
-    //     uint256 amount = _customers[msg.sender].accounts[account].accountBalance;
-    //     _customers[msg.sender].accounts[account].accountBalance = 0;
-    //     _burn(msg.sender, amount, account);
-    //     (bool success,) = payable(msg.sender).call{value: amount}("");
-    //     require (success);
-    //     return success;
-    // }
 
     // Returns sum of all accounts of customer with id a.
     function balanceOf(address a) external view returns (uint256) {
@@ -104,7 +95,7 @@ contract Bank {
     }
 
     // Returns the balance of account `account` of customer a.
-    function balanceOfAccount(address a, uint256 account) external view returns (uint256) {
+    function balanceOfAccount(address a, uint256 account) public view returns (uint256) {
         require(account < _customers[a].accounts.length);
         return _customers[a].accounts[account].accountBalance;
     }
@@ -117,6 +108,7 @@ contract Bank {
 
     function _burn(address user, uint256 amount, uint256 account) internal {
         require(account < _customers[user].accounts.length);
+        require(amount <= _customers[user].accounts[account].accountBalance);
          _totalSupply -= amount;
         _customers[user].accounts[account].accountBalance -= amount;
     }
