@@ -186,6 +186,35 @@ rule nativeBalanceChangesByDepositShouldPass() {
     assert(nativeBalances[bank] != initBalance, "Balance of bank does not change by deposit");
 }
 
+rule sumOfSenderAndReceiverDoesNotChangeByDepositShouldPass() {
+    uint256 bankAccount;
+    env e;
+    uint256 initBankBalance = nativeBalances[bank];
+    uint256 initSenderBalance = nativeBalances[e.msg.sender];
+    storage initStorage = lastStorage;
+    require e.msg.value > 0; // balance should change by deposit.
+    // deposit msg.value to account `bankAccount` and to the native balance of msg.sender.
+    deposit(e, e.msg.value, bankAccount);
+    // storage lastBalance = lastStorage;
+    // assert(initStorage[nativeBalances] != lastStorage[nativeBalances], "deposit does not change balances");
+    assert((nativeBalances[bank] + nativeBalances[e.msg.sender]) == (initBankBalance + initSenderBalance),
+    "Sum of balances of sender and receiver changes by deposit.");
+}
+
+rule witnessSumOfSenderAndReceiverDoesNotChangeByDepositShouldPass() {
+    uint256 bankAccount;
+    env e;
+    uint256 initBankBalance = nativeBalances[bank];
+    uint256 initSenderBalance = nativeBalances[e.msg.sender];
+    storage initStorage = lastStorage;
+    require e.msg.value > 0; // balance should change by deposit.
+    // deposit msg.value to account `bankAccount` and to the native balance of msg.sender.
+    deposit(e, e.msg.value, bankAccount);
+    // storage lastBalance = lastStorage;
+    // assert(initStorage[nativeBalances] != lastStorage[nativeBalances], "deposit does not change balances");
+    satisfy((nativeBalances[bank] + nativeBalances[e.msg.sender]) == (initBankBalance + initSenderBalance));
+}
+
 rule witnessForNativeBalanceChangesByDeposit() {
     uint256 bankAccount;
     env e;
@@ -231,6 +260,22 @@ rule nativeBalanceAfterTwoWithdrawFromInitShouldPass() {
     bool success2 = withdraw(e, bankAccount) at initStorage;
     assert((success1 && success2) => 
     (nativeBalances[bank] == afterWithdraw), "Different balances from same initial balance");
+}
+
+rule unresolvedFunctionCanChangeBalance(method f) {
+    env e;
+    uint256 nativeBefore = nativeBalances[bank];    
+    calldataarg args;
+    f(e,args); /* check on all possible arguments */
+    assert( nativeBalances[bank] != nativeBefore, "nativeBalances does not change by unresolved")  ;
+}
+
+rule witnessUnresolvedFunctionCanChangeBalance(method f) {
+    env e;
+    uint256 nativeBefore = nativeBalances[bank];    
+    calldataarg args;
+    f(e,args); /* check on all possible arguments */
+    satisfy nativeBalances[bank] != nativeBefore;
 }
 
 

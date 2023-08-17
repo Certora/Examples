@@ -1,5 +1,4 @@
 import "./BankAccountRecord.sol";
-import "./OtherContract.sol";
 
 
 contract Bank {
