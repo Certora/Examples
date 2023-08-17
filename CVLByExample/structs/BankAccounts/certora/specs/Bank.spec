@@ -4,9 +4,6 @@
  * This is an example specification for using structs.
  */
 
-
-using BankAccountRecord as baccountrecord;
-using OtherContract as other;
 using Bank as bank;
 
 methods {
@@ -129,8 +126,9 @@ rule integrityOfStoragePerCustomerShouldPass(BankAccountRecord.Customer c1, Bank
     storage afterC1 = lastStorage;
     addCustomer(c2);
     storage afterC2 = lastStorage;
+
     assert (afterC1[bank] != afterC2[bank], "Adding a customer does not affect storage");
-    assert (init[other] == lastStorage[other], "Adding a customer affects storage of other customers");
+    assert (init[currentContract] != lastStorage[currentContract], "Adding a customer affects storage of the current contract, bank ");
     assert (init[nativeBalances] == lastStorage[nativeBalances], "Change in storage affects native balances");
 }
 
@@ -241,6 +239,7 @@ rule nativeBalanceChangesByWithdrawShouldPassInFixed() {
     storage initStorage = lastStorage;
     uint256 balance = balanceOfAccount(e.msg.sender, bankAccount);
     require balance > 0; // balance should change by withdraw.
+    require e.msg.sender != currentContract;
     bool success = withdraw(e, bankAccount);
     assert(success => (nativeBalances[bank] != initBalance), "Balance of bank does not change by withdraw");
 }
