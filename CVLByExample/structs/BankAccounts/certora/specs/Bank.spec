@@ -42,7 +42,6 @@ rule canTransferOnlyIfCanWithdrawShouldPass() {
     require fa.id == e.msg.sender && e.msg.sender == from;
     require fa.account == account;
     transfer(e, to, amount, fa.account, toAccount);
-
     assert (lastReverted, "trandfer from an empty account did not revert");
 }
 
@@ -55,12 +54,9 @@ rule balanceOfEmptyAccountIsZeroShouldPass() {
     uint256 ind;
 
     withZeroBalance();
-    
     require amount > 0;
     BankAccountRecord.EmptyAccount fa;
-
     from, account = cannotWithdraw(ind);
-        
     require fa.id == e.msg.sender && e.msg.sender == from;
     require fa.account == account;
     assert (balanceOfAccount(from, account) == 0, "Balance is positive but cannot withdraw");
@@ -107,7 +103,7 @@ rule addingCustomersChangesStorageShouldPass(BankAccountRecord.Customer c1, Bank
     storage afterC1 = lastStorage;
     addCustomer(c2);
     storage afterC2 = lastStorage;
-    assert (afterC1 != afterC2, "Storage after adding one customer differs from storage after adding two.");
+    assert (afterC1 != afterC2, "Storage after adding one customer is the same as storage after adding two.");
 }
 
 // Different storage after each customer addition.
@@ -128,13 +124,13 @@ rule integrityOfStoragePerCustomerShouldPass(BankAccountRecord.Customer c1, Bank
     storage afterC2 = lastStorage;
 
     assert (afterC1[bank] != afterC2[bank], "Adding a customer does not affect storage");
-    assert (init[currentContract] != lastStorage[currentContract], "Adding a customer affects storage of the current contract, bank ");
+    assert (init[currentContract] != lastStorage[currentContract], "Adding a customer does not affect storage of the current contract, bank ");
     assert (init[nativeBalances] == lastStorage[nativeBalances], "Change in storage affects native balances");
 }
 
 // Withdrawing balanceOfAccount(e.msg.sender, bankAccount) eth.
 // No restriction on the balance of account so can be Zero.
-// Therefore the rule can fail.
+// Therefore the rule fails.
 rule withdrawDoesNotAffectNativeBalancesShouldFail() {
     uint256 bankAccount;
     env e;
@@ -169,21 +165,6 @@ rule witnessForChangedBalanceAfterWithdraw() {
     satisfy (success => initBalance[nativeBalances] != lastBalance[nativeBalances]);
 }
 
-// deposit msg.value to this.
-rule nativeBalanceChangesByDepositShouldPass() {
-    uint256 bankAccount;
-    env e;
-    require e.msg.sender < max_address;
-    uint256 initBalance = nativeBalances[bank];
-    storage initStorage = lastStorage;
-    require e.msg.value > 0; // balance should change by deposit.
-    // deposit msg.value to account `bankAccount` and to the native balance of msg.sender.
-    deposit(e, e.msg.value, bankAccount);
-    // storage lastBalance = lastStorage;
-    // assert(initStorage[nativeBalances] != lastStorage[nativeBalances], "deposit does not change balances");
-    assert(nativeBalances[bank] != initBalance, "Balance of bank does not change by deposit");
-}
-
 rule sumOfSenderAndReceiverDoesNotChangeByDepositShouldPass() {
     uint256 bankAccount;
     env e;
@@ -193,8 +174,6 @@ rule sumOfSenderAndReceiverDoesNotChangeByDepositShouldPass() {
     require e.msg.value > 0; // balance should change by deposit.
     // deposit msg.value to account `bankAccount` and to the native balance of msg.sender.
     deposit(e, e.msg.value, bankAccount);
-    // storage lastBalance = lastStorage;
-    // assert(initStorage[nativeBalances] != lastStorage[nativeBalances], "deposit does not change balances");
     assert((nativeBalances[bank] + nativeBalances[e.msg.sender]) == (initBankBalance + initSenderBalance),
     "Sum of balances of sender and receiver changes by deposit.");
 }
@@ -213,6 +192,21 @@ rule witnessSumOfSenderAndReceiverDoesNotChangeByDepositShouldPass() {
     satisfy((nativeBalances[bank] + nativeBalances[e.msg.sender]) == (initBankBalance + initSenderBalance));
 }
 
+// deposit msg.value to this.
+rule nativeBalanceChangesByDepositShouldPass() {
+    uint256 bankAccount;
+    env e;
+    require e.msg.sender < max_address;
+    uint256 initBalance = nativeBalances[bank];
+    storage initStorage = lastStorage;
+    require e.msg.value > 0; // balance should change by deposit.
+    // deposit msg.value to account `bankAccount` and to the native balance of msg.sender.
+    deposit(e, e.msg.value, bankAccount);
+    // storage lastBalance = lastStorage;
+    // assert(initStorage[nativeBalances] != lastStorage[nativeBalances], "deposit does not change balances");
+    assert(nativeBalances[bank] != initBalance, "Balance of bank does not change by deposit");
+}
+
 rule witnessForNativeBalanceChangesByDeposit() {
     uint256 bankAccount;
     env e;
@@ -227,10 +221,9 @@ rule witnessForNativeBalanceChangesByDeposit() {
     satisfy(nativeBalances[bank] != initBalance);
 }
 
-// Commented out until fixed
 // withdraw that changes native balances.
 // This rule fails without the optimistic_fallback argument to the prover because withdraw uses an unresolved "call"
-// for the eth transfer which can result also unchanged blances.
+// for the eth transfer which can result also unchanged balances.
 // with optimistic_fallback the rule passes because it forces a balance change.
 rule nativeBalanceChangesByWithdrawShouldPassInFixed() {
     uint256 bankAccount;
@@ -244,7 +237,21 @@ rule nativeBalanceChangesByWithdrawShouldPassInFixed() {
     assert(success => (nativeBalances[bank] != initBalance), "Balance of bank does not change by withdraw");
 }
 
-// Commented out until fixed
+rule witnessNativeBalanceChangesByWithdrawShouldPassInFixed() {
+    uint256 bankAccount;
+    env e;
+    uint256 initBalance = nativeBalances[bank];
+    storage initStorage = lastStorage;
+    uint256 balance = balanceOfAccount(e.msg.sender, bankAccount);
+    require balance > 0; // balance should change by withdraw.
+    require e.msg.sender != currentContract;
+    bool success = withdraw(e, bankAccount);
+    satisfy(success => (nativeBalances[bank] != initBalance));
+}
+
+// two withdraws one after the other where both start from the init state. Therefore, the balances after each of the
+// withdraws is the same.
+// This fails in the default configuration because of the call to unresolved it passes with -optimistic_fallback.
 rule nativeBalanceAfterTwoWithdrawFromInitShouldPass() {
     uint256 bankAccount;
     env e;
@@ -261,7 +268,24 @@ rule nativeBalanceAfterTwoWithdrawFromInitShouldPass() {
     (nativeBalances[bank] == afterWithdraw), "Different balances from same initial balance");
 }
 
-rule unresolvedFunctionCanChangeBalance(method f) {
+rule witnessNativeBalanceAfterTwoWithdrawFromInit {
+    uint256 bankAccount;
+    env e;
+    require e.msg.sender < max_address;
+    uint256 initBalance = nativeBalances[bank];
+    storage initStorage = lastStorage;
+    uint256 balance = balanceOfAccount(e.msg.sender, bankAccount);
+    // uint256 balance = nativeBalances[e.msg.sender];
+    require balance > 0; // balance should change by withdraw.
+    bool success1 = withdraw(e, bankAccount);
+    uint256 afterWithdraw = nativeBalances[bank];
+    bool success2 = withdraw(e, bankAccount) at initStorage;
+    satisfy((success1 && success2) => 
+    (nativeBalances[bank] == afterWithdraw));
+}
+
+// Comparing nativeBalances after some method f.
+rule parametericFunctionCanChangeBalance(method f) {
     env e;
     uint256 nativeBefore = nativeBalances[bank];    
     calldataarg args;
@@ -269,15 +293,10 @@ rule unresolvedFunctionCanChangeBalance(method f) {
     assert( nativeBalances[bank] != nativeBefore, "nativeBalances does not change by unresolved")  ;
 }
 
-rule witnessUnresolvedFunctionCanChangeBalance(method f) {
+rule witnessParametricFunctionCanChangeBalance(method f) {
     env e;
     uint256 nativeBefore = nativeBalances[bank];    
     calldataarg args;
     f(e,args); /* check on all possible arguments */
     satisfy nativeBalances[bank] != nativeBefore;
 }
-
-
-
-
-

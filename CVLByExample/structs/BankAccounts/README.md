@@ -4,6 +4,7 @@ This directory demonstrates using solidity structs in cvl.
 ###Failing rules:
 - `storageChangesByWithdrawWithPossibleRevertShouldFail` - fails because in the case of revert the storage does not change.
 - `withdrawDoesNotAffectNativeBalancesShouldFail` - fails because when the amount withdrawn is positive the storage changes.
+- `witnessNativeBalanceChangesByWithdraw` - fails because of the unresolved function in `withdraw`.
 
 Run this configuration via:
 
@@ -11,6 +12,9 @@ Run this configuration via:
 
 ## Configuration with `optimisticFallback`
 This configuration uses the prover argument `-optimisticFallback = true` which makes the withdraw take effect also in the case of a revert.
+The rules that fail with the default configuration and pass with this configuration:
+- `witnessNativeBalanceChangesByWithdraw`
+- `nativeBalanceAfterTwoWithdrawFromInitShouldPass`
 
 Run this configuration via:
 

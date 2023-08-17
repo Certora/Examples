@@ -9,7 +9,7 @@
 
 // Since the function `multiplicate` is payable, the balance of `this` is already increased by msg.value when
 // reaching the `if` in the function. Therefore when msg.value > 0 the if condition in `multiplicate` does not hold. 
-// The rule fails because nativeBalances[e.msg.sender] increases by the function `multiplicate` 
+// The rule fails because nativeBalances[this] increases by the function `multiplicate` 
 // but nativeBalances[adr] does not change.
 rule senderBalanceStaysTheSameShouldFail(){
     env e;
@@ -28,7 +28,6 @@ rule receiverGetsAtLeastMsgValueShouldFail(){
     env e;
     address receiver;
 
-    require receiver < max_address;
     mathint balanceBefore = nativeBalances[receiver];
     multiplicate(e, receiver);
     assert(nativeBalances[receiver] >= assert_uint256(balanceBefore + e.msg.value ),
