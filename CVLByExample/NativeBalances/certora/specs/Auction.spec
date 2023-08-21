@@ -23,8 +23,10 @@ rule bidIncreasesAssets() {
     assert nativeBalances[currentContract] > balanceBefore;
 }
 
-// This rule passes vacuously for Auction.sol.
-// It passes non-vacuously for AuctionFixed.sol.
+// This rule passes vacuously for Auction.sol because of the require e.msg.value > nativeBalances[currentContract] in the spec
+// and require msg.value >= msg.value + nativeBalances[currentContract] in the code where nativeBalances[currentContract] > 0.
+// It passes non-vacuously for AuctionFixed.sol because the amount transferred is currentBid for which msg.value >= currentBid
+// can hold.
 rule bidSuccessfullyExpectVacuous() {
     env e;
     uint256 balanceBefore = nativeBalances[currentContract];
