@@ -1,0 +1,46 @@
+stages:
+  - prepare
+  - test
+  - deploy
+
+variables:
+  IMAGE: ${CI_REGISTRY_IMAGE}:${CI_COMMIT_SHA}
+
+prepare:
+  stage: prepare
+  tags:
+    - docker-builder
+  script:
+    - docker build -t ${IMAGE} .
+    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
+    - docker push ${IMAGE}
+test:
+  stage: test
+  tags:
+    - aave-build-runner
+  before_script:
+    - docker-compose -p ${CI_JOB_ID} -f docker-compose.test.yml build
+  script:
+    - docker-compose -p ${CI_JOB_ID} -f docker-compose.test.yml run contracts-env npm run test
+  after_script:
+    - docker-compose -p ${CI_JOB_ID} -f docker-compose.test.yml run contracts-env npm run ci:clean
+    - docker-compose -p ${CI_JOB_ID} -f docker-compose.test.yml down
+
+.image_step:
+  image: ${IMAGE}
+  tags:
+    - docker
+
+deploy:
+  extends: .image_step
+  stage: deploy
+  script:
+    - echo @aave-tech:registry=https://gitlab.com/api/v4/packages/npm/ >> .npmrc
+    - echo //gitlab.com/api/v4/packages/npm/:_authToken=${CI_JOB_TOKEN} >> .npmrc
+    - echo //gitlab.com/api/v4/projects/${CI_PROJECT_ID}/packages/npm/:_authToken=${CI_JOB_TOKEN} >> .npmrc
+    - ${VERSION}
+    - npm --no-git-tag-version version prerelease --preid=beta-$CI_COMMIT_SHORT_SHA
+    - npm --tag $CI_COMMIT_REF_NAME publish
+  only:
+    - master
+    - merge_requests

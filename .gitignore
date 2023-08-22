@@ -1,1 +1,11 @@
-/**/.certora_internal/*
+/**/.certora_internal
+**/.last_confs
+
+**/node_modules/
+**/.env
+**/resource_errors.json
+**/package-lock.json
+**/.idea/
+**/cache/
+**/emv*
+
