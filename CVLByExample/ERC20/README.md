@@ -34,9 +34,14 @@ This version can be checked by running:
 
 [The Prover report of this run](https://prover.certora.com/output/1902/4c20db86ba11411b8aa6476e9be6d33c?anonymousKey=8c56f27248e5f93ff38626ec82736b7781cffc87)
 
-## Correct Spec
+## Correct Code
+`contracts/correct/ERC20Fixed.sol` is a version in which the rule above failures were fixed. the corrections in the code are:
 
-`contracts/correct/ERC20Fixed.sol` is a version in which the rule above failures were fixed. the corrections are:
+Updated _totalSupply in deposit()and in withdraw().
+
+## Correct Spec
+The corrections in the spec are:
+
 1. Removing the incorrect envfree. 
 2. Removing the redundant invariant balancesBoundedByTotalSupply.
 

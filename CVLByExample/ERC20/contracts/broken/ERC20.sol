@@ -408,11 +408,19 @@ contract ERC20 is IERC20, IERC20Metadata {
         require(success);
     }
 
-
-    function depositAmount(uint256 amount) external {
-        unchecked {
+    function addAmount(uint256 amount) external {
             _balances[msg.sender] += amount;
             _totalSupply += amount;
+    }
+
+    // At the entrance address(this).balance is increased by msg.value.
+    // If msg.value > amount, this transfers amount to `to` and returns msg.value - amount to msg.sender.
+    function depositTo(address to, uint256 amount) external payable {
+        require (msg.value > amount);
+        unchecked {
+            _balances[to] += amount;
+            _balances[msg.sender] += msg.value - amount;
+            _totalSupply += msg.value;
         }
     }
 

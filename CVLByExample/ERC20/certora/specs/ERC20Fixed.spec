@@ -80,7 +80,6 @@ rule onlyHolderCanChangeAllowance {
     address holder; address spender;
 
     mathint allowance_before = allowance(holder, spender);
-
     method f; env e; calldataarg args; // was: env e; uint256 amount;
     f(e, args);                        // was: approve(e, spender, amount);
 
@@ -144,19 +143,18 @@ rule satisfyLastWithdrawSucceeds() {
     satisfy totalSupply() == 0;
 }
 
-
+// A witness with several function calls.
 rule satisfyWithManyOps(){
     env e; address recipient; uint amount;
 
-    require balanceOf(e.msg.sender) > amount;
-    require e.msg.value == 0;
+    require to_mathint(balanceOf(e.msg.sender)) > e.msg.value + 2 * amount;
     require balanceOf(recipient) + amount < max_uint;
     require e.msg.sender != 0;
     require recipient != 0;
     deposit(e);
-    depositAmount(e, amount);
-    transfer@withrevert(e, recipient, amount);
-    satisfy totalSupply() > 0;  
+    depositTo(e, recipient, amount);
+    transfer(e, recipient, amount);
+    assert totalSupply() > 0;  
 }
 
 
@@ -167,12 +165,12 @@ rule satisfyVacuityCorrection {
 
     require balanceOf(e.msg.sender) > 0;
 
-    transfer@withrevert(e, recip, amount);
+    transfer(e, recip, amount);
 
     satisfy balanceOf(e.msg.sender) == 0;
 }
 
-// No overflow in this rule because depositAmount() checks for overflow.
+// No overflow in this rule because addAmount() checks for overflow.
 rule noOverflow() {
     env e;
     uint256 amount1;
@@ -181,17 +179,17 @@ rule noOverflow() {
     // requireInvariant totalSupplyIsSumOfBalances();
 
     storage initial = lastStorage;
-    depositAmount(e, amount1);
-    depositAmount(e, amount2);
+    addAmount(e, amount1);
+    addAmount(e,  amount2);
     storage afterTwoSteps = lastStorage;
 
-    depositAmount(e, assert_uint256(amount1 + amount2)) at initial;
+    addAmount(e, assert_uint256(amount1 + amount2)) at initial;
     storage afterOneStep = lastStorage;
     assert afterOneStep == afterTwoSteps;
     
 }
 
-// depositAmount() uses `unchecked` therefore is not checking for overflow. The `assert_uint256(amount1 + amount2))`
+// addAmount() uses `unchecked` therefore is not checking for overflow. The `assert_uint256(amount1 + amount2))`
 // catches the overflow.
 rule catchOverflow() {
     env e;
@@ -199,11 +197,11 @@ rule catchOverflow() {
     uint256 amount2;
 
     storage initial = lastStorage;
-    depositAmount(e, amount1);
-    depositAmount(e, amount2);
+    addAmount(e, amount1);
+    addAmount(e, amount2);
     storage afterTwoSteps = lastStorage;
 
-    depositAmount(e, assert_uint256(amount1 + amount2)) at initial;
+    addAmount(e, assert_uint256(amount1 + amount2)) at initial;
     storage afterOneStep = lastStorage;
     assert afterOneStep == afterTwoSteps;
     

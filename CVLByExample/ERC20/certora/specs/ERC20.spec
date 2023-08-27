@@ -98,8 +98,8 @@ rule onlyApproveIncreasesAllowance {
 
     mathint allowance_before = allowance(holder, spender);
 
-    method f; env e; calldataarg args; // was: env e; uint256 amount;
-    f(e, args);                        // was: approve(e, spender, amount);
+    method f; env e; calldataarg args; 
+    f(e, args);                        
 
     mathint allowance_after = allowance(holder, spender);
 
@@ -151,7 +151,7 @@ rule sanity {
 // New features
 
 // Safe casting examples
-// depositAmount() uses `unchecked` therefore is not checking for overflow. With the  `require_uint256(amount1 + amount2))` the
+// addAmount() uses `unchecked` therefore is not checking for overflow. With the  `require_uint256(amount1 + amount2))` the
 // rule passes although an overflow exists.
 rule requireHidesOverflow() {
     env e;
@@ -159,11 +159,11 @@ rule requireHidesOverflow() {
     uint256 amount2;
 
     storage initial = lastStorage;
-    depositAmount(e, amount1);
-    depositAmount(e, amount2);
+    addAmount(e, amount1);
+    addAmount(e, amount2);
     storage afterTwoSteps = lastStorage;
 
-    depositAmount(e, require_uint256(amount1 + amount2)) at initial;
+    addAmount(e, require_uint256(amount1 + amount2)) at initial;
     storage afterOneStep = lastStorage;
     assert afterOneStep == afterTwoSteps;
 }
