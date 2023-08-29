@@ -9,13 +9,16 @@ contract Bank {
 
     uint256 private _totalSupply;
 
-    mapping (address => uint) m;
+    mapping (address => uint) m; //remove
 	uint x;
 
-	mapping (uint => address[]) foo;
+	mapping (uint => address[]) foo; //remove
 
     // Custormers with zero balance.
-    BankAccountRecord.EmptyAccount[] public cannotWithdraw;
+    BankAccountRecord.EmptyAccount[] public cannotWithdraw;// blacklist
+    // owner can add to blaklist 
+
+    address _owner; 
 
     event Received(address, uint256);
     receive() external payable {
@@ -31,6 +34,12 @@ contract Bank {
     }
 
     // Fill the array of empty accounts.
+    /* function addToBlacklist(address a, account i) {
+        require msg.sender == _owner; 
+        cannotWithdraw.push()
+        ...
+    }
+    */
     function withZeroBalance() external  {
         require (cannotWithdraw.length == 0);
         for (uint256 i; i < _customerAddresses.length; i++) {

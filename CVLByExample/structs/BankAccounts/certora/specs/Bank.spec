@@ -2,7 +2,19 @@
  * # Structs Example
  *
  * This is an example specification for using structs.
+ * Passing struct as argument to solidity + cvl = with addCustomer 
+ * todo : pass struct to cvl function compareCustomer 
+ * Solidity Returning struct:
+
+    BankAccountRecord.Customer c = getCutomer(a); 
+    assert c.id == a;
+* Returning struct from default getter 
+    blacklist(a) will return tuple 
+ * hook on struct + ghost 
+    totalSupply == sum(_customers[Key a].accounts[INDEX i].balance)
  */
+
+ 
 
 using Bank as bank;
 
