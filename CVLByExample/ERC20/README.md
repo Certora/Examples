@@ -48,5 +48,4 @@ The corrections in the spec are:
 It can be checked by running:
 ```certoraRun certora/conf/runERC20Fixed.conf```
 
-[The Prover report of this run](https://prover.certora.com/output/1902/e065106388504be086ad6250b5e77554?anonymousKey=5ae791b592529cd62bcac821334f10039cc9a816)
-
+[The Prover report of this run](https://prover.certora.com/output/1902/db76e72ff37b408287e75e00e8d2b58b?anonymousKey=d103189626f0b659e476d0a9a5fde3c1ef37d834)
