@@ -1,6 +1,8 @@
-This directory demonstrates using solidity structs in cvl.
+This directory demonstrates using solidity structs in cvl (`structs.spec`) and storage changes (`storage.spec`).
 
-## Default configuration
+
+## Storage Examples
+### Default configuration
 ###Failing rules:
 - `storageChangesByWithdrawWithPossibleRevertShouldFail` - fails because in the case of revert the storage does not change.
 - `withdrawDoesNotAffectNativeBalancesShouldFail` - fails because when the amount withdrawn is positive the storage changes.
