@@ -70,7 +70,14 @@ certoraRun ConstantProductPoolExample/certora/conf/runFixed.conf
 
 18. [`using`](https://github.com/Certora/Examples/blob/sitvanit/struct-examples/CVLByExample/LiquidityPool/certora/specs/pool_link.spec)
 
-19. [struct return type](https://github.com/Certora/Examples/blob/be53640d5698afc1589ba0a2bd662d8c1512b69f/CVLByExample/structs/BankAccounts/certora/specs/Bank.spec#L17C5-L17C84)
+19. `struct``
+- [struct return type](https://github.com/Certora/Examples/blob/be53640d5698afc1589ba0a2bd662d8c1512b69f/CVLByExample/structs/BankAccounts/certora/specs/Bank.spec#L17C5-L17C84)
+- [Assignment to `struct`]
+- [Assigning `struct` to a tuple]
+- [`struct` in `methods` block]
+   - [`struct` parameter]
+   - [`struct` return type]
+- [`struct` parameter to a cvl function]
 
 20. [assignment to struct](https://github.com/Certora/Examples/blob/be53640d5698afc1589ba0a2bd662d8c1512b69f/CVLByExample/structs/BankAccounts/certora/specs/Bank.spec#L59C5-L59C41)
 
@@ -81,6 +88,36 @@ certoraRun ConstantProductPoolExample/certora/conf/runFixed.conf
 23. [`nativeBalances`](https://github.com/Certora/Examples/blob/be53640d5698afc1589ba0a2bd662d8c1512b69f/CVLByExample/NativeBalances/certora/specs/Auction.spec#L15C29-L15C43)
 
 24. [`forall`](https://github.com/Certora/Examples/blob/be53640d5698afc1589ba0a2bd662d8c1512b69f/CVLByExample/QuantifierExamples/DoublyLinkedList/certora/spec/dll-linkedcorrectly.spec#L13C22-L13C28)
+
+25. `use`
+   - `rule`
+   - `invariant`
+
+- [Function summarization]
+   - [`ALWAYS`] {
+   - `CONSTANT`
+   - `PER_CALLEE_CONSTANT``
+ NONDET" {
+    debug(" NONDET",yytext());
+    return symbol(sym.NONDET,yytext());
+}
+<YYINITIAL> "HAVOC_ECF" {
+    debug(" HAVOC_ECF",yytext());
+    return symbol(sym.HAVOC_ECF,yytext());
+}
+<YYINITIAL> "HAVOC_ALL" {
+    debug(" HAVOC_ALL",yytext());
+    return symbol(sym.HAVOC_ALL,yytext());
+}
+<YYINITIAL> "AUTO" {
+    debug(" AUTO",yytext());
+    return symbol(sym.AUTO,yytext());
+}
+<YYINITIAL> "UNRESOLVED" {
+    debug(" UNRESOLVED",yytext());
+    return symbol(sym.UNRESOLVED,yytext());
+}
+
 
 
 
