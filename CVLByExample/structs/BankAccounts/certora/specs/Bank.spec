@@ -31,18 +31,35 @@ methods {
 //// Basic rules ////////////////////////////////////////////////////
 // Comparision of full structs is not supported. Each field should be compared instead.
 // Here only the id field is compared because arrays (accounts field) cannot be compared.
-function integrityOfCustomerInsertion(BankAccountRecord.Customer c1) returns bool{
+function integrityOfCustomerInsertion(BankAccountRecord.Customer c1) returns bool {
     addCustomer(c1);
     BankAccountRecord.Customer c = getCustomer(c1.id);
     return (c.id == c1.id);
+}
+
+function getAccount(address a, uint256 accountInd) returns BankAccountRecord.BankAccount {
+    BankAccountRecord.Customer c = getCustomer(a);
+    return c.accounts[accountInd];
+}
+
+function getAccountNumberAndBalance(address a, uint256 accountInd) returns (uint256, uint256) {
+    env e;
+    BankAccountRecord.Customer c = getCustomer(a);
+    BankAccountRecord.BankAccount account = getAccount(e.msg.sender, accountInd);
+    return (account.accountNumber, account.accountBalance)  ;
+}
+
+rule withdrawAllEmptiesAccount(uint256 accountInd){
+    env e;
+    BankAccountRecord.BankAccount account = getAccount(e.msg.sender, accountInd);
+    withdraw(e, accountInd);
+    assert balanceOfAccount(e.msg.sender, accountInd) == 0;
 }
 
 rule correctCustomerInsertion(BankAccountRecord.Customer c1){
     bool correct = integrityOfCustomerInsertion(c1);
     assert (correct, "Bad customer insertion");
 }
-
-
 
 // transfer from blackList must revert.
 // rule canTransferOnlyIfCanWithdrawShouldPass() {
