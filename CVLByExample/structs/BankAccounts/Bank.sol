@@ -9,16 +9,14 @@ contract Bank {
 
     uint256 private _totalSupply;
 
-    mapping (address => uint) m; //remove
-	uint x;
-
-	mapping (uint => address[]) foo; //remove
-
-    // Custormers with zero balance.
-    BankAccountRecord.EmptyAccount[] public cannotWithdraw;// blacklist
-    // owner can add to blaklist 
-
+    // Customers with zero balance.
+    BankAccountRecord.EmptyAccount[] public blackList;
+    // Only owner can add to blaklist 
     address _owner; 
+
+    constructor() {
+        _owner = msg.sender;
+    }
 
     event Received(address, uint256);
     receive() external payable {
@@ -34,26 +32,26 @@ contract Bank {
     }
 
     // Fill the array of empty accounts.
-    /* function addToBlacklist(address a, account i) {
-        require msg.sender == _owner; 
-        cannotWithdraw.push()
-        ...
+    function addToBlackList(address a, uint256 i) external returns(uint256)  {
+        require (msg.sender == _owner); 
+        require (balanceOfAccount(a, i) == 0);
+        blackList.push(BankAccountRecord.EmptyAccount(a, i));
+        return blackList.length - 1;
     }
-    */
-    function withZeroBalance() external  {
-        require (cannotWithdraw.length == 0);
-        for (uint256 i; i < _customerAddresses.length; i++) {
-            for (uint256 j = 0; j < _customers[_customerAddresses[i]].accounts.length; j++)
-            if (!canWithdraw(_customers[_customerAddresses[i]], j)){
-                cannotWithdraw.push(BankAccountRecord.EmptyAccount(_customerAddresses[i], j));
-            }
-        }
-    }
+    
+    // function withZeroBalance() external  {
+    //     require (cannotWithdraw.length == 0);
+    //     for (uint256 i; i < _customerAddresses.length; i++) {
+    //         for (uint256 j = 0; j < _customers[_customerAddresses[i]].accounts.length; j++)
+    //         if (!canWithdraw(_customers[_customerAddresses[i]], j)){
+    //             cannotWithdraw.push(BankAccountRecord.EmptyAccount(_customerAddresses[i], j));
+    //         }
+    //     }
+    // }
 
     function addCustomer(BankAccountRecord.Customer calldata c) external {
         _customers[c.id] = c;
         _customerAddresses.push(c.id);
-
     }
 
     function getCustomer(address a) external view returns(BankAccountRecord.Customer memory) {

@@ -16,6 +16,11 @@ library BankAccountRecord{
         address id;
         BankAccount[] accounts;
     }
+
+    struct AddressAccount {
+        address id;
+        uint256 accountNUmber;
+    }
    
 }
 
