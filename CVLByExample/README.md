@@ -42,10 +42,22 @@ certoraRun ConstantProductPoolExample/certora/conf/runFixed.conf
    - [Calls to external contracts](https://github.com/Certora/Examples/blob/631ba01b47f126dad8d1c067dd2277fb58bf616b/CVLByExample/ConstantProductPool/certora/spec/ConstantProductPool.spec#L29C14-L29C31)
    - [envfree](https://github.com/Certora/Examples/tree/master/CVLByExample/ERC20#:~:text=ERC20.spec%20as-,envfree,-but%20it%20refers)
    - [Function Summary]
-     - [DISPATCHER](https://github.com/Certora/Examples/blob/631ba01b47f126dad8d1c067dd2277fb58bf616b/CVLByExample/ConstantProductPool/certora/spec/ConstantProductPool.spec#L36C4-L36C4)
-     - [UNRESOLVED]
-     - [CONSTANT]
-   - `expects`
+        - [DISPATCHER](https://github.com/Certora/Examples/blob/631ba01b47f126dad8d1c067dd2277fb58bf616b/CVLByExample/ConstantProductPool/certora/spec/ConstantProductPool.spec#L36C4-L36C4)
+        - [`ALWAYS`] 
+        - [`CONSTANT`]
+        - [`PER_CALLEE_CONSTANT`]
+        - [`NONDET`]
+        - [`HAVOC_ECF`]
+        - [`HAVOC_ALL`]
+        - [`AUTO`]
+        - [`URESOLVED`]
+        - [`DISPATCHER`] - liquidity/flashloan
+        - [CVL Function Summary]
+        - [Ghost Summary]
+        
+    - [`expects`]
+    - [`optional`]
+      - [`with (env e)`]
       
 
 - [`require`] (https://github.com/Certora/Examples/blob/631ba01b47f126dad8d1c067dd2277fb58bf616b/CVLByExample/ConstantProductPool/certora/spec/ConstantProductPool.spec#L236C5-L236C12)
@@ -98,20 +110,25 @@ certoraRun ConstantProductPoolExample/certora/conf/runFixed.conf
    - `rule`
    - `invariant`
 - [Function Summarization]
-   - `ALWAYS` 
-   - `CONSTANT`
-   - `PER_CALLEE_CONSTANT`
-   - `NONDET`
-   - `HAVOC_ECF`
-   - `HAVOC_ALL`
-   - `AUTO`
-   - `URESOLVED`
-   - `DISPATCHER` - liquidity/flashloan
+   - [`ALWAYS`] 
+   - [`CONSTANT`]
+   - [`PER_CALLEE_CONSTANT`]
+   - [`NONDET`]
+   - [`HAVOC_ECF`]
+   - [`HAVOC_ALL`]
+   - [`AUTO`]
+   - [`URESOLVED`]
+   - [`DISPATCHER`] - liquidity/flashloan
+   - [CVL Function Summary]
+   - [Ghost Summary]
 
 - [`description`]
 - [`good_description`]
 - [`havoc assuming`]
 - [`sort`]
+- [CVL function]
+    - [`override`]
+
 
 
  
