@@ -4,13 +4,10 @@ import "./BankAccountRecord.sol";
 contract Bank {
     mapping(address => BankAccountRecord.Customer) public _customers;
 
-    // Axiliary array for indexing into the customer map.
-    address[] private _customerAddresses;
-
     uint256 private _totalSupply;
 
-    // Customers with zero balance.
-    BankAccountRecord.EmptyAccount[] public blackList;
+    // Specific accounts blacklisted by owner 
+    BankAccountRecord.IdAccount[] public blackList;
     // Only owner can add to blaklist 
     address _owner; 
 
@@ -18,44 +15,44 @@ contract Bank {
         _owner = msg.sender;
     }
 
-    event Received(address, uint256);
-    receive() external payable {
-        emit Received(msg.sender, msg.value);
-    }
 
-    fallback() external payable {  
-    }
 
-    function canWithdraw(BankAccountRecord.Customer memory c, uint256 account) public pure returns(bool) {
-        require(account < c.accounts.length);
-        return c.accounts[account].accountBalance > 0;
-    }
 
-    // Fill the array of empty accounts.
+    // Owner can blacklist users, denying them to withdraw or transfer 
     function addToBlackList(address a, uint256 i) external returns(uint256)  {
         require (msg.sender == _owner); 
-        require (balanceOfAccount(a, i) == 0);
-        blackList.push(BankAccountRecord.EmptyAccount(a, i));
+        blackList.push(BankAccountRecord.IdAccount(a, i));
         return blackList.length - 1;
     }
     
-    // function withZeroBalance() external  {
-    //     require (cannotWithdraw.length == 0);
-    //     for (uint256 i; i < _customerAddresses.length; i++) {
-    //         for (uint256 j = 0; j < _customers[_customerAddresses[i]].accounts.length; j++)
-    //         if (!canWithdraw(_customers[_customerAddresses[i]], j)){
-    //             cannotWithdraw.push(BankAccountRecord.EmptyAccount(_customerAddresses[i], j));
-    //         }
-    //     }
-    // }
+    function isBalacklisted(address user, uint256 acc) public returns(bool)  {
+        for (uint256 i; i < blackList.length; i++) {
+            if (blackList[i].id == user && blackList[i].account == acc ) {
+                return true; 
+            }
+        }
+        return false;
+     }
 
+    // Add a new customer 
     function addCustomer(BankAccountRecord.Customer calldata c) external {
+        require(c.accounts.length == 0);
+        require(_customers[c.id].id == address(0) && _customers[c.id].accounts.length == 0);
         _customers[c.id] = c;
-        _customerAddresses.push(c.id);
     }
-
     function getCustomer(address a) external view returns(BankAccountRecord.Customer memory) {
         return _customers[a];
+    }
+
+    function isCustomer(address a) public view returns(bool) {
+        return _customers[a].id != a;
+    }
+
+    // adds the next availible account number for a user, returns the new account number
+    function addAccount(address user) external returns (uint256 newAccount) {
+        require (isCustomer(user));
+        newAccount = _customers[user].accounts.length;
+        _customers[user].accounts.push( BankAccountRecord.BankAccount(newAccount, 0));
     }
 
     function totalSupply() external view returns(uint256){
@@ -63,33 +60,37 @@ contract Bank {
     }
 
     // Deposit amount to account number `account` of msg.sender
-    function deposit(uint256 amount, uint256 account) public payable {
-        require( address(this) != msg.sender );
+    function deposit(uint256 account) public payable {
+        require (isCustomer(msg.sender));
         require(account < _customers[msg.sender].accounts.length);
-        _customers[msg.sender].accounts[account].accountBalance += amount;
-        _totalSupply += amount;
+        _customers[msg.sender].accounts[account].accountBalance += msg.value;
+        _totalSupply += msg.value;
     }
 
     // transfer `amount` from acount number `fromAccount` of msg.sender to account `toAccount` of `to`.
     function transfer(address to, uint256 amount, uint256 fromAccount, uint256 toAccount) public {
+        require( !isBalacklisted(msg.sender, fromAccount));
         require(fromAccount < _customers[msg.sender].accounts.length);
         require(toAccount < _customers[to].accounts.length);
-        require(_customers[msg.sender].accounts[fromAccount].accountBalance > amount);
+        require(_customers[msg.sender].accounts[fromAccount].accountBalance >= amount);
         _customers[msg.sender].accounts[fromAccount].accountBalance -= amount;
         _customers[to].accounts[toAccount].accountBalance += amount;
     }
 
     function withdraw(uint256 account) public returns (bool)  {
+        require( !isBalacklisted(msg.sender, account));
         require(account < _customers[msg.sender].accounts.length);
-        // uint256 amount = _customers[msg.sender].accounts[account].accountBalance;
         uint256 amount = balanceOfAccount(msg.sender, account);
         require( amount > 0);
-        // _customers[msg.sender].accounts[account].accountBalance = 0;
         _burn(msg.sender, amount, account);
         (bool success,) = payable(msg.sender).call{value: amount}("");
         require (success);
-        // bool success = payable(msg.sender).send(amount);
         return success;
+    }
+
+      function _burn(address user, uint256 amount, uint256 account) internal {
+         _totalSupply -= amount;
+        _customers[user].accounts[account].accountBalance -= amount;
     }
 
     // Returns sum of all accounts of customer with id a.
@@ -100,23 +101,16 @@ contract Bank {
         return sum;
     }
 
-    // Returns the balance of account `account` of customer a.
-    function balanceOfAccount(address a, uint256 account) public view returns (uint256) {
-        require(account < _customers[a].accounts.length);
-        return _customers[a].accounts[account].accountBalance;
+    // Returns the balance of account `account` of user.
+    function balanceOfAccount(address user, uint256 account) public view returns (uint256) {
+        return _customers[user].accounts[account].accountBalance;
     }
 
-    function ercBalance() public view returns (uint256) {
-        return msg.sender.balance;
+    function getNumberOfAccounts(address user) public view returns (uint256) {
+        return  _customers[user].accounts.length;
     }
 
-    function init_state() public pure {}
 
-    function _burn(address user, uint256 amount, uint256 account) internal {
-        require(account < _customers[user].accounts.length);
-        require(amount <= _customers[user].accounts[account].accountBalance);
-         _totalSupply -= amount;
-        _customers[user].accounts[account].accountBalance -= amount;
-    }
+  
 
 }

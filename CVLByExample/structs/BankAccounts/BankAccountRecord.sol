@@ -6,21 +6,18 @@ library BankAccountRecord{
         uint256 accountNumber;
         uint256 accountBalance; 
     }
-    // blacklistedAccount
-    struct EmptyAccount {
-        address id;
-        uint256 account;
-    }
 
     struct Customer {
         address id;
         BankAccount[] accounts;
     }
 
-    struct AddressAccount {
+    // blacklistedAccount
+    struct IdAccount {
         address id;
-        uint256 accountNUmber;
+        uint256 account;
     }
+
    
 }
 
