@@ -15,9 +15,6 @@ contract Bank {
         _owner = msg.sender;
     }
 
-
-
-
     // Owner can blacklist users, denying them to withdraw or transfer 
     function addToBlackList(address a, uint256 i) external returns(uint256)  {
         require (msg.sender == _owner); 
@@ -45,7 +42,7 @@ contract Bank {
     }
 
     function isCustomer(address a) public view returns(bool) {
-        return _customers[a].id != a;
+        return _customers[a].id == a;
     }
 
     // adds the next availible account number for a user, returns the new account number
@@ -109,8 +106,5 @@ contract Bank {
     function getNumberOfAccounts(address user) public view returns (uint256) {
         return  _customers[user].accounts.length;
     }
-
-
-  
-
+    
 }

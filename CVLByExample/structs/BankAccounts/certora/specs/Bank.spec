@@ -1,17 +1,14 @@
-/***
- * # Structs Example
+/**
+ * @title Structs Example
  *
  * This is an example reasoning about structs.
- TODO - explain more what's in the spec:
- * referencing a strcut
- * method block
- * method block for default getter
-* strcts in cvl function - passing and returning
-* 
-
- * Passing struct as argument to solidity + cvl = with addCustomer 
+ * The spec contains examples for:
+ * referencing a struct and its fields.
+ * method block including methods passing structs as arguments and returning structs.
+ * method block entry for a default getter.
+ * structs in cvl functions - passing and returning
+ * Passing struct as argument to solidity + cvl = with addCustomer
  * todo : pass struct to cvl function compareCustomer 
- * Solidity Returning struct: - done
 
 * Returning struct from default getter - canTransferOnlyIfCanWithdrawShouldPass
     blacklist(a) will return tuple - done
@@ -23,15 +20,14 @@
 using Bank as bank;
 
 methods {
-     // Definition of a user-defined method returning a struct 
+     /// Definition of a user-defined solidity method returning a struct
     function getCustomer(address a) external returns(BankAccountRecord.Customer) envfree;
  
-    // Definition of a user-defined method returning a struct as a tuple 
+    /// Definition of a user-defined method returning a struct as a tuple 
     function blackList(uint256) external returns (address, uint) envfree;
-    // Definition of a function with struct as an argument 
+    /// Definition of a function with struct as an argument 
     function addCustomer(BankAccountRecord.Customer) external envfree;
-    
-    
+
     function balanceOf(address)        external returns(uint) envfree;
     function balanceOfAccount(address, uint) external returns(uint) envfree;
     function totalSupply()             external returns(uint) envfree;
@@ -39,7 +35,7 @@ methods {
     function isCustomer(address) external returns (bool) envfree;
 }
 
-//// Basic rules ////////////////////////////////////////////////////
+/** @title Basic rules ////////////////////////////////////////////////////
 // Comparison of full structs is not supported. Each field should be compared instead.
 // Here only the id field is compared because arrays (accounts field) cannot be compared.
 function integrityOfCustomerInsertion(BankAccountRecord.Customer c1) returns bool {
@@ -48,6 +44,7 @@ function integrityOfCustomerInsertion(BankAccountRecord.Customer c1) returns boo
     return (c.id == c1.id);
 }
 
+// A method returning a struct.
 function getAccount(address a, uint256 accountInd) returns BankAccountRecord.BankAccount {
     BankAccountRecord.Customer c = getCustomer(a);
     return c.accounts[accountInd];
@@ -71,8 +68,6 @@ rule correctCustomerInsertion(BankAccountRecord.Customer c1){
     bool correct = integrityOfCustomerInsertion(c1);
     assert (correct, "Bad customer insertion");
 }
-
-
 
 // Example for assigning a struct to a tuple.
 rule updateOfBlacklist() {
@@ -123,30 +118,30 @@ ghost mapping(address => mapping(uint256 => uint256)) accountBalanceMirror {
 }
 
 //number of account per user 
-ghost mapping(address => uint256) numOfAccount {
+ghost mapping(address => uint256) numOfAccounts {
     // assumption: it's infeasible to grow the list to these many elements.
-    axiom forall address a. numOfAccount[a] < 0xffffffffffffffffffffffffffffffff;
-    init_state axiom forall address a. numOfAccount[a] == 0;
+    axiom forall address a. numOfAccounts[a] < 0xffffffffffffffffffffffffffffffff;
+    init_state axiom forall address a. numOfAccounts[a] == 0;
 }
 
-// Store hook to synchronize numOfAccount with the length of the customers[KEY address a].accounts array. 
+// Store hook to synchronize numOfAccounts with the length of the customers[KEY address a].accounts array.
 // We need to use (offset 32) here, as there is no keyword yet to access the length.
 hook Sstore _customers[KEY address user].(offset 32) uint256 newLength STORAGE {
-    if (newLength > numOfAccount[user])
+    if (newLength > numOfAccounts[user])
         require accountBalanceMirror[user][require_uint256(newLength-1)] == 0 ;   
-    numOfAccount[user] = newLength;
+    numOfAccounts[user] = newLength;
 }
 
 /**
  @title an internal step check to verify that our ghost works as expected, it should mirror the number of accounts.
  Note: once this rule is proven it is safe to have this as a require on the sload .
- Once the sload is defined, thiss invariant becomes a tautology  
+ Once the sload is defined, this invariant becomes a tautology  
 **/
-invariant checkNumOfAccount(address user) 
-    numOfAccount[user] == getNumberOfAccounts(user);
+invariant checkNumOfAccounts(address user) 
+    numOfAccounts[user] == getNumberOfAccounts(user);
    
 hook Sload uint256 length _customers[KEY address user].(offset 32) STORAGE {
-    require numOfAccount[user] == length; 
+    require numOfAccounts[user] == length; 
 }
 
 
@@ -160,7 +155,7 @@ hook Sstore _customers[KEY address a].accounts[INDEX uint256 i].accountBalance u
 hook Sload uint256 value  _customers[KEY address a].accounts[INDEX uint256 i].accountBalance   STORAGE {
     // when balance load, safely assume it is less than the sum of all values
     require to_mathint(value) <= sumBalances;
-    require to_mathint(i) <= to_mathint(numOfAccount[a]-1);
+    require to_mathint(i) <= to_mathint(numOfAccounts[a]-1);
 }
 
 
@@ -170,12 +165,12 @@ invariant emptyAccount(address user)
 invariant totalSupplyEqSumBalances()
     to_mathint(totalSupply()) == sumBalances 
     {
-        /* bug in preserve with code. todo - use preserved on function  and remove redundant require in code
+        // bug in preserve with code. todo - use preserved on function  and remove redundant require in code
         preserved addCustomer(BankAccountRecord.Customer xxx) 
         {
             requireInvariant emptyAccount(0);
         }
-        */
+        
     }
 
 invariant solvency()
