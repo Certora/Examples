@@ -10,10 +10,7 @@
  * Passing struct as argument to solidity + cvl = with addCustomer
  * todo : pass struct to cvl function compareCustomer 
 
-* Returning struct from default getter - canTransferOnlyIfCanWithdrawShouldPass
-    blacklist(a) will return tuple - done
- * hook on struct + ghost 
-    totalSupply == sum(_customers[Key a].accounts[INDEX i].balance)
+ * Returning struct from default getter - canTransferOnlyIfCanWithdrawShouldPass
  */
  
 
@@ -36,16 +33,21 @@ methods {
 }
 
 /** @title Basic rules ////////////////////////////////////////////////////
-// Comparison of full structs is not supported. Each field should be compared instead.
-// Here only the id field is compared because arrays (accounts field) cannot be compared.
+ Comparison of full structs is not supported. Each field should be compared instead.
+ Here only the id field is compared because arrays (accounts field) cannot be compared.
+ */
 function integrityOfCustomerInsertion(BankAccountRecord.Customer c1) returns bool {
     addCustomer(c1);
     BankAccountRecord.Customer c = getCustomer(c1.id);
     return (c.id == c1.id);
 }
 
-// A method returning a struct.
-function getAccount(address a, uint256 accountInd) returns BankAccountRecord.BankAccount {
+/**
+ A method returning a struct.
+ @param a customer's address
+ @param accountId accout number
+ */
+ function getAccount(address a, uint256 accountInd) returns BankAccountRecord.BankAccount {
     BankAccountRecord.Customer c = getCustomer(a);
     return c.accounts[accountInd];
 }
@@ -69,7 +71,7 @@ rule correctCustomerInsertion(BankAccountRecord.Customer c1){
     assert (correct, "Bad customer insertion");
 }
 
-// Example for assigning a struct to a tuple.
+/// Example for assigning a struct to a tuple.
 rule updateOfBlacklist() {
     env e;
     address user;
@@ -82,7 +84,7 @@ rule updateOfBlacklist() {
     assert (user == user1 && account == account1, "Customer in black list is not the one added.");
 }
 
-// Example for struct parameter and  nested struct member reference
+/// Example for struct parameter and  nested struct member reference
 rule witnessForIntegrityOfTransferFromCustomerAccount(BankAccountRecord.Customer c) {
     env e;
     uint256 accountNum;
@@ -94,8 +96,8 @@ rule witnessForIntegrityOfTransferFromCustomerAccount(BankAccountRecord.Customer
     satisfy c.accounts[accountNum].accountBalance < balanceOfAccount(to, toAccount);
 }
 
-// Assignment to struct. 
-// getCustomer(a).id is not supported yet.
+/// Assignment to struct. 
+/// getCustomer(a).id is not supported yet.
 rule integrityOfCustomerKeyRule(address a, method f) {
     env e;
     calldataarg args;
@@ -106,26 +108,27 @@ rule integrityOfCustomerKeyRule(address a, method f) {
 }
 
 
-// Represent the sum of all accounts of all users
-// sum _customers[a].accounts[i].accountBalance 
+/// Represent the sum of all accounts of all users
+/// sum _customers[a].accounts[i].accountBalance 
 ghost mathint sumBalances {
     init_state axiom sumBalances == 0;
 }
 
-//mirror on a struct _customers[a].accounts[i].accountBalance
+/// Mirror on a struct _customers[a].accounts[i].accountBalance
 ghost mapping(address => mapping(uint256 => uint256)) accountBalanceMirror {
     init_state axiom forall address a. forall uint256 i. accountBalanceMirror[a][i] == 0;
 }
 
-//number of account per user 
+/// Number of accounts per user 
 ghost mapping(address => uint256) numOfAccounts {
     // assumption: it's infeasible to grow the list to these many elements.
-    axiom forall address a. numOfAccounts[a] < 0xffffffffffffffffffffffffffffffff;
+    // axiom forall address a. numOfAccounts[a] < 0xffffffffffffffffffffffffffffffff;
+    axiom forall address a. numOfAccounts[a] < max_uint256;
     init_state axiom forall address a. numOfAccounts[a] == 0;
 }
 
-// Store hook to synchronize numOfAccounts with the length of the customers[KEY address a].accounts array.
-// We need to use (offset 32) here, as there is no keyword yet to access the length.
+/// Store hook to synchronize numOfAccounts with the length of the customers[KEY address a].accounts array.
+/// We need to use (offset 32) here, as there is no keyword yet to access the length.
 hook Sstore _customers[KEY address user].(offset 32) uint256 newLength STORAGE {
     if (newLength > numOfAccounts[user])
         require accountBalanceMirror[user][require_uint256(newLength-1)] == 0 ;   
@@ -133,10 +136,10 @@ hook Sstore _customers[KEY address user].(offset 32) uint256 newLength STORAGE {
 }
 
 /**
- @title an internal step check to verify that our ghost works as expected, it should mirror the number of accounts.
+ An internal step check to verify that our ghost works as expected, it should mirror the number of accounts.
  Note: once this rule is proven it is safe to have this as a require on the sload .
  Once the sload is defined, this invariant becomes a tautology  
-**/
+ */
 invariant checkNumOfAccounts(address user) 
     numOfAccounts[user] == getNumberOfAccounts(user);
    
@@ -144,10 +147,9 @@ hook Sload uint256 length _customers[KEY address user].(offset 32) STORAGE {
     require numOfAccounts[user] == length; 
 }
 
-
-// hook on a complex data structure, a mapping to a struct with a dynamic array
+/// hook on a complex data structure, a mapping to a struct with a dynamic array
 hook Sstore _customers[KEY address a].accounts[INDEX uint256 i].accountBalance uint256 new_value (uint old_value) STORAGE {
-    require  old_value == accountBalanceMirror[a][i]; //need this to sync on insert of new element  
+    require  old_value == accountBalanceMirror[a][i]; // Need this inorder to sync on insert of new element  
     sumBalances =  sumBalances + new_value - old_value ;
     accountBalanceMirror[a][i] = new_value;
 }
@@ -158,7 +160,7 @@ hook Sload uint256 value  _customers[KEY address a].accounts[INDEX uint256 i].ac
     require to_mathint(i) <= to_mathint(numOfAccounts[a]-1);
 }
 
-
+/// Non-customers have no account.
 invariant emptyAccount(address user) 
      !isCustomer(user) => getNumberOfAccounts(user) == 0; 
 
