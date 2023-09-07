@@ -115,7 +115,6 @@ ghost mapping(address => mapping(uint256 => uint256)) accountBalanceMirror {
 /// Number of accounts per user 
 ghost mapping(address => uint256) numOfAccounts {
     // assumption: it's infeasible to grow the list to these many elements.
-    // axiom forall address a. numOfAccounts[a] < 0xffffffffffffffffffffffffffffffff;
     axiom forall address a. numOfAccounts[a] < max_uint256;
     init_state axiom forall address a. numOfAccounts[a] == 0;
 }
@@ -157,16 +156,15 @@ hook Sload uint256 value  _customers[KEY address a].accounts[INDEX uint256 i].ac
 invariant emptyAccount(address user) 
      !isCustomer(user) => ( 
         getNumberOfAccounts(user) == 0 &&
-         (forall uint256 i. accountBalanceMirror[user][i] == 0 ) ); 
+         (forall uint256 i. accountBalanceMirror[user][i] == 0 )) ; 
 
 invariant totalSupplyEqSumBalances()
     to_mathint(totalSupply()) == sumBalances 
     {
-        /*
         preserved addCustomer(BankAccountRecord.Customer c) 
         {
             requireInvariant emptyAccount(c.id);
-        }*/
+        }
         
     }
 
@@ -178,3 +176,8 @@ invariant solvency()
         }
     }
 
+invariant zeroAccountsImpliesIdIsZero(BankAccountRecord.Customer c)
+    numOfAccounts[c.id] == 0 => c.id == 0; 
+
+invariant noAccountImplieseAllIdsAreZero(BankAccountRecord.Customer c)
+    (forall address a. numOfAccounts[a] == 0) => c.id == 0;
