@@ -155,7 +155,9 @@ hook Sload uint256 value  _customers[KEY address a].accounts[INDEX uint256 i].ac
 
 /// Non-customers have no account.
 invariant emptyAccount(address user) 
-     !isCustomer(user) => getNumberOfAccounts(user) == 0; 
+     !isCustomer(user) => ( 
+        getNumberOfAccounts(user) == 0 &&
+         (forall uint256 i. accountBalanceMirror[user][i] == 0 ) ); 
 
 invariant totalSupplyEqSumBalances()
     to_mathint(totalSupply()) == sumBalances 
