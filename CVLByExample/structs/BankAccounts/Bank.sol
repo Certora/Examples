@@ -33,8 +33,9 @@ contract Bank {
 
     // Add a new customer 
     function addCustomer(BankAccountRecord.Customer calldata c) external {
-        require(c.accounts.length == 0);
-        require(_customers[c.id].id == address(0) && _customers[c.id].accounts.length == 0);
+        require(c.accounts.length == 0 && c.id != address(0));
+        // make sure c.id is not a customer already 
+        require(_customers[c.id].id == address(0) && _customers[c.id].accounts.length == 0); //todo - try without second part
         _customers[c.id] = c;
     }
     function getCustomer(address a) external view returns(BankAccountRecord.Customer memory) {

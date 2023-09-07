@@ -160,10 +160,11 @@ invariant emptyAccount(address user)
 invariant totalSupplyEqSumBalances()
     to_mathint(totalSupply()) == sumBalances 
     {
-        preserved addCustomer(BankAccountRecord.Customer xxx) 
+        /*
+        preserved addCustomer(BankAccountRecord.Customer c) 
         {
-            requireInvariant emptyAccount(0);
-        }
+            requireInvariant emptyAccount(c.id);
+        }*/
         
     }
 
