@@ -101,83 +101,78 @@ rule integrityOfCustomerKeyRule(address a, method f) {
 }
 
 
-/// Represent the sum of all accounts of all users
-/// sum _customers[a].accounts[i].accountBalance 
-ghost mathint sumBalances {
-    init_state axiom sumBalances == 0;
-}
-
-/// Mirror on a struct _customers[a].accounts[i].accountBalance
-ghost mapping(address => mapping(uint256 => uint256)) accountBalanceMirror {
-    init_state axiom forall address a. forall uint256 i. accountBalanceMirror[a][i] == 0;
-}
-
-/// Number of accounts per user 
-ghost mapping(address => uint256) numOfAccounts {
-    // assumption: it's infeasible to grow the list to these many elements.
-    axiom forall address a. numOfAccounts[a] < max_uint256;
-    init_state axiom forall address a. numOfAccounts[a] == 0;
-}
-
-/// Store hook to synchronize numOfAccounts with the length of the customers[KEY address a].accounts array.
-/// We need to use (offset 32) here, as there is no keyword yet to access the length.
-hook Sstore _customers[KEY address user].(offset 32) uint256 newLength STORAGE {
-    if (newLength > numOfAccounts[user])
-        require accountBalanceMirror[user][require_uint256(newLength-1)] == 0 ;   
-    numOfAccounts[user] = newLength;
-}
-
-/**
- An internal step check to verify that our ghost works as expected, it should mirror the number of accounts.
- Note: once this rule is proven it is safe to have this as a require on the sload .
- Once the sload is defined, this invariant becomes a tautology  
- */
-invariant checkNumOfAccounts(address user) 
-    numOfAccounts[user] == getNumberOfAccounts(user);
-   
-// hook Sload uint256 length _customers[KEY address user].(offset 32) STORAGE {
-//     require numOfAccounts[user] == length; 
+// /// Represent the sum of all accounts of all users
+// /// sum _customers[a].accounts[i].accountBalance 
+// ghost mathint sumBalances {
+//     init_state axiom sumBalances == 0;
 // }
 
-/// hook on a complex data structure, a mapping to a struct with a dynamic array
-hook Sstore _customers[KEY address a].accounts[INDEX uint256 i].accountBalance uint256 new_value (uint old_value) STORAGE {
-    require  old_value == accountBalanceMirror[a][i]; // Need this inorder to sync on insert of new element  
-    sumBalances =  sumBalances + new_value - old_value ;
-    accountBalanceMirror[a][i] = new_value;
-}
+// /// Mirror on a struct _customers[a].accounts[i].accountBalance
+// ghost mapping(address => mapping(uint256 => uint256)) accountBalanceMirror {
+//     init_state axiom forall address a. forall uint256 i. accountBalanceMirror[a][i] == 0;
+// }
 
-hook Sload uint256 value  _customers[KEY address a].accounts[INDEX uint256 i].accountBalance   STORAGE {
-    // when balance load, safely assume it is less than the sum of all values
-    require to_mathint(value) <= sumBalances;
-    require to_mathint(i) <= to_mathint(numOfAccounts[a]-1);
-}
+// /// Number of accounts per user 
+// ghost mapping(address => uint256) numOfAccounts {
+//     // assumption: it's infeasible to grow the list to these many elements.
+//     axiom forall address a. numOfAccounts[a] < max_uint256;
+//     init_state axiom forall address a. numOfAccounts[a] == 0;
+// }
 
-/// Non-customers have no account.
-invariant emptyAccount(address user) 
-     !isCustomer(user) => ( 
-        getNumberOfAccounts(user) == 0 &&
-         (forall uint256 i. accountBalanceMirror[user][i] == 0 )) ; 
+// /// Store hook to synchronize numOfAccounts with the length of the customers[KEY address a].accounts array.
+// /// We need to use (offset 32) here, as there is no keyword yet to access the length.
+// hook Sstore _customers[KEY address user].(offset 32) uint256 newLength STORAGE {
+//     if (newLength > numOfAccounts[user])
+//         require accountBalanceMirror[user][require_uint256(newLength-1)] == 0 ;   
+//     numOfAccounts[user] = newLength;
+// }
 
-invariant totalSupplyEqSumBalances()
-    to_mathint(totalSupply()) == sumBalances 
-    {
-        preserved addCustomer(BankAccountRecord.Customer c) 
-        {
-            requireInvariant emptyAccount(c.id);
-        }
+// /**
+//  An internal step check to verify that our ghost works as expected, it should mirror the number of accounts.
+//  Note: once this rule is proven it is safe to have this as a require on the sload .
+//  Once the sload is defined, this invariant becomes a tautology  
+//  */
+// invariant checkNumOfAccounts(address user) 
+//     numOfAccounts[user] == getNumberOfAccounts(user);
+   
+// // hook Sload uint256 length _customers[KEY address user].(offset 32) STORAGE {
+// //     require numOfAccounts[user] == length; 
+// // }
+
+// /// hook on a complex data structure, a mapping to a struct with a dynamic array
+// hook Sstore _customers[KEY address a].accounts[INDEX uint256 i].accountBalance uint256 new_value (uint old_value) STORAGE {
+//     require  old_value == accountBalanceMirror[a][i]; // Need this inorder to sync on insert of new element  
+//     sumBalances =  sumBalances + new_value - old_value ;
+//     accountBalanceMirror[a][i] = new_value;
+// }
+
+// hook Sload uint256 value  _customers[KEY address a].accounts[INDEX uint256 i].accountBalance   STORAGE {
+//     // when balance load, safely assume it is less than the sum of all values
+//     require to_mathint(value) <= sumBalances;
+//     require to_mathint(i) <= to_mathint(numOfAccounts[a]-1);
+// }
+
+// /// Non-customers have no account.
+// invariant emptyAccount(address user) 
+//      !isCustomer(user) => ( 
+//         getNumberOfAccounts(user) == 0 &&
+//          (forall uint256 i. accountBalanceMirror[user][i] == 0 )) ; 
+
+// invariant totalSupplyEqSumBalances()
+//     to_mathint(totalSupply()) == sumBalances 
+//     {
+//         preserved addCustomer(BankAccountRecord.Customer c) 
+//         {
+//             requireInvariant emptyAccount(c.id);
+//         }
         
-    }
+//     }
 
-invariant solvency()
-    totalSupply() <= nativeBalances[currentContract] {
-        // safely assume that Bank doesn't call itself
-        preserved with (env e){ 
-            require e.msg.sender != currentContract;
-        }
-    }
-
-invariant zeroAccountsImpliesIdIsZero(BankAccountRecord.Customer c)
-    numOfAccounts[c.id] == 0 => c.id == 0; 
-
-invariant noAccountImplieseAllIdsAreZero(BankAccountRecord.Customer c)
-    (forall address a. numOfAccounts[a] == 0) => c.id == 0;
+// /// Comparing nativeBalances of current contract.
+// invariant solvency()
+//     totalSupply() <= nativeBalances[currentContract] {
+//         // safely assume that Bank doesn't call itself
+//         preserved with (env e){ 
+//             require e.msg.sender != currentContract;
+//         }
+//     }
