@@ -3,13 +3,10 @@
  *
  * This is an example reasoning about structs.
  * The spec contains examples for:
- * referencing a struct and its fields.
- * method block including methods passing structs as arguments and returning structs.
+ * 1. Referencing a struct and its fields.
+ * 2. method block including methods passing structs as arguments and returning structs.
  * method block entry for a default getter.
  * structs in cvl functions - passing and returning
- * Passing struct as argument to solidity + cvl = with addCustomer
- * todo : pass struct to cvl function compareCustomer 
-
  * Returning struct from default getter - canTransferOnlyIfCanWithdrawShouldPass
  */
  
@@ -19,8 +16,7 @@ using Bank as bank;
 methods {
      /// Definition of a user-defined solidity method returning a struct
     function getCustomer(address a) external returns(BankAccountRecord.Customer) envfree;
- 
-    /// Definition of a user-defined method returning a struct as a tuple 
+    /// Definition of a compiler-generated method returning a struct as a tuple 
     function blackList(uint256) external returns (address, uint) envfree;
     /// Definition of a function with struct as an argument 
     function addCustomer(BankAccountRecord.Customer) external envfree;
@@ -32,7 +28,7 @@ methods {
     function isCustomer(address) external returns (bool) envfree;
 }
 
-/** @title Basic rules ////////////////////////////////////////////////////
+/** 
  Comparison of full structs is not supported. Each field should be compared instead.
  Here only the id field is compared because arrays (accounts field) cannot be compared.
  */
@@ -43,7 +39,7 @@ function integrityOfCustomerInsertion(BankAccountRecord.Customer c1) returns boo
 }
 
 /**
- A method returning a struct.
+ Calling a solidity method returning a struct.
  @param a customer's address
  @param accountId accout number
  */
@@ -59,19 +55,16 @@ function getAccountNumberAndBalance(address a, uint256 accountInd) returns (uint
     return (account.accountNumber, account.accountBalance)  ;
 }
 
-rule withdrawAllEmptiesAccount(uint256 accountInd){
-    env e;
-    BankAccountRecord.BankAccount account = getAccount(e.msg.sender, accountInd);
-    withdraw(e, accountInd);
-    assert balanceOfAccount(e.msg.sender, accountInd) == 0;
-}
+/**
+ You can define rule parameters of a user defined type.
+ */
 
 rule correctCustomerInsertion(BankAccountRecord.Customer c1){
     bool correct = integrityOfCustomerInsertion(c1);
     assert (correct, "Bad customer insertion");
 }
 
-/// Example for assigning a struct to a tuple.
+/// Example for assigning to a tuple.
 rule updateOfBlacklist() {
     env e;
     address user;
@@ -143,9 +136,9 @@ hook Sstore _customers[KEY address user].(offset 32) uint256 newLength STORAGE {
 invariant checkNumOfAccounts(address user) 
     numOfAccounts[user] == getNumberOfAccounts(user);
    
-hook Sload uint256 length _customers[KEY address user].(offset 32) STORAGE {
-    require numOfAccounts[user] == length; 
-}
+// hook Sload uint256 length _customers[KEY address user].(offset 32) STORAGE {
+//     require numOfAccounts[user] == length; 
+// }
 
 /// hook on a complex data structure, a mapping to a struct with a dynamic array
 hook Sstore _customers[KEY address a].accounts[INDEX uint256 i].accountBalance uint256 new_value (uint old_value) STORAGE {
@@ -167,7 +160,6 @@ invariant emptyAccount(address user)
 invariant totalSupplyEqSumBalances()
     to_mathint(totalSupply()) == sumBalances 
     {
-        // bug in preserve with code. todo - use preserved on function  and remove redundant require in code
         preserved addCustomer(BankAccountRecord.Customer xxx) 
         {
             requireInvariant emptyAccount(0);

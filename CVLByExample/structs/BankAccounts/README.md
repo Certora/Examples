@@ -15,8 +15,8 @@ Run this configuration via:
 ## Configuration with `optimisticFallback`
 This configuration uses the prover argument `-optimisticFallback = true` which makes the withdraw take effect also in the case of a revert.
 The rules that fail with the default configuration and pass with this configuration:
-- `witnessNativeBalanceChangesByWithdraw`
-- `nativeBalanceAfterTwoWithdrawFromInitShouldPass`
+- `witnessStorageChangesByWithdraw`
+- `storageAfterTwoWithdrawFromInitShouldPass`
 
 Run this configuration via:
 
