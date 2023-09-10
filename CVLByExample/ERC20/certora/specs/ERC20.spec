@@ -93,6 +93,21 @@ rule onlyHolderCanChangeAllowance {
         "only approve and increaseAllowance can increase allowances";
 }
 
+rule onlyApproveIncreasesAllowance {
+    address holder; address spender;
+
+    mathint allowance_before = allowance(holder, spender);
+
+    method f; env e; calldataarg args; 
+    f(e, args);                        
+
+    mathint allowance_after = allowance(holder, spender);
+
+    satisfy allowance_after > allowance_before =>
+        (f.selector == sig:approve(address,uint).selector),
+        "only approve and increaseAllowance can increase allowances";
+}
+
 //// ## Part 3: Ghosts and Hooks ///////////////////////////////////////////////
 
 ghost mathint sum_of_balances {
@@ -132,3 +147,26 @@ rule sanity {
   f(e, arg);
   satisfy true;
 }
+
+// New features
+
+// Safe casting examples
+// addAmount() uses `unchecked` therefore is not checking for overflow. With the  `require_uint256(amount1 + amount2))` the
+// rule passes although an overflow exists.
+rule requireHidesOverflow() {
+    env e;
+    uint256 amount1;
+    uint256 amount2;
+
+    storage initial = lastStorage;
+    addAmount(e, amount1);
+    addAmount(e, amount2);
+    storage afterTwoSteps = lastStorage;
+
+    addAmount(e, require_uint256(amount1 + amount2)) at initial;
+    storage afterOneStep = lastStorage;
+    assert afterOneStep == afterTwoSteps;
+}
+
+
+
