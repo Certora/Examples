@@ -187,7 +187,7 @@ rule storageAfterTwoDepositFromInitDoesNotChangeShouldPass() {
     deposit(e, bankAccount) at initStorage;
     assert (nativeBalances[bank] == afterCallBalance, "Different native balances from same initial storage");
     assert(lastStorage[bank] == afterCallStorage[bank], "Different native storage from same initial storage");
-    assert(lastStorage[nativeBalances] == initStorage[nativeBalances], 
+    assert(lastStorage[nativeBalances] == afterCallStorage[nativeBalances], 
         "Different storage of native balances after call from same initial storage");
 }
 
@@ -217,6 +217,8 @@ hook Sstore _customers[KEY address user].(offset 32) uint256 newLength STORAGE {
     numOfAccounts[user] = newLength;
 }
 
+ghost uint256 numOperations;
+
 /**
  An internal step check to verify that our ghost works as expected, it should mirror the number of accounts.
  Note: once this rule is proven it is safe to have this as a require on the sload .
@@ -224,10 +226,11 @@ hook Sstore _customers[KEY address user].(offset 32) uint256 newLength STORAGE {
  */
 invariant checkNumOfAccounts(address user) 
     numOfAccounts[user] == getNumberOfAccounts(user);
-   
-// hook Sload uint256 length _customers[KEY address user].(offset 32) STORAGE {
-//     require numOfAccounts[user] == length; 
-// }
+
+/// This Sload is required in order to eliminate adding unintializaed account balance to sumBlanaces.
+hook Sload uint256 length _customers[KEY address user].(offset 32) STORAGE {
+    require numOfAccounts[user] == length; 
+}
 
 /// hook on a complex data structure, a mapping to a struct with a dynamic array
 hook Sstore _customers[KEY address a].accounts[INDEX uint256 i].accountBalance uint256 new_value (uint old_value) STORAGE {
@@ -255,7 +258,6 @@ invariant totalSupplyEqSumBalances()
         {
             requireInvariant emptyAccount(c.id);
         }
-        
     }
 
 /// Comparing nativeBalances of current contract.
