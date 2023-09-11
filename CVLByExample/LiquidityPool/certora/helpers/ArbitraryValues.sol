@@ -3,20 +3,20 @@ pragma solidity >= 0.8.0;
 /**
  * This is a utility contract for constructing harnesses for the Certora Prover.
  *
- * Harnesses can inherit this contract and then call methods like
- * {arbitraryBool}, {arbitraryUint}, and so on.  The prover will choose a
+ * Harnesses can inherit this contract and then call methods such as
+ * {arbitraryBool}, {arbitraryUint} and others.  The Certora Prover will choose a
  * new non-deterministic value for each call to one of these methods.
  */
 abstract contract ArbitraryValues {
 
     /*
      * These mappings are used to create arbitrary values for the prover.
-     * The prover is allowed to choose any value for arbitraryUints[k] and
+     * The Certora Prover is allowed to choose any value for arbitraryUints[k] and
      * for arbitraryAddresses[k], so it has a lot of flexibility in choosing
      * the behavior of this contract when constructing counterexamples.
      *
      * Each time we need a new value, we use {counter} to index into the
-     * mappings, and then increment {counter} (allowing the Prover to choose
+     * mappings, and then increment {counter} (allowing the Certora Prover to choose
      * a different value for the next arbitrary value).
      */
 

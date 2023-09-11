@@ -1,5 +1,5 @@
 /***
- * With the `DISPATCHER` summary, the Prover will assume that the recipient
+ * With the `DISPATCHER` summary, the Certora Prover will assume that the recipient
  * of the `executeOperation` method could be any contract in the scene that
  * implements `executeOperation`.  The outcome of verification therefore
  * depends on the set of contracts provided on the scene.
@@ -14,7 +14,7 @@
  *    only a trivial `FlashLoanReceiver` implementation.
  *
  *
- * See [the multicontract section of the user guide][guide] for a complete
+ * See [the multi-contract section of the user guide][guide] for a complete
  * discussion of this example.
  *
  * [guide]: https://docs.certora.com/en/latest/docs/user-guide/multicontract/index.html#working-with-unknown-contracts
