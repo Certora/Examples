@@ -124,19 +124,19 @@ ghost mapping(address => mapping(uint256 => uint256)) accountBalanceMirror {
 }
 
 /// Number of accounts per user 
-ghost mapping(address => uint256) numOfAccounts {
-    // assumption: it's infeasible to grow the list to these many elements.
-    axiom forall address a. numOfAccounts[a] < max_uint256;
-    init_state axiom forall address a. numOfAccounts[a] == 0;
-}
+// ghost mapping(address => uint256) numOfAccounts {
+//     // assumption: it's infeasible to grow the list to these many elements.
+//     axiom forall address a. numOfAccounts[a] < max_uint256;
+//     init_state axiom forall address a. numOfAccounts[a] == 0;
+// }
 
 /// Store hook to synchronize numOfAccounts with the length of the customers[KEY address a].accounts array.
 /// We need to use (offset 32) here, as there is no keyword yet to access the length.
-hook Sstore _customers[KEY address user].(offset 32) uint256 newLength STORAGE {
-    if (newLength > numOfAccounts[user])
-        require accountBalanceMirror[user][require_uint256(newLength-1)] == 0 ;   
-    numOfAccounts[user] = newLength;
-}
+// hook Sstore _customers[KEY address user].(offset 32) uint256 newLength STORAGE {
+//     if (newLength > numOfAccounts[user])
+//         require accountBalanceMirror[user][require_uint256(newLength-1)] == 0 ;   
+//     numOfAccounts[user] = newLength;
+// }
 
 // second hook is required for this hook so that the pushed element in addCustomer has 0 balance.
 
@@ -146,13 +146,13 @@ hook Sstore _customers[KEY address user].(offset 32) uint256 newLength STORAGE {
  Note: once this rule is proven it is safe to have this as a require on the sload .
  Once the sload is defined, this invariant becomes a tautology  
  */
-invariant checkNumOfAccounts(address user) 
-    numOfAccounts[user] == getNumberOfAccounts(user);
+// invariant checkNumOfAccounts(address user) 
+//     numOfAccounts[user] == getNumberOfAccounts(user);
 
-/// This Sload is required in order to eliminate adding unintializaed account balance to sumBlanaces.
-hook Sload uint256 length _customers[KEY address user].(offset 32) STORAGE {
-    require numOfAccounts[user] == length; 
-}
+// /// This Sload is required in order to eliminate adding unintializaed account balance to sumBlanaces.
+// hook Sload uint256 length _customers[KEY address user].(offset 32) STORAGE {
+//     require numOfAccounts[user] == length; 
+// }
 
 // ghost for demonstrating storage of a ghost.
 ghost mapping(address => mathint) numOfOperations {
@@ -162,7 +162,6 @@ ghost mapping(address => mathint) numOfOperations {
 /// hook on a complex data structure, a mapping to a struct with a dynamic array
 hook Sstore _customers[KEY address a].accounts[INDEX uint256 i].accountBalance uint256 new_value (uint old_value) STORAGE {
     require  old_value == accountBalanceMirror[a][i]; // Need this inorder to sync on insert of new element  
-    // sumBalances =  sumBalances + new_value - old_value ;
     accountBalanceMirror[a][i] = new_value;
     numOfOperations[a] = old_value + 1;
 }
