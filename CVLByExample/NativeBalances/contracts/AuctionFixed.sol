@@ -6,7 +6,7 @@ contract AuctionFixed
 
     // At the entrance to `bid` address(this).balance is already increased by `msg.value`,
     // So the balance of currentContract >= currentBid and therefore the transfer succeeds.
-    // This reverts only if msg.value < address(this).balance
+    // This reverts only if msg.value < currentBid.
     function bid() public payable
     {
         require(msg.value >= currentBid);

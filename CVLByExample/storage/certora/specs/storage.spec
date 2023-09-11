@@ -13,15 +13,9 @@
 using Bank as bank;
 
 methods {
-    function balanceOf(address)        external returns(uint) envfree;
     function balanceOfAccount(address user, uint account) external returns(uint) envfree;
-    function totalSupply()             external returns(uint) envfree;
-    function getCustomer(address a) external returns(BankAccountRecord.Customer) envfree;
-    /// Definition of a compiler-generated method returning a struct as a tuple 
-    function blackList(uint256) external returns (address, uint) envfree;
     /// Definition of a function with struct as an argument
     function addCustomer(BankAccountRecord.Customer) external envfree;
-    function isCustomer(address a) external returns(bool) envfree;
     function getNumberOfAccounts(address) external returns (uint256) envfree;
     function isCustomer(address) external returns (bool) envfree;
 }
