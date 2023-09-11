@@ -92,79 +92,12 @@ rule integrityOfStoragePerCustomerShouldPass(BankAccountRecord.Customer c1, Bank
     // comparing the storage of bank after one and two additions.
     assert (afterC1[bank] != afterC2[bank], "Adding a customer does not affect storage of bank");
     // comparing the storage of the current contract to its storage at the initial state.
+    // currentContract is the same as bank.
     assert (init[currentContract] != lastStorage[currentContract], "Adding a customer does not affect storage of the current contract");
     // comparing the storage of the nativeBalances to nativeBalances at the initial state.
     assert (init[nativeBalances] == lastStorage[nativeBalances], "Change in storage affects native balances");
 }
 
-/// This rule demonstrates the difference from the previous rule in case there is not restriction on the balance of 
-/// account so can be Zero.
-/// Withdrawing balanceOfAccount(e.msg.sender, bankAccount) eth.
-/// Therefore the rule fails.
-rule withdrawDoesNotAffectNativeBalancesShouldFail() {
-    uint256 bankAccount;
-    env e;
-    storage initBalance = lastStorage;
-    uint256 balance = balanceOfAccount(e.msg.sender, bankAccount);
-    require balance > 0; // balance should change by withdraw.
-    bool success = withdraw(e, bankAccount);
-    storage lastBalance = lastStorage;
-    assert (success => (initBalance[nativeBalances] == lastBalance[nativeBalances]), "withdraw affects native balances");
-}
-
-/// Demonstrated how to compare nativeBalances in different stages of the execution.
-/// The sum of balances of the sender and reciever does not change by deposit.
-rule sumOfSenderAndReceiverDoesNotChangeByDeposit {
-    uint256 bankAccount;
-    env e;
-    uint256 initBankBalance = nativeBalances[bank];
-    uint256 initSenderBalance = nativeBalances[e.msg.sender];
-    storage initStorage = lastStorage;
-    require e.msg.value > 0; // balance should change by deposit.
-    // deposit msg.value to account `bankAccount` and to the native balance of msg.sender.
-    deposit(e, bankAccount);
-    assert((nativeBalances[bank] + nativeBalances[e.msg.sender]) == (initBankBalance + initSenderBalance),
-    "Sum of balances of sender and receiver changes by deposit.");
-}
-
-/// Demonstrates comparing native balances at two points of the execution.
-// deposit msg.value to this.
-rule nativeBalanceChangesByDepositShouldPass() {
-    uint256 bankAccount;
-    env e;
-    require e.msg.sender < max_address;
-    require e.msg.sender != bank;
-    uint256 initBalance = nativeBalances[bank];
-    require e.msg.value > 0; // balance should change by deposit.
-    // deposit msg.value to account `bankAccount` and to the native balance of msg.sender.
-    deposit(e, bankAccount);
-    assert(nativeBalances[bank] != initBalance, "Balance of bank does not change by deposit");
-}
-
-rule witnessStorageChangesByWithdrawShouldPassInFixed() {
-    uint256 bankAccount;
-    env e;
-    uint256 initBalance = nativeBalances[bank];
-    storage initStorage = lastStorage;
-    uint256 balance = balanceOfAccount(e.msg.sender, bankAccount);
-    require balance > 0; // balance should change by withdraw.
-    require e.msg.sender != currentContract;
-    bool success = withdraw(e, bankAccount);
-    satisfy(success => (lastStorage[bank] != initStorage[bank]));
-}
-
-// withdraw that changes native balances.
-// This rule fails without the optimistic_fallback argument to the prover because withdraw uses an unresolved "call"
-// for the eth transfer which can result also unchanged balances.
-// with optimistic_fallback the rule passes because it forces a balance change.
-// rule nativeBalanceChangesByWithdrawShouldPass {
-//     uint256 bankAccount;
-//     env e;
-//     uint256 initBalance = nativeBalances[bank];
-//     require e.msg.sender != currentContract;
-//     bool success = withdraw(e, bankAccount);
-//     assert(success => (nativeBalances[bank] != initBalance), "Balance of bank does not change by withdraw");
-// }
 
 /// This rule demonstrates how to call deposit (can be any transaction) twice from the same state by restoring the storage to
 // its inital state before the second call.
@@ -191,12 +124,6 @@ rule storageAfterTwoDepositFromInitDoesNotChangeShouldPass() {
         "Different storage of native balances after call from same initial storage");
 }
 
-/// Represent the sum of all accounts of all users
-/// sum _customers[a].accounts[i].accountBalance 
-ghost mathint sumBalances {
-    init_state axiom sumBalances == 0;
-}
-
 /// Mirror on a struct _customers[a].accounts[i].accountBalance
 ghost mapping(address => mapping(uint256 => uint256)) accountBalanceMirror {
     init_state axiom forall address a. forall uint256 i. accountBalanceMirror[a][i] == 0;
@@ -217,7 +144,8 @@ hook Sstore _customers[KEY address user].(offset 32) uint256 newLength STORAGE {
     numOfAccounts[user] = newLength;
 }
 
-ghost uint256 numOperations;
+// second hook is required for this hook so that the pushed element in addCustomer has 0 balance.
+
 
 /**
  An internal step check to verify that our ghost works as expected, it should mirror the number of accounts.
@@ -232,40 +160,31 @@ hook Sload uint256 length _customers[KEY address user].(offset 32) STORAGE {
     require numOfAccounts[user] == length; 
 }
 
+// ghost for demonstrating storage of a ghost.
+ghost mapping(address => mathint) numOfOperations {
+    init_state axiom forall address a. numOfOperations[a] == 0;
+}
+
 /// hook on a complex data structure, a mapping to a struct with a dynamic array
 hook Sstore _customers[KEY address a].accounts[INDEX uint256 i].accountBalance uint256 new_value (uint old_value) STORAGE {
     require  old_value == accountBalanceMirror[a][i]; // Need this inorder to sync on insert of new element  
-    sumBalances =  sumBalances + new_value - old_value ;
+    // sumBalances =  sumBalances + new_value - old_value ;
     accountBalanceMirror[a][i] = new_value;
+    numOfOperations[a] = old_value + 1;
 }
 
-hook Sload uint256 value  _customers[KEY address a].accounts[INDEX uint256 i].accountBalance   STORAGE {
-    // when balance load, safely assume it is less than the sum of all values
-    require to_mathint(value) <= sumBalances;
-    require to_mathint(i) <= to_mathint(numOfAccounts[a]-1);
+rule ghostStorageComparision() {
+    uint256 bankAccount;
+    env e;
+    require e.msg.value > 0; // balance should change by deposit.
+    // deposit msg.value to account `bankAccount` and to the native balance of msg.sender.
+    deposit(e, bankAccount);
+    storage afterOneDeposit = lastStorage;
+    // nativeBalances is mapping(address => uint256. mapping is not yet supported as CVL local variable type, so a variable
+    // corresponds to a single entry is used instead.
+    deposit(e, bankAccount);
+    storage afterTwoDeposits = lastStorage;
+    assert(afterTwoDeposits[numOfOperations] == afterOneDeposit[numOfOperations], "ghost storage changes after each deposit");
 }
 
-/// Non-customers have no account.
-invariant emptyAccount(address user) 
-     !isCustomer(user) => ( 
-        getNumberOfAccounts(user) == 0 &&
-         (forall uint256 i. accountBalanceMirror[user][i] == 0 )) ; 
-
-invariant totalSupplyEqSumBalances()
-    to_mathint(totalSupply()) == sumBalances 
-    {
-        preserved addCustomer(BankAccountRecord.Customer c) 
-        {
-            requireInvariant emptyAccount(c.id);
-        }
-    }
-
-/// Comparing nativeBalances of current contract.
-invariant solvency()
-    totalSupply() <= nativeBalances[currentContract] {
-        // safely assume that Bank doesn't call itself
-        preserved with (env e){ 
-            require e.msg.sender != currentContract;
-        }
-    }
 
