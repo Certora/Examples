@@ -25,20 +25,27 @@ The faults of the spec are:
    is equal to the sum of all balances, then the sum of any two balances is less than `totalSupply`.
 3. The invariant `totalSupplyIsSumOfBalances` **is** inductive but fails because of the fault of 
    `deposit` and `withdraw` described above.
+4. The rule vacuousSatisfyAfterRevert because there is no trace satisfying ```balanceOf(e.msg.sender) == 0``` after the revert.
+5. `requireHidesOverflow()` passes although there is an overflow in depositAmount because `require_uint256(amount1 + amount2))` assumes there is no overflow.
+6. The rule catchOverflow() fails depositAmount uses `unchecked` and therefore is not checking for overflow. The `assert_uint256(amount1 + amount2))` catches the overflow.
 
 This version can be checked by running:
 ```certoraRun certora/conf/runERC20.conf```
 
-[The Prover report of this run](https://prover.certora.com/output/1902/75fc2841d5c3439db9a49b4598947ee0?anonymousKey=a7a3cfa3287f811997f58cebc03b80674349902e)
+[The Prover report of this run](https://prover.certora.com/output/1902/4c20db86ba11411b8aa6476e9be6d33c?anonymousKey=8c56f27248e5f93ff38626ec82736b7781cffc87)
+
+## Correct Code
+`contracts/correct/ERC20Fixed.sol` is a version in which the rule above failures were fixed. the corrections in the code are:
+
+Updated _totalSupply in deposit()and in withdraw().
 
 ## Correct Spec
+The corrections in the spec are:
 
-`contracts/correct/ERC20Fixed.sol` is a version in which the rule above failures were fixed. the corrections are:
 1. Removing the incorrect envfree. 
 2. Removing the redundant invariant balancesBoundedByTotalSupply.
 
 It can be checked by running:
 ```certoraRun certora/conf/runERC20Fixed.conf```
 
-[The Prover report of this run](https://prover.certora.com/output/1902/c08ded2b830a4696b115b33baece1cb0?anonymousKey=7fbb3ba5b671d89278be7fb60ab85c92cddd4bae)
-
+[The Prover report of this run](https://prover.certora.com/output/1902/db76e72ff37b408287e75e00e8d2b58b?anonymousKey=d103189626f0b659e476d0a9a5fde3c1ef37d834)

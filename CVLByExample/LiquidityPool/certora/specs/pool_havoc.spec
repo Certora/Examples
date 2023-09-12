@@ -1,12 +1,12 @@
 //// Without linking, the `integrityOfDeposit` rule will not pass, because the
-//// `deposit` and `balanceOf` methods are unresolved and the prover allows them
+//// `deposit` and `balanceOf` methods are unresolved and the Certora Prover allows them
 //// to return arbitrary values.
 ////
 //// You can verify this spec by running the following from the command line:
 ////
 ////      sh certora/scripts/verifyJustPool.sh
 ////
-//// See [the multicontract section of the user guide][guide] for a complete
+//// See [the multi-contract section of the user guide][guide] for a complete
 //// discussion of this example.
 ////
 //// [guide]: https://docs.certora.com/en/latest/docs/user-guide/multicontract/index.html
