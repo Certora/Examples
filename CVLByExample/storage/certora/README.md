@@ -12,7 +12,7 @@ The spec demontstrates:
 
 ## Failing rules:
 - `withdrawDoesNotAffectNativeBalancesShouldFail` - fails because when the amount withdrawn is positive the storage changes.
-- `ghostStorageComparision` - fails because the ghost storage for the number of operations changes with each operation.
+- `ghostStorageComparision` - fails because comparing storage includes the storage for ghosts and the ghost storage for the number of operations changes with each operation.
 
 Run this configuration via:
 
