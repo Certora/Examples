@@ -1,25 +1,20 @@
 using Impl1 as impl1;
 using Impl2 as impl2;
 methods {
-    /**
-        - Multi-contract must not be used in summary declarations. Summaries always implicitly apply to "any contract".;
-        - Multi-contract should only be used in envfree declarations without summaries.;
-        - When a valid envfree declaration also includes a summary (a therefore does not use multi-contract),;
-          the summary applies to "any contract" while the enfree declaration applies to "currentContract".;
-    */
-    // function _.ummarizedByFunction() external  => ALWAYS(5) ALL; // original code
+    
+    // function _.summarizedByFunction() external  => ALWAYS(5) ALL; // original code
     function _.summarizedByFunction() external  => summary() expect uint256;
     function impl1.summarizedByFunction() external returns(uint256) envfree; 
     function impl2.summarizedByFunction() external returns(uint256) envfree;
-    function impl1.notSummarized() external returns(uint256) envfree; 
-    function impl2.notSummarized() external returns(uint256) envfree;
+    function _.notSummarized() external optional envfree; 
+    // function impl2.notSummarized() external returns(uint256) envfree;
     function impl1.summarizedInCallerExternalOnly() external returns(uint256) envfree; 
     function impl2.summarizedInCallerExternalOnly() external returns(uint256) envfree;
-    function summarizedInCallerExternalOnly() external returns(uint256) envfree => ALWAYS(15) ALL;  // If the contract name is omitted, the default is currentContract
+    // If the contract name is omitted, the default is currentContract
+    function summarizedInCallerExternalOnly() external returns(uint256) envfree => ALWAYS(15) ALL;  
     function callSummarizedByFunctionInCalledContract1() external returns(uint256) envfree;
     function callSummarizedByFunctionInCalledContract2() external returns(uint256) envfree;
     function callnotSummarizedInCalledContract1() external returns(uint256) envfree;
-    function callnotSummarizedInCalledContract2() external returns(uint256) envfree;
     function callSummarizedInCallerExternalOnlyInCalledContract1() external returns(uint256) envfree;
     function callSummarizedInCallerExternalOnlyInCalledContract2() external returns(uint256) envfree;
     function summarizedInCallerExternalOnly() external returns(uint256) envfree;
@@ -44,7 +39,6 @@ rule checkB {
 // Not summarized
 rule checknotSummarized(){
     assert (callnotSummarizedInCalledContract1() == 3, "wrong result for not-summarized function");
-    assert (callnotSummarizedInCalledContract2() == 3, "wrong result for not-summarized function");
 }
 
 // Functions in Impl1 and Impl2 not summarized. The external function in currentContract is summarized to 15.

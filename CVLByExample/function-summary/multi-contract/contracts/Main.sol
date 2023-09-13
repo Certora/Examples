@@ -19,9 +19,9 @@ contract Main {
         return calledContract1.notSummarized();
     }
 
-    function callnotSummarizedInCalledContract2() public returns(uint256) {
-        return calledContract2.notSummarized();
-    }
+    // function callnotSummarizedInCalledContract2() public returns(uint256) {
+    //     return calledContract2.notSummarized();
+    // }
 
     function callSummarizedInCallerExternalOnlyInCalledContract1() public returns(uint256) {
         return calledContract1.summarizedInCallerExternalOnly();
