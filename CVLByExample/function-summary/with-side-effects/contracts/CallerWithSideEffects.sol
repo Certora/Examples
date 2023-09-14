@@ -4,6 +4,8 @@ pragma solidity ^0.8.20;
 import "./Callee.sol";
 
 contract CallerWithSideEffects {
+    Callee calleeA;
+    Callee calleeB;
     
     function setX(Callee _callee, uint256 _x) public {
         uint256 x = _callee.setX(_x);

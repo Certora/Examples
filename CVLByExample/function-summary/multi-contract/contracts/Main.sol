@@ -1,4 +1,4 @@
-pragma solidity ^0.5.0;
+pragma solidity ^0.8.19;
 import "./Impl1.sol";
 import "./Impl2.sol";
 
@@ -19,9 +19,9 @@ contract Main {
         return calledContract1.notSummarized();
     }
 
-    // function callnotSummarizedInCalledContract2() public returns(uint256) {
-    //     return calledContract2.notSummarized();
-    // }
+    function callnotSummarizedInCalledContract2() public returns(uint256) {
+        return calledContract2.notSummarized();
+    }
 
     function callSummarizedInCallerExternalOnlyInCalledContract1() public returns(uint256) {
         return calledContract1.summarizedInCallerExternalOnly();

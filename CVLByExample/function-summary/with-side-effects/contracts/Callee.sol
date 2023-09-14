@@ -1,18 +1,18 @@
 contract Callee {
-    uint public x;
-    uint public value;
+    uint256 public x;
+    uint256 public value;
 
-    function setX(uint _x) public returns (uint) {
+    function setX(uint256 _x) public returns (uint256) {
         x = _x;
         return x;
     }
 
-    function setValue(uint _value) public returns (uint) {
+    function setValue(uint256 _value) public returns (uint256) {
         value = _value;
         return value;
     }
 
-    function setXandSendEther(uint _x) public payable returns (uint, uint) {
+    function setXandSendEther(uint256 _x) public payable returns (uint256, uint256) {
         x = _x;
         value = msg.value;
 
