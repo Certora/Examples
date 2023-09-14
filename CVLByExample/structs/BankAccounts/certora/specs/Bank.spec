@@ -1,14 +1,13 @@
 /**
  * @title Structs Example
- *
- * This is an example reasoning about structs.
+ * This is an example of reasoning about structs.
  * The spec contains examples for:
- * 1. Referencing a struct and its fields.
- * 2. method block including methods passing structs as arguments and returning structs.
- * 3. method block entry for a default getter.
- * 4. method block entry returning a struct as a tuple.
- * 5. structs in cvl functions - passing and returning.
- * 6. struct as a parameter of preserved function.
+ * - referencing a struct and its fields.
+ * - method block including methods passing structs as arguments and returning structs.
+ * - method block entry for a default getter.
+ * - method block entry returning a struct as a tuple.
+ * - structs in cvl functions - passing and returning.
+ * - struct as a parameter of preserved function.
  */
  
 
@@ -30,8 +29,8 @@ methods {
 }
 
 /** 
- Comparison of full structs is not supported. Each field should be compared instead.
- Here only the id field is compared because arrays (accounts field) cannot be compared.
+ Comparison of full structs is not supported. Instead, each field should be compared.
+ Here, only the id field is compared because arrays (`accounts` field) cannot be compared.
  */
 function integrityOfCustomerInsertion(BankAccountRecord.Customer c1) returns bool {
     addCustomer(c1);
@@ -131,7 +130,7 @@ hook Sstore _customers[KEY address user].(offset 32) uint256 newLength STORAGE {
 
 /**
  An internal step check to verify that our ghost works as expected, it should mirror the number of accounts.
- Note: once this rule is proven it is safe to have this as a require on the sload .
+ Note: Once this rule is proven, it is safe to have this as a require on the sload .
  Once the sload is defined, this invariant becomes a tautology  
  */
 invariant checkNumOfAccounts(address user) 
