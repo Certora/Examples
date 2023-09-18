@@ -1,4 +1,5 @@
-using Callee as callee;
+using CalleeA as calleeA;
+using CalleeB as calleeB;
 using CallerWithSideEffects as caller;
 methods {
     function _.x() external => DISPATCHER(true);
@@ -13,7 +14,6 @@ methods {
 }
 
 rule checkDispatcherSummarizationResult() {
-    // Using address instead of Callee because contracts are not supported as a type in the spec.
     uint256 xOfBBefore = caller.getX(caller.calleeB);
     caller.setX(caller.calleeA, 5);
     uint256 xOfBAfter = caller.getX(caller.calleeB);

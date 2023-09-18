@@ -1,9 +1,11 @@
-using Callee as callee;
+using CalleeA as calleeA;
+using CalleeB as calleeB;
+using CallerWithSideEffects as caller;
+
 methods {
-    function callee.x() external returns(uint256) => HAVOC_ALL;
-    function callee.x() external returns(uint256) envfree;
-    function callee.value() external returns(uint256) => NONDET;
-    function callee.value() external returns(uint256) envfree;
+    // Cannot use summary HAVOC_ALL for internal functions
+    function calleeA.x() external returns(uint256) => HAVOC_ALL;
+    function calleeB.x() external returns(uint256) => NONDET;
     // Using address instead of Callee as parameter type because contracts are not supported as parameter type in the spec.
     function setX(address _callee, uint256 _x) external envfree;
     function setValue(address _callee, uint256 _value) external envfree;
@@ -13,20 +15,16 @@ methods {
 
 rule checkHavocAllSummarizationResult() {
     // Using address instead of Callee because contracts are not supported as a type in the spec.
-    address calleeA;
-    address calleeB;
 
-    uint256 xOfBBefore = getX(calleeB);
-    setX(calleeA, 5);
-    uint256 xOfBAfter = getX(calleeB);
+    uint256 xOfBBefore = caller.getX(caller.calleeB);
+    caller.setX(caller.calleeA, 5);
+    uint256 xOfBAfter = caller.getX(caller.calleeB);
     assert (xOfBBefore == xOfBAfter, "HAVOC_ALL summarizations changes values of unchanged contract.");
 }
 
 rule checkNONDETSummarizationResult() {
-    address calleeA;
-    address calleeB;
-    uint256 xOfBBefore = getValue(calleeB);
-    setValue(calleeA, 5);
-    uint256 xOfBAfter = getValue(calleeB);
-    assert (xOfBBefore == xOfBAfter, "NONDET summarization summarizations changes values of unchanged contract.");
+    uint256 xOfABefore = caller.getX(caller.calleeA);
+    caller.setValue(caller.calleeB, 5);
+    uint256 xOfAAfter = caller.getValue(caller.calleeA);
+    assert (xOfABefore == xOfAAfter, "NONDET summarization summarizations changes values of unchanged contract.");
 }

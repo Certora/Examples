@@ -12,7 +12,8 @@ contract CallerWithSideEffects {
     }
 
     function getX(Callee _callee) public returns(uint256){
-        return _callee.x();
+        // return _callee.x();
+        return _callee.getX();
     }
 
 
