@@ -2,7 +2,6 @@ using Impl1 as impl1;
 using Impl2 as impl2;
 methods {
     
-    // function _.summarizedByFunction() external  => ALWAYS(5) ALL; // original code
     // A function summary 
     function _.summarizedByFunction() external => summary() expect uint256;
     function _.notSummarized() external optional envfree; 
