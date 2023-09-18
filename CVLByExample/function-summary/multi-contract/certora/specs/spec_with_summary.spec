@@ -3,9 +3,8 @@ using Impl2 as impl2;
 methods {
     
     // function _.summarizedByFunction() external  => ALWAYS(5) ALL; // original code
-    function _.summarizedByFunction() external  => summary() expect uint256;
-    function impl1.summarizedByFunction() external returns(uint256) envfree; 
-    function impl2.summarizedByFunction() external returns(uint256) envfree;
+    // A function summary 
+    function _.summarizedByFunction() external => summary() expect uint256;
     function _.notSummarized() external optional envfree; 
     // function impl2.notSummarized() external returns(uint256) envfree;
     function impl1.summarizedInCallerExternalOnly() external returns(uint256) envfree; 
@@ -19,7 +18,6 @@ methods {
     function callSummarizedInCallerExternalOnlyInCalledContract2() external returns(uint256) envfree;
     function summarizedInCallerExternalOnly() external returns(uint256) envfree;
     function callSummarizedInCallerExternalOnly() external returns(uint256) envfree;
-    // function summarizedInternalInCaller() internal returns(uint256)  with (env e) => ALWAYS(16) ALL;
     function summarizedInternalInCaller() internal returns(uint256)  => ALWAYS(16) ALL;
     function callSummarizedInternalInCaller() external returns(uint256) envfree;
 }
