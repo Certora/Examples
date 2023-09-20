@@ -30,7 +30,7 @@ certoraRun ConstantProductPoolExample/certora/conf/runFixed.conf
 
 - [`env`](https://github.com/Certora/Examples/blob/631ba01b47f126dad8d1c067dd2277fb58bf616b/CVLByExample/ERC20/certora/specs/ERC20Fixed.spec#L19C5-L19C8)
 
--[`envfree`](https://github.com/Certora/Examples/tree/master/CVLByExample/ERC20#:~:text=ERC20.spec%20as-,envfree,-but%20it%20refers)
+- [`envfree`](https://github.com/Certora/Examples/tree/master/CVLByExample/ERC20#:~:text=ERC20.spec%20as-,envfree,-but%20it%20refers)
 
 - [`exists`]
 - ['expect'](https://github.com/Certora/Examples/blob/bf3255766c28068eea2d0513edb8daca7bcaa206/CVLByExample/function-summary/multi-contract/certora/specs/spec_with_summary.spec#L6)
@@ -42,18 +42,17 @@ certoraRun ConstantProductPoolExample/certora/conf/runFixed.conf
 - `ghost`
    - [ghost variable](https://docs.certora.com/en/latest/docs/confluence/anatomy/definitions.html?highlight=ghost#basic-definitions)
       - [simple variable example](https://github.com/Certora/Examples/blob/2d729bcc944a776d94676a86044163fb545df28e/CVLByExample/ERC20/certora/spec/ERC20.spec#L115)
-      
+
    - [ghost mapping](https://github.com/Certora/Examples/blob/c407657ea731a73edea2697868214a8654396f80/CVLByExample/structs/BankAccounts/certora/specs/Bank.spec#L118)
-
-   -[`init_state`](https://github.com/Certora/Examples/blob/631ba01b47f126dad8d1c067dd2277fb58bf616b/CVLByExample/ConstantProductPool/certora/spec/ConstantProductPool.spec#L207C2-L207C12)
-
-   -[`axiom`](https://github.com/Certora/Examples/blob/c407657ea731a73edea2697868214a8654396f80/CVLByExample/structs/BankAccounts/certora/specs/Bank.spec#L120)
-
-   -[ghost summary](https://github.com/Certora/Examples/blob/7a13d19cb450effac1b937115ca7b20c23f1ab74/CVLByExample/function-summary/ghost-summary/certora/specs/WithGhostSummary.spec#L3)
+   - [`init_state`](https://github.com/Certora/Examples/blob/631ba01b47f126dad8d1c067dd2277fb58bf616b/CVLByExample/ConstantProductPool/certora/spec/ConstantProductPool.spec#L207C2-L207C12)
+   - [`axiom`](https://github.com/Certora/Examples/blob/c407657ea731a73edea2697868214a8654396f80/CVLByExample/structs/BankAccounts/certora/specs/Bank.spec#L120)
+   - [ghost summary](https://github.com/Certora/Examples/blob/7a13d19cb450effac1b937115ca7b20c23f1ab74/CVLByExample/function-summary/ghost-summary/certora/specs/WithGhostSummary.spec#L3)
 
 - `hook`
    - [`Sstore`](https://github.com/Certora/Examples/blob/master/CVLByExample/ERC20/certora/specs/ERC20.spec)
    - [`Sload`](https://github.com/Certora/Examples/blob/c407657ea731a73edea2697868214a8654396f80/CVLByExample/structs/BankAccounts/certora/specs/Bank.spec#L142)
+
+- ['import']
 
 - [`init_state``](https://github.com/Certora/Examples/blob/631ba01b47f126dad8d1c067dd2277fb58bf616b/CVLByExample/ConstantProductPool/certora/spec/ConstantProductPool.spec#L207C2-L207C12)
 
@@ -79,7 +78,7 @@ certoraRun ConstantProductPoolExample/certora/conf/runFixed.conf
 - `methods` block 
     - [Calls to external contracts](https://github.com/Certora/Examples/blob/631ba01b47f126dad8d1c067dd2277fb58bf616b/CVLByExample/ConstantProductPool/certora/spec/ConstantProductPool.spec#L29C14-L29C31)
     - [envfree](https://github.com/Certora/Examples/tree/master/CVLByExample/ERC20#:~:text=ERC20.spec%20as-,envfree,-but%20it%20refers)
-    - [Summary]
+    - Summary
         - [`ALWAYS`](https://github.com/Certora/Examples/blob/8d58ba44af0b22cc8f7703542c248cd225d26ccc/CVLByExample/function-summary/multi-contract/certora/specs/spec_with_summary.spec#L22)
         - [`AUTO`]
         - [`CONSTANT`](https://github.com/Certora/Examples/blob/8136b977cfe2fbf8e9e7ab0d74896cc62403fdb8/CVLByExample/function-summary/simple/certora/specs/ConstantVSNondet.spec#L5)
@@ -88,9 +87,11 @@ certoraRun ConstantProductPoolExample/certora/conf/runFixed.conf
         - [`NONDET`](https://github.com/Certora/Examples/blob/bf3255766c28068eea2d0513edb8daca7bcaa206/CVLByExample/function-summary/with-side-effects/certora/specs/HavocAllVSNondet.spec#L5)
         - [`HAVOC_ALL`](https://github.com/Certora/Examples/blob/bf3255766c28068eea2d0513edb8daca7bcaa206/CVLByExample/function-summary/with-side-effects/certora/specs/HavocAllVSNondet.spec#L3)
         - [`HAVOC_ECF`]
-        - [Summary Application]
+        - Summary Application
             - [ALL](https://github.com/Certora/Examples/blob/8d58ba44af0b22cc8f7703542c248cd225d26ccc/CVLByExample/function-summary/multi-contract/certora/specs/spec_with_summary.spec#L23)
-            - [UNRESOLVED]
+            - [UNRESOLVED](https://github.com/Certora/Examples/blob/752bb111907f7aa538c81672aa960d932ffca1f5/CVLByExample/function-summary/Library/DirectSummary/certora/specs/AllDirect.spec#L27)
+            - [direct summarization](https://github.com/Certora/Examples/blob/752bb111907f7aa538c81672aa960d932ffca1f5/CVLByExample/function-summary/Library/DirectSummary/certora/specs/AllDirect.spec#L6)
+            - [wildcard summarization](https://github.com/Certora/Examples/blob/752bb111907f7aa538c81672aa960d932ffca1f5/CVLByExample/function-summary/Library/DirectSummary/certora/specs/AllDirect.spec#L27)
         - [CVL Function Summary](https://github.com/Certora/Examples/blob/bf3255766c28068eea2d0513edb8daca7bcaa206/CVLByExample/function-summary/multi-contract/certora/specs/spec_with_summary.spec#L6))
         - [Ghost Summary](https://github.com/Certora/Examples/blob/7a13d19cb450effac1b937115ca7b20c23f1ab74/CVLByExample/function-summary/ghost-summary/certora/specs/WithGhostSummary.spec#L3)
         
@@ -101,6 +102,11 @@ certoraRun ConstantProductPoolExample/certora/conf/runFixed.conf
 - [`nativeBalances`](https://github.com/Certora/Examples/blob/be53640d5698afc1589ba0a2bd662d8c1512b69f/CVLByExample/NativeBalances/certora/specs/Auction.spec#L15C29-L15C43)     
 
 - [`require`] (https://github.com/Certora/Examples/blob/631ba01b47f126dad8d1c067dd2277fb58bf616b/CVLByExample/ConstantProductPool/certora/spec/ConstantProductPool.spec#L236C5-L236C12)
+
+- `rule`
+   - [without parameters](https://github.com/Certora/Examples/blob/752bb111907f7aa538c81672aa960d932ffca1f5/CVLByExample/LiquidityPool/certora/specs/pool.spec#L54)
+   - [parameterized](https://github.com/Certora/Examples/blob/752bb111907f7aa538c81672aa960d932ffca1f5/CVLByExample/LiquidityPool/certora/specs/pool.spec#L24)
+   - [method parameter](https://github.com/Certora/Examples/blob/752bb111907f7aa538c81672aa960d932ffca1f5/CVLByExample/structs/BankAccounts/certora/specs/Bank.spec#L95)
 
 - [`satisfy`](https://github.com/Certora/Examples/blob/631ba01b47f126dad8d1c067dd2277fb58bf616b/CVLByExample/ConstantProductPool/certora/spec/ConstantProductPool.spec#L243C5-L243C12)
 
@@ -127,14 +133,19 @@ certoraRun ConstantProductPoolExample/certora/conf/runFixed.conf
 - [`to_mathint`](https://github.com/Certora/Examples/blob/631ba01b47f126dad8d1c067dd2277fb58bf616b/CVLByExample/ConstantProductPool/certora/spec/ConstantProductPool.spec#L75C5-L75C12)
 
 
-- [Function Summarization]
+- Summarization
    - [`ALWAYS`](https://github.com/Certora/Examples/blob/8d58ba44af0b22cc8f7703542c248cd225d26ccc/CVLByExample/function-summary/multi-contract/certora/specs/spec_with_summary.spec#L22) 
    - [`CONSTANT`](https://github.com/Certora/Examples/blob/8136b977cfe2fbf8e9e7ab0d74896cc62403fdb8/CVLByExample/function-summary/simple/certora/specs/ConstantVSNondet.spec#L5)
    - [`NONDET`](https://github.com/Certora/Examples/blob/bf3255766c28068eea2d0513edb8daca7bcaa206/CVLByExample/function-summary/with-side-effects/certora/specs/HavocAllVSNondet.spec#L5)
    - [`HAVOC_ECF`]
    - [`HAVOC_ALL`](https://github.com/Certora/Examples/blob/8d58ba44af0b22cc8f7703542c248cd225d26ccc/CVLByExample/function-summary/with-side-effects/certora/specs/HavocAllVSNondet.spec#L3)
    - [`AUTO`]
-   - [`DISPATCHER`](https://github.com/Certora/Examples/blob/631ba01b47f126dad8d1c067dd2277fb58bf616b/CVLByExample/ConstantProductPool/certora/spec/ConstantProductPool.spec#L36C4-L36C4) maybe take liquidity/flASHLoan instead.
+   - [`DISPATCHER`](https://github.com/Certora/Examples/blob/631ba01b47f126dad8d1c067dd2277fb58bf616b/CVLByExample/ConstantProductPool/certora/spec/ConstantProductPool.spec#L36C4-L36C4)
+   - Summary Application
+      - [ALL](https://github.com/Certora/Examples/blob/8d58ba44af0b22cc8f7703542c248cd225d26ccc/CVLByExample/function-summary/multi-contract/certora/specs/spec_with_summary.spec#L23)
+      - [UNRESOLVED](https://github.com/Certora/Examples/blob/752bb111907f7aa538c81672aa960d932ffca1f5/CVLByExample/function-summary/Library/DirectSummary/certora/specs/AllDirect.spec#L27)
+      - [direct summarization](https://github.com/Certora/Examples/blob/752bb111907f7aa538c81672aa960d932ffca1f5/CVLByExample/function-summary/Library/DirectSummary/certora/specs/AllDirect.spec#L6)
+      - [wildcard summarization](https://github.com/Certora/Examples/blob/752bb111907f7aa538c81672aa960d932ffca1f5/CVLByExample/function-summary/Library/DirectSummary/certora/specs/AllDirect.spec#L27)
    - [CVL Function Summary](https://github.com/Certora/Examples/blob/8d58ba44af0b22cc8f7703542c248cd225d26ccc/CVLByExample/function-summary/multi-contract/certora/specs/spec_with_summary.spec#L6)
    - [Ghost Summary](https://github.com/Certora/Examples/blob/7a13d19cb450effac1b937115ca7b20c23f1ab74/CVLByExample/function-summary/ghost-summary/certora/specs/WithGhostSummary.spec#L3)
 
@@ -146,9 +157,12 @@ certoraRun ConstantProductPoolExample/certora/conf/runFixed.conf
 - [`good_description`]
 - [`havoc assuming`]
 - [`sort`]
+- `import`
 - `use`
    - `rule`
    - `invariant`
+- `filtered`
+- `selector`
 
 
 
