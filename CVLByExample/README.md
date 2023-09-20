@@ -40,11 +40,15 @@ certoraRun ConstantProductPoolExample/certora/conf/runFixed.conf
 - [Function call](https://github.com/Certora/Examples/blob/631ba01b47f126dad8d1c067dd2277fb58bf616b/CVLByExample/ERC20/certora/specs/ERC20Fixed.spec#L117C3-L117C13)
 
 - `ghost`
-   - [ghost variable](https://docs.certora.com/en/latest/docs/confluence/anatomy/definitions.html?highlight=ghost#basic-definitions )
+   - [ghost variable](https://docs.certora.com/en/latest/docs/confluence/anatomy/definitions.html?highlight=ghost#basic-definitions)
       - [simple variable example](https://github.com/Certora/Examples/blob/2d729bcc944a776d94676a86044163fb545df28e/CVLByExample/ERC20/certora/spec/ERC20.spec#L115)
+      
    - [ghost mapping](https://github.com/Certora/Examples/blob/c407657ea731a73edea2697868214a8654396f80/CVLByExample/structs/BankAccounts/certora/specs/Bank.spec#L118)
+
    -[`init_state`](https://github.com/Certora/Examples/blob/631ba01b47f126dad8d1c067dd2277fb58bf616b/CVLByExample/ConstantProductPool/certora/spec/ConstantProductPool.spec#L207C2-L207C12)
+
    -[`axiom`](https://github.com/Certora/Examples/blob/c407657ea731a73edea2697868214a8654396f80/CVLByExample/structs/BankAccounts/certora/specs/Bank.spec#L120)
+
    -[ghost summary](https://github.com/Certora/Examples/blob/7a13d19cb450effac1b937115ca7b20c23f1ab74/CVLByExample/function-summary/ghost-summary/certora/specs/WithGhostSummary.spec#L3)
 
 - `hook`
