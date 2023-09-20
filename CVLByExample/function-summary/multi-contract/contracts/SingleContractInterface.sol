@@ -6,5 +6,5 @@ abstract contract SingleContractInterface {
 
     function notSummarized() public virtual returns(uint256);
     function summarizedInCallerExternalOnly() public virtual returns(uint256);
-
-}
+    function summarizedByECF() public virtual returns(uint256);
+}    

@@ -3,6 +3,7 @@ using CalleeB as calleeB;
 using CallerWithSideEffects as caller;
 methods {
     function _.x() external => DISPATCHER(true);
+    function _.value() external => DISPATCHER(true) UNRESOLVED;
     function callee.x() external returns(uint256) envfree;
     function callee.value() external returns(uint256) envfree;
     function callee.setX(uint256) external returns(uint256) envfree;
@@ -19,6 +20,10 @@ rule checkDispatcherSummarizationResult() {
     uint256 xOfBAfter = caller.getX(caller.calleeB);
     assert (xOfBBefore == xOfBAfter, "DISPATCHER(true) summarizations changes values of unchanged contract.");
     assert (xOfBBefore != xOfBAfter, "DISPATCHER(true) summarizations does not change values of unchanged contract.");
+}
+
+rule checkUnresolved() {
+    
 }
 
 

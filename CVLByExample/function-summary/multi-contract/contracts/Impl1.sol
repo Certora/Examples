@@ -16,4 +16,8 @@ contract Impl1 is SingleContractInterface {
         return 5;
     }
 
+    function summarizedByECF() public pure override returns(uint256) {
+        return 7;
+    }
+
 }

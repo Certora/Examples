@@ -19,11 +19,19 @@ methods {
     function callSummarizedInCallerExternalOnly() external returns(uint256) envfree;
     function summarizedInternalInCaller() internal returns(uint256)  => ALWAYS(16) ALL;
     function callSummarizedInternalInCaller() external returns(uint256) envfree;
+    // Wildcard method entry may not specify return types in the method signature.
+    // HAVOC_ECF can be specified only for external functions.
+    // Method annotation summarizedByECF() with both envfree and summary specification without explicit 
+    // base contract is not allowed.
+    // If this is truly the behavior you want, add an explicit currentContract qualifier
+    function _.summarizedByECF() external => HAVOC_ECF;
 }
 
+// Function to be used as function summary.
 function summary() returns uint256 {
     return 6;
 }
+
 
 rule checkA {
     assert (callSummarizedByFunctionInCalledContract1() == 6, "Function summary does not work");
@@ -34,7 +42,7 @@ rule checkB {
 }
 
 // Not summarized
-rule checknotSummarized(){
+rule checkNotSummarized(){
     assert (callnotSummarizedInCalledContract1() == 3, "wrong result for not-summarized function");
 }
 
@@ -55,4 +63,12 @@ rule checkSummarizedInternalInCaller() {
     env e;
     assert (summarizedInternalInCaller(e) == 16, "ALWAYS summary does not apply for internal function called from CVL");
     assert (callSummarizedInternalInCaller() == 16, "Summarization of internal function does not take effect.");
+}
+
+// The summarization has to be on the internal function in order to take effect.
+// The envfree qualifier is not allowed on internal functions, therefore an env variable is defined.
+rule checkHavocECFSummary() {
+    env e;
+    assert (summarizedByECF(e) == 10, "HAVOC_ECF not applied for main contract");
+    assert (impl1.summarizedByECF(e) == 7, "HAVOC_ECF applies for a contract that is not the main contract");
 }

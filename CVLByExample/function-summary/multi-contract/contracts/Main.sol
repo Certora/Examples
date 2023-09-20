@@ -48,4 +48,9 @@ contract Main {
         return summarizedInternalInCaller();
     }
 
+    function summarizedByECF() public pure returns(uint256) {
+        return 10;
+    }
+
+
 }
