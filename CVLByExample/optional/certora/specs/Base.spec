@@ -12,8 +12,10 @@ rule checkBar() {
   satisfy true;
 }
 
-rule parametericCheckBar(uint256 x) {
-  bar(x);
+rule parametericCheckBar(method f) {
+  calldataarg args;
+  env e;
+	f(e,args);
   satisfy true;
 }
 
