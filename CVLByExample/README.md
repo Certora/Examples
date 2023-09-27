@@ -39,7 +39,7 @@ certoraRun ConstantProductPoolExample/certora/conf/runFixed.conf
 - [`envfree`](https://github.com/Certora/Examples/tree/master/CVLByExample/ERC20#:~:text=ERC20.spec%20as-,envfree,-but%20it%20refers)
 
 - [`exists`]
-- ['expect'](https://github.com/Certora/Examples/blob/bf3255766c28068eea2d0513edb8daca7bcaa206/CVLByExample/function-summary/multi-contract/certora/specs/spec_with_summary.spec#L6)
+- [`expect`](https://github.com/Certora/Examples/blob/bf3255766c28068eea2d0513edb8daca7bcaa206/CVLByExample/function-summary/multi-contract/certora/specs/spec_with_summary.spec#L6)
 
 - [`filtered`](https://github.com/Certora/Examples/blob/631ba01b47f126dad8d1c067dd2277fb58bf616b/CVLByExample/Reentrancy/certora/spec/Reentrancy.spec#L29)
 
@@ -47,7 +47,7 @@ certoraRun ConstantProductPoolExample/certora/conf/runFixed.conf
 
 - [Function call](https://github.com/Certora/Examples/blob/631ba01b47f126dad8d1c067dd2277fb58bf616b/CVLByExample/ERC20/certora/specs/ERC20Fixed.spec#L117C3-L117C13)
 
-- `ghost`
+- [`ghost`]
    - [ghost variable](https://docs.certora.com/en/latest/docs/confluence/anatomy/definitions.html?highlight=ghost#basic-definitions)
       - [simple variable example](https://github.com/Certora/Examples/blob/2d729bcc944a776d94676a86044163fb545df28e/CVLByExample/ERC20/certora/spec/ERC20.spec#L115)
 
