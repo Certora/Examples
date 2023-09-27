@@ -115,7 +115,7 @@ certoraRun ConstantProductPoolExample/certora/conf/runFixed.conf
    - [`definition`](https://github.com/Certora/Examples/blob/be09cf32c55e39f5f5aa8cba1431f9e519b52365/CVLByExample/import/certora/specs/sub.spec#L36)
    - [`function`](https://github.com/Certora/Examples/blob/be09cf32c55e39f5f5aa8cba1431f9e519b52365/CVLByExample/import/certora/specs/sub.spec#L38)
 
-- [`require`] (https://github.com/Certora/Examples/blob/631ba01b47f126dad8d1c067dd2277fb58bf616b/CVLByExample/ConstantProductPool/certora/spec/ConstantProductPool.spec#L236C5-L236C12)
+- [`require`](https://github.com/Certora/Examples/blob/631ba01b47f126dad8d1c067dd2277fb58bf616b/CVLByExample/ConstantProductPool/certora/spec/ConstantProductPool.spec#L236C5-L236C12)
 
 - [`require_uint256`](https://github.com/Certora/Examples/blob/be09cf32c55e39f5f5aa8cba1431f9e519b52365/CVLByExample/ERC20/certora/specs/ERC20.spec#L166)
 
@@ -139,11 +139,11 @@ certoraRun ConstantProductPoolExample/certora/conf/runFixed.conf
 
 - `struct`
    - [struct return type](https://github.com/Certora/Examples/blob/be53640d5698afc1589ba0a2bd662d8c1512b69f/CVLByExample/structs/BankAccounts/certora/specs/Bank.spec#L17C5-L17C84)
-   - [`struct` in `methods` block]
+   - `struct` in `methods` block
       - [`struct` parameter](https://github.com/Certora/Examples/blob/6f2488a137d92cf722eb2663c42a8a1936afce35/CVLByExample/structs/BankAccounts/certora/specs/Bank.spec#L23)
       - [`struct` return type](https://github.com/Certora/Examples/blob/6f2488a137d92cf722eb2663c42a8a1936afce35/CVLByExample/structs/BankAccounts/certora/specs/Bank.spec#L19)
       - [returning a `struct` as a tuple](https://github.com/Certora/Examples/blob/6f2488a137d92cf722eb2663c42a8a1936afce35/CVLByExample/structs/BankAccounts/certora/specs/Bank.spec#L21)
-   - [`struct` in a `CVL` function]
+   - `struct` in a `CVL` function
       - [`struct` parameter to a `CVL` function](https://github.com/Certora/Examples/blob/6f2488a137d92cf722eb2663c42a8a1936afce35/CVLByExample/structs/BankAccounts/certora/specs/Bank.spec#L36)
       - [`struct` return type of a `CVL` function](https://github.com/Certora/Examples/blob/6f2488a137d92cf722eb2663c42a8a1936afce35/CVLByExample/structs/BankAccounts/certora/specs/Bank.spec#L47)
       - [returning `struct` as a tuple](https://github.com/Certora/Examples/blob/6f2488a137d92cf722eb2663c42a8a1936afce35/CVLByExample/structs/BankAccounts/certora/specs/Bank.spec#L53)
@@ -173,7 +173,7 @@ certoraRun ConstantProductPoolExample/certora/conf/runFixed.conf
    - `rule`
       - [with filters](https://github.com/Certora/Examples/blob/be09cf32c55e39f5f5aa8cba1431f9e519b52365/CVLByExample/import/certora/specs/sub.spec#L3)
       - [overriding imported filters](https://github.com/Certora/Examples/blob/be09cf32c55e39f5f5aa8cba1431f9e519b52365/CVLByExample/import/certora/specs/sub.spec#L3)
-   - `invariant`(https://github.com/Certora/Examples/blob/be09cf32c55e39f5f5aa8cba1431f9e519b52365/CVLByExample/import/certora/specs/sub.spec#L8)
+   - [`invariant`](https://github.com/Certora/Examples/blob/be09cf32c55e39f5f5aa8cba1431f9e519b52365/CVLByExample/import/certora/specs/sub.spec#L8)
       - [overriding imported `preserved`](https://github.com/Certora/Examples/blob/be09cf32c55e39f5f5aa8cba1431f9e519b52365/CVLByExample/import/certora/specs/sub.spec#L10)
       - [adding a `preserved` block](https://github.com/Certora/Examples/blob/be09cf32c55e39f5f5aa8cba1431f9e519b52365/CVLByExample/import/certora/specs/sub.spec#L14)
 
