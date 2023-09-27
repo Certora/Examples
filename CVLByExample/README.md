@@ -47,7 +47,7 @@ certoraRun ConstantProductPoolExample/certora/conf/runFixed.conf
 
 - [Function call](https://github.com/Certora/Examples/blob/631ba01b47f126dad8d1c067dd2277fb58bf616b/CVLByExample/ERC20/certora/specs/ERC20Fixed.spec#L117C3-L117C13)
 
-- [`ghost`]
+- `ghost`
    - [ghost variable](https://docs.certora.com/en/latest/docs/confluence/anatomy/definitions.html?highlight=ghost#basic-definitions)
       - [simple variable example](https://github.com/Certora/Examples/blob/2d729bcc944a776d94676a86044163fb545df28e/CVLByExample/ERC20/certora/spec/ERC20.spec#L115)
 
@@ -71,7 +71,7 @@ certoraRun ConstantProductPoolExample/certora/conf/runFixed.conf
     - [`preserved`](https://github.com/Certora/Examples/blob/master/CVLByExample/ERC20)
       - [`with (env e)`](https://github.com/Certora/Examples/blob/8583f1cb00034a093ad8f0a5c49a1f9a566553d9/CVLByExample/ERC20/certora/spec/ERC20.spec#L102)
 
-    - [`requireInvariant`]
+    - `requireInvariant`
         - [in a rule](https://github.com/Certora/Examples/blob/631ba01b47f126dad8d1c067dd2277fb58bf616b/CVLByExample/ConstantProductPool/certora/spec/ConstantProductPool.spec#L178C5-L178C21)
         - [in a `CVL` function](https://github.com/Certora/Examples/blob/6f2488a137d92cf722eb2663c42a8a1936afce35/CVLByExample/LiquidityPool/certora/specs/pool.spec#L27)
 
@@ -111,7 +111,7 @@ certoraRun ConstantProductPoolExample/certora/conf/runFixed.conf
 - [`nativeBalances`](https://github.com/Certora/Examples/blob/be53640d5698afc1589ba0a2bd662d8c1512b69f/CVLByExample/NativeBalances/certora/specs/Auction.spec#L15C29-L15C43)    
 
 - [`optional`](https://github.com/Certora/Examples/blob/2b5dabe83d8fae7292ce7c2b59e89a24fd2bcbdc/CVLByExample/optional/certora/specs/Base.spec#L5)
-- [`override`]
+- `override`
    - [`definition`](https://github.com/Certora/Examples/blob/be09cf32c55e39f5f5aa8cba1431f9e519b52365/CVLByExample/import/certora/specs/sub.spec#L36)
    - [`function`](https://github.com/Certora/Examples/blob/be09cf32c55e39f5f5aa8cba1431f9e519b52365/CVLByExample/import/certora/specs/sub.spec#L38)
 
@@ -137,7 +137,7 @@ certoraRun ConstantProductPoolExample/certora/conf/runFixed.conf
     - [of nativeBalances](https://github.com/Certora/Examples/blob/6f2488a137d92cf722eb2663c42a8a1936afce35/CVLByExample/storage/certora/specs/storage.spec#L98)
     - [full storage](https://github.com/Certora/Examples/blob/6f2488a137d92cf722eb2663c42a8a1936afce35/CVLByExample/storage/certora/specs/storage.spec#L62)
 
-- [`struct`]
+- `struct`
    - [struct return type](https://github.com/Certora/Examples/blob/be53640d5698afc1589ba0a2bd662d8c1512b69f/CVLByExample/structs/BankAccounts/certora/specs/Bank.spec#L17C5-L17C84)
    - [`struct` in `methods` block]
       - [`struct` parameter](https://github.com/Certora/Examples/blob/6f2488a137d92cf722eb2663c42a8a1936afce35/CVLByExample/structs/BankAccounts/certora/specs/Bank.spec#L23)
@@ -169,7 +169,7 @@ certoraRun ConstantProductPoolExample/certora/conf/runFixed.conf
 
 - [`to_mathint`](https://github.com/Certora/Examples/blob/631ba01b47f126dad8d1c067dd2277fb58bf616b/CVLByExample/ConstantProductPool/certora/spec/ConstantProductPool.spec#L75C5-L75C12)
 
-- [`use`]
+- `use`
    - `rule`
       - [with filters](https://github.com/Certora/Examples/blob/be09cf32c55e39f5f5aa8cba1431f9e519b52365/CVLByExample/import/certora/specs/sub.spec#L3)
       - [overriding imported filters](https://github.com/Certora/Examples/blob/be09cf32c55e39f5f5aa8cba1431f9e519b52365/CVLByExample/import/certora/specs/sub.spec#L3)
