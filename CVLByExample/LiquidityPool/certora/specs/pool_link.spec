@@ -1,4 +1,4 @@
-//// This spec extends `pool_havoc.spec` using the Prover's support for linking
+//// This spec extends `pool_havoc.spec` using the Certora Prover's support for linking
 //// and accessing methods from other contracts.
 ////
 //// You can verify this spec by running the following from the command line:

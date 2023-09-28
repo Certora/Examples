@@ -10,12 +10,12 @@ on quantifiers:
 
 
 The following examples were used in the Webinar.
-The first two examples are based on existing code.
+The first two are based on existing code.
 
 - [EnumerableSet](./EnumerableSet) from [OpenZeppelin][1]: We show that the set view and the array view are always consistent and all methods work as expected.
-- [DoubleLinkedList](./DoublyLinkedList) from [Morpho][2]: We show the consistency of linkage: The next and prev pointer match for each element.
+- [DoubleLinkedList](./DoublyLinkedList) from [Morpho][2]: We show the consistency of linkage: the next and prev pointers match for each element.
 - [LinkedList](./SinglyLinkedList): For a simple struct-based singly-linked list we show correctness,
-including that each element in the list is reachable from the head.
+including the fact that each element in the list is reachable from the head.
 
 [1]: https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/utils/structs/EnumerableSet.sol "EnumerableSet from OpenZeppelin"
 [2]: https://github.com/morpho-org/morpho-data-structures/blob/main/src/DoubleLinkedList.sol "DoubleLinkedList from Morpho"

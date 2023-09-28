@@ -11,7 +11,7 @@ methods {
     function transferFrom(address,address,uint) external returns(bool) envfree;
 }
 
-//// ## Part 1: Basic rules ////////////////////////////////////////////////////
+//// ## Part 1: Basic Rules ////////////////////////////////////////////////////
 
 /// Transfer must move `amount` tokens from the caller's account to `recipient`
 rule transferSpec {
@@ -51,7 +51,7 @@ rule transferReverts {
 }
 
 
-/// Transfer must not revert unless
+/// Transfer shouldn't revert unless
 ///  the sender doesn't have enough funds,
 ///  or the message value is nonzero,
 ///  or the recipient's balance would overflow,
@@ -72,7 +72,7 @@ rule transferDoesntRevert {
     assert !lastReverted;
 }
 
-//// ## Part 2: parametric rules ///////////////////////////////////////////////
+//// ## Part 2: Parametric Rules ///////////////////////////////////////////////
 
 /// If `approve` changes a holder's allowance, then it was called by the holder
 rule onlyHolderCanChangeAllowance {
@@ -93,7 +93,33 @@ rule onlyHolderCanChangeAllowance {
         "only approve and increaseAllowance can increase allowances";
 }
 
-//// ## Part 3: invariants /////////////////////////////////////////////////////
+rule onlyApproveIncreasesAllowance {
+    address holder; address spender;
+
+    mathint allowance_before = allowance(holder, spender);
+
+    method f; env e; calldataarg args; 
+    f(e, args);                        
+
+    mathint allowance_after = allowance(holder, spender);
+
+    satisfy allowance_after > allowance_before =>
+        (f.selector == sig:approve(address,uint).selector),
+        "only approve and increaseAllowance can increase allowances";
+}
+
+//// ## Part 3: Ghosts and Hooks ///////////////////////////////////////////////
+
+ghost mathint sum_of_balances {
+    init_state axiom sum_of_balances == 0;
+}
+
+hook Sstore _balances[KEY address a] uint new_value (uint old_value) STORAGE {
+    // when balance changes, update ghost
+    sum_of_balances = sum_of_balances + new_value - old_value;
+}
+
+//// ## Part 4: Invariants /////////////////////////////////////////////////////
 
 /// @dev This rule is unsound!
 invariant balancesBoundedByTotalSupply(address alice, address bob)
@@ -110,18 +136,37 @@ invariant balancesBoundedByTotalSupply(address alice, address bob)
     }
 }
 
-//// ## Part 4: ghosts and hooks ///////////////////////////////////////////////
-
-ghost mathint sum_of_balances {
-    init_state axiom sum_of_balances == 0;
-}
-
-hook Sstore _balances[KEY address a] uint new_value (uint old_value) STORAGE {
-    // when balance changes, update ghost
-    sum_of_balances = sum_of_balances + new_value - old_value;
-}
-
 /** `totalSupply()` returns the sum of `balanceOf(u)` over all users `u`. */
 invariant totalSupplyIsSumOfBalances()
     to_mathint(totalSupply()) == sum_of_balances;
+
+rule sanity {
+  env e;
+  calldataarg arg;
+  method f;
+  f(e, arg);
+  satisfy true;
+}
+
+// New features
+
+// Safe casting examples
+// addAmount() uses `unchecked` therefore is not checking for overflow. With the  `require_uint256(amount1 + amount2))` the
+// rule passes although an overflow exists.
+rule requireHidesOverflow() {
+    env e;
+    uint256 amount1;
+    uint256 amount2;
+
+    storage initial = lastStorage;
+    addAmount(e, amount1);
+    addAmount(e, amount2);
+    storage afterTwoSteps = lastStorage;
+
+    addAmount(e, require_uint256(amount1 + amount2)) at initial;
+    storage afterOneStep = lastStorage;
+    assert afterOneStep == afterTwoSteps;
+}
+
+
 
