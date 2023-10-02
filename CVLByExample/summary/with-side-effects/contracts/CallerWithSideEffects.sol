@@ -4,25 +4,45 @@ pragma solidity ^0.8.20;
 import "./Callee.sol";
 
 contract CallerWithSideEffects {
-    Callee calleeA;
-    Callee calleeB;
+    CalleeA public calleeA;
+    CalleeB public calleeB;
     
-    function setX(Callee _callee, uint256 _x) public {
-        uint256 x = _callee.setX(_x);
+    function setXA(uint256 _x) public {
+        uint256 x = calleeA.setX(_x);
     }
 
-    function getX(Callee _callee) public returns(uint256){
+    function getXA() public returns(uint256){
         // return _callee.x();
-        return _callee.getX();
+        return calleeA.getX();
     }
 
-
-    function setValue(Callee _callee, uint256 _value) public {
-        uint256 value = _callee.setValue(_value);
+    function setXB(uint256 _x) public {
+        uint256 x = calleeB.setX(_x);
     }
 
-    function getValue(Callee _callee) public returns(uint256){
-        return _callee.value();
+    function getXB() public returns(uint256){
+        // return _callee.x();
+        return calleeB.getX();
+    }
+
+    function setValueA(uint256 _value) public {
+        uint256 value = calleeA.setValue(_value);
+    }
+
+    function getValueA() public returns(uint256){
+        return calleeA.getValue();
+    }
+
+    function setValueB(uint256 _value) public {
+        uint256 value = calleeB.setValue(_value);
+    }
+
+    function getValueB() public returns(uint256){
+        return calleeB.getValue();
+    }
+
+    function getDummyB() public returns(uint256) {
+        return calleeB.dummyB();
     }
 
     function setXFromAddress(address _addr, uint256 _x) public {

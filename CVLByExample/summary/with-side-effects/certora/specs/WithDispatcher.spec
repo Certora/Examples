@@ -1,29 +1,47 @@
+// link, dispatcher, + all
+// --------------------
+// 0, 0, 0   => violations due to havocs
+// 0, 1, 0 => violations due to switching called contract withdispatchnolink.
+// 1, 0, 0 => no violations (nosummarynolink) 
+// 1,1, 0 => does nothing because of the link (equivalent to link only) (dispatcherwithlink)
+// 1,1,1 => equivalent to no link with dispatcher (dispatcherwithlink)
+// ------------------------------------------
+// violations due to switching called contract
 using CalleeA as calleeA;
 using CalleeB as calleeB;
 using CallerWithSideEffects as caller;
 methods {
     function _.x() external => DISPATCHER(true);
-    function _.value() external => DISPATCHER(true) UNRESOLVED;
-    function callee.x() external returns(uint256) envfree;
-    function callee.value() external returns(uint256) envfree;
-    function callee.setX(uint256) external returns(uint256) envfree;
-    // Using address instead of Callee as parameter type because contracts are not supported as parameter type in the spec.
-    function setX(address _callee, uint256 _x) external envfree;
-    function setValue(address _callee, uint256 _value) external envfree;
-    function getX(address _callee) external returns(uint256) envfree;
-    function getValue(address _callee) external returns(uint256) envfree;
-}
-
-rule checkDispatcherSummarizationResult() {
-    uint256 xOfBBefore = caller.getX(caller.calleeB);
-    caller.setX(caller.calleeA, 5);
-    uint256 xOfBAfter = caller.getX(caller.calleeB);
-    assert (xOfBBefore == xOfBAfter, "DISPATCHER(true) summarizations changes values of unchanged contract.");
-    assert (xOfBBefore != xOfBAfter, "DISPATCHER(true) summarizations does not change values of unchanged contract.");
-}
-
-rule checkUnresolved() {
+    function _.value() external => DISPATCHER(true);
+    function _.dummyB() external => DISPATCHER(true);
     
+     // Using address instead of Callee as parameter type because contracts are not supported as parameter type in the spec.
+    function setXA(uint256 _x) external envfree;
+    function getXA() external returns(uint256) envfree;
+    function setXB(uint256 _x) external envfree;
+    function getXB() external returns(uint256) envfree;
+    function getValueB() external returns(uint256) envfree;
+    function getDummyB() external returns(uint256) envfree;
+    function calleeB() external returns(address) envfree;
+    function calleeA() external returns(address) envfree;
+   
 }
 
+/**
+ * Check that changing x in CalleeA does not affect x of CalleeB.
+ */
+rule checkDispatcherUnresolvedSummarizationResult() {
+    uint256 xOfBBefore = getXB();
+    setXA(5);
+    uint256 xOfBAfter = getXB();
+    assert (xOfBBefore == xOfBAfter, "DISPATCHER(true) summarizations changes values of unchanged contract.");
+}
+
+// getDummyB appears only in calleeB so the rule passes also in the configuration where calleeB does not have a link,
+// since the dispatcher finds only find function with the signature given in the summarization.
+rule checkDispatcherUniqueSummarizationResult() {
+    uint256 dummyB = getDummyB();
+    
+    assert (to_mathint(dummyB) == 222, "DISPATCHER(true) summarizations changes values of unchanged contract.");
+}
 

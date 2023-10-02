@@ -21,12 +21,12 @@ contract Basic {
 		totalSupply++;
 	}
 
-	function decr() external {
-		x--;
-		balance[msg.sender]--;
-		foo[key()].pop();
-		totalSupply--;
-	}
+	// function decr() external {
+	// 	x--;
+	// 	balance[msg.sender]--;
+	// 	foo[key()].pop();
+	// 	totalSupply--;
+	// }
 
 	function internalDecr() internal {
 		x--;
@@ -35,60 +35,25 @@ contract Basic {
 		totalSupply--;
 	}
 
-	// struct Foo {
-	// 	uint a;
-	// 	uint b;
-	// }
-
-	// struct WithNesting {
-	// 	Foo c;
-	// }
-
-	// Foo atRoot;
-	// WithNesting atRoot2;
-
-	// struct TightlyPacked {
-	// 	uint8 x;
-	// 	uint8 y;
-	// }
-
-	// struct EvenTighter {
-	// 	TightlyPacked w;
-	// 	uint8 z;
-	// }
-
-	// EvenTighter t;
-
-	// function incrStructField() external {
-	// 	atRoot.a++;
-	// }
-
-	// function incrNestedStructField() external {
-	// 	atRoot2.c.a++;
-	// }
-
-	// function incrTightlyPackedStruct() external {
-	// 	t.w.y++;
-	// }
-
+	
 	function transfer(address target, uint amount) external {
 		require(amount >= balance[msg.sender]);
 		balance[msg.sender] -= amount;
 		balance[target] += amount;
 	}
 
-	function butThenAlsoSend(address payable to) external payable {
-		(bool rc, bytes memory data) = to.call{value: msg.value}(abi.encodeWithSignature("receiveCash()"));
-		require(rc);
-	}
+// 	function butThenAlsoSend(address payable to) external payable {
+// 		(bool rc, bytes memory data) = to.call{value: msg.value}(abi.encodeWithSignature("receiveCash()"));
+// 		require(rc);
+// 	}
 
-	function receiveCash() external payable {
-	}
+// 	function receiveCash() external payable {
+// 	}
 
-	function sharesToAmount(uint256 shares) public view virtual returns (uint256) {
-     uint256 poolBalance=balance[address(this)];  
-     return shares * poolBalance / totalSupply;  
-  }
+// 	function sharesToAmount(uint256 shares) public view virtual returns (uint256) {
+//      uint256 poolBalance=balance[address(this)];  
+//      return shares * poolBalance / totalSupply;  
+//   }
 
 	// Should change to something more realistic
 	function withdraw(uint256 amount) public returns (uint256 amountOut)  {
@@ -101,6 +66,11 @@ contract Basic {
 		balance[msg.sender] -= amountOut;
 		balance[address(this)] += amountOut;
     }
+
+	function callWithdraw(uint256 amount) public returns (uint256 amountOut)  {
+		return withdraw(amount);
+	}
+
 
 	// function maybeRevert(uint y) external {
 	// 	if(y == 3) {

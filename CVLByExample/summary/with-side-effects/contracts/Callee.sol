@@ -11,6 +11,10 @@ contract Callee {
         return x;
     }
 
+    function getValue() public view returns (uint256) {
+        return value;
+    }
+
     function setValue(uint256 _value) public returns (uint256) {
         value = _value;
         return value;
@@ -32,7 +36,7 @@ contract CalleeA is Callee {
 
 contract CalleeB is Callee {
     function dummyB() public view returns (uint256) {
-        return x * value;
+        return 222;
     }
 }
  

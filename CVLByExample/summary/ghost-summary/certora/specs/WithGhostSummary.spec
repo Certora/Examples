@@ -14,14 +14,14 @@ ghost mapping(uint256 => mapping(uint256 => mapping(uint256 => uint256))) ghost_
 }
 
 rule yield_monotonic(address a, uint256 n) {
-  // internally, when this call continuous_interest, the function will
+  // internally, when this calls continuous_interest, the function will
   // be summarized as ghost_interest
   uint256 y1 = balance(a);
   require n >= 0;
   
   advanceDays(n);
   
-  // internally, when this call continuous_interest, the function will
+  // internally, when this calls continuous_interest, the function will
   // be summarized as ghost_interest
   uint256 y2 = balance(a);
   assert y2 >= y1;

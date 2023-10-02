@@ -15,7 +15,7 @@ contract IntGetter {
 
 }
 
-contract CallsExternalContract {
+contract CallsExternalConcreteContract {
   IntGetter g1;
   IntGetter g2;
   
