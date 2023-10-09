@@ -1,5 +1,5 @@
-pragma solidity ^0.5.0;
 
+// Contract to be imported
 contract Base {
 
 	uint256 public someUInt;

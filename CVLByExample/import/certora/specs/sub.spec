@@ -33,6 +33,7 @@ use rule twoParametricRuleInBase filtered { f -> isPlusSevenSomeUInt(f), // Over
                                             g -> filterDef(g) // Add a filter to g (using an overridden definition)
                                           }
 
+// Overriding the definition from Base.spec
 override definition filterDef(method f) returns bool = f.isFallback;
 
 override function callF(env eF, calldataarg args, method f) {  // Should make ruleInBase fail
