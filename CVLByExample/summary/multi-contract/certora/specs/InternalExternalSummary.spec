@@ -6,8 +6,8 @@ using Impl1 as impl1;
 using Impl2 as impl2;
 methods {
     
-    function impl1.summarizedInCallerExternalOnly() external returns(uint256) envfree => ALWAYS(1); 
-    function impl2.summarizedInCallerExternalOnly() external returns(uint256) envfree;
+    function Impl1.summarizedInCallerExternalOnly() external returns(uint256) envfree => ALWAYS(1); 
+    function Impl2.summarizedInCallerExternalOnly() external returns(uint256) envfree;
     // Methods of the main contract.
     // If the contract name is omitted, the default is currentContract
     function summarizedInCallerExternalOnly() external returns(uint256) envfree => ALWAYS(15) ALL;  
@@ -20,9 +20,9 @@ methods {
 
 rule checkExternalSummarizations(){
      // The functions of `impl1` and the current contract are summarized but the function of impl2 is not.
-     // This call gives the summarization so the assert should pass.
+     // This call uses the summarization so the assert should pass.
     assert (callSummarizedInCallerExternalOnlyInCalledContract1() == 1, "wrong result for summarized function");
-    // The following  call gives the original function result. Should pass.
+    // The following  call uses the original function result. Should pass.
     assert (callSummarizedInCallerExternalOnlyInCalledContract2() == 5, "wrong result for not-summarized function");
 }
 

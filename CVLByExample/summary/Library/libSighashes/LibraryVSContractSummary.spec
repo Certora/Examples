@@ -17,7 +17,7 @@ methods {
     // should summarize only the contract function (in the context of a library, no location
     // means _not_ storage, so that shouldn't be summarized here)
     function _.funcWithStorage(uint[] s) external => ALWAYS(3);
-
+    
     function callLibFuncWithStruct(CalledLibrary.S s) external returns (uint) envfree;
     function callLibFuncWithEnum(CalledLibrary.E e) external returns (uint) envfree;
     function callLibFuncWithStorage() external returns (uint) envfree;

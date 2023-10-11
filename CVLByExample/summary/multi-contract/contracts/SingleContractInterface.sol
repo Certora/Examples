@@ -1,5 +1,3 @@
-pragma solidity ^0.8.19;
-
 abstract contract SingleContractInterface {
 
     function summarizedByFunction() public pure virtual  returns(uint256);

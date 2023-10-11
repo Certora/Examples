@@ -1,4 +1,3 @@
-pragma solidity ^0.8.19;
 import "./Impl1.sol";
 import "./Impl2.sol";
 
