@@ -12,9 +12,9 @@ methods {
     function _.summarizedByFunction() external => summary() expect uint256;
     function _.notSummarized() external optional envfree; 
     // functions of the main contract
-    function callSummarizedByFunctionInCalledContract1() external returns(uint256) envfree;
-    function callSummarizedByFunctionInCalledContract2() external returns(uint256) envfree;
-    function callnotSummarizedInCalledContract1() external returns(uint256) envfree;
+    function callByFunctionInCalled1() external returns(uint256) envfree;
+    function callByFunctionInCalled2() external returns(uint256) envfree;
+    function callnotSummarizedInCalled1() external returns(uint256) envfree;
 }   
 
 // Function to be used as function summary.
@@ -24,16 +24,16 @@ function summary() returns uint256 {
 
 // Calling summarized function of Impl1 contract. Should pass.
 rule checkA {
-    assert (callSummarizedByFunctionInCalledContract1() == 6, "Function summary does not work");
+    assert (callByFunctionInCalled1() == 6, "Function summary does not work");
 }
 
 rule checkB {
-    assert (callSummarizedByFunctionInCalledContract2() == 6, "Function summary does not work");
+    assert (callByFunctionInCalled2() == 6, "Function summary does not work");
 }
 
 // Calling summarized function of Impl2 contract. Should pass.
 // Not summarized. Should pass.
 rule checkNotSummarized(){
-    assert (callnotSummarizedInCalledContract1() == 3, "wrong result for not-summarized function");
+    assert (callnotSummarizedInCalled1() == 3, "wrong result for not-summarized function");
 }
 

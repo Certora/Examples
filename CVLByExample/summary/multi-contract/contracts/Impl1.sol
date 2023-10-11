@@ -11,18 +11,13 @@ contract Impl1 is SingleContractInterface {
     function summarizedByDispatcher() public pure override returns(uint256) {
         return 11;
     }
-
     
     function notSummarized() public pure override returns(uint256) {
         return 3;
     }
 
-    function summarizedInCallerExternalOnly() public pure override returns(uint256) {
+    function summarizedExternal() public pure override returns(uint256) {
         return 5;
-    }
-
-    function summarizedByECF() public pure override returns(uint256) {
-        return 7;
     }
 
 }

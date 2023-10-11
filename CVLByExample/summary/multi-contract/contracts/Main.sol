@@ -6,54 +6,62 @@ contract Main {
     Impl1 public calledContract1;
     Impl2 public calledContract2;
 
-    function callSummarizedByFunctionInCalledContract1() public view returns(uint256) {
+    // Call function from calledContract1 summarized by cvl function
+    function callByFunctionInCalled1() public view returns(uint256) {
         return calledContract1.summarizedByFunction();
     }
 
-    function callSummarizedByFunctionInCalledContract2() public view returns(uint256) {
+    // Call function from calledContract2 summarized by cvl function
+    function callByFunctionInCalled2() public view returns(uint256) {
         return calledContract2.summarizedByFunction();
     }
 
-    function callSummarizedByDispatcherInCalledContract1() public view returns(uint256) {
+    // Call function from calledContract1 summarized by DISPATCHER
+    function callByDispatcherInCalled1() public view returns(uint256) {
         return calledContract1.summarizedByDispatcher();
     }
 
-    function callSummarizedByDispatcherInCalledContract2() public view returns(uint256) {
+    // Call function from calledContract2 summarized by DISPATCHER
+    function callByDispatcherInContract2() public view returns(uint256) {
         return calledContract2.summarizedByDispatcher();
     }
 
-
-    function callnotSummarizedInCalledContract1() public view returns(uint256) {
+    // Call a not-summarized function from CalledContract1
+    function callnotSummarizedInCalled1() public view returns(uint256) {
         return calledContract1.notSummarized();
     }
 
-    function callnotSummarizedInCalledContract2() public view returns(uint256) {
+    function callnotSummarizedInCalled2() public view returns(uint256) {
         return calledContract2.notSummarized();
     }
 
-    function callSummarizedInCallerExternalOnlyInCalledContract1() public view returns(uint256) {
-        return calledContract1.summarizedInCallerExternalOnly();
+    // Call summarized external function from Impl1. The caller (Main) has a summarized function with the same name.
+    function callSummarizedExternalInCalled1() public view returns(uint256) {
+        return calledContract1.summarizedExternal();
     }
 
-    function callSummarizedInCallerExternalOnlyInCalledContract2() public view returns(uint256) {
-        return calledContract2.summarizedInCallerExternalOnly();
+    function callSummarizedExternalInCalled2() public view returns(uint256) {
+        return calledContract2.summarizedExternal();
     }
 
-    function summarizedInCallerExternalOnly() public pure returns(uint256) {
+    function summarizedExternal() public pure returns(uint256) {
         return 13;
     }
 
     // This calls the internal summarizedInCallerExternalOnly which is not summarized.
-    function callSummarizedInCallerExternalOnly() public pure returns(uint256) {
-        return summarizedInCallerExternalOnly();
+    function callSummarizedExternalInCaller() public pure returns(uint256) {
+        return summarizedExternal();
     }
 
-    function summarizedInternalInCaller() public pure returns(uint256) {
+    // a public function with internal summarization in the spec
+    function summarizedInternal() public pure returns(uint256) {
         return 131;
     }
 
+    // This function calls the external summarizedInternalInCaller() which calls the internal summarizedInternalInCaller()
+    // which is summarized in the spec.
     function callSummarizedInternalInCaller() public pure returns(uint256) {
-        return summarizedInternalInCaller();
+        return summarizedInternal();
     }
 
 

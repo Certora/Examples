@@ -35,3 +35,5 @@ To run this spec with a link run
 ```certoraRun certora/conf/runWithDispatcherWithLink.conf```
 
 [The report of this run](https://prover.certora.com/output/1902/d01190ff1ba546d98af5f2871c72a616?anonymousKey=731c6d29155e769c36a89e5b4e7b6ac23a617f5b)
+
+All rules pass.
