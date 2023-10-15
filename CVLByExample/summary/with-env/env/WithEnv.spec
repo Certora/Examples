@@ -1,8 +1,13 @@
+/**
+	Example for ghost summary using `with env`.
+*/
+
 using DummyERC20WithTimedBalanceOf as discountToken;
 
 methods {
     function discountToken.balanceOf(address user) external returns (uint256) with (env e) => 
-        balanceOfDiscountTokenAtTimestamp(user, e.block.timestamp) ;
+        // balanceOfDiscountTokenAtTimestamp(user, e.block.timestamp) ;
+		discount_ghost[user][e.block.timestamp];
 }
 
 ghost mapping(address => mapping (uint256 => uint256)) discount_ghost;

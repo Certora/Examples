@@ -1,10 +1,10 @@
 contract Basic {
 	mapping (address => uint) public balance;
-	uint public x;
+	// uint public x;
 
 	uint256 public totalSupply;
 
-	mapping (uint => address[]) foo;
+	// mapping (uint => address[]) foo;
 
 	function key() internal returns (uint) {
 		return msg.value;
@@ -14,68 +14,39 @@ contract Basic {
 		return balance[a];
 	}
 	
-	function incr() external {
-		x++;
-		balance[msg.sender]++;
-		foo[key()].push(msg.sender);
-		totalSupply++;
+	// function incr(uint256 amount) public {
+	// 	balance[msg.sender] += amount;
+	// 	foo[key()].push(msg.sender);
+	// 	totalSupply += amount
+	// }
+
+	function decr() public returns(uint256) {
+		balance[msg.sender]--;
+		// foo[key()].pop();
+		totalSupply--;
+		return 1;
 	}
 
-	// function decr() external {
-	// 	x--;
+	// function internalDecr() internal {
 	// 	balance[msg.sender]--;
 	// 	foo[key()].pop();
 	// 	totalSupply--;
 	// }
-
-	function internalDecr() internal {
-		x--;
-		balance[msg.sender]--;
-		foo[key()].pop();
-		totalSupply--;
-	}
-
 	
-	function transfer(address target, uint amount) external {
-		require(amount >= balance[msg.sender]);
-		balance[msg.sender] -= amount;
-		balance[target] += amount;
-	}
-
-// 	function butThenAlsoSend(address payable to) external payable {
-// 		(bool rc, bytes memory data) = to.call{value: msg.value}(abi.encodeWithSignature("receiveCash()"));
-// 		require(rc);
-// 	}
-
-// 	function receiveCash() external payable {
-// 	}
-
-// 	function sharesToAmount(uint256 shares) public view virtual returns (uint256) {
-//      uint256 poolBalance=balance[address(this)];  
-//      return shares * poolBalance / totalSupply;  
-//   }
-
 	// Should change to something more realistic
-	function withdraw(uint256 amount) public returns (uint256 amountOut)  {
+	function reduceBalance(uint256 amount) public returns (uint256 amountOut)  {
 		uint256 poolBalance = balance[address(this)];
 		require (poolBalance != 0);
 		amountOut = amount;
 		require (amountOut != 0);
-		require(amountOut + 1 <= balance[msg.sender]);
-		internalDecr();
+		require(amountOut <= balance[msg.sender]);
+		// decr(amountOut);
 		balance[msg.sender] -= amountOut;
 		balance[address(this)] += amountOut;
     }
 
-	function callWithdraw(uint256 amount) public returns (uint256 amountOut)  {
-		return withdraw(amount);
+	function callReduceBalance(uint256 amount) public returns (uint256 amountOut)  {
+		return reduceBalance(amount);
 	}
 
-
-	// function maybeRevert(uint y) external {
-	// 	if(y == 3) {
-	// 		revert();
-	// 	}
-	// 	x += y;
-	// }
 }
