@@ -6,7 +6,6 @@ using DummyERC20WithTimedBalanceOf as discountToken;
 
 methods {
     function discountToken.balanceOf(address user) external returns (uint256) with (env e) => 
-        // balanceOfDiscountTokenAtTimestamp(user, e.block.timestamp) ;
 		discount_ghost[user][e.block.timestamp];
 }
 
@@ -17,9 +16,7 @@ ghost mapping(uint256 => uint256) index_ghost;
 * Query index_ghost for the index value at the input timestamp
 **/
 function indexAtTimestamp(uint256 timestamp) returns uint256 {
-    // require index_ghost[timestamp] >= ray();
     return index_ghost[timestamp];
-    // return 1001684385021630839436707910;//index_ghost[timestamp];
 }
 
 /**
