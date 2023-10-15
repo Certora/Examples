@@ -48,7 +48,7 @@ contract Main {
         return 13;
     }
 
-    // This calls the internal summarizedInCallerExternalOnly which is not summarized.
+    // This calls the internal summarizedInCallerExternalOnly, which is not summarized.
     function callSummarizedExternalInCaller() public pure returns(uint256) {
         return summarizedExternal();
     }

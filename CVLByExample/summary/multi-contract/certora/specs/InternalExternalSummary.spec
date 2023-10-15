@@ -21,7 +21,7 @@ methods {
 
 rule checkExternalSummarizations(){
      // The functions of `impl1` and the current contract are summarized but the function of impl2 is not.
-     // This call uses the summarization so the assert should pass.
+     // This call uses the summarization so the assertion should pass.
     assert (callSummarizedExternalInCalled1() == 1, "wrong result for summarized function");
     // The following  call uses the original function result. Should pass.
     assert (callSummarizedExternalInCalled2() == 5, "wrong result for not-summarized function");
@@ -29,11 +29,11 @@ rule checkExternalSummarizations(){
 
 // Shows when external summarization is not applied.
 rule checkSummarizedExternalInCaller() {
-    // The call used here uses the internal summarizedExternal() which is not summarized. Therefore the assert fails.
+    // The call used here uses the internal summarizedExternal() which is not summarized. Therefore the assertion fails.
     assert (callSummarizedExternalInCaller() == 15, "ALWAYS summary does not apply for external function called from the contract");
     // If the function is called from CVL rather than from contract code then it is never replaced by a summary.
-    // So this one is not replaced. But since the run is with the option `multi_assert_check`, the previous assert is assumed to hold 
-    // when checking the next assert and therefore it passes.
+    // Therefore this particular one is not replaced. But since the run is with the option `multi_assert_check`, the previous assertion is assumed to hold 
+    // when checking the next assertion and therefore it passes.
     assert (summarizedExternal() == 15, "ALWAYS summary does not apply for function called from CVL");
 }
 

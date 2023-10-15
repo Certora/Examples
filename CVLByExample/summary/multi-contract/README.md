@@ -19,10 +19,9 @@ The functions of `impl1` and the current contract are summarized but the functio
 pass.
 
 Rule `checkSummarizedExternalInCaller`:
-The call used here uses the internal `summarizedExternal` which is not summarized. Therefore the assert fails. However, because the configuration is using `multi_assert_check` this assertion becomes a require (despite the
-fact it failed) when we reach the second assert which passes because of the require. This same assert fails in 
+The call used here uses the internal `summarizedExternal` which is not summarized. Therefore the assert fails. However, because the configuration is using `multi_assert_check` this assertion becomes a require (despite the fact that it failed) when we reach the second assertion which passes because of the requirement. This same assertion fails in 
 rule `checkSummarizedCalledFromCVL` because if the function is called from CVL rather than from contract code then it is never replaced by a summary.
-So the call in the rule is not replaced and the rule fails.
+Therefore the call in the rule is not replaced and the rule fails.
 
 Rule `checkSummarizedInternalInCaller` passes because the external function summarizedInternal In Main calls the internal function summarizedInternal which is summarized.
 
