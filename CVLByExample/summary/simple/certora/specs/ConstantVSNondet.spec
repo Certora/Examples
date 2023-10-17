@@ -9,10 +9,12 @@ methods {
   function getFromG2() external returns (uint256) envfree;
 }
 
-​rule check {
+​rule checkConstantSummary {
   // Should be verified - two calls return the same value 
   assert (getFromG1() == getFromG1(), "getFromG1() != getFromG1() with CONSTANT summary");
-  
+}
+
+​rule checkNondetSummary {
   // Should be violated - two calls may return different values
   assert (getFromG2() == getFromG2(), "getFromG2() != getFromG2() with NONDET summary");
 }

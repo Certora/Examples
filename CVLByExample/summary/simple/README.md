@@ -6,31 +6,27 @@ wildcard entry is used.
 
 ## Always.spec
 Here the function `g1` is summarized by `ALWAYS(7)` while `g2` is not summarized.
-Therefore, the assert that `getFromG1()` that uses `g1` equals 7 passes, while the assert about `getFromG2()` that uses `g2` fails.
+Therefore, the rule `checlAlwaysSummary` the rule `checkNotSummarized` fails.
 
 Run via ```certoraRun certora/conf/runAlways.conf```
-[A report of this run](https://prover.certora.com/output/1902/8bd416feef064e02a3169f110ec20388?anonymousKey=c5a5c29437011bd771fda75f2dc19e32e3b00c31)
+[A report of this run](https://prover.certora.com/output/1902/4c92bd8a54b44521b83452e93f675907?anonymousKey=84d515da2c8d3b4e5a7d8b0a34137973d1751f96)
 
 ## AlwaysVsConstant.spec
 
 Here the function `g1` is summarized by `ALWAYS(7)` while `g2` is summarized by `CONSTANT``.
 This means that all calls to `g2` always return the same result but it can be other than `7` which is what `g1` is summarized to.
-Therefore, the assert that `getFromG1()` equals 7 passes, while the assert that  ```getFromG2() == getFromG2()``` fails.
+Therefore, the rule checkAlwaysSummary passes, while the rule checkConstantSummary fails.
 
 Run via ```certoraRun certora/conf/runAlwaysVsConstant.conf```
-[A report of this run](https://prover.certora.com/output/1902/c059594cb62c4ed1b08653b585e083df?anonymousKey=7f4185bd8266a330f51886f47a0101f2d3a3c5c2)
+[A report of this run](https://prover.certora.com/output/1902/d65e16a0a6d2451781cc1826c6ec4aa0?anonymousKey=941589808b3a5504ec8d54b78b1f41108ec7ac89)
 
 ## ConstantVSNondet.spec
 
 Here the function `g1` is summarized by `CONTANT` while `g2` is summarized by `NONDET`.
-This means that all calls to `g1` always return the same result and therefore the assert ```getFromG1() == getFromG1()``` passes.
-Since `g2` is summarized with `NONDET` and call to `getFromG2()` can have a different result and therefore the
-```assert(getFromG2() != getFromG2()``` fails.
+This means that all calls to `g1` always return the same result and therefore the rule `checkConstantSummary` passes.
+Since `g2` is summarized with `NONDET` two calla to `getFromG2()` can have different results and therefore the
+rule `checkNondetSummary` fails.
 
 Run via ```certoraRun certora/conf/runConstantVsNondet.conf```
 
-[A report of this run](https://prover.certora.com/output/1902/53fbb6522a7a4d0290cad835806ce05c?anonymousKey=a759dd4cefe9d1e80c65f4cbd9e5ed144cc0e965)
-
-## PerCallee.spec
-
-[A report of this run](https://prover.certora.com/output/1902/74b9ed369a6843b5958dc89754771fe0?anonymousKey=2cc722f2173c8f0f98b6c05d196dc3e1a5c7a290)
+[A report of this run](https://prover.certora.com/output/1902/c7ea19339a0240999d3fc15fc0f39bae?anonymousKey=2d1b5597b9c802826f6c32aba484639b63774aff)

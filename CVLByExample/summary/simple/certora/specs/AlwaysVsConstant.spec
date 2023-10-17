@@ -10,8 +10,11 @@ methods {
   function getFromG2() external returns (uint256) envfree;
 }
 
-​rule check {
-  assert (getFromG1() == 7, "getFromG1() != 7"); // Should be verified
+​rule checkConstantSummary {
   assert (getFromG2() == getFromG1(), "getFromG1() != getFromG2()"); // Should be violated
+}
+
+​rule checkAlwaysSummary {
+  assert (getFromG1() == 7, "getFromG1() != 7"); // Should be verified
 }
 
