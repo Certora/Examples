@@ -23,7 +23,7 @@ hook CALL(uint g, address addr, uint value, uint argsOffset, uint argsLength, ui
     }
 }
 
-//the main rule - 
+// The main rule - 
 // we filter only for non-view methods as only state modifying methods 
 // are dangerous for the specific reentrancy scenarios. 
 rule no_reentrancy(method f, method g) filtered {f-> !f.isView, g -> !g.isView} {
@@ -33,7 +33,7 @@ rule no_reentrancy(method f, method g) filtered {f-> !f.isView, g -> !g.isView} 
     require g_sighhash == g.selector;
     f@withrevert(e, args);
 
-    //main assert here - we expect that if an external function is called
-    //any reentrancy to a non-view function will revert
+    // Main assert here - we expect that if an external function is called
+    // any reentrancy to a non-view function will revert
     assert called_extcall => g_reverted;
 }

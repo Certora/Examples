@@ -1,7 +1,7 @@
 # Storage Comparison Examples
 This directory demonstrates storage comparison (`storage.spec`).
 It includes example specification for comparing `lastStorage` and `nativeBalances`.
-The spec demontstrates:
+The spec demonstrates:
 1. Changes in storage in case of successful/unsuccessful transactions.
 2. Changes in `lastStorage` when changing data structures of the current contract.
 3. The relation between the balances of the sender and the receiver of a transaction.
@@ -12,7 +12,7 @@ The spec demontstrates:
 
 ## Failing rules:
 - `withdrawDoesNotAffectNativeBalancesShouldFail` - fails because when the amount withdrawn is positive the storage changes.
-- `ghostStorageComparision` - fails because comparing storage includes the storage for ghosts and the ghost storage for the number of operations changes with each operation.
+- `ghostStorageComparison` - fails because comparing storage includes the storage for ghosts and the ghost storage for the number of operations changes with each operation.
 
 Run this configuration via:
 

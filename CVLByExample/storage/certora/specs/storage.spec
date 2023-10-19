@@ -136,7 +136,7 @@ hook Sstore _customers[KEY address a].accounts[INDEX uint256 i].accountBalance u
 }
 
 /// @title "ghost storage does not change after deposit()"
-rule ghostStorageComparison()
+rule ghostStorageComparison() {
     uint256 bankAccount;
     env e;
     require e.msg.value > 0; // balance should change by deposit.

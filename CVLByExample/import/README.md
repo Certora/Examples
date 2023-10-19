@@ -5,7 +5,7 @@ This includes:
 - Overriding preserved from the imported spec.
 
 The imported spec is `Base.spec`.
-The invariant `invInBase` fails because not strong enough.
+The invariant `invInBase` fails because it is not strong enough.
 
 Run this spec via
 ```certoraRun certora/conf/runImported.conf```
