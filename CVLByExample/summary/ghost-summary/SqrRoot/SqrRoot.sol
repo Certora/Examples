@@ -83,6 +83,7 @@ contract SqrRoot{
         x / y = dx / dy
         dy = y / x * dx
         */
+        require (reserve0 > 0 && reserve1 > 0);
         if (reserve0 > 0 || reserve1 > 0) {
             require(reserve0 * _amount1 == reserve1 * _amount0, "x / y != dx / dy");
         }
@@ -137,6 +138,7 @@ contract SqrRoot{
         Finally
         (L1 - L0) / L0 = dx / x = dy / y
         */
+
         if (totalSupply == 0) {
             shares = sqrt(_amount0 * _amount1);
         } else {

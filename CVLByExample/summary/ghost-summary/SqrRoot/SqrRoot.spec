@@ -1,22 +1,25 @@
 methods {
-    // function sqrt(uint256 x) external  returns (uint256) envfree => floorSqrt(x);
-    function sqrt(uint256 x) internal  returns (uint256) => floorSqrtSummarization(x);
+    function sqrt(uint256 y) internal  returns (uint256) => floorSqrt(y);
+    // function sqrt(uint256 x) internal  returns (uint256) => floorSqrtSummarization(x);
 }
 
-// ghost floorSqrt(uint256) returns uint256 {    
-//     axiom forall uint256 x. floorSqrt(x)*floorSqrt(x) <= to_mathint(x) && (floorSqrt(x) + 1)*(floorSqrt(x) + 1) > to_mathint(x);
+ghost floorSqrt(uint256) returns uint256 {    
+    axiom forall uint256 x. floorSqrt(x)*floorSqrt(x) <= to_mathint(x) && (floorSqrt(x) + 1)*(floorSqrt(x) + 1) > to_mathint(x);
+}
+
+// function floorSqrtSummarization(uint256 x) returns uint256 {
+//     mathint SQRT;
+//     require SQRT*SQRT <= to_mathint(x) && (SQRT + 1)*(SQRT + 1) > to_mathint(x);
+//     return assert_uint256(SQRT);
 // }
-
-function floorSqrtSummarization(uint256 x) returns uint256 {
-    mathint SQRT;
-    require SQRT*SQRT <= to_mathint(x) && (SQRT + 1)*(SQRT + 1) > to_mathint(x);
-    return assert_uint256(SQRT);
-}
 
 rule addLiquidityMonotonicity(uint256 amount0, uint256 amount1, uint256 amount2, uint256 amount3) {
     env e;
-    assert ((amount0 < amount2 && amount1 < amount3) => 
-            (addLiquidity(e, amount0, amount1) < addLiquidity(e, amount2, amount3)), 
+    storage initStorage = lastStorage;
+    uint256 firstAdd = addLiquidity(e, amount0, amount1);
+    uint256 secondAdd = addLiquidity(e, amount2, amount3) at initStorage;
+    assert ((amount0 <= amount2 || amount1 <= amount3) => 
+            (firstAdd <= secondAdd), 
             "addLiquidity is not monotonic");
 }
 

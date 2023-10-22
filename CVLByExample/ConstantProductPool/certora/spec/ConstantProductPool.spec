@@ -128,11 +128,11 @@ invariant balanceGreaterThanReserve()
          setup(e);
         }
 
-        preserved ERC20.transferFrom(address sender, address recipient,uint256 amount) with (env e1) {
+        preserved transferFrom(address sender, address recipient,uint256 amount) with (env e1) {
             require e1.msg.sender != currentContract;
         }
 
-        preserved ERC20.transfer(address recipient, uint256 amount) with (env e2) {
+        preserved transfer(address recipient, uint256 amount) with (env e2) {
             require e2.msg.sender != currentContract;
         }
     }
