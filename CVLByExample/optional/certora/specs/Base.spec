@@ -20,8 +20,8 @@ rule parametericCheckBar(method f) {
 }
 
 rule useBothFunctions(uint256 x) {
-  uint256 fooResult = foo(x); // This is performed in both contracts because foo is defined.
+  uint256 fooResult = foo(require_uint256(x + 45)); // This is performed in both contracts because foo is defined.
   uint256 barResult = bar(x);
 
-  assert (fooResult == barResult, "Function have different results");
+  assert (fooResult == barResult, "Functions have different results");
 }

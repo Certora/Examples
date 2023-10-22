@@ -32,7 +32,7 @@ The faults of the spec are:
 This version can be checked by running:
 ```certoraRun certora/conf/runERC20.conf```
 
-[The Prover report of this run](https://prover.certora.com/output/1902/4c20db86ba11411b8aa6476e9be6d33c?anonymousKey=8c56f27248e5f93ff38626ec82736b7781cffc87)
+[The Prover report of this run](https://prover.certora.com/output/1902/1e07ed2ea00647a0aa8905a4d0ba0f79?anonymousKey=64e1b3c3a218fc706e18977a21c7a3d54d45b478)
 
 ## Correct Code
 `contracts/correct/ERC20Fixed.sol` is a version in which the rule above failures were fixed. the corrections in the code are:
@@ -48,4 +48,4 @@ The corrections in the spec are:
 It can be checked by running:
 ```certoraRun certora/conf/runERC20Fixed.conf```
 
-[The Prover report of this run](https://prover.certora.com/output/1902/db76e72ff37b408287e75e00e8d2b58b?anonymousKey=d103189626f0b659e476d0a9a5fde3c1ef37d834)
+[The Prover report of this run](https://prover.certora.com/output/1902/96dff1312ae141cbacc9186c32fc37aa?anonymousKey=c9a37e92d86c731b77b82e63269dddd24102448e)

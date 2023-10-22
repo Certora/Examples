@@ -1,0 +1,16 @@
+{
+	"assertMessages": {},
+	"rules": {
+		"viewReentrancy": {
+			"FAIL": [
+				"withdraw(uint256)"
+			],
+			"SANITY_FAIL": [],
+			"SUCCESS": [
+				"deposit()"
+			],
+			"TIMEOUT": [],
+			"UNKNOWN": []
+		}
+	}
+}

@@ -6,7 +6,7 @@ wildcard entry is used.
 
 ## Always.spec
 Here the function `g1` is summarized by `ALWAYS(7)` while `g2` is not summarized.
-Therefore, the rule `checlAlwaysSummary` the rule `checkNotSummarized` fails.
+Therefore, the rule `checkNotSummarized` fails.
 
 Run via ```certoraRun certora/conf/runAlways.conf```
 [A report of this run](https://prover.certora.com/output/1902/4c92bd8a54b44521b83452e93f675907?anonymousKey=84d515da2c8d3b4e5a7d8b0a34137973d1751f96)
@@ -24,7 +24,7 @@ Run via ```certoraRun certora/conf/runAlwaysVsConstant.conf```
 
 Here the function `g1` is summarized by `CONTANT` while `g2` is summarized by `NONDET`.
 This means that all calls to `g1` always return the same result and therefore the rule `checkConstantSummary` passes.
-Since `g2` is summarized with `NONDET` two calla to `getFromG2()` can have different results and therefore the
+Since `g2` is summarized with `NONDET` two calls to `getFromG2()` can have different results and therefore the
 rule `checkNondetSummary` fails.
 
 Run via ```certoraRun certora/conf/runConstantVsNondet.conf```

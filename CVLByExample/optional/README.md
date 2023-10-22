@@ -6,10 +6,12 @@ The contracts:
 - `Base` - contains the function `bar(uint256)`.
 - `Partial` - does not contain the function `bar`.
 
-There are two rules in the spec that contain references to bar(uint256) and one parameteric rule calling the parameteric
+There are two rules in the spec that contain references to bar(uint256) and one parametric rule calling the parametric
 method.
 
 In the following command the main contract is `Base`:
+
+```certoraRun certora/conf/runBaseOptional.conf```
 
 [Report of this run](https://prover.certora.com/output/1902/a6759bcddb27453da64df5ab78688399?anonymousKey=62ddd4345b37b05aab6f944c6d58c723cf0d6cf7)
 

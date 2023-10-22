@@ -5,12 +5,13 @@ This includes:
 - Overriding preserved from the imported spec.
 
 The imported spec is `Base.spec`.
-The invariant `invInBase` fails because not strong enough.
 
 Run this spec via
 ```certoraRun certora/conf/runImported.conf```
 
 [The report of this run](https://prover.certora.com/output/1902/41975cd5c11248cc8bab03c8631ba3de?anonymousKey=e862f233939d5cc5c2e75e5b5001d96b37ffe87d)
+
+The invariant `invInBase` fails because it is not strong enough.
 
 The importing spec is `sub.spec`
 In this spec the above invariant is strengthened with `preserved` blocks and passes.
