@@ -45,7 +45,7 @@ function integrityOfCustomerInsertion(BankAccountRecord.Customer c1) returns boo
  @param accountId - account number
  */
  function getAccount(address a, uint256 accountInd) returns BankAccountRecord.BankAccount {
-    BankAccountRecord.Customer c = getCustomer(a);
+    BankAccountRecord.Customer c = bank._customers[a];
     return c.accounts[accountInd];
 }
 
@@ -135,7 +135,8 @@ hook Sstore _customers[KEY address user].(offset 32) uint256 newLength STORAGE {
  Once the sload is defined, this invariant becomes a tautology  
  */
 invariant checkNumOfAccounts(address user) 
-    numOfAccounts[user] == getNumberOfAccounts(user);
+// Direct storage access.
+    numOfAccounts[user] == bank._customers[user].accounts.length;
 
 /// This Sload is required in order to eliminate adding unintializaed account balance to sumBlanaces.
 /// (offset 32) is the location of the size of the mapping. It is used because the field `size` is not yet supported in cvl.  
