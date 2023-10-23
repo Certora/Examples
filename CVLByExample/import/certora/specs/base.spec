@@ -5,9 +5,9 @@ methods {
 
 
 invariant invInBase() someUInt() >= 7 {
-	preserved minusSevenSomeUInt() {} // Explicit preserved block
+	preserved minusSevenSomeUInt() {} // @notice Explicit preserved block
 
-	preserved { // Generic preserved block
+	preserved { // @notice Generic preserved block
 		require true;
 	}
 }

@@ -127,14 +127,6 @@ invariant balanceGreaterThanReserve()
         preserved with (env e){
          setup(e);
         }
-
-        preserved transferFrom(address sender, address recipient,uint256 amount) with (env e1) {
-            require e1.msg.sender != currentContract;
-        }
-
-        preserved transfer(address recipient, uint256 amount) with (env e2) {
-            require e2.msg.sender != currentContract;
-        }
     }
 
 

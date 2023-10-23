@@ -140,19 +140,9 @@ invariant balancesBoundedByTotalSupply(address alice, address bob)
 invariant totalSupplyIsSumOfBalances()
     to_mathint(totalSupply()) == sum_of_balances;
 
-rule sanity {
-  env e;
-  calldataarg arg;
-  method f;
-  f(e, arg);
-  satisfy true;
-}
-
-// New features
-
 // Safe casting examples
-// addAmount() uses `unchecked` therefore is not checking for overflow. With the  `require_uint256(amount1 + amount2))` the
-// rule passes although an overflow exists.
+// addAmount() uses `unchecked` therefore is not checking for overflow. 
+// With the  `require_uint256(amount1 + amount2))` the rule passes although an overflow exists.
 rule requireHidesOverflow() {
     env e;
     uint256 amount1;

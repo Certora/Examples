@@ -115,15 +115,6 @@ hook Sload uint256 balance _balances[KEY address a]  STORAGE {
 invariant totalSupplyIsSumOfBalances()
     to_mathint(totalSupply()) == sum_of_balances; 
 
-rule sanity {
-  env e;
-  calldataarg arg;
-  method f;
-  f(e, arg);
-  satisfy true;
-}
-
-
 // satisfy examples
 // Generate an example trace for a first deposit operation that succeeds.
 rule satisfyFirstDepositSucceeds(){
