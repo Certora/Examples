@@ -2,7 +2,7 @@ ghost bool called_extcall;
 ghost bool g_reverted;
 ghost uint32 g_sighhash;
 
-//we are hooking here on "CALL" opcodes in order to simulate reentrancy to a non-view function and check that the function reverts
+// we are hooking here on "CALL" opcodes in order to simulate reentrancy to a non-view function and check that the function reverts
 hook CALL(uint g, address addr, uint value, uint argsOffset, uint argsLength, uint retOffset, uint retLength) uint rc {
     called_extcall = true;
     env e;
