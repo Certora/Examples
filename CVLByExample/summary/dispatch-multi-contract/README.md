@@ -10,7 +10,7 @@ To run this spec with no link run
 
 [The report of this run](https://prover.certora.com/output/1902/650934d2c0fb4948b23cb25d650113e3?anonymousKey=8b21114d72c5640425c2f9a840d90403986133a0)
 
-The rule fails because the results of the functions are havoced.
+The rule `checkNoSummarization` fails because without linking the results of the functions are havoced.
 
 To run this spec with linking run
 

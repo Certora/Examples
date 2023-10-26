@@ -1,5 +1,6 @@
 /**
-    Summarization of internal vs external functions.
+    Summarization of internal vs external functions. Public functions have both external and internal instances.
+    When the public function is called the external function is called and calls the internal summary.
 */
 
 using Impl1 as impl1;
@@ -29,7 +30,8 @@ rule checkExternalSummarizations(){
 
 // Shows when external summarization is not applied.
 rule checkSummarizedExternalInCaller() {
-    // The call used here uses the internal summarizedExternal() which is not summarized. Therefore the assertion fails.
+    // The call used here calls the external summarizedExternal() which uses the internal summarizedExternal() 
+    // which is not summarized. Therefore the assertion fails.
     assert (callSummarizedExternalInCaller() == 15, "ALWAYS summary does not apply for external function called from the contract");
     // If the function is called from CVL rather than from contract code then it is never replaced by a summary.
     // Therefore this particular one is not replaced. But since the run is with the option `multi_assert_check`, the previous assertion is assumed to hold 

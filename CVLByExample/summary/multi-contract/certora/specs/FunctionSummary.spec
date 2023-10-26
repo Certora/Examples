@@ -26,11 +26,11 @@ rule checkA {
     assert (callByFunctionInCalled1() == 6, "Function summary does not work");
 }
 
+// Calling summarized function of Impl2 contract. Should pass.
 rule checkB {
     assert (callByFunctionInCalled2() == 6, "Function summary does not work");
 }
 
-// Calling summarized function of Impl2 contract. Should pass.
 // Not summarized. Should pass.
 rule checkNotSummarized(){
     assert (callnotSummarizedInCalled1() == 3, "wrong result for not-summarized function");

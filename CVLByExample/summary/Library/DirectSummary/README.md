@@ -16,7 +16,7 @@ There are several specs each summarizing different functions.
     therefore is false and the rule `callOverloadedInInterfaceExternal` fails while the function 
     `unresolved.calleeOverloadedInInterfaceExternal()` which is unresolved is summarized to true and the rule 
     `callIOverloadedInInterfaceExternal` passes.
-    The rule callSummarizedFromCVL fails because a function called from CVL is not summarized.
+    The rule `callSummarizedFromCVL` fails because a function called from CVL is not summarized.
 
 - `AllWildcard.spec` - summarizes all functions using a wildcard `_`.
     

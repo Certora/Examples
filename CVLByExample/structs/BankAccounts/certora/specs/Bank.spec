@@ -45,7 +45,7 @@ function integrityOfCustomerInsertion(BankAccountRecord.Customer c1) returns boo
  @param accountId - account number
  */
  function getAccount(address a, uint256 accountInd) returns BankAccountRecord.BankAccount {
-    BankAccountRecord.Customer c = bank._customers[a];
+    BankAccountRecord.Customer c = bank.getCustomer(a);
     return c.accounts[accountInd];
 }
 
@@ -131,14 +131,12 @@ hook Sstore _customers[KEY address user].(offset 32) uint256 newLength STORAGE {
 
 /**
  An internal step check to verify that our ghost works as expected, it should mirror the number of accounts.
- Note: once this rule is proven it is safe to have this as a require on the sload .
  Once the sload is defined, this invariant becomes a tautology  
  */
 invariant checkNumOfAccounts(address user) 
-// Direct storage access.
-    numOfAccounts[user] == bank._customers[user].accounts.length;
+    numOfAccounts[user] == bank.getNumberOfAccounts(user);
 
-/// This Sload is required in order to eliminate adding unintializaed account balance to sumBlanaces.
+/// This Sload is required in order to eliminate adding unintializaed account balance to sumBalances.
 /// (offset 32) is the location of the size of the mapping. It is used because the field `size` is not yet supported in cvl.  
 hook Sload uint256 length _customers[KEY address user].(offset 32) STORAGE {
     require numOfAccounts[user] == length; 
@@ -151,7 +149,7 @@ hook Sstore _customers[KEY address a].accounts[INDEX uint256 i].accountBalance u
     accountBalanceMirror[a][i] = new_value;
 }
 
-// Sload on a struct field.
+/// Sload on a struct field.
 hook Sload uint256 value  _customers[KEY address a].accounts[INDEX uint256 i].accountBalance   STORAGE {
     // when balance load, safely assume it is less than the sum of all values
     require to_mathint(value) <= sumBalances;
@@ -164,7 +162,7 @@ invariant emptyAccount(address user)
         getNumberOfAccounts(user) == 0 &&
          (forall uint256 i. accountBalanceMirror[user][i] == 0 )) ; 
 
-// struct as a parameter of preserved function.
+/// struct as a parameter of preserved function.
 invariant totalSupplyEqSumBalances()
     to_mathint(totalSupply()) == sumBalances 
     {

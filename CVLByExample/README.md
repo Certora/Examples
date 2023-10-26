@@ -15,6 +15,6 @@ certoraRun ConstantProductPoolExample/certora/conf/run.conf
 This will result in a run with violations as seen [here](https://prover.certora.com/output/40726/b2c63e002e864e9d94b6ee03bf49cef0?anonymousKey=b8b428b78410796d656109f8f2b6436202e139f5).
 
 For the fixed version, ConstantProductPoolFixed.sol run:
-```
-certoraRun ConstantProductPoolExample/certora/conf/runFixed.conf 
-```
+```certoraRun ConstantProductPoolExample/certora/conf/runFixed.conf```
+
+runNondetSummary and runHavocSummary wait for https://certora.atlassian.net/browse/CERT-3825?filter=-2

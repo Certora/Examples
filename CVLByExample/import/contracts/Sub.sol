@@ -5,4 +5,8 @@ contract Sub is Base {
 		someUInt = someUInt + 7;
 		return true;
 	}
+
+	function twiceSomeUInt() public returns(uint256) {
+		return 2 * someUInt;
+	}
 }

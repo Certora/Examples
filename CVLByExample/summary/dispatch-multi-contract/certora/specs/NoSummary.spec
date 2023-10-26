@@ -1,11 +1,3 @@
-// link, dispatcher, + all
-// --------------------
-// 0, 0, 0   => violations due to havocs
-// 0, 1, 0 => violations due to switching called contract
-// 1, 0, 0 => no violations
-// 1,1, 0 => does nothing because of the link (equivalent to link only)
-// 1,1,1 => equivalent to no link with dispatcher
-// ------------------------------------------
 using CalleeA as calleeA;
 using CalleeB as calleeB;
 using CallerWithSideEffects as caller;

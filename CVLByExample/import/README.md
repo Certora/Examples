@@ -1,22 +1,26 @@
+# import
 This directory demonstrates importing a spec file in another spec file.
 This includes:
 - Using a function defined in the imported spec.
 - Overriding definitions from the imported spec.
 - Overriding preserved from the imported spec.
 
-The imported spec is `Base.spec`.
+## The imported spec `Base.spec`.
 
 Run this spec via
 ```certoraRun certora/conf/runImported.conf```
 
-[The report of this run](https://prover.certora.com/output/1902/41975cd5c11248cc8bab03c8631ba3de?anonymousKey=e862f233939d5cc5c2e75e5b5001d96b37ffe87d)
+[The report of this run](https://prover.certora.com/output/1902/7c187b4f4307426d996f6f51bff1fc2d/?anonymousKey=6cd69a609d7a778f9c791b2be036c14bcf06c7cc)
 
-The invariant `invInBase` fails because it is not strong enough.
+The invariant `invInBase` fails for the function `minusSevenSomeUInt`.
 
-The importing spec is `sub.spec`
+## The importing spec `sub.spec`
 In this spec the above invariant is strengthened with `preserved` blocks and passes.
 Run this spec via
 ```certoraRun certora/conf/runImport.conf```
 
-[The report of this run](https://prover.certora.com/output/1902/7490813e5ec94e8089de1e96abfd297f?anonymousKey=4316608d5e7c0b72c4e25aa551a31d3846f15cf9)
+The rules `parametricRuleInBase` and `twoParametricRuleInBase` fail because they call `callF` that is nonpayable therefore `require msg.sender > 0` cannot hold.
+
+
+[The report of this run](https://prover.certora.com/output/1902/6993e42943214f84b915a66de18f4b2b?anonymousKey=d6949f0b501694156a965515e0885fcdf9b18c52)
 

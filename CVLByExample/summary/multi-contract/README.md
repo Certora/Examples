@@ -9,6 +9,8 @@ The main contract is `Main.sol` which calls its internal functions as well as fu
 
 ## InternalExternalSummary.spec
 
+This spec shows when a function is summarized according to its visibility.
+
 Run this spec via
 ```certoraRun certora/conf/runInternalExternalSummary.conf```
 

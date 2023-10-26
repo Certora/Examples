@@ -5,7 +5,7 @@
 using Basic as basic;
 
 methods {
-  // Summarization by a CVL function. The result is non-deterministic because the CVL function is not.
+  // Summarization by a CVL function. The result is non-deterministic because the CVL function is not deterministic.
   function reduceBalance(uint256 amount) internal returns (uint256) with (env e) => cvlReduceBalance(e, amount);
   function totalSupply() external returns (uint256) envfree;
 }
