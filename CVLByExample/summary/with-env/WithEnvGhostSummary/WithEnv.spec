@@ -2,13 +2,12 @@
 	Example for ghost summary using `with env`.
 */
 
-using DummyERC20WithTimedBalanceOf as discountToken;
 
 methods {
 	// Summarization by a ghost.
 	// This summarization makes the result of balanceOf deterministic. For the same user and timestamp
 	// balanceOf is the same.
-    function discountToken.balanceOf(address user) external returns (uint256) with (env e) => 
+	function balanceOf(address user) internal returns (uint256) with (env e) => 
 		discount_ghost[user][e.block.timestamp];
 }
 

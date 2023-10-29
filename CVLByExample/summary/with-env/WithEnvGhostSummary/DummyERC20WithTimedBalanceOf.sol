@@ -1,7 +1,7 @@
 contract DummyERC20WithTimedBalanceOf {
   mapping(address => uint256) private _balances;
 
-  function balanceOf(address user) public view virtual returns (uint256 r) {
+  function balanceOf(address user) public view returns (uint256 r) {
     assert(false); // STUB! Should be summarized
   }
 
