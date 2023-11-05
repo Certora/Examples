@@ -25,13 +25,13 @@ methods{
     function getReserve1() external returns (uint256) envfree;
     function swap(address tokenIn, address recipient) external returns (uint256) envfree;
     
-    //calls to external contracts  
+    // calls to external contracts  
     function _token0.balanceOf(address account) external returns (uint256) envfree;
     function _token1.balanceOf(address account) external returns (uint256) envfree;
     function _token0.transfer(address, uint) external;
     function _token1.transfer(address, uint) external;
 
-    //external calls to be resolved by dispatcher - taking into account all available implementations 
+    // external calls to be resolved by dispatcher - taking into account all available implementations 
     function _.transferFrom(address sender, address recipient, uint256 amount) external => DISPATCHER(true);
     function _.balanceOf(address) external => DISPATCHER(true);
     

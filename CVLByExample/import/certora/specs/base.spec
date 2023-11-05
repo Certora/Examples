@@ -26,7 +26,7 @@ function callF(env eF, calldataarg args, method f) {
 	f(eF, args);
 }
 
-/// A rule calling one parameteric function filtered to someInt.
+/// A rule calling one parameteric function filtered to `someInt`.
 rule parametricRuleInBase(method f) filtered { f -> filterDef(f)  }
 {
 	env eF;
@@ -37,8 +37,7 @@ rule parametricRuleInBase(method f) filtered { f -> filterDef(f)  }
 	assert ((before >=7) => (before - after <= 7), "Unexpected result of one call to a parametric function");
 }
 
-/// @notice f is filtered to `someInt` but g can be any function including the empty fallback for which the rule passes vacuously.
-/// the rule is not 
+/// @notice f is filtered to `someInt` but g can be any function.
 rule twoParametricRuleInBase(method f, method g) filtered { f -> filterDef(f)  }
 {
 	env eF;

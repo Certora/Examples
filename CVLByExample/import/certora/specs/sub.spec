@@ -34,7 +34,7 @@ use rule twoParametricRuleInBase filtered { f -> isPlusSevenSomeUInt(f), // @not
                                           }
 
 // Adding @withrevert to the imported function and restricting msg.value.
-// This will revert because callF is non payable so the require cannot hold.
+// This will revert because callF is non payable so the `require` cannot hold.
 override function callF(env eF, calldataarg args, method f) {  // @notice Should make ruleInBase fail
   require eF.msg.value > 0;
   f@withrevert(eF, args);

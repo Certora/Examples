@@ -1,5 +1,3 @@
-using CalleeA as calleeA;
-using CalleeB as calleeB;
 using CallerWithSideEffects as caller;
 methods {
     function setXA(uint256) external envfree;

@@ -1,12 +1,3 @@
-// link, dispatcher, + all
-// --------------------
-// 0, 0, 0   => violations due to havocs
-// 0, 1, 0 => violations due to switching called contract withdispatchnolink.
-// 1, 0, 0 => no violations (nosummarynolink) 
-// 1,1, 0 => does nothing because of the link (equivalent to link only) (dispatcherwithlink)
-// 1,1,1 => equivalent to no link with dispatcher (dispatcherwithlink)
-// ------------------------------------------
-// violations due to switching called contract
 using CalleeA as calleeA;
 using CalleeB as calleeB;
 using CallerWithSideEffects as caller;
@@ -38,7 +29,7 @@ rule checkDispatcherUnresolvedSummarizationResult() {
 }
 
 // getDummyB appears only in calleeB so the rule passes also in the configuration where calleeB does not have a link,
-// since the dispatcher finds only find function with the signature given in the summarization.
+// since the dispatcher finds only one function with the signature given in the summarization.
 rule checkDispatcherUniqueSummarizationResult() {
     uint256 dummyB = getDummyB();
     
