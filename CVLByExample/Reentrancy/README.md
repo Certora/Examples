@@ -12,7 +12,7 @@ The second contract `VulnerableBankEthernaut.sol` is taken from the Ethernaut co
 
 In `VulnerableBankFixed.sol` we show a good way to protect code from reentrancy using reentrancy guards. This ensures that if the contract is reentered, the whole transaction reverts. 
 
-In `VulnerableBankBadFix.sol`, we show an incomplete way to fix the `VulnerableBank.sol` code, and it is conceptually similar to the Curve hack due to the Vyper bad implementation of reentrancy guards https://osec.io/blog/2023-08-01-vyper-timeline. This is because two different guards are used for the `withdraw` and `withdrawAll` functions. This protectsthe contract from reentrancy from one function to itself, but does not protect from cross reentrancy between two external functions. 
+In `VulnerableBankBadFix.sol`, we show an incomplete way to fix the `VulnerableBank.sol` code, and it is conceptually similar to the Curve hack due to the Vyper bad implementation of reentrancy guards https://osec.io/blog/2023-08-01-vyper-timeline. This is because two different guards are used for the `withdraw` and `withdrawAll` functions. This protects the contract from reentrancy from one function to itself, but does not protect from cross reentrancy between two external functions. 
 
 ## Certora
 The certora folder include two different folders, `spec` and `conf`. 
@@ -31,6 +31,7 @@ The `conf` folder includes configuration files to be run using `certoraRun certo
 
 Here https://prover.certora.com/output/56986/b5c7f1a4b5934468aba839e35e5955b9?anonymousKey=10b84360717704e5a28b5833306d91c1e147eaf1 you can see the report of running the rule on the contract `VulnerableBank.sol`.
 
+Run it via ```certoraRun certora/conf/ReentrancyVulnerableBank.conf```
 
 Here https://prover.certora.com/output/56986/b5c7f1a4b5934468aba839e35e5955b9?anonymousKey=10b84360717704e5a28b5833306d91c1e147eaf1 you can see the report of running the rule on the contract `VulnerableBankBadFix.sol`.
 

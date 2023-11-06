@@ -40,5 +40,5 @@ rule reentrancySafety(method f) {
     calldataarg args;
     env e;
     f(e,args);
-    assert !(storage_access_before_call && storage_access_after_call);
+    assert (!(storage_access_before_call && storage_access_after_call), "Reentrancy weakness exists";
 }
