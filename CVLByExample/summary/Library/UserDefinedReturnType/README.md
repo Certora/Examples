@@ -16,4 +16,4 @@ Functions returning enum can be summarized.
 Run this spec via 
 ```certoraRun runUserDefinedTypeSummary.conf```
 
-[A report of this run](https://prover.certora.com/output/1902/117e996e937f445abd6fcfc2e18a83b6?anonymousKey=c2e297677e43fde1e06641868240ec236f8655fc)
+[A report of this run](https://prover.certora.com/output/1902/605ad25bf03b4a809a10db61f0a4b7a4?anonymousKey=2009f88b25a771c1b5eb19a1d03ee2582221a3a6)

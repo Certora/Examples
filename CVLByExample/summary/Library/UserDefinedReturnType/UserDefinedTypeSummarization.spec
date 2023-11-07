@@ -1,9 +1,10 @@
 methods {
-    // function CalledLibrary.getFirstEnum() external returns CalledLibrary.E => ALWAYS(CalledLibrary.E.SECOND);
     // The argument of an ALWAYS summary must be a constant, got `CalledLibrary.E.SECOND`
     // Summarized functions from library
     function CalledLibrary.getLoc(CalledLibrary.S memory record) internal returns (CalledLibrary.E) => getSecond();
+    // A struct return type summarization
     function CalledLibrary.toStruct(uint256 _x, bool _b, CalledLibrary.E _loc) internal returns (CalledLibrary.S memory) => getDoubledStruct(_x, _b, _loc);
+    // An array return type summarization.
     function CalledLibrary.idArray(uint256 min, uint256 max) internal  returns (uint256[] memory) => doubledArray(min, max);
 
     function callGetLoc(CalledLibrary.S record) external returns (CalledLibrary.E) envfree;
@@ -25,10 +26,7 @@ function getDoubledStruct(uint256 _x, bool _b, CalledLibrary.E _loc) returns Cal
 }
 
 function doubledArray(uint256 min, uint256 max) returns uint256[] {
-    uint256[] out;
-    require out[0] == 0;
-    require out[1] == 2;
-    return out;
+    return [0,2];
 }
 
 rule checkLoc(CalledLibrary.S record) {
