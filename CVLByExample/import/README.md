@@ -1,7 +1,7 @@
 # import
 This directory demonstrates importing a spec file in another spec file.
 This includes:
-- Using a function defined in the imported spec.
+- Using a rule/invariant defined in the imported spec.
 - Overriding definitions from the imported spec.
 - Overriding preserved from the imported spec.
 

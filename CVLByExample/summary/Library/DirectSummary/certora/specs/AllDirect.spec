@@ -1,5 +1,5 @@
 /**
- * Every function being called (from solidity) is given its own direct summarization.
+ * For each function called from Test.sol a summary is provided.
  */
 
 using TestLibrary as testlibrary;
@@ -10,7 +10,7 @@ methods {
     function TestLibrary.calleeExternal() external returns bool => ALWAYS(true);
     // functions declared in IUnresolved
     function _.calleeOverloadedInInterfaceExternal()  external => ALWAYS(true) UNRESOLVED;
-    // functions from the contract Test to call in rules
+    // functions from the contract Test.
     function callInternal() external returns bool;
     function callExternal() external returns bool;
     function callIOverloadedInInterfaceExternal() external returns bool;

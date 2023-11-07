@@ -1,7 +1,6 @@
-This directory contains examples for [Function Summaries](https://docs.certora.com/en/latest/docs/cvl/cvl2/changes.html#summaries-only-apply-to-one-contract-by-default:~:text=a%20function%E2%80%99s%20sighash).-,Summaries%20only%20apply%20to%20one%20contract%20by%20default,%EF%83%81,-In%20CVL%201)
-
+This directory contains examples for [Function Summaries](https://github.com/Certora/Documentation/blob/master/docs/cvl/methods.md)
 The interface `IntGetter` has the functions `get1()` and `get2()` that have no implementation. 
-Function summaries are used instead of their missing implementations. Since IntGetter is an interface and not a contract a 
+Function summaries are used instead of their arbitrary implementations. Since IntGetter is an interface and not a contract a 
 wildcard entry is used.
 
 ## Always.spec
@@ -13,7 +12,7 @@ Run via ```certoraRun certora/conf/runAlways.conf```
 
 ## AlwaysVsConstant.spec
 
-Here the function `g1` is summarized by `ALWAYS(7)` while `g2` is summarized by `CONSTANT``.
+Here the function `g1` is summarized by `ALWAYS(7)` while `g2` is summarized by `CONSTANT`.
 This means that all calls to `g2` always return the same result but it can be other than `7` which is what `g1` is summarized to.
 Therefore, the rule checkAlwaysSummary passes, while the rule checkConstantSummary fails.
 
