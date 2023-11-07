@@ -1,3 +1,0 @@
-[submodule "ExamplesRegtest"]
-	path = ExamplesRegtest
-	url = git@github.com:Certora/ExamplesRegtest.git
