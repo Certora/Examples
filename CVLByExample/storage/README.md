@@ -1,6 +1,6 @@
 # Storage Comparison Examples
-This directory demonstrates storage comparison (`storage.spec`).
-It includes example specification for comparing `lastStorage` and `nativeBalances`.
+This directory illustrates storage comparison (`storage.spec`).
+It includes an example specification for comparing `lastStorage` and `nativeBalances`.
 The spec demonstrates:
 1. Changes in storage in case of successful/unsuccessful transactions.
 2. Changes in `lastStorage` when changing data structures of the current contract.

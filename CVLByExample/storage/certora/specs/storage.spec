@@ -20,8 +20,8 @@ methods {
     function isCustomer(address) external returns (bool) envfree;
 }
 
-// This rule demonstrated comparing the full storage.
-/// withdraw from a non-empty account changes the storage state.
+// This rule demonstrates comparing the full storage.
+/// withdrawal from a non-empty account changes the storage state.
 /// This rule should pass.
 rule storageChangesByWithdrawFromNonEmptyAccount() {
     env e;
@@ -34,9 +34,9 @@ rule storageChangesByWithdrawFromNonEmptyAccount() {
 }
 
 /// This rule demonstrates comparing full storage after a transaction with possible revert.
-/// withdraw from a non-necessarily empty account might not change the state.
-/// This rule fails because in case the withdrawn account is empty the `withdraw` function reverts and therefore the
-/// storage is not changed.
+/// withdrawal from a non-necessarily empty account might not change the state.
+/// This rule fails because when the withdrawn account is empty the `withdraw` function reverts and therefore the
+/// storage is unaffected.
 rule storageDoesNotChangeByWithdrawWhenRevert() {
     env e;
     storage init = lastStorage;
@@ -47,7 +47,7 @@ rule storageDoesNotChangeByWithdrawWhenRevert() {
     assert (lastReverted => init == after, "Storage changes after revert.");  
 }
 
-/// This rule demonstrates how to check changes in the full storage when changing data structures of the current contract.
+/// This rule demonstrates how to verify changes in the full storage when changing data structures of the current contract.
 /// The storage changes after each customer addition.
 /// The rule Should pass.
 rule addingCustomersChangesStorageShouldPass(BankAccountRecord.Customer c1, BankAccountRecord.Customer c2) {
@@ -83,20 +83,20 @@ rule integrityOfStoragePerCustomerShouldPass(BankAccountRecord.Customer c1, Bank
     addCustomer(c2);
     storage afterC2 = lastStorage;
 
-    // comparing the storage of bank after one and two additions.
+    // comparing the storage of `bank` after one and two additions.
     assert (afterC1[bank] != afterC2[bank], "Adding a customer does not affect storage of bank");
     // comparing the storage of the current contract to its storage at the initial state.
-    // currentContract is the same as bank.
+    // currentContract is the same as `bank`.
     assert (init[currentContract] != lastStorage[currentContract], "Adding a customer does not affect storage of the current contract");
     // comparing the storage of the nativeBalances to nativeBalances at the initial state.
     assert (init[nativeBalances] == lastStorage[nativeBalances], "Change in storage affects native balances");
 }
 
 
-/// This rule demonstrates how to call deposit (can be any transaction) twice from the same state by restoring the storage to
-/// its inital state before the second call.
-/// Two withdraws are called one after the other where both start from the initial state. Therefore, the storage after each of the
-/// withdraws is the same.
+/// This rule demonstrates how to call `deposit` (can be any transaction) twice from the same state by restoring the storage to
+/// its initial state before the second call.
+/// Two withdrawals are sequentially called where both start from the initial state. Therefore, the storage after each of the
+/// withdrawals are the same.
 /// This fails in the default configuration because of the call to an unresolved function in withdraw. 
 /// It passes with -optimistic_fallback.
 rule storageAfterTwoDepositFromInitDoesNotChangeShouldPass() {
@@ -108,7 +108,7 @@ rule storageAfterTwoDepositFromInitDoesNotChangeShouldPass() {
     deposit(e, bankAccount);
     // Only full storage can be assigned to a variable.
     storage afterCallStorage = lastStorage;
-    // nativeBalances is mapping(address => uint256. mapping is not yet supported as CVL local variable type, so a variable
+    // nativeBalances is mapping(address => uint256. mapping is not yet supported as a CVL local variable type, so a variable
     // corresponds to a single entry is used instead.
     uint256 afterCallBalance = nativeBalances[bank];
     deposit(e, bankAccount) at initStorage;
@@ -143,8 +143,8 @@ rule ghostStorageComparison() {
     // deposit msg.value to account `bankAccount` and to the native balance of msg.sender.
     deposit(e, bankAccount);
     storage afterOneDeposit = lastStorage;
-    // nativeBalances is mapping(address => uint256. mapping is not yet supported as CVL local variable type, so a variable
-    // corresponds to a single entry is used instead.
+    // nativeBalances is mapping(address => uint256). `mapping` is not yet supported as a CVL local variable type, so a variable
+    // corresponding to a single entry is used instead.
     deposit(e, bankAccount);
     storage afterTwoDeposits = lastStorage;
     assert(afterTwoDeposits[numOfOperations] == afterOneDeposit[numOfOperations], "ghost storage changes after each deposit");
