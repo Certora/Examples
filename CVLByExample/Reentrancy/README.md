@@ -29,14 +29,50 @@ The rule `no_reentrancy` is a parametric rule which will be instantiated for eve
 
 The `conf` folder includes configuration files to be run using `certoraRun certora/conf/<conf_file>` which run the reentrancy specs on each one of the different contracts. 
 
-Here https://prover.certora.com/output/56986/b5c7f1a4b5934468aba839e35e5955b9?anonymousKey=10b84360717704e5a28b5833306d91c1e147eaf1 you can see the report of running the rule on the contract `VulnerableBank.sol`.
+Run the rule on the contract `VulnerableBank.sol` via ```certoraRun certora/conf/ReentrancyVulnerableBank.conf```
 
-Run it via ```certoraRun certora/conf/ReentrancyVulnerableBank.conf```
+[The report of this run](https://prover.certora.com/output/56986/b5c7f1a4b5934468aba839e35e5955b9?anonymousKey=10b84360717704e5a28b5833306d91c1e147eaf1) 
 
-Here https://prover.certora.com/output/56986/b5c7f1a4b5934468aba839e35e5955b9?anonymousKey=10b84360717704e5a28b5833306d91c1e147eaf1 you can see the report of running the rule on the contract `VulnerableBankBadFix.sol`.
+Run the rule on `VulnerableBankBadFix.sol` via ```certoraRun certora/conf/ReentrancyVulnerableBankBadFix.conf```.
 
+[The report of this run](https://prover.certora.com/output/56986/b5c7f1a4b5934468aba839e35e5955b9?anonymousKey=10b84360717704e5a28b5833306d91c1e147eaf1) 
 
-Here https://prover.certora.com/output/56986/aadae96a3a714ca58819cf47b73bb5cd?anonymousKey=04a38a6e4b92e9081da91c048974588c19034a9b you can see the report of running the rule on the fixed contract `VulnerableBankFixed.sol`.
+Run the rule on `VulnerableBankFixed.sol` via ```certoraRun certora/conf/ReentrancyVulnerableBankFixed.conf```.
 
+[The report of this run](https://prover.certora.com/output/56986/aadae96a3a714ca58819cf47b73bb5cd?anonymousKey=04a38a6e4b92e9081da91c048974588c19034a9b)
 
-Here https://prover.certora.com/output/56986/1adecd3f881847f18a24305ca8324aa5?anonymousKey=27d353fb85507ad31f9f62364fee204b9fdf3529 you can see the report of running the rule on the fixed contract `VulnerableBankEthernaut.sol`.
+Run the rule on `VulnerableBankEthernaut.sol` via ```certoraRun certora/conf/ReentrancyVulnerableBankEthernaut.conf```.
+
+[The report of this run](https://prover.certora.com/output/56986/1adecd3f881847f18a24305ca8324aa5?anonymousKey=27d353fb85507ad31f9f62364fee204b9fdf3529) 
+
+Run the spec `noGuardSafety.spec` on the contract `VulnerableBank.sol` via
+```certoraRun certora/conf/ReentrancySafetyCheck.conf```
+
+[The report of this run](https://prover.certora.com/output/1902/015a4458ba8d4ed0b4062c20ba01fdf9?anonymousKey=a5749795497f33bba3e53f74fb4a48fa8fa9ac1f)
+
+The rule fails for `withdraw` and `withdrawAll` because the call to `getUserBalance` sets `storage_access_before_call`  to true and the call `msg.sender.call` sets `storage_access_after_call` to true.
+
+Run the spec `noGuardSafety.spec` on the fixed contract `VulnerableBankNoGuardFixed.sol` via
+```certoraRun certora/conf/ReentrancySafetyCheckFixedCode.conf```
+
+[The report of this run](https://prover.certora.com/output/1902/a0840b80a60c4c5e9b7cc8e47f8cc0ac?anonymousKey=785bebb16419e87990ba74030c15a026aa13404c)
+
+# Read Only Reentrancy
+
+The spec `ReadOnlyReentrancy.spec`` applies the `readOnlyReentrancy` builtin rule to the `VulnerableBank` contracts.
+
+## Incorrect Code
+In `VulnerableBank.sol` the rule `readOnlyReentrancy` fails because of a possible Read-Only Reentrancy weakness at external call site at file `contracts/VulnerableBank.sol`, in function `withdraw()`.
+
+This contract can be checked by running: 
+```certoraRun certora/conf/runBuiltinROReentrancyVulnerableBank.conf```
+
+[A report of this run](https://prover.certora.com/output/1902/6f6611e03532430a960a28cbf7b7bea5?anonymousKey=b99706e7a7269c9b92c53a8cd109566d7674c305)
+
+## Correct Code
+The correct version is `VulnerableBankFixed.sol` the weakness was fixed by moving the update of balances before the external call.
+
+This contract can be verified by running: 
+```certoraRun certora/conf/BuiltinROReentrancyVulnerableBankFixed.conf```
+
+[A report of this run](https://prover.certora.com/output/1902/2e10ba6276864366844d85e9bcc65cd2?anonymousKey=716434af2492004f2a4b2f58ce2d4c46a6219bee)
