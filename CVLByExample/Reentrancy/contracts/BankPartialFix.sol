@@ -9,9 +9,21 @@ abstract contract ReentrancyGuard {
     }
 }
 
+abstract contract ReentrancyGuardOther {
+    bool internal lockedOther;
 
-contract VulnerableBankFixed is ReentrancyGuard {
+    modifier noReentrantOther() {
+        require(!lockedOther, "No re-entrancy");
+        lockedOther = true;
+        _;
+        lockedOther = false;
+    }
+}
+
+
+contract BankPartialFix is ReentrancyGuard, ReentrancyGuardOther {
     mapping (address => uint256) private userBalances;
+
 
     function withdrawAll() external noReentrant{
         uint256 balance = getUserBalance(msg.sender);
@@ -23,7 +35,7 @@ contract VulnerableBankFixed is ReentrancyGuard {
         userBalances[msg.sender] = 0;
     }
 
-    function withdraw(uint256 amount) external noReentrant {
+    function withdraw(uint256 amount) external noReentrantOther {
         uint256 balance = getUserBalance(msg.sender);
         require(balance >= amount, "Insufficient balance");
         (bool success, ) = msg.sender.call{value: amount}("");
@@ -32,7 +44,7 @@ contract VulnerableBankFixed is ReentrancyGuard {
 
     }
 
-    function getBalance() external view returns (uint256){
+    function getBalance() external view returns (uint256) {
         return address(this).balance;
     }
 

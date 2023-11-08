@@ -1,6 +1,6 @@
 /**
-This rule is for systems that don't have reentrancy guard but want to check that all external calls are either first or last.
-We verify this by hooking on calls and store operations, and checking for a call within two store operations 
+This rule is for systems that don't have reentrancy guard but want to check that all external calls are either first or last operation of a transaction.
+We verify this by hooking on calls and store operations, and checking for a call within two store operations. 
 **/
 
 
