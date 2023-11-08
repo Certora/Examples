@@ -12,7 +12,9 @@ The second contract `VulnerableBankEthernaut.sol` is taken from the Ethernaut co
 
 In `VulnerableBankFixed.sol` we show a good way to protect code from reentrancy using reentrancy guards. This ensures that if the contract is reentered, the whole transaction reverts. 
 
-In `VulnerableBankBadFix.sol`, we show an incomplete way to fix the `VulnerableBank.sol` code, and it is conceptually similar to the Curve hack due to the Vyper bad implementation of reentrancy guards https://osec.io/blog/2023-08-01-vyper-timeline. This is because two different guards are used for the `withdraw` and `withdrawAll` functions. This protects the contract from reentrancy from one function to itself, but does not protect from cross reentrancy between two external functions. 
+In `VulnerableBankPartialFix.sol`, we show an incomplete way to fix the `VulnerableBank.sol` code, and it is conceptually similar to the Curve hack due to the Vyper bad implementation of reentrancy guards https://osec.io/blog/2023-08-01-vyper-timeline. This is because two different guards are used for the `withdraw` and `withdrawAll` functions. This protects the contract from reentrancy from one function to itself, but does not protect from cross reentrancy between two external functions. 
+
+The contract in `VulnerableBankNoGuardFixed.sol` is a fixed contract without guards in which all the updates and view functions are in the same timing relative to the unresolved call.
 
 ## Certora
 The certora folder include two different folders, `spec` and `conf`. 
@@ -37,13 +39,11 @@ Run the rule on `VulnerableBankBadFix.sol` via ```certoraRun certora/conf/Reentr
 
 [The report of this run](https://prover.certora.com/output/56986/b5c7f1a4b5934468aba839e35e5955b9?anonymousKey=10b84360717704e5a28b5833306d91c1e147eaf1) 
 
+A fix to the contract with guard is in `VulnerableBankFixed.sol`.
 Run the rule on `VulnerableBankFixed.sol` via ```certoraRun certora/conf/ReentrancyVulnerableBankFixed.conf```.
 
 [The report of this run](https://prover.certora.com/output/56986/aadae96a3a714ca58819cf47b73bb5cd?anonymousKey=04a38a6e4b92e9081da91c048974588c19034a9b)
 
-Run the rule on `VulnerableBankEthernaut.sol` via ```certoraRun certora/conf/ReentrancyVulnerableBankEthernaut.conf```.
-
-[The report of this run](https://prover.certora.com/output/56986/1adecd3f881847f18a24305ca8324aa5?anonymousKey=27d353fb85507ad31f9f62364fee204b9fdf3529) 
 
 Run the spec `noGuardSafety.spec` on the contract `VulnerableBank.sol` via
 ```certoraRun certora/conf/ReentrancySafetyCheck.conf```
@@ -55,7 +55,7 @@ The rule fails for `withdraw` and `withdrawAll` because the call to `getUserBala
 Run the spec `noGuardSafety.spec` on the fixed contract `VulnerableBankNoGuardFixed.sol` via
 ```certoraRun certora/conf/ReentrancySafetyCheckFixedCode.conf```
 
-[The report of this run](https://prover.certora.com/output/1902/a0840b80a60c4c5e9b7cc8e47f8cc0ac?anonymousKey=785bebb16419e87990ba74030c15a026aa13404c)
+[The report of this run](https://prover.certora.com/output/1902/4eb0b4658ba649eda245703a4857a84a/?anonymousKey=7d086f7c8a74de02b4974a27564eca7b90cb1765)
 
 # Read Only Reentrancy
 
@@ -65,14 +65,15 @@ The spec `ReadOnlyReentrancy.spec`` applies the `readOnlyReentrancy` builtin rul
 In `VulnerableBank.sol` the rule `readOnlyReentrancy` fails because of a possible Read-Only Reentrancy weakness at external call site at file `contracts/VulnerableBank.sol`, in function `withdraw()`.
 
 This contract can be checked by running: 
-```certoraRun certora/conf/runBuiltinROReentrancyVulnerableBank.conf```
+```certoraRun certora/conf/ROReentrancyVulnerableBank.conf```
 
 [A report of this run](https://prover.certora.com/output/1902/6f6611e03532430a960a28cbf7b7bea5?anonymousKey=b99706e7a7269c9b92c53a8cd109566d7674c305)
 
 ## Correct Code
-The correct version is `VulnerableBankFixed.sol` the weakness was fixed by moving the update of balances before the external call.
+In order to avoid a read only reentrancy weakness all the updates and view functions should be in the same timing relative to the unresolved call.
+Therefore, only the fix without guards `VulnerableBankNoGuardFixed.sol` avoids the read only reentrancy weakness. 
 
 This contract can be verified by running: 
-```certoraRun certora/conf/BuiltinROReentrancyVulnerableBankFixed.conf```
+```certoraRun certora/conf/ROReentrancyVulnerableBankNoGuardFixed.conf```
 
-[A report of this run](https://prover.certora.com/output/1902/2e10ba6276864366844d85e9bcc65cd2?anonymousKey=716434af2492004f2a4b2f58ce2d4c46a6219bee)
+[A report of this run](https://prover.certora.com/output/1902/3629ece979ad41d1933ac21b505cfbe2?anonymousKey=e96abeef060e2880a13238cf0f3b531f80a571c9)

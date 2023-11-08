@@ -12,10 +12,10 @@ contract VulnerableBankNoGuardFixed  {
     }
 
     function withdraw(uint256 amount) external  {
-        (bool success, ) = msg.sender.call{value: amount}("");
         uint256 balance = getUserBalance(msg.sender);
         require(balance >= amount, "Insufficient balance");
         userBalances[msg.sender] -= amount;
+        (bool success, ) = msg.sender.call{value: amount}("");
         require(success, "Failed to send Ether");
 
     }
