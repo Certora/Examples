@@ -4,7 +4,7 @@ This directory contains
   - CVL rules to detect reentrancy bugs.
 
 ## Contracts
-The `VulnerableBank.sol`, `VulnerableBankEthernaut.sol`, `VulnerableBankBadFix.sol` include reentrancy vulnerabilities.
+The contracts `VulnerableBank.sol`, `VulnerableBankEthernaut.sol`, `VulnerableBankPartialFix.sol` include reentrancy vulnerabilities.
 
 In the first contract `VulnerableBank.sol` a  malicious user can reenter the contract in both `withdraw` and `withdrawAll` using the external callbacks in the functions. As the `userBalances` data structure is updated only after calling the callback, a malicious user can drain all the bank's funds using this reentrancy vulnerability. 
 
@@ -35,7 +35,7 @@ Run the rule on the contract `VulnerableBank.sol` via ```certoraRun certora/conf
 
 [The report of this run](https://prover.certora.com/output/56986/b5c7f1a4b5934468aba839e35e5955b9?anonymousKey=10b84360717704e5a28b5833306d91c1e147eaf1) 
 
-Run the rule on `VulnerableBankBadFix.sol` via ```certoraRun certora/conf/ReentrancyVulnerableBankBadFix.conf```.
+Run the rule on `VulnerableBankPartialFix.sol` via ```certoraRun certora/conf/ReentrancyVulnerableBankPartialFix.conf```.
 
 [The report of this run](https://prover.certora.com/output/56986/b5c7f1a4b5934468aba839e35e5955b9?anonymousKey=10b84360717704e5a28b5833306d91c1e147eaf1) 
 
