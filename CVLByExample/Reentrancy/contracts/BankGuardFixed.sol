@@ -10,7 +10,7 @@ abstract contract ReentrancyGuard {
 }
 
 
-contract VulnerableBankFixed is ReentrancyGuard {
+contract BankGuardFixed is ReentrancyGuard {
     mapping (address => uint256) private userBalances;
 
     function withdrawAll() external noReentrant{
