@@ -5,7 +5,7 @@ This directory contains
   - CVL rules to verify reentrancy safety properties.
 
 ## Contracts
-The contract `VulnerableBank.sol`, based on https://github.com/Certora/Examples/tree/master/CVLByExample/QuantifierExamples,  includes reentrancy vulnerabilities.
+The contract `VulnerableBank.sol`, based on [Ethernaut course](https://dev.to/nvn/ethernaut-hacks-level-10-re-entrancy-42o9) ,  includes reentrancy vulnerabilities.
 A malicious user can reenter the contract in both `withdraw` and `withdrawAll` using the external callbacks in the functions. As the `userBalances` data structure is updated only after calling the callback, a malicious user can drain all the bank's funds using this reentrancy vulnerability. 
 
 In contract `BankGuardFix.sol` the standard reentrancy guard is used to protect from reentrancy. This ensures that if the contract is reentered, the whole transaction reverts. 
