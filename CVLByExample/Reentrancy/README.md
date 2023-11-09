@@ -30,7 +30,7 @@ File `NoGuardSafety.spec` contains a rule `reentrancySafety` that verifies that 
 
 ## Running the specs on the contracts
 
-The `conf` folder includes a configuration file to be run using `certoraRun certora/conf/Reentrancy.conf` which can be adopted to check the reentrancy specs on each one of the different contracts. Alternativly the script.sh can be used to run all specs on all contracts.
+This folder includes a configuration file to be run using `certoraRun Reentrancy.conf` which can be adopted to check the reentrancy specs on each one of the different contracts. Alternatively the script.sh can be used to run all specs on all contracts.
 The results of the rules on the different contracts are: 
 
 | Rule | VulnerableBank |  BankPartialFix | BankGuardFix | BankNoGuardFix |
