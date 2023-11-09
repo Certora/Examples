@@ -2,7 +2,7 @@ ghost bool called_extcall;
 ghost bool g_reverted;
 ghost uint32 g_sighhash;
 
-//we are hooking here on "CALL" opcodes in order to simulate reentrancy to a non-view function and check that the function reverts
+// we are hooking here on "CALL" opcodes in order to simulate reentrancy to a non-view function and check that the function reverts
 hook CALL(uint g, address addr, uint value, uint argsOffset, uint argsLength, uint retOffset, uint retLength) uint rc {
     called_extcall = true;
     env e;
@@ -23,7 +23,7 @@ hook CALL(uint g, address addr, uint value, uint argsOffset, uint argsLength, ui
     }
 }
 
-//the main rule - 
+// The main rule - 
 // we filter only for non-view methods as only state modifying methods 
 // are dangerous for the specific reentrancy scenarios. 
 rule no_reentrancy(method f, method g) filtered {f-> !f.isView, g -> !g.isView} {
@@ -33,7 +33,7 @@ rule no_reentrancy(method f, method g) filtered {f-> !f.isView, g -> !g.isView} 
     require g_sighhash == g.selector;
     f@withrevert(e, args);
     
-    //main assert here - we expect that if an external function is called
-    //any reentrancy to a non-view function will revert
-    assert called_extcall => g_reverted;
+    // main assert here - we expect that if an external function is called
+    // any reentrancy to a non-view function will revert
+    assert (called_extcall => g_reverted, "Reentrancy weakness exists");
 }

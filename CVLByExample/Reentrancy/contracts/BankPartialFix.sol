@@ -21,7 +21,7 @@ abstract contract ReentrancyGuardOther {
 }
 
 
-contract VulnerableBankBadFix is ReentrancyGuard, ReentrancyGuardOther {
+contract BankPartialFix is ReentrancyGuard, ReentrancyGuardOther {
     mapping (address => uint256) private userBalances;
 
 

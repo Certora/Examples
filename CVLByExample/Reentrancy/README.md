@@ -1,41 +1,52 @@
 # Reentrancy
 This directory contains 
-  - different versions of a "bank" contract where some of them include Reentrancy vulnerabilities. 
-  - CVL rules to detect reentrancy bugs.
+  - A "bank" with reentrancy vulnerabilities. 
+  - Different fixes to the contract to avoid the vulnerabilities.
+  - CVL rules to verify reentrancy safety properties.
 
 ## Contracts
-The `VulnerableBank.sol`, `VulnerableBankEthernaut.sol`, `VulnerableBankBadFix.sol` include reentrancy vulnerabilities.
+The contract `VulnerableBank.sol`, based on https://github.com/Certora/Examples/tree/master/CVLByExample/QuantifierExamples,  includes reentrancy vulnerabilities.
+A malicious user can reenter the contract in both `withdraw` and `withdrawAll` using the external callbacks in the functions. As the `userBalances` data structure is updated only after calling the callback, a malicious user can drain all the bank's funds using this reentrancy vulnerability. 
 
-In the first contract `VulnerableBank.sol` a  malicious user can reenter the contract in both `withdraw` and `withdrawAll` using the external callbacks in the functions. As the `userBalances` data structure is updated only after calling the callback, a malicious user can drain all the bank's funds using this reentrancy vulnerability. 
+In contract `BankGuardFix.sol` the standard reentrancy guard is used to protect from reentrancy. This ensures that if the contract is reentered, the whole transaction reverts. 
 
-The second contract `VulnerableBankEthernaut.sol` is taken from the Ethernaut course https://dev.to/nvn/ethernaut-hacks-level-10-re-entrancy-42o9 and it has a similar vulnerability. In this case, the user can reenter the contract using the callback in the `withdraw` and also drain all the funds of the token.
+In `BankPartialFix.sol`, we show an incomplete way to fix the `VulnerableBank.sol` code, and it is conceptually similar to the Curve hack due to the Vyper implementation bug in the reentrancy guards https://osec.io/blog/2023-08-01-vyper-timeline. This is because two different guards are used for the `withdraw` and `withdrawAll` functions. This protects the contract from reentrancy from one function to itself, but does not protect from cross-function reentrancy. 
 
-In `VulnerableBankFixed.sol` we show a good way to protect code from reentrancy using reentrancy guards. This ensures that if the contract is reentered, the whole transaction reverts. 
+The contract in `BankNoGuardFix.sol` contains another common approach to reentrancy safety that does allow reentrancy calls but all the external calls are either at the beginning or at the end of the transaction.
 
-In `VulnerableBankBadFix.sol`, we show an incomplete way to fix the `VulnerableBank.sol` code, and it is conceptually similar to the Curve hack due to the Vyper bad implementation of reentrancy guards https://osec.io/blog/2023-08-01-vyper-timeline. This is because two different guards are used for the `withdraw` and `withdrawAll` functions. This protectsthe contract from reentrancy from one function to itself, but does not protect from cross reentrancy between two external functions. 
+## Spec
+The `certora\spec` folder contains three different reentrancy checks.
 
-## Certora
-The certora folder include two different folders, `spec` and `conf`. 
+### Read Only Reentrancy 
+File `ReadOnlyReentrancy.spec` uses the `viewReentrancy` builtin rule.
+see [docs](https://docs.certora.com/en/latest/docs/cvl/builtin.html#read-only-reentrancy-detection-viewreentrancy) for more explanation on how Certora Prover checks for view reentrancy.
 
-In the `spec` folder we added a two different specs `Reentrancy.spec` and `ReentrancyEthernaut.spec` to detect reentrancy in the different versions of `VulnerableBank` and `VulnerableBankEthernaut.sol` respectively. 
+### No Reentrancy 
+File `Reentrancy.spec` contains the rule `no_reentrancy`, a double-parametric rule that is instantiated for every pair `(f,g)` where `f` and `g` are non-view external methods of the contract. In the rule, we call `f` and save the sighash of `g` into `g_sighhash` for future usage. Then we hook on any call which is done directly and indirectly from `f` and we simulate a call to `g` using `g_sighhash`. We then save its reverted status in `g_reverted`. In the end of the rule, we have an assert that checks that if we called `g` during the callback, then `g` reverted. 
 
-Both the versions are conceptually similar and based on an experimental feature which is available in the package `certora-cli-alpha-reentrancy` and will be publicly available in our upcoming versions. In order to use that, you need to first uninstall the official package (if it is already installed) by doing 
-`pip uninstall certora-cli`  and then install this one using `pip install certora-cli-alpha-reentrancy`
-
-The rule `no_reentrancy` is a parametric rule which will be instantiated for every pair `(f,g)` where `f` and `g` are non-view external methods of the contract. In the rule, we call `f` and save the sighash of `g` into `g_sighhash` for future usage. Then we hook on any call which is done directly and indirectly from `f` and we simulate a call to `g` using `g_sighhash`. We then save its reverted status in `g_reverted`. In the end of the rule, we have an assert that checks that if we called `g` during the callback, then `g` reverted. 
-
-
-## Running the spec on the contracts
-
-The `conf` folder includes configuration files to be run using `certoraRun certora/conf/<conf_file>` which run the reentrancy specs on each one of the different contracts. 
-
-Here https://prover.certora.com/output/56986/b5c7f1a4b5934468aba839e35e5955b9?anonymousKey=10b84360717704e5a28b5833306d91c1e147eaf1 you can see the report of running the rule on the contract `VulnerableBank.sol`.
+### Reentrancy Safety 
+File `NoGuardSafety.spec` contains a rule `reentrancySafety` that verifies that all storage accesses are either before external calls or after. This is an approach that allows reentrancy but keeps all storage updates safe.  
 
 
-Here https://prover.certora.com/output/56986/b5c7f1a4b5934468aba839e35e5955b9?anonymousKey=10b84360717704e5a28b5833306d91c1e147eaf1 you can see the report of running the rule on the contract `VulnerableBankBadFix.sol`.
+## Running the specs on the contracts
+
+This folder includes a configuration file to be run using `certoraRun Reentrancy.conf` which can be adopted to check the reentrancy specs on each one of the different contracts. Alternatively the script.sh can be used to run all specs on all contracts.
+The results of the rules on the different contracts are: 
+
+| Rule | VulnerableBank |  BankPartialFix | BankGuardFix | BankNoGuardFix |
+| ---| ------------------ | ------- | ---------| --- |
+|viewReentrancy| [violated](https://prover.certora.com/output/40726/fcf0a1dcbd184eac9aaf1e19fa7cc7ca/?anonymousKey=cb6a74f8400a1d701364f80ee8b043aec6d3fa5e) |  [violated](https://prover.certora.com/output/40726/2d7af3d99ef34315a83d1aee70cf341d/?anonymousKey=d06ad0c34b5e1aa20114a630a869fb60a98e494e) | [violated](https://prover.certora.com/output/40726/e9613f2f235d4ad8a0890086948abdce/?anonymousKey=3d145bf95ccb691856057ea34dc4e557742959bd) | [verified](https://prover.certora.com/output/40726/a46a13552cf642a6a81fdc10c9162048/?anonymousKey=fde611f643b0707f0f00759dd0dacdf0ab863313)  |
+| no_reentrancy | [violated](https://prover.certora.com/output/40726/862a961b0a074d3fb74118f6100169b8/?anonymousKey=b3e832314b390e81537d6b326be7b90176955ad6)  | [violated](https://prover.certora.com/output/40726/251dd2aaad664dc2a4374919b0cc83fd/?anonymousKey=5fe9a9c43124a7be4ab103d40ea2cfa6b32a70c9) | [verified](https://prover.certora.com/output/40726/41cc34259f4e4d1f8e648a31e1ec0a1b/?anonymousKey=7e924f5d443ca0e800f08064e1b439b117d3848c) | [violated](https://prover.certora.com/output/40726/b89c7e2afc4740c891e96ad4c70e2e8e/?anonymousKey=eda258e003d4462743c72710c4690559c1862da4) | 
+| reentrancySafety | [violated](https://prover.certora.com/output/40726/2badf195c7684ca1a4ee5c42c3db3393/?anonymousKey=d00dd0ba0d1c49719781edfa6f2763c676f20505) | [violated](https://prover.certora.com/output/40726/5fd3187562b34dd483ada1112ff6136c/?anonymousKey=de48a3eb6871883a30f27043bb1393eb4c94c458) | [violated](https://prover.certora.com/output/40726/b62e2d9e904544ac9593460d69e338d7/?anonymousKey=bfd6700d53766f021225452a499a9b937681865d) | [verified](https://prover.certora.com/output/40726/983c9e07e81f44e18a08d898465ae30b/?anonymousKey=fc8047593fc9bf9e96a3e1a948f1cc3736df964f) |  
+---
 
 
-Here https://prover.certora.com/output/56986/aadae96a3a714ca58819cf47b73bb5cd?anonymousKey=04a38a6e4b92e9081da91c048974588c19034a9b you can see the report of running the rule on the fixed contract `VulnerableBankFixed.sol`.
+The reentrancySafety is violated on VulnerableBank for `withdraw` and `withdrawAll`. The violated case is when:
+1. the access to storage in `getUserBalance` sets `storage_access_before_call` to true.
+2. the call `msg.sender.call` sets `called_extcall` to true.
+3. the storage access to `userBalances[msg.sender]` sets `storage_access_after_call` to true.
+
+Notice that it also shows a violation for `BankGuardFix` as the property checked for does not hold, regardless of the code being a valid solution.
 
 
-Here https://prover.certora.com/output/56986/1adecd3f881847f18a24305ca8324aa5?anonymousKey=27d353fb85507ad31f9f62364fee204b9fdf3529 you can see the report of running the rule on the fixed contract `VulnerableBankEthernaut.sol`.
+The `no_reentrancy` rule from `Reentrancy.spec` shows that BankPartialFix has only cross-function vulnerability issues. That is, a call to `withdraw` within a call to `withdraw` is not possible. But a call to `withdraw` is possible from within `withdrawAll.`
