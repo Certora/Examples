@@ -22,7 +22,7 @@ contract Bank {
         return blackList.length - 1;
     }
     
-    function isBalacklisted(address user, uint256 acc) public returns(bool)  {
+    function isBlacklisted(address user, uint256 acc) public returns(bool)  {
         for (uint256 i; i < blackList.length; i++) {
             if (blackList[i].id == user && blackList[i].account == acc ) {
                 return true; 
@@ -67,7 +67,7 @@ contract Bank {
 
     // transfer `amount` from acount number `fromAccount` of msg.sender to account `toAccount` of `to`.
     function transfer(address to, uint256 amount, uint256 fromAccount, uint256 toAccount) public {
-        require( !isBalacklisted(msg.sender, fromAccount));
+        require( !isBlacklisted(msg.sender, fromAccount));
         require(fromAccount < _customers[msg.sender].accounts.length);
         require(toAccount < _customers[to].accounts.length);
         require(_customers[msg.sender].accounts[fromAccount].accountBalance >= amount);
@@ -76,7 +76,7 @@ contract Bank {
     }
 
     function withdraw(uint256 account) public returns (bool)  {
-        require( !isBalacklisted(msg.sender, account));
+        require( !isBlacklisted(msg.sender, account));
         require(account < _customers[msg.sender].accounts.length);
         uint256 amount = balanceOfAccount(msg.sender, account);
         require( amount > 0);
