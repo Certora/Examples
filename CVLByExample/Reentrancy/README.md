@@ -19,13 +19,15 @@ The `certora\spec` folder contains three different reentrancy checks.
 
 ### Read Only Reentrancy 
 File `ReadOnlyReentrancy.spec` uses the `viewReentrancy` builtin rule.
-see [docs](https://docs.certora.com/en/latest/docs/cvl/builtin.html#read-only-reentrancy-detection-viewreentrancy) for more explanation on how Certora Prover checks for view reentrancy.
+see [docs](https://docs.certora.com/en/latest/docs/cvl/builtin.html#read-only-reentrancy-detection-viewreentrancy) for more explanation on how Certora Prover checks for view reentrancy. 
+The rule is violated for the `BankGuardFix.sol` because the guard does not protect a third party that uses a view function.
 
 ### No Reentrancy 
 File `Reentrancy.spec` contains the rule `no_reentrancy`, a double-parametric rule that is instantiated for every pair `(f,g)` where `f` and `g` are non-view external methods of the contract. In the rule, we call `f` and save the sighash of `g` into `g_sighhash` for future usage. Then we hook on any call which is done directly and indirectly from `f` and we simulate a call to `g` using `g_sighhash`. We then save its reverted status in `g_reverted`. In the end of the rule, we have an assert that checks that if we called `g` during the callback, then `g` reverted. 
 
 ### Reentrancy Safety 
-File `NoGuardSafety.spec` contains a rule `reentrancySafety` that verifies that all storage accesses are either before external calls or after. This is an approach that allows reentrancy but keeps all storage updates safe.  
+File `NoGuardSafety.spec` contains a rule `reentrancySafety` that verifies that all storage accesses are either before external calls or after. This is an approach that allows reentrancy but keeps all storage updates safe.  The property checks that a reentrancy vulnerability cannot occur. It does not check the existence of this vulnerability. 
+
 
 
 ## Running the specs on the contracts
