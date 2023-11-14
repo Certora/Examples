@@ -2,7 +2,7 @@
  * This test is about figuring out in the case of a wildcard summary whether we should be summarizing
  * contract functions, library functions, or both.
  * Basically the idea is that if a signature _could_ be that of a contract function (i.e. no 'storage'
- * location specifiers) then we should summarize both regardless of whether their sighashes are the same or not.
+ * location specifiers) then we should summarize both regardless of whether their sighashes are the same or not).
  */
 methods {
     // should summarize both contract and lib functions

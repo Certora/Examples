@@ -8,7 +8,7 @@ contract Bank {
 
     // Specific accounts blacklisted by owner 
     BankAccountRecord.IdAccount[] public blackList;
-    // Only owner can add to blaklist 
+    // Only owner can add to blacklist 
     address _owner; 
 
     constructor() {
@@ -46,7 +46,7 @@ contract Bank {
         return _customers[a].id == a;
     }
 
-    // adds the next availible account number for a user, returns the new account number
+    // adds the next available account number for a user, returns the new account number
     function addAccount(address user) external returns (uint256 newAccount) {
         require (isCustomer(user));
         newAccount = _customers[user].accounts.length;
@@ -65,7 +65,7 @@ contract Bank {
         _totalSupply += msg.value;
     }
 
-    // transfer `amount` from acount number `fromAccount` of msg.sender to account `toAccount` of `to`.
+    // transfer `amount` from account number `fromAccount` of msg.sender to account `toAccount` of `to`.
     function transfer(address to, uint256 amount, uint256 fromAccount, uint256 toAccount) public {
         require( !isBlacklisted(msg.sender, fromAccount));
         require(fromAccount < _customers[msg.sender].accounts.length);

@@ -7,25 +7,23 @@ contract CallerWithSideEffects {
     CalleeB public calleeB;
     
     function setXA(uint256 _x) public {
-        uint256 x = calleeA.setX(_x);
+        calleeA.setX(_x);
     }
 
     function getXA() public returns(uint256){
-        // return _callee.x();
         return calleeA.getX();
     }
 
     function setXB(uint256 _x) public {
-        uint256 x = calleeB.setX(_x);
+        calleeB.setX(_x);
     }
 
     function getXB() public returns(uint256){
-        // return _callee.x();
         return calleeB.getX();
     }
 
     function setValueA(uint256 _value) public {
-        uint256 value = calleeA.setValue(_value);
+        calleeA.setValue(_value);
     }
 
     function getValueA() public returns(uint256){

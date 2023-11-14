@@ -1,5 +1,4 @@
 methods {
-    // The argument of an ALWAYS summary must be a constant, got `CalledLibrary.E.SECOND`
     // Summarized functions from library
     function CalledLibrary.getLoc(CalledLibrary.S memory record) internal returns (CalledLibrary.E) => getSecond();
     // A struct return type summarization
