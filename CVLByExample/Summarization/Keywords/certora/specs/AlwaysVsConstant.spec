@@ -10,11 +10,25 @@ methods {
   function getFromG2() external returns (uint256) envfree;
 }
 
-​rule checkConstantSummary {
+
+​rule constantVsAlways {
   assert (getFromG2() == getFromG1(), "getFromG1() != getFromG2()"); // Should be violated
 }
 
-​rule checkAlwaysSummary {
-  assert (getFromG1() == 7, "getFromG1() != 7"); // Should be verified
+​rule constantCanbeAnyValue {
+  satisfy getFromG2() == getFromG1(); 
 }
+
+
+​rule constantDoesNotChange(method f) {
+  uint256 g2Before = getFromG2();
+
+  env e;
+  calldataarg args;
+  f(e,args);
+
+  assert getFromG2() == g2Before;
+}
+
+
 

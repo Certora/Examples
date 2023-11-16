@@ -14,9 +14,9 @@ There are several specs each summarizing different functions.
     The summarization ```function _.calleeOverloadedInInterfaceExternal()  external => ALWAYS(true) UNRESOLVED;```
     summarizes only unresolved functions.
     Therefore, `TestLibrary.calleeOverloadedInInterfaceExternal()` is not summarized and
-    is false. Consequantly the rule `callOverloadedInInterfaceExternal` fails.
+    is false. Consequently, the rule `callOverloadedInInterfaceExternal` fails.
     The function `unresolved.calleeOverloadedInInterfaceExternal()` which is unresolved is summarized to true and the rule `callIOverloadedInInterfaceExternal` passes.
-    The rule `callSummarizedFromCVL` fails because a function called from CVL is not summarized.
+    The rule `callSummarizedFromCVL` fails because functions called from CVL are not summarized. Summarization are only from within Solidity code
 
 - `AllWildcard.spec` - summarizes all functions using a wildcard `_`.
     

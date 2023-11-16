@@ -29,15 +29,6 @@ function balanceOfDiscountTokenAtTimestamp(address user, uint256 timestamp) retu
 }
 
 /**
-* Returns an env instance with [ts] as the block timestamp
-**/
-// function envAtTimestamp(uint256 ts) returns env {
-// 	env e;
-// 	require(e.block.timestamp == ts);
-// 	return e;
-// }
-
-/**
 * @title proves that the user's balance of debt token (as reported by GhoVariableDebtToken::balanceOf) can't increase by calling any external non-mint function.
 **/
 rule nonMintFunctionCantIncreaseBalance(method f) {

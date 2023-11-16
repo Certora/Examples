@@ -2,17 +2,26 @@ interface IntGetter {
   function get1() external view returns (uint256);
   function get2() external view returns (uint256);
   function set1() external;
+  function set2() external;
 }
 
 contract CallsExternalContract {
-  IntGetter g1;
-  IntGetter g2;
+  IntGetter g;
   
   function getFromG1() external view returns (uint256) { 
-    return g1.get1(); 
+    return g.get1(); 
   }
 
   function getFromG2() external view returns (uint256) { 
-    return g1.get2(); 
+    return g.get2(); 
   }
+
+  function setToG1() external { 
+    return g.set1(); 
+  }
+
+  function setToG2() external { 
+    return g.set2(); 
+  }
+
 }

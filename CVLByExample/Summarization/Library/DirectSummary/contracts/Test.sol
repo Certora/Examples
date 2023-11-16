@@ -17,11 +17,11 @@ contract Test {
     constructor() { }
     IUnresolved public unresolved;
 
-    function calleeOverloadedInContractExternal()   external   returns (bool) { 
+    function calleeOverloadedInContractExternal() external returns (bool) { 
         return false; 
     }
 
-    function calleeOverloadedInContractInternal()   internal   returns (bool) {
+    function calleeOverloadedInContractInternal() internal returns (bool) {
          return false; 
     }
 

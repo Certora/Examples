@@ -6,10 +6,10 @@ methods {
   function getFromG2() external returns (uint256) envfree;
 }
 
-rule checkAlwaysSummary {
+rule isGet1Always7 {
   assert (getFromG1() == 7, "Summaried to 7 but not always 7"); // Should be verified
 }
 
-rule checkNotSummarized {
+rule isGet2Always7 {
   assert (getFromG2() == 7, "Not summarized not always 7"); // Should be violated
 }
