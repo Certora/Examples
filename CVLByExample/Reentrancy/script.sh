@@ -8,7 +8,7 @@ do
   certoraRun ${FILE} \
       --verify ${contract}:certora/spec/NoGuardSafety.spec \
       --optimistic_loop --loop_iter 3 \
-      --prover_args "-enableStorageSplitting false" 
+      --prover_args "-enableStorageSplitting false" \
       --msg "${contract} : NoGuardSafety"
   
   certoraRun ${FILE} \
@@ -16,7 +16,7 @@ do
       --optimistic_loop --loop_iter 3 \
       --msg "${contract} : Reentrancy"
 
-    certoraRun ${FILE} \
+  certoraRun ${FILE} \
       --verify ${contract}:certora/spec/ReadOnlyReentrancy.spec \
       --optimistic_loop --loop_iter 3 \
       --msg "${contract} : ROReentrancy"
