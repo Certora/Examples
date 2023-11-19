@@ -18,11 +18,3 @@ There are several specs each summarizing different functions.
     The function `unresolved.calleeOverloadedInInterfaceExternal()` which is unresolved is summarized to true and the rule `callIOverloadedInInterfaceExternal` passes.
     The rule `callSummarizedFromCVL` fails because functions called from CVL are not summarized. Summarization are only from within Solidity code
 
-- `AllWildcard.spec` - summarizes all functions using a wildcard `_`.
-    
-    Run this version via ```certoraRun certora/conf/AllWildcard.conf```
-
-    [A report of this run](https://prover.certora.com/output/1902/569d5c5865fa4f0b8c84dac3443bef27?anonymousKey=f447885e97470795e3c7adb2554be09ff2bc95e6)
-
-    The same rules fail as in `AllDirect.spec` for the same reasons.
-
