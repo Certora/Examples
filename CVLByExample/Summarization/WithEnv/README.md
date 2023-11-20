@@ -1,6 +1,6 @@
 # Function Summarization with env
 
-`WithEnvFunctionSummary/withEnvSummary.spec` includes a function summary with the attribute "with env".
+`WithEnvFunctionSummary/withEnvSummary.spec` includes a function summary with the attribute `with env`.
 
 Run this spec via
 ```certoraRun runWithEnv.conf```
@@ -9,7 +9,7 @@ Run this spec via
 
 # Ghost Summarization with env
 
-`WithEnvGhostSummary/withEnvSummary.spec` includes a `ghost` summary with the attribute "with env".
+`WithEnvGhostSummary/withEnvSummary.spec` includes a `ghost` summary with the attribute `with env`.
 
 Run this spec via
 

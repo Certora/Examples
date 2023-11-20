@@ -1,11 +1,14 @@
+# optional
+
 This directory gives an example for using the method block option `optional`.
 `optional` is a way to have a spec that is useful for several contracts which refers to functions that are defined only
 in part of them. A rule is skipped in runs of configuartions where the --verify option is applied to a contract that does not define some function in the rule.
 
-The contracts:
+## The contracts:
 - `Base` - contains the function `bar(uint256)`.
 - `Partial` - does not contain the function `bar`.
 
+## The spec
 There are two rules in the spec that contain references to bar(uint256) and one parametric rule calling the parametric
 method.
 

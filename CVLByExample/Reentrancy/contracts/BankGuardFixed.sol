@@ -1,3 +1,6 @@
+// the standard reentrancy guard is used to protect from reentrancy. This ensures that if the contract is reentered, 
+// the whole transaction reverts.
+
 abstract contract ReentrancyGuard {
     bool internal locked;
 

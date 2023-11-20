@@ -1,7 +1,7 @@
 
 methods {
-    // `optional` makes the run skip the call to bar when Partial is the contract used in the `verify` option, because
-    // bar() is not defined in Partial.
+    // `optional` makes the run skip the call to `bar` when `Partial` is the contract used in the `verify` option, because
+    // `bar()` is not defined in `Partial`.
     function bar(uint256 _x) external returns(uint256) envfree optional;
     function foo(uint256 _x) external returns(uint256) envfree;
 }
@@ -32,7 +32,7 @@ rule parametericCheckBar(method f) {
 // When the main contract is `Base` the rule passes. 
 // When the main contract is `Partial` the rule is skipped.
 rule useBothFunctions(uint256 x) {
-  uint256 fooResult = foo(require_uint256(x + 45)); // This is performed in both contracts because foo is defined.
+  uint256 fooResult = foo(require_uint256(x + 45)); // This is performed in both contracts because `foo` is defined.
   uint256 barResult = bar(x);
 
   assert (fooResult == barResult, "Functions have different results");

@@ -5,7 +5,7 @@ This includes:
 - Overriding definitions from the imported spec.
 - Overriding preserved from the imported spec.
 
-## The imported spec `Base.spec`.
+## The imported spec `Base.spec`
 
 Run this spec via
 ```certoraRun certora/conf/runImported.conf```
@@ -16,6 +16,7 @@ The invariant `invInBase` fails for the function `minusSevenSomeUInt`.
 
 ## The importing spec `sub.spec`
 In this spec the above invariant is strengthened with `preserved` blocks and passes.
+
 Run this spec via
 ```certoraRun certora/conf/runImport.conf```
 

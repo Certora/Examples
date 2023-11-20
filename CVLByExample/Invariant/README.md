@@ -1,4 +1,4 @@
-# Ball Game
+# Invariants
 
 This repository contains a simple example contract that shows how strengthening
 properties is sometimes necessary to make them correct, and thus provable.
@@ -12,10 +12,10 @@ We wish to depict that the ball can never reach player 2, and wrote the invarian
 ## Incorrect spec
 
 When we try to verify the contract at `contracts/BallGame.sol` with the spec `BallGame.spec`, the invariant fails because it is not strong enough. 
-The Vertora Prover starts from an arbitrary state, only assuming that player 2 does not have the ball.
+The Certora Prover starts from an arbitrary state, only assuming that player 2 does not have the ball.
 But actually if in our starting state the ball can be at player 4, player 4 passes the ball to player 2, violating the invariant.
 
-To run the correct version, still getting a violation:
+To run the incorrect spec:
 ```certoraRun certora/conf/runWeakInvariant.conf```
 
 ## Correct Spec

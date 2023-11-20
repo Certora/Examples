@@ -8,13 +8,9 @@ methods {
     
      // Using address instead of Callee as parameter type because contracts are not supported as parameter type in the spec.
     function setXA(uint256 _x) external envfree;
-    // function getXA() external returns(uint256) envfree;
-    // function setXB(uint256 _x) external envfree;
     function getXB() external returns(uint256) envfree;
     function getValueB() external returns(uint256) envfree;
     function getDummyB() external returns(uint256) envfree;
-    // function calleeB() external returns(address) envfree;
-    // function calleeA() external returns(address) envfree;
 }
 
 /**

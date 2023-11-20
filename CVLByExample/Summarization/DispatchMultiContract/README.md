@@ -19,7 +19,7 @@ To run this spec with linking run
 [The report of this run](https://prover.certora.com/output/1902/754827d15dc74296b23cfeef776afec1?anonymousKey=a1fee8dcacb680b1b611091859d2bc6c84a1717e)
 
 ## WithDispatcher.spec
-This spec contains DISPATCHER summarizations for a multi-contract setting. The summarized function x() appears in both contracts while the function dummyB appears only in CalleeB. The spec is run with two configurations: one with linking and one without.
+This spec contains DISPATCHER summarizations for a multi-contract setting. The summarized function `x()` appears in both contracts while the function `dummyB` appears only in `CalleeB`. The spec is run with two configurations: one with linking and one without.
 
 To run this spec with no link run
 ```certoraRun certora/conf/runWithDispatcherNoLink.conf```
@@ -28,7 +28,7 @@ To run this spec with no link run
 
 The rule `checkDispatcherUnresolvedSummarizationResult` fails because the used field `x` appears in both contracts and the absence of a link causes switching the called contracts.
 
-The rule `checkDispatcherUniqueSummarizationResult` passes despite the absence of a link because the summarized function `dummyB()` appears only in CalleeB so the dispatcher finds the right function.
+The rule `checkDispatcherUniqueSummarizationResult` passes despite the absence of a link because the summarized function `dummyB()` appears only in `CalleeB` so the dispatcher finds the right function.
 
 To run this spec with a link run
 ```certoraRun certora/conf/runWithDispatcherWithLink.conf```

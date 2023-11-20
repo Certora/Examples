@@ -19,22 +19,21 @@ Run this spec via
 ### Failing Rules
 Rule `checkSummarizedExternalInCaller`:
 The call used here uses the internal `summarizedExternal` which is not summarized. Therefore the assert fails. However, because the configuration is using `multi_assert_check` this assertion becomes a require (despite the fact that it failed) when we reach the second assertion which passes because of the requirement. This same assertion fails in 
-rule `checkSummarizedCalledFromCVL` because if the function is called from CVL rather than from contract code then it is never replaced by a summary.
-Therefore the call in the rule is not replaced and the rule fails.
+rule `checkSummarizedCalledFromCVL` because if the function is called from CVL rather than from contract code then it is never replaced by a summary. Therefore, the call in the rule is not replaced and the rule fails.
 
 ### Verified rules
 Rule `checkExternalSummarizations`:
-The functions of `impl1` and the current contract are summarized but the function of impl2 is not. So both assertions
+The functions of `impl1` and the current contract are summarized but the function of `impl2` is not. So both assertions
 pass.
 
-Rule `checkSummarizedInternalInCaller` passes because the external function summarizedInternal In Main calls the internal function summarizedInternal which is summarized.
+Rule `checkSummarizedInternalInCaller` passes because the external function `summarizedInternal` in `Main` calls the internal function `summarizedInternal` which is summarized.
 
 ## FunctionSummary.spec
 
 This spec shows summarization by a CVL function.
-function _.summarizedByFunction() external => summary() expect uint256;
+`function _.summarizedByFunction() external => summary() expect uint256;`
 
-each external summarizedByFunction is summarized by the CVL function summary().
+each external `summarizedByFunction` is summarized by the CVL function `summary()`.
 
 Run this spec via
 

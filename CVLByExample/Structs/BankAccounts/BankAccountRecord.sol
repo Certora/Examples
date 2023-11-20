@@ -1,7 +1,6 @@
 
 library BankAccountRecord{
 
-
     struct BankAccount {
         uint256 accountNumber;
         uint256 accountBalance; 
@@ -17,7 +16,6 @@ library BankAccountRecord{
         address id;
         uint256 account;
     }
-
    
 }
 

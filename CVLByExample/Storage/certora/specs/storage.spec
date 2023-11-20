@@ -9,7 +9,6 @@
   4. Changes in ghost storage.
  */
  
-
 using Bank as bank;
 
 methods {
@@ -20,7 +19,7 @@ methods {
     function isCustomer(address) external returns (bool) envfree;
 }
 
-// This rule demonstrates comparing the full storage.
+/// This rule demonstrates comparing the full storage.
 /// withdrawal from a non-empty account changes the storage state.
 /// This rule should pass.
 rule storageChangesByWithdrawFromNonEmptyAccount() {
@@ -135,7 +134,7 @@ hook Sstore _customers[KEY address a].accounts[INDEX uint256 i].accountBalance u
     numOfOperations[a] = old_value + 1;
 }
 
-/// @title "ghost storage does not change after deposit()"
+/// @notice ghost storage does not change after `deposit()`
 rule ghostStorageComparison() {
     uint256 bankAccount;
     env e;

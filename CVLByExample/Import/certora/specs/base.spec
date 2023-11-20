@@ -3,14 +3,14 @@ methods {
 	function someUInt() external returns (uint256) envfree;
 }
 
-/// @notice Invariant in Base to be overridden by importing `Sub` contract.
+/// @notice Invariant in Base to be overridden by importing in `Sub` contract.
 invariant invInBase() someUInt() >= 7 {
 	preserved {
 		require (someUInt() < 30); // @notice Explicit preserved block
 	}
 }
 
-/// @notice A rule to be used in the importing contract Sub as is.
+/// @notice A rule to be used in the importing contract `Sub` as is.
 rule ruleInBase() {
 	uint256 before = someUInt();
 	minusSevenSomeUInt();
@@ -18,10 +18,10 @@ rule ruleInBase() {
 	assert (before >=7) => (before - after == 7);
 }
 
-/// Definition for demonstrating definition override in importing contract `Sub`.
+/// Definition for demonstrating definition override in the importing contract `Sub`.
 definition filterDef(method f) returns bool = f.selector == sig:someUInt().selector;
 
-/// CVL function to be overridden in importing contract `Sub`.
+/// CVL function to be overridden in the importing contract `Sub`.
 function callF(env eF, calldataarg args, method f) {
 	f(eF, args);
 }
