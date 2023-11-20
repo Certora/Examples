@@ -1,4 +1,5 @@
-This directory contains examples for [Function Summaries](https://github.com/Certora/Documentation/blob/master/docs/cvl/methods.md)
+# Summarization Keywords
+This directory contains examples for [Summarization](https://github.com/Certora/Documentation/blob/master/docs/cvl/methods.md)
 The interface `IntGetter` has the functions `get1()`, `get2()`, `set1()` and `set2()`. Contract `IntGetterImpl` is an implementation of this interface.
 
  
