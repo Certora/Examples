@@ -10,7 +10,7 @@ This directory demonstrates using the following summary definitions:
    
     Run this spec via ```certoraRun certora/conf/AllDirect.conf```
 
-    [A report of this run](https://prover.certora.com/output/1902/1c2659cb4fd44abd82992d6585e0e345?anonymousKey=eab39d9370595a2b31c450c14d3b6ddff047c01e)
+    [A report of this run](https://prover.certora.com/output/1902/b738721bc99c4540a15f865de4044479?anonymousKey=f15d0e9e5b5cda2df7538efcec3599876079c96c)
 
     The summarization ```function _.calleeOverloadedInInterfaceExternal()  external => ALWAYS(true) UNRESOLVED;```
     summarizes only unresolved functions. Therefore, `TestLibrary.calleeOverloadedInInterfaceExternal()` is not summarized and is false. Consequently, the rule `callOverloadedInInterfaceExternal` fails.
