@@ -1,11 +1,11 @@
 # nativeBalances
 
-This directory demonstrates using nativeBalances.
+This directory demonstrates how to use nativeBalances.
 
 ## Incorrect Code
 - The rule `bidIncreasesAssets` fails for `Auction.sol` because:
     - `msg.value` is passed to `currentContract` at the entrance to `bid()`
-    - the sender changes to `currentContract` in internal `bid()` and all its balance is transferred so its balance does not increase.
+    - the sender changes to `currentContract` in internal `bid()` and all its balance is transferred so it does not increase.
 - The rule `bidSuccessfullyExpectVacuous` passes vacuously because of the 
   `require e.msg.value > nativeBalances[currentContract]` in the spec
   and `require msg.value >= msg.value + nativeBalances[currentContract]` in the code where 

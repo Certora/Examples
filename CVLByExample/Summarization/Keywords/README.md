@@ -14,7 +14,7 @@ methods {
 ## Always.spec
 Here the function `get1` is summarized by `ALWAYS(7)` while `get2` is not summarized.
 Therefore, the rule `isG1Always7` is verified, as `g1` can be only 7.
-However, `isG2Always7` is violated as `g2` can be any value. As default, the prover takes into account that any value is a possible one.
+However, `isG2Always7` is violated as `g2` can be any value. As default, the Certora Prover takes into account that any value is a possible one.
 
 Run via ```certoraRun certora/conf/runAlways.conf```
 [A report of this run](https://prover.certora.com/output/1902/31dbb3850048402cb5567095939c7584?anonymousKey=4cfea6c137777248bb60ec4ea6fe112832eb0b5a)
@@ -22,17 +22,17 @@ Run via ```certoraRun certora/conf/runAlways.conf```
 ## AlwaysVsConstant.spec
 
 Here the function `get1` is summarized by `ALWAYS(7)` while `get2` is summarized by `CONSTANT`.
-This means that all calls to `get2` always return the same result but it can be other than `7`.
-Therefore, the rule `constantCanbeAnyValue` demonstrates that the `g2` can be to 7, while the rule `constantVsAlways` is violated as `get1` can be different than `get2`.
+This means that all calls to `get2` always return the same result though it can be different than `7`.
+Therefore, the rule `constantCanbeAnyValue` demonstrates that `g2` can be 7, while the rule `constantVsAlways` is violated as `get1` can be different than `get2`.
 
-Rule `constantDoesNotChange` checks whether `get2` is that value before each function. Notice that this rule is successfully verified on all functions, including `set2` demonstrating that contast summarization implies the same value even on state-changing functions. 
+Rule `constantDoesNotChange` checks whether `get2` is that value before each function. Notice that this rule is successfully verified on all functions, including `set2` demonstrating that contract summarization implies the same value even on state-changing functions. 
 
 Run via ```certoraRun certora/conf/runAlwaysVsConstant.conf```
 [A report of this run](https://prover.certora.com/output/1902/bda3b5a430e946dcb5fc20091d61ed41?anonymousKey=9df3fb1680b76a3c5ed74a72f66261a4acd56a0e)
 
 ## ConstantVSNondet.spec
 
-Here the function `get1` is summarized by `CONTANT` while `get2` is summarized by `NONDET`.
+Here the function `get1` is summarized by `CONSTANT` while `get2` is summarized by `NONDET`.
 This means that all calls to `get1` always return the same result and therefore the rule `checkConstantSummary` is verified.
 Since `get2` is summarized with `NONDET` two calls to `get2` can have different results and therefore the
 rule `checkNondetSummary` fails.
@@ -45,7 +45,7 @@ Run via ```certoraRun certora/conf/runConstantVsNondet.conf```
 ## NondetVsHavoc.spec
 
 Here we add two implementations of `IntGetter` to the list of contracts, and demonstrate the use of NONDET to indicate that no state has changed. Rule `checkChangeGi` indicates which function call can change `gi`.
-Due to the nondet summarization of `get1` the rule is verified for `setToG1`. However it shows a case of change to both `get1` and `get2` on a call to `setToG2`, this is due to the havoc that assumes any slot can change. 
+Due to the nondet summarization of `get1` the rule is verified for `setToG1`. However, it shows a case of change to both `get1` and `get2` on a call to `setToG2`. This is due to the havoc that assumes any slot can change. 
 
 [A report of this run](https://prover.certora.com/output/1902/e01ddd0825fc48a2bf66d390ba8697c6?anonymousKey=8069b0007ad59f722b99f9cd732269f38c7a0593)
 
