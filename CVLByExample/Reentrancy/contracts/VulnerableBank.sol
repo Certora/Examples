@@ -1,3 +1,6 @@
+// based on [Ethernaut course](https://dev.to/nvn/ethernaut-hacks-level-10-re-entrancy-42o9) ,  
+// includes reentrancy vulnerabilities
+
 contract VulnerableBank {
     mapping (address => uint256) private userBalances;
 

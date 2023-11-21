@@ -13,9 +13,9 @@ methods {
 /***
  This rule demonstrates how the source of amount transferred affects the balance of the current contract.
  This rule fails for `Auction.sol` because:
- 1. The balance of currentContract is increased by msg.value at the entrance to `bid()`.
- 2. the sender changes to currentContract in internal `bid()` and all his balance is transferred so his balance does not increase.
- This rule passes for `AuctionFixed.sol` because only currentBid is transferred.
+ 1. The balance of `currentContract` is increased by `msg.value` at the entrance to `bid()`.
+ 2. the sender changes to `currentContract` in internal `bid()` and all his balance is transferred, so his balance does not increase.
+ This rule passes for `AuctionFixed.sol` because only `currentBid` is transferred.
  */
 rule bidIncreasesAssets() {
     env e;
@@ -30,7 +30,7 @@ rule bidIncreasesAssets() {
  This rule demonstrates how the source of amount transferred affects the balance of the current contract.
  This rule passes vacuously for `Auction.sol` because of the `require e.msg.value > nativeBalances[currentContract]` in the spec
  and `require msg.value >= msg.value + nativeBalances[currentContract]` in the code where `nativeBalances[currentContract] > 0`.
- It passes non-vacuously for AuctionFixed.sol because the amount transferred is currentBid for which `msg.value >= currentBid`
+ It passes non-vacuously for AuctionFixed.sol because the amount transferred is `currentBid` for which `msg.value >= currentBid`
  can hold.
  */
 rule bidSuccessfullyExpectVacuous() {

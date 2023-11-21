@@ -1,4 +1,5 @@
-
+// Reentrancy safety that does allow reentrancy calls but all the external calls are either at the beginning or at 
+// the end of the transaction.
 
 contract BankNoGuardFix  {
     mapping (address => uint256) private userBalances;
