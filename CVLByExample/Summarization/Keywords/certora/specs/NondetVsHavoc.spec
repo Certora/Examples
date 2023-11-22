@@ -1,6 +1,6 @@
 methods {
-  function _.set1() external => NONDET;
-  function _.set2() external => HAVOC_ALL;
+  function _.set1(uint256 val) external => NONDET;
+  function _.set2(uint256 val) external => HAVOC_ALL;
   function getFromG1() external returns (uint256) envfree;
   function getFromG2() external returns (uint256) envfree;
 }​

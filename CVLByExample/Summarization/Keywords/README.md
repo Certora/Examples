@@ -47,7 +47,7 @@ Run via ```certoraRun certora/conf/runConstantVsNondet.conf```
 Here we add two implementations of `IntGetter` to the list of contracts, and demonstrate the use of NONDET to indicate that no state has changed. Rule `checkChangeGi` indicates which function call can change `gi`.
 Due to the nondet summarization of `get1` the rule is verified for `setToG1`. However, it shows a case of change to both `get1` and `get2` on a call to `setToG2`. This is due to the havoc that assumes any slot can change. 
 
-[A report of this run](https://prover.certora.com/output/1902/e01ddd0825fc48a2bf66d390ba8697c6?anonymousKey=8069b0007ad59f722b99f9cd732269f38c7a0593)
+[A report of this run](https://prover.certora.com/output/1902/d7f2a7da43424228ac6fa476db2b76d2/?anonymousKey=167a9dd6ddca211b375fb56e0d0a5c38b3fb9bbd)
 
 ## NoSummary.spec
 
