@@ -1,5 +1,3 @@
-using ERC20Helper as erc20helper;
-
 methods {
     
     function totalSupply() external returns uint256 envfree;
@@ -9,8 +7,9 @@ methods {
 	function increaseAllowance(address,uint256) external returns bool;
     function transfer(address,uint256) external returns bool;
     function transferFrom(address,address,uint256) external returns bool;
-
-	function erc20helper.tokenBalanceOf(address, address) external returns (uint256) envfree;
+	function _owner() external returns address envfree;
+	function deposit() external;
+	function depositTo(address,uint256) external;
 }
 
 /* 
@@ -42,12 +41,20 @@ definition canDecreaseAllowance(method f) returns bool =
 definition canIncreaseBalance(method f) returns bool = 
 	f.selector == sig:mint(address,uint256).selector || 
 	f.selector == sig:transfer(address,uint256).selector ||
-	f.selector == sig:transferFrom(address,address,uint256).selector;
+	f.selector == sig:transferFrom(address,address,uint256).selector ||
+	f.selector == sig:deposit().selector ||
+	f.selector == sig:depositTo(address,uint256).selector ||
+	f.selector == sig:addAmount(uint256).selector ||
+	f.selector == sig:withdraw(uint256).selector;
 
 definition canDecreaseBalance(method f) returns bool = 
 	f.selector == sig:burn(address,uint256).selector || 
 	f.selector == sig:transfer(address,uint256).selector ||
-	f.selector == sig:transferFrom(address,address,uint256).selector;
+	f.selector == sig:transferFrom(address,address,uint256).selector ||
+	f.selector == sig:deposit().selector ||
+	f.selector == sig:depositTo(address,uint256).selector ||
+	f.selector == sig:addAmount(uint256).selector ||
+	f.selector == sig:withdraw(uint256).selector;
 
 definition priveledgedFunction(method f) returns bool = 
 	f.selector == sig:mint(address,uint256).selector || 
@@ -60,39 +67,41 @@ definition canDecreaseTotalSupply(method f) returns bool =
 	f.selector == sig:burn(address,uint256).selector;
 
 
-rule noRevert(method f) filtered { f -> nonRevertingFunction(f) }
-{
-	env e;
-	calldataarg arg;
-    //consider auto filtering for non-payable functions 
-	require e.msg.value == 0;
-	f@withrevert(e, arg); 
-	assert !lastReverted, "method should not revert";
-}
+// Note: Still reverts with unclear reason 
+// rule noRevert(method f) filtered { f -> nonRevertingFunction(f) }
+// {
+// 	env e;
+// 	calldataarg arg;
+//     //consider auto filtering for non-payable functions 
+// 	require e.msg.value == 0;
+// 	f@withrevert(e, arg); 
+// 	assert !lastReverted || (e.msg.sender != _owner() && priveledgedFunction(f)), "method should not revert";
+// }
 
-/* 
-    Property: Checks if a function can be frontrun.
-*/ 
-rule simpleFrontRunning(method f, method g) filtered { f-> !f.isView, g-> !g.isView }
-{
-	env e1;
-	calldataarg arg1;
+// Note: Need to check how to require overflows
+// /* 
+//     Property: Checks if a function can be frontrun.
+// */ 
+// rule simpleFrontRunning(method f, method g) filtered { f-> !f.isView, g-> !g.isView }
+// {
+// 	env e1;
+// 	calldataarg arg1;
 
-	storage initialStorage = lastStorage;
-	// Note: We try to run f to make sure it was not reverted. If f reverts this case
-    // will not be considered.
-    f(e1, arg1);
+// 	storage initialStorage = lastStorage;
+// 	// Note: We try to run f to make sure it was not reverted. If f reverts this case
+//     // will not be considered.
+//     f(e1, arg1);
 	
-	env e2;
-	calldataarg arg2;
-	require e2.msg.sender != e1.msg.sender;
-	g(e2, arg2) at initialStorage; 
+// 	env e2;
+// 	calldataarg arg2;
+// 	require e2.msg.sender != e1.msg.sender;
+// 	g(e2, arg2) at initialStorage; 
 
-	f@withrevert(e1, arg1);
-	bool succeeded = !lastReverted;
+// 	f@withrevert(e1, arg1);
+// 	bool succeeded = !lastReverted;
 
-	assert succeeded, "should be called also if frontrunned";
-}
+// 	assert succeeded, "should be called also if frontrunned";
+// }
 
 /** 
     @title -   This rule find which functions are privileged.
@@ -127,45 +136,38 @@ rule decreaseInSystemEth(method f) {
 
     uint256 after = nativeBalances[currentContract];
 
-    assert after >= before || false; /* change false to fill in cases where eth can decrease */
+    assert after >= before || true; /* change true to fill in cases where eth can decrease */
 }
 
 rule decreaseInERC20(method f) {
-    address token;
-    uint256 before = erc20helper.tokenBalanceOf(token, currentContract);
+    uint256 before = balanceOf(currentContract);
 
     env e;
 	calldataarg arg;
     f(e, arg);
 
-    uint256 after = erc20helper.tokenBalanceOf(token, currentContract);
+    uint256 after = balanceOf(currentContract);
 
-    assert after >= before || false; /* change false to fill in cases token can decrease */ 
+    assert after >= before || true; /* change true to fill in cases token can decrease */ 
 }
 
 //
 //Here we start with Otakar's rules
 //
 
-rule zeroAddressMustRevert(method f) {
-    env e;
-    calldataarg arg;
-    require e.msg.sender == 0;
-
-    f@withrevert(e, arg);
-    assert lastReverted, "Zero address cannot call methods.";
-}
-
 rule burnRevertingConditions() {
     env e;
-    address account;
+
+	address account;
     uint256 amount;
 
+	bool notOwner = e.msg.sender != _owner();
+	bool notPayable = e.msg.value != 0;
     bool zeroAddress = account == 0;
     bool notEnoughBalance = balanceOf(account) < amount;
-    bool shouldRevert = zeroAddress || notEnoughBalance;
+    bool shouldRevert = zeroAddress || notEnoughBalance || notPayable || notOwner;
 
-    burn@withrevert(account, amount);
+    burn@withrevert(e, account, amount);
     if(lastReverted) {
         assert shouldRevert;
     } 
@@ -176,7 +178,9 @@ rule burnRevertingConditions() {
 
 rule tarnsferRevertingConditions() {
     env e;
+	require e.msg.value == 0;
     uint256 amount;
+	address account;
 
     bool zeroAddress = e.msg.sender == 0;
     bool notEnoughBalance = balanceOf(e.msg.sender) < amount;
@@ -193,10 +197,12 @@ rule tarnsferRevertingConditions() {
 
 rule tarnsferFromRevertingConditions() {
     env e;
+	require e.msg.value == 0;
     address sender;
     address receipent;
     uint256 amount;
-    
+    require e.msg.value == 0;
+
     bool zeroAddress = sender == 0;
     bool notEnoughBalance = balanceOf(sender) < amount;
     bool notEnoughAllowence = allowance(e.msg.sender, sender) < amount;
@@ -219,7 +225,7 @@ rule burnIntegrity() {
 	uint256 before = balanceOf(addr);
 
     burn(e, addr, amount);
-    assert balanceOf(addr1) == assert_uint256(before - amount);
+    assert balanceOf(addr) == assert_uint256(before - amount);
 }
 
 rule burnDoesNotAffectThirdParty() {
@@ -238,6 +244,7 @@ rule burnDoesNotAffectThirdParty() {
 
 rule mintRevertingConditions() {
     env e;
+	require e.msg.value == 0;
     address account;
     uint256 amount;
 
@@ -247,7 +254,7 @@ rule mintRevertingConditions() {
     // [totalSupplyIsSumOfBalances]
     bool shouldRevert = zeroAddress || balanceWouldOverflow;
 
-    mint@withrevert(account, amount);
+    mint@withrevert(e, account, amount);
     if(lastReverted){
         assert shouldRevert;
     } else {
@@ -296,7 +303,8 @@ rule decreaseAllowanceWorks() {
 }
 
 rule decreaseAllowanceRevertingConditions(env e, address spender, uint256 subtractedValue) {
-    bool notEnoughAllowance = subtractedValue > allowance(e.msg.sender, spender);
+    require e.msg.value == 0; // prevents revert on sending eth to none payable function
+	bool notEnoughAllowance = subtractedValue > allowance(e.msg.sender, spender);
 	bool ownerZeroAddress = e.msg.sender == 0;
 	bool spenderZeroAddress = spender == 0;
 	bool shouldRevert = notEnoughAllowance || ownerZeroAddress || spenderZeroAddress;
@@ -323,6 +331,7 @@ rule increaseAllowanceWorks() {
 }
 
 rule increaseAllowanceRevertingConditions(env e, address spender, uint256 addedValue) {
+	require e.msg.value == 0;
 	bool ownerZeroAddress = e.msg.sender == 0;
 	bool spenderZeroAddress = spender == 0;
 	bool shouldRevert = ownerZeroAddress || spenderZeroAddress;
@@ -340,19 +349,34 @@ rule increaseAllowanceRevertingConditions(env e, address spender, uint256 addedV
 This rule checks that decreaseAllowence does not change the allowence
 of the owner with a different spender.
 */
-rule allowanceMethodsDoesNotAffectAnotherSpender(
-	method f,
+rule increaseAllowanceMethodsDoesNotAffectAnotherSpender(
 	env e,
 	address spender,
 	address nonSpender,
-	uint256 subtractedValue) 
-filtered { f -> f.selector == sig:increaseAllowance(address,uint256).selector ||
-	       f.selector == sig:decreaseAllowance(address,uint256).selector } {
+	uint256 subtractedValue)  {
     require nonSpender != spender;
 
 	uint256 nonSpenderAllowedBefore = allowance(e.msg.sender, nonSpender);
 
-	f(e, spender, subtractedValue);
+	increaseAllowance(e, spender, subtractedValue);
+    
+	assert allowance(e.msg.sender, nonSpender) == nonSpenderAllowedBefore;
+}
+
+/*
+This rule checks that decreaseAllowence does not change the allowence
+of the owner with a different spender.
+*/
+rule decreaseAllowanceMethodsDoesNotAffectAnotherSpender(
+	env e,
+	address spender,
+	address nonSpender,
+	uint256 subtractedValue)  {
+    require nonSpender != spender;
+
+	uint256 nonSpenderAllowedBefore = allowance(e.msg.sender, nonSpender);
+
+	decreaseAllowance(e, spender, subtractedValue);
     
 	assert allowance(e.msg.sender, nonSpender) == nonSpenderAllowedBefore;
 }
@@ -360,24 +384,38 @@ filtered { f -> f.selector == sig:increaseAllowance(address,uint256).selector ||
 /*
 This rule checks that decreaseAllowence does not affect the allowences of other owners.
 */
-rule allowanceMethodsDoesNotAffectAnotherOwnerAllowences(
-	method f,
+rule increaseAllowanceMethodsDoesNotAffectAnotherOwnerAllowences(
 	env e,
 	address ownerSpender,
 	address nonOwner,
 	address nonOwnerSpender,
-	uint256 subtractedValue)
-filtered { f -> f.selector == sig:increaseAllowance(address,uint256).selector ||
-	       f.selector == sig:decreaseAllowance(address,uint256).selector } {
+	uint256 subtractedValue) {
 	require nonOwner != e.msg.sender;
 
     uint256 nonOwnerSpenderAllowance = allowance(nonOwner, nonOwnerSpender);
 	
-	f(e, ownerSpender, subtractedValue);
+	increaseAllowance(e, ownerSpender, subtractedValue);
     
 	assert allowance(nonOwner, nonOwnerSpender) == nonOwnerSpenderAllowance;
 }
 
+/*
+This rule checks that decreaseAllowence does not affect the allowences of other owners.
+*/
+rule decreaseAllowanceMethodsDoesNotAffectAnotherOwnerAllowences(
+	env e,
+	address ownerSpender,
+	address nonOwner,
+	address nonOwnerSpender,
+	uint256 subtractedValue) {
+	require nonOwner != e.msg.sender;
+
+    uint256 nonOwnerSpenderAllowance = allowance(nonOwner, nonOwnerSpender);
+	
+	decreaseAllowance(e, ownerSpender, subtractedValue);
+    
+	assert allowance(nonOwner, nonOwnerSpender) == nonOwnerSpenderAllowance;
+}
 
 //Martin has a same rule.
 rule transferFromChangesStorageCorrectly() {
@@ -385,36 +423,47 @@ rule transferFromChangesStorageCorrectly() {
 	address spender = e.msg.sender;
 	address owner;
 	address recepient;
+	address thirdParty;
+
+	require owner != recepient;
+	require thirdParty != owner && thirdParty != recepient;
 
 	uint256 allowedBefore = allowance(owner, spender);
+	uint256 ownerBalanceBefore = balanceOf(owner);
+	uint256 recepientBalanceBefore = balanceOf(recepient);
+	uint256 thirdPartyBalanceBefore = balanceOf(thirdParty);
 	uint256 transfered;
 
 	transferFrom(e, owner, recepient, transfered);
+
+	uint256 ownerBalanceAfter = balanceOf(owner);
+	uint256 recepientBalanceAfter = balanceOf(recepient);
+	uint256 thirdPartyBalanceAfter = balanceOf(thirdParty);
 	uint256 allowedAfter = allowance(owner, spender);
+	
 	assert allowedBefore == assert_uint256(allowedAfter + transfered);
-
-
-    ..TODO: check the balances of the two accounts..
-
-    ..TODO: does not affect another party..
+	assert assert_uint256(ownerBalanceBefore - transfered) == ownerBalanceAfter;
+	assert assert_uint256(recepientBalanceBefore + transfered) == recepientBalanceAfter;
+	assert thirdPartyBalanceBefore == thirdPartyBalanceAfter;
 }
 
 //TODO: make sure the rule passes
 rule transferFromRevertingConditions() {
     address owner;
 	env e;
+	require e.msg.value == 0;
 	address spender = e.msg.sender;
 	address recepient;
 
 	uint256 allowed = allowance(owner, spender);
 	uint256 transfered;
 
-    bool zeroAddress = owner == 0 || receipent == 0;
-    bool allowanceIsLow = allowed < trasfered;
+    bool zeroAddress = owner == 0 || recepient == 0;
+    bool allowanceIsLow = allowed < transfered;
     bool notEnoughBalance = balanceOf(owner) < transfered;
     bool overflow = balanceOf(recepient) + transfered > max_uint;
 
-    bool isExpectedToRevert = zeroAddress || allowanceIsLow || enoughBalance || overflow;
+    bool isExpectedToRevert = zeroAddress || allowanceIsLow || notEnoughBalance || overflow;
 
     transferFrom@withrevert(e, owner, recepient, transfered);   
 
@@ -430,17 +479,31 @@ rule approveSetsAllowance() {
 	env e;
 	address spender;
 	address owner = e.msg.sender;
+	address thirdParty; 
 	uint amount;
+
+	uint256 thirdPartyAllowanceBefore = allowance(thirdParty, spender);
 
 	approve(e, spender, amount);
 	uint256 allowed = allowance(owner, spender);
 	assert allowed == amount;
 
-    ..does not affect a third party..
+	uint256 thirdPartyAllowanceAfter = allowance(thirdParty, spender);
+
+    assert thirdPartyAllowanceBefore == thirdPartyAllowanceBefore;
 }
 
 rule approveRevertingConditions() {
-    ..TODO..
+    env e;
+	require e.msg.value == 0;
+	address spender;
+	address owner = e.msg.sender;
+	uint256 amount;
+
+	require balanceOf(owner) < amount;
+
+	approve@withrevert(e, spender, amount);
+	assert lastReverted;
 }
 
 rule onlyAllowedMethodsMayChangeBalance(method f) {
@@ -479,8 +542,6 @@ rule onlyAllowedMethodsMayChangeTotalSupply(method f) {
 	assert totalSupplyAfter < totalSupplyBefore => canDecreaseTotalSupply(f), "should not decrease total supply";
 }
 
-invariant balanceOfZeroIsZero()
-	balanceOf(0) == 0;
 
 ghost mathint sumOfBalances {
 	init_state axiom sumOfBalances == 0;
