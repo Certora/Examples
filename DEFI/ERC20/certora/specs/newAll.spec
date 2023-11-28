@@ -61,10 +61,13 @@ definition priveledgedFunction(method f) returns bool =
 	f.selector == sig:burn(address,uint256).selector;
 
 definition canIncreaseTotalSupply(method f) returns bool = 
-	f.selector == sig:mint(address,uint256).selector;
+	f.selector == sig:mint(address,uint256).selector ||
+	f.selector == sig:deposit().selector ||
+	f.selector == sig:addAmount(uint256).selector;
 
 definition canDecreaseTotalSupply(method f) returns bool = 
-	f.selector == sig:burn(address,uint256).selector;
+	f.selector == sig:burn(address,uint256).selector ||
+	f.selector == sig:withdraw(uint256).selector;
 
 
 // Note: Still reverts with unclear reason 
@@ -161,11 +164,12 @@ rule burnRevertingConditions() {
 	address account;
     uint256 amount;
 
+	bool totalSupplyUnderFlow = totalSupply() - amount < 0;
 	bool notOwner = e.msg.sender != _owner();
 	bool notPayable = e.msg.value != 0;
     bool zeroAddress = account == 0;
     bool notEnoughBalance = balanceOf(account) < amount;
-    bool shouldRevert = zeroAddress || notEnoughBalance || notPayable || notOwner;
+    bool shouldRevert = zeroAddress || notEnoughBalance || notPayable || notOwner || totalSupplyUnderFlow;
 
     burn@withrevert(e, account, amount);
     if(lastReverted) {
@@ -176,39 +180,20 @@ rule burnRevertingConditions() {
     }
 }
 
-rule tarnsferRevertingConditions() {
+rule transferRevertingConditions() {
     env e;
-	require e.msg.value == 0;
-    uint256 amount;
+	uint256 amount;
 	address account;
+	require e.msg.sender != account;
 
-    bool zeroAddress = e.msg.sender == 0;
+	bool overflow = balanceOf(account) + amount > max_uint256;
+	bool notPayable = e.msg.value != 0;
+    bool zeroAddress = e.msg.sender == 0 || account == 0;
     bool notEnoughBalance = balanceOf(e.msg.sender) < amount;
-    bool shouldRevert = zeroAddress || notEnoughBalance;
+    bool shouldRevert = overflow || notPayable || zeroAddress || notEnoughBalance;
+	
 
     transfer@withrevert(e, account, amount);
-    if(lastReverted) {
-        assert shouldRevert;
-    } 
-    else {
-        assert !shouldRevert;
-    }
-}
-
-rule tarnsferFromRevertingConditions() {
-    env e;
-	require e.msg.value == 0;
-    address sender;
-    address receipent;
-    uint256 amount;
-    require e.msg.value == 0;
-
-    bool zeroAddress = sender == 0;
-    bool notEnoughBalance = balanceOf(sender) < amount;
-    bool notEnoughAllowence = allowance(e.msg.sender, sender) < amount;
-    bool shouldRevert = zeroAddress || notEnoughBalance || notEnoughAllowence;
-
-    transferFrom@withrevert(e, sender, receipent, amount);
     if(lastReverted) {
         assert shouldRevert;
     } 
@@ -244,15 +229,14 @@ rule burnDoesNotAffectThirdParty() {
 
 rule mintRevertingConditions() {
     env e;
-	require e.msg.value == 0;
-    address account;
+	address account;
     uint256 amount;
 
+	bool nonOwner = e.msg.sender != _owner();
+	bool nonPayable = e.msg.value != 0;
     bool zeroAddress = account == 0;
-    bool balanceWouldOverflow = balanceOf(account) + amount > max_uint;
-    //we could check also the total supply overflow, but that is handled by the invariant we have
-    // [totalSupplyIsSumOfBalances]
-    bool shouldRevert = zeroAddress || balanceWouldOverflow;
+    bool overflow = balanceOf(account) + amount > max_uint || totalSupply() + amount > max_uint;
+    bool shouldRevert = nonOwner || nonPayable || zeroAddress || overflow;
 
     mint@withrevert(e, account, amount);
     if(lastReverted){
@@ -331,10 +315,12 @@ rule increaseAllowanceWorks() {
 }
 
 rule increaseAllowanceRevertingConditions(env e, address spender, uint256 addedValue) {
-	require e.msg.value == 0;
+	
+	bool nonPayable = e.msg.value != 0;
 	bool ownerZeroAddress = e.msg.sender == 0;
 	bool spenderZeroAddress = spender == 0;
-	bool shouldRevert = ownerZeroAddress || spenderZeroAddress;
+	bool overflow = allowance(e.msg.sender, spender) + addedValue > max_uint256;
+	bool shouldRevert = overflow || nonPayable || ownerZeroAddress || spenderZeroAddress;
 
 	increaseAllowance@withrevert(e, spender, addedValue);
 	if(lastReverted) {
@@ -451,19 +437,21 @@ rule transferFromChangesStorageCorrectly() {
 rule transferFromRevertingConditions() {
     address owner;
 	env e;
-	require e.msg.value == 0;
 	address spender = e.msg.sender;
 	address recepient;
+	require owner != recepient;
+
 
 	uint256 allowed = allowance(owner, spender);
 	uint256 transfered;
 
-    bool zeroAddress = owner == 0 || recepient == 0;
+	bool sendEthToNotPayable = e.msg.value != 0;
+    bool zeroAddress = owner == 0 || spender == 0 || recepient == 0;
     bool allowanceIsLow = allowed < transfered;
     bool notEnoughBalance = balanceOf(owner) < transfered;
     bool overflow = balanceOf(recepient) + transfered > max_uint;
 
-    bool isExpectedToRevert = zeroAddress || allowanceIsLow || notEnoughBalance || overflow;
+    bool isExpectedToRevert = sendEthToNotPayable || zeroAddress || allowanceIsLow || notEnoughBalance || overflow;
 
     transferFrom@withrevert(e, owner, recepient, transfered);   
 
@@ -495,15 +483,22 @@ rule approveSetsAllowance() {
 
 rule approveRevertingConditions() {
     env e;
-	require e.msg.value == 0;
 	address spender;
 	address owner = e.msg.sender;
 	uint256 amount;
 
-	require balanceOf(owner) < amount;
+	bool nonPayable = e.msg.value != 0;
+	bool zeroAddress = owner == 0 || spender == 0;
+
+	bool shouldRevert = zeroAddress || nonPayable;
 
 	approve@withrevert(e, spender, amount);
-	assert lastReverted;
+
+	if(lastReverted){
+		assert shouldRevert;
+	} else {
+		assert !shouldRevert;
+	}
 }
 
 rule onlyAllowedMethodsMayChangeBalance(method f) {
@@ -565,7 +560,8 @@ rule noMethodChangesMoreThanTwoBalances(method f) {
 	calldataarg args;
 	f(e,args);
 	mathint numberOfChangesOfBalancesAfter = numberOfChangesOfBalances;
-	assert numberOfChangesOfBalancesAfter <= numberOfChangesOfBalancesBefore + 2;
+	assert f.selector == sig:depositTo(address,uint256).selector => (numberOfChangesOfBalancesAfter <= numberOfChangesOfBalancesBefore + 4);
+	assert f.selector != sig:depositTo(address,uint256).selector => (numberOfChangesOfBalancesAfter <= numberOfChangesOfBalancesBefore + 2);
 }
 
 // We are checking just that if transfer(10) works, then also transfer(5);transfer(5) works. 
