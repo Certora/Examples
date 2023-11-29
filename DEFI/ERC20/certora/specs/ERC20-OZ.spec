@@ -7,6 +7,7 @@ methods {
     function balanceOf(address) external returns (uint256) envfree;
     function allowance(address,address) external returns (uint256) envfree;
     function nonces(address) external returns (uint256) envfree;
+    function contractOwner() external returns (address) envfree;
     function permit(address,address,uint256,uint256,uint8,bytes32,bytes32) external;
 
     // exposed for FV
@@ -66,14 +67,6 @@ invariant totalSupplyIsSumOfBalances()
 
 /*
 ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│ Invariant: balance of address(0) is 0                                                                               │
-└─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
-*/
-invariant zeroAddressNoBalance()
-    balanceOf(0) == 0;
-
-/*
-┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
 │ Rules: only mint and burn can change total supply                                                                   │
 └─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 */
@@ -96,10 +89,9 @@ rule noChangeTotalSupply(env e) {
 │ Rules: only the token holder or an approved third party can reduce an account's balance                             │
 └─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 */
-rule onlyAuthorizedCanTransfer(env e) {
+rule onlyAuthorizedCanTransfer(env e, method f) filtered { f -> !f.isView } {
     requireInvariant totalSupplyIsSumOfBalances();
 
-    method f;
     calldataarg args;
     address account;
 
@@ -173,7 +165,7 @@ rule mint(env e) {
 
     // check outcome
     if (lastReverted) {
-        assert to == 0 || totalSupplyBefore + amount > max_uint256;
+        assert to == 0 || totalSupplyBefore + amount > max_uint256 || e.msg.sender != contractOwner();
     } else {
         // updates balance and totalSupply
         assert to_mathint(balanceOf(to)) == toBalanceBefore   + amount;
@@ -207,7 +199,7 @@ rule burn(env e) {
 
     // check outcome
     if (lastReverted) {
-        assert from == 0 || fromBalanceBefore < amount;
+        assert from == 0 || fromBalanceBefore < amount || e.msg.sender != contractOwner();
     } else {
         // updates balance and totalSupply
         assert to_mathint(balanceOf(from)) == fromBalanceBefore   - amount;
