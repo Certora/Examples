@@ -117,8 +117,6 @@ rule burnRevertingConditions() {
 	address account;
     uint256 amount;
 
-	requireInvariant totalSupplyIsSumOfBalances;
-
 	bool notOwner = e.msg.sender != contractOwner();
 	bool notPayable = e.msg.value != 0;
     bool notEnoughBalance = balanceOf(account) < amount;
@@ -135,8 +133,6 @@ rule burnRevertingConditions() {
 
 rule transferRevertingConditions() {
     env e;
-	requireInvariant totalSupplyIsSumOfBalances;
-
 	uint256 amount;
 	address account;
 
@@ -184,8 +180,6 @@ based on the rule onlyAllowedMethodsMayChangeTotalSupply
 that proof what are the methods that can increase total supply
 */
 rule totalSupplyNeverOverflow(env e, method f, calldataarg args) filtered{f -> canIncreaseTotalSupply(f) }{
-	requireInvariant totalSupplyIsSumOfBalances;
-
 	uint256 totalSupplyBefore = totalSupply();
 
 	f(e, args);
@@ -216,7 +210,6 @@ rule mintRevertingConditions() {
 	address account;
     uint256 amount;
 
-	requireInvariant totalSupplyIsSumOfBalances;
 	require totalSupply() + amount <= max_uint; // proof in totalSupplyNeverOverflow
 
 	bool nonOwner = e.msg.sender != contractOwner();
@@ -248,7 +241,6 @@ rule mintDoesNotAffectThirdParty() {
 	env e;
 	address addr1;
 	uint256 amount;
-	require amount > 0;
     
     address addr2;
     require addr1 != addr2;
