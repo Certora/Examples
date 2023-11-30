@@ -126,7 +126,7 @@ contract ERC20 {
     ) public virtual returns (bool) {
         uint256 allowed = _allowances[from][msg.sender]; // Saves gas for limited approvals.
 
-        _allowances[from][msg.sender] = allowed - amount;
+        if (allowed != type(uint256).max) _allowances[from][msg.sender] = allowed - amount;
 
         _balances[from] -= amount;
 
