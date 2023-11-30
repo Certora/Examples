@@ -10,6 +10,7 @@ methods {
 	function permit(address,address,uint256,uint256,uint8,bytes32,bytes32) external;
 	function mint(address,uint256) external;
 	function burn(address,uint256) external;
+	function nonces(address) external returns uint256 envfree;
 }
 
 /* 
@@ -430,4 +431,43 @@ rule transferIsOneWayAdditive() {
 	storage after2 = lastStorage;
 
 	assert after1[currentContract] == after2[currentContract];
+}
+
+rule contractOwnerNeverChange(env e, method f, calldataarg args){
+	address owner = contractOwner();
+	f(e, args);
+	assert owner == contractOwner();
+}
+
+rule permitIntegrity(){
+	env e;
+	address owner;
+	address spender;
+	uint256 value;
+	uint256 deadline;
+	uint8 v;
+	bytes32 r;
+	bytes32 s;
+
+	uint256 beforeNonce = nonces(owner);
+	require beforeNonce + 1 <= max_uint256; // assumption that nonce cant overflow
+ 
+	permit(e,owner,spender,value,deadline,v,r,s);
+	assert (allowance(owner, spender) == value &&
+			beforeNonce + 1 == to_mathint(nonces(owner)));
+}
+
+rule permitRevertWhenDeadlineExpiers(){
+	env e;
+	address owner;
+	address spender;
+	uint256 value;
+	uint256 deadline;
+	uint8 v;
+	bytes32 r;
+	bytes32 s;
+
+	require deadline < e.block.timestamp;
+	permit@withrevert(e,owner,spender,value,deadline,v,r,s);
+	assert lastReverted;
 }
