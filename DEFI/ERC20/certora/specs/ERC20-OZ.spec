@@ -167,6 +167,9 @@ rule mint(env e) {
     if (lastReverted) {
         assert to == 0 || totalSupplyBefore + amount > max_uint256 || e.msg.sender != contractOwner();
     } else {
+        // assert contract owner was the one called
+        assert e.msg.sender == contractOwner(), "Only contract owner can call mint.";
+
         // updates balance and totalSupply
         assert to_mathint(balanceOf(to)) == toBalanceBefore   + amount;
         assert to_mathint(totalSupply()) == totalSupplyBefore + amount;
@@ -201,6 +204,9 @@ rule burn(env e) {
     if (lastReverted) {
         assert from == 0 || fromBalanceBefore < amount || e.msg.sender != contractOwner();
     } else {
+        // assert contract owner was the one called
+        assert e.msg.sender == contractOwner(), "Only contract owner can call burn.";
+
         // updates balance and totalSupply
         assert to_mathint(balanceOf(from)) == fromBalanceBefore   - amount;
         assert to_mathint(totalSupply())   == totalSupplyBefore - amount;
@@ -352,6 +358,8 @@ rule permit(env e) {
 
     // check outcome
     if (lastReverted) {
+        // Explicit assert for 
+
         // Without formally checking the signature, we can't verify exactly the revert causes
         assert true;
     } else {
@@ -366,4 +374,21 @@ rule permit(env e) {
         assert nonces(account1)              != otherNonceBefore     => account1 == holder;
         assert allowance(account2, account3) != otherAllowanceBefore => (account2 == holder && account3 == spender);
     }
+}
+
+rule permitRevertsWhenDeadlineExpires(env e, address owner, address spender,
+                                      uint256 value, uint256 deadline, uint8 v,
+                                      bytes32 r, bytes32 s) {
+    require deadline < e.block.timestamp;
+    permit@withrevert(e, owner, spender, value, deadline, v, r, s);
+    assert lastReverted, "permit has to revert if deadline expires.";
+}
+
+/* 
+	Property: Find and show a path for each method.
+*/
+rule reachability(method f, env e, calldataarg args)
+{
+	f(e, args);
+	satisfy true;
 }
