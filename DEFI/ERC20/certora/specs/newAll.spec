@@ -275,7 +275,8 @@ rule transferFromChangesStorageCorrectly() {
 	uint256 thirdPartyBalanceAfter = balanceOf(thirdParty);
 	uint256 allowedAfter = allowance(owner, spender);
 	
-	assert allowedBefore == assert_uint256(allowedAfter + transfered);
+	assert (allowedBefore != max_uint256) => allowedBefore == assert_uint256(allowedAfter + transfered);
+	assert (allowedBefore == max_uint256) => allowedBefore == allowedAfter;
 	assert assert_uint256(ownerBalanceBefore - transfered) == ownerBalanceAfter;
 	assert assert_uint256(recepientBalanceBefore + transfered) == recepientBalanceAfter;
 	assert thirdPartyBalanceBefore == thirdPartyBalanceAfter;
