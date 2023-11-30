@@ -108,10 +108,6 @@ rule decreaseInERC20(method f) {
     assert after >= before || true; /* change true to fill in cases token can decrease */ 
 }
 
-//
-//Here we start with Otakar's rules
-//
-
 rule burnRevertingConditions() {
     env e;
 
@@ -470,4 +466,24 @@ rule permitRevertWhenDeadlineExpiers(){
 	require deadline < e.block.timestamp;
 	permit@withrevert(e,owner,spender,value,deadline,v,r,s);
 	assert lastReverted;
+}
+
+rule totalSupplyDecrease(){
+	env e;
+	uint256 totalSupplyBefore = totalSupply();
+	uint256 amount; 
+	address user; 
+	burn(e, user, amount);
+	assert (amount == 0) => (totalSupplyBefore == totalSupply());
+	assert (amount > 0) => (require_uint256(totalSupplyBefore - amount) == totalSupply());
+}
+
+rule totalSupplyIncrease(){
+	env e;
+	uint256 totalSupplyBefore = totalSupply();
+	uint256 amount;
+	address user; 
+	mint(e, user, amount);
+	assert (amount == 0) => (totalSupplyBefore == totalSupply());
+	assert (amount > 0) => (require_uint256(totalSupplyBefore + amount) == totalSupply());
 }
