@@ -102,6 +102,35 @@ invariant totalSupplyIsSumOfBalances()
 
 /*
 ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ Rule: frontRun (a call of method g blocks a call of method f)                                                                   │
+└─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+*/
+rule frontRun(){
+    requireInvariant totalSupplyIsSumOfBalances();
+
+    env e1;
+    method f;
+    calldataarg fargs;
+
+    env e2;
+    method g;
+    calldataarg gargs;
+
+    require e1.msg.sender != e2.msg.sender; // wont check self frontRun
+    require canIncreaseBalance(f) => !canIncreaseBalance(g); // prevents overflow
+    require canDecreaseBalance(f) => !canDecreaseBalance(g); // prevents underflow
+    require f.selector == sig:transferFrom(address,address,uint256).selector => !canDecreaseAllowance(g); // prevents g from cancel f allowance 
+
+    storage init = lastStorage; // saves storage
+    f(e1, fargs); // if pass f isnt reverts
+
+    g(e2, gargs) at init;
+    f@withrevert(e1, fargs);
+    
+    assert !lastReverted;
+}
+/*
+┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
 │ Rule: contract owner never change                                                                   │
 └─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 */
