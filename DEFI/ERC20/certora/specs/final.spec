@@ -106,8 +106,6 @@ invariant totalSupplyIsSumOfBalances()
 └─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 */
 rule frontRun(){
-    requireInvariant totalSupplyIsSumOfBalances();
-
     env e1;
     method f;
     calldataarg fargs;
