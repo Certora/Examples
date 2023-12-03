@@ -251,8 +251,6 @@ rule onlyAuthorizedCanTransfer(env e, method f) filtered { f -> canDecreaseBalan
 └─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 */
 rule onlyHolderOfSpenderCanChangeAllowance(env e) {
-    requireInvariant totalSupplyIsSumOfBalances();
-
     method f;
     calldataarg args;
     address holder;
