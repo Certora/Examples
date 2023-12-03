@@ -102,6 +102,22 @@ invariant totalSupplyIsSumOfBalances()
 
 /*
 ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ Rule: totalSupply never overflow                                                                │
+└─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+*/
+
+rule totalSupplyNeverOverflow(env e, method f, calldataarg args) filtered{f -> canIncreaseTotalSupply(f) }{
+	uint256 totalSupplyBefore = totalSupply();
+
+	f(e, args);
+
+	uint256 totalSupplyAfter = totalSupply();
+
+	assert totalSupplyBefore <= totalSupplyAfter;
+}
+
+/*
+┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
 │ Rule: max num of balances changes in single call is 2                                                                  │
 └─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 */
@@ -291,21 +307,6 @@ rule mintSanity(env e) {
     assert to_mathint(totalSupply()) == totalSupplyBefore + amount;
 }
 
-
-/*
-based on the rule onlyAllowedMethodsMayChangeTotalSupply
-that proof what are the methods that can increase total supply
-*/
-rule totalSupplyNeverOverflow(env e, method f, calldataarg args) filtered{f -> canIncreaseTotalSupply(f) }{
-	uint256 totalSupplyBefore = totalSupply();
-
-	f(e, args);
-
-	uint256 totalSupplyAfter = totalSupply();
-
-	assert totalSupplyBefore <= totalSupplyAfter;
-}
-
 rule mintRevertingConditions(env e) {
 	address account;
     uint256 amount;
@@ -444,14 +445,14 @@ rule transferIsOneWayAdditive(env e) {
 	assert after1[currentContract] == after2[currentContract];
 }
 
+// overflow is not possible (sumOfBlances = totalSupply <= maxuint)
 rule transferRevertingConditions(env e) {
 	uint256 amount;
 	address account;
 
-	bool overflow = (balanceOf(account) + amount > max_uint256) && (e.msg.sender != account);
 	bool payable = e.msg.value != 0;
     bool notEnoughBalance = balanceOf(e.msg.sender) < amount;
-    bool shouldRevert = overflow || payable || notEnoughBalance;
+    bool shouldRevert = payable || notEnoughBalance;
 
     transfer@withrevert(e, account, amount);
     if(lastReverted) {
@@ -467,7 +468,7 @@ rule transferDoesNotAffectThirdParty( env e) {
 	uint256 amount;
 
     address addr2;
-    require addr1 != addr2;
+    require addr1 != addr2 && addr2 != e.msg.sender;
 
     uint256 before = balanceOf(addr2);
 
@@ -505,6 +506,7 @@ rule transferFromSanity(env e) {
     assert to_mathint(balanceOf(recipient)) == recipientBalanceBefore + (holder == recipient ? 0 : amount);
 }
 
+// overflow is not possible (sumOfBlances = totalSupply <= maxuint)
 rule transferFromRevertingConditions(env e) {
     address owner;
 	address spender = e.msg.sender;
@@ -516,9 +518,8 @@ rule transferFromRevertingConditions(env e) {
 	bool sendEthToNotPayable = e.msg.value != 0;
 	bool allowanceIsLow = allowed < transfered;
     bool notEnoughBalance = balanceOf(owner) < transfered;
-    bool overflow = owner != recepient ? balanceOf(recepient) + transfered > max_uint : false;
 
-    bool isExpectedToRevert = sendEthToNotPayable  || allowanceIsLow || notEnoughBalance || overflow;
+    bool isExpectedToRevert = sendEthToNotPayable  || allowanceIsLow || notEnoughBalance;
 
     transferFrom@withrevert(e, owner, recepient, transfered);   
 
@@ -586,7 +587,7 @@ rule approveSanity(env e) {
     address spender;
     uint256 amount;
 
-    approve@withrevert(e, spender, amount);
+    approve(e, spender, amount);
 
     assert allowance(holder, spender) == amount;
 }
@@ -597,7 +598,7 @@ rule approveRevertingConditions(env e) {
 	uint256 amount;
 
 	bool payable = e.msg.value != 0;
-	bool shouldRevert = nonPayable;
+	bool shouldRevert = payable;
 
 	approve@withrevert(e, spender, amount);
 
@@ -686,8 +687,7 @@ rule permitDoesNotAffectThirdParty(env e) {
     address everyUser;
     
     require thirdParty != holder && thirdParty != spender;
-    
-    uint amount;
+
 	uint256 thirdPartyAllowanceBefore = allowance(thirdParty, everyUser);
 
 	approve(e, spender, amount);
