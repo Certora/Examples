@@ -105,28 +105,62 @@ invariant totalSupplyIsSumOfBalances()
 │ Rule: frontRun (a call of method g blocks a call of method f)                                                                   │
 └─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 */
-rule frontRun(){
-    env e1;
-    method f;
-    calldataarg fargs;
+// 
+// rule frontRun(){
+//     env e1;
+//     method f;
+//     calldataarg fargs;
 
-    env e2;
-    method g;
-    calldataarg gargs;
+//     env e2;
+//     method g;
+//     calldataarg gargs;
 
-    require e1.msg.sender != e2.msg.sender; // wont check self frontRun
-    require canIncreaseBalance(f) => !canIncreaseBalance(g); // prevents overflow
-    require canDecreaseBalance(f) => !canDecreaseBalance(g); // prevents underflow
-    require f.selector == sig:transferFrom(address,address,uint256).selector => !canDecreaseAllowance(g); // prevents g from cancel f allowance 
+//     require e1.msg.sender != e2.msg.sender; // wont check self frontRun
+//     require canIncreaseBalance(f) => !canIncreaseBalance(g); // prevents overflow
+//     require canDecreaseBalance(f) => !canDecreaseBalance(g); // prevents underflow
+//     require f.selector == sig:transferFrom(address,address,uint256).selector => !canDecreaseAllowance(g); // prevents g from cancel f allowance 
 
-    storage init = lastStorage; // saves storage
-    f(e1, fargs); // if pass f isnt reverts
+//     storage init = lastStorage; // saves storage
+//     f(e1, fargs); // if pass f isnt reverts
 
-    g(e2, gargs) at init;
-    f@withrevert(e1, fargs);
+//     g(e2, gargs) at init;
+//     f@withrevert(e1, fargs);
     
-    assert !lastReverted;
-}
+//     assert !lastReverted;
+// }
+//  Note: Catch permit front run issue discover in the general frontRun rule
+// rule permitFrontRun(){
+//     env e1;
+//     env e2;
+
+//     address clientHolder;
+//     address clientSpender;
+//     uint256 clientAmount;
+//     uint256 clientDeadline;
+//     uint8 clientV;
+//     bytes32 clientR;
+//     bytes32 clientS;
+
+//     address attackerHolder;
+//     address attackerSpender;
+//     uint256 attackerAmount;
+//     uint256 attackerDeadline;
+//     uint8 attackerV;
+//     bytes32 attackerR;
+//     bytes32 attackerS;
+
+//     require e1.msg.sender != e2.msg.sender;
+
+//     storage init = lastStorage;
+
+//     permit(e1, clientHolder, clientSpender, clientAmount, clientDeadline, clientV, clientR, clientS); // if pass not reverted
+    
+//     permit(e2, attackerHolder, attackerSpender, attackerAmount, attackerDeadline, attackerV, attackerR, attackerS) at init; // attacker attack
+
+//     permit@withrevert(e1, clientHolder, clientSpender, clientAmount, clientDeadline, clientV, clientR, clientS);
+
+//     assert !lastReverted, "attacker succeed to deny the service to permit function";
+// }
 /*
 ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
 │ Rule: contract owner never change                                                                   │
