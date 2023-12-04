@@ -126,7 +126,7 @@ invariant totalSupplyIsSumOfBalances()
     
 //     assert !lastReverted;
 // }
-//  Note: Catch permit front run issue discover in the general frontRun rule
+//  Note: Catch permit front run issue, discoverd in the general frontRun rule
 // rule permitFrontRun(){
 //     env e1;
 //     env e2;
