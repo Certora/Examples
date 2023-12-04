@@ -1,3 +1,20 @@
+
+/***
+This example is a full spec for erc20.
+To run this use Certora cli with the conf file runERC20Full.conf
+Example of a run: https://vaas-stg.certora.com/output/1512/8bec278b94c0441dadb26010cff89f78?anonymousKey=b5c1efb2323cb084a17135d3f42b8ebb1a1c0225
+Mutation test for this spec: https://mutation-testing-beta.certora.com/?id=18893b8c-e076-4783-af25-1f28cc00a0fb&anonymousKey=66aaa442-ef1e-4b96-b263-01fd269c2ee5
+See https://docs.certora.com for a complete guide.
+***/
+
+// Credit: This spec may include elements inspired by OpenZeppelin ERC20 specifications.
+
+/*
+Declaration of methods that are used in the rules. envfree indicates that
+the method is not dependent on the environment (msg.value, msg.sender).
+Methods that are not declared here are assumed to be dependent on the
+environment.
+*/
 methods {
     function totalSupply() external returns (uint256) envfree;
     function balanceOf(address) external returns (uint256) envfree;
@@ -6,7 +23,7 @@ methods {
     function contractOwner() external returns (address) envfree;
     function permit(address,address,uint256,uint256,uint8,bytes32,bytes32) external;
     function approve(address,uint256) external returns bool;
-	function transfer(address,uint256) external returns bool;
+    function transfer(address,uint256) external returns bool;
     function transferFrom(address,address,uint256) external returns bool;
 
     // exposed for FV
@@ -16,22 +33,9 @@ methods {
 
 /*
 ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│ Defenitions                                                                                                         │
+│ Definitions                                                                                                         │
 └─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 */
-
-// environment
-definition nonpayable(env e) returns bool = e.msg.value == 0;
-definition nonzerosender(env e) returns bool = e.msg.sender != 0;
-definition sanity(env e) returns bool = clock(e) > 0 && clock(e) <= max_uint48;
-
-// math
-definition min(mathint a, mathint b) returns mathint = a < b ? a : b;
-definition max(mathint a, mathint b) returns mathint = a > b ? a : b;
-
-// time
-definition clock(env e) returns mathint = to_mathint(e.block.timestamp);
-definition isSetAndPast(env e, uint48 timepoint) returns bool = timepoint != 0 && to_mathint(timepoint) <= clock(e);
 
 // functionality 
 definition canIncreaseAllowance(method f) returns bool = 
@@ -53,10 +57,6 @@ definition canDecreaseBalance(method f) returns bool =
 	f.selector == sig:transfer(address,uint256).selector ||
 	f.selector == sig:transferFrom(address,address,uint256).selector;
 
-definition priveledgedFunction(method f) returns bool = 
-	f.selector == sig:mint(address,uint256).selector || 
-	f.selector == sig:burn(address,uint256).selector;
-
 definition canIncreaseTotalSupply(method f) returns bool = 
 	f.selector == sig:mint(address,uint256).selector;
 
@@ -77,9 +77,7 @@ ghost mathint numberOfChangesOfBalances {
 	init_state axiom numberOfChangesOfBalances == 0;
 }
 
-// Because `balance` has a uint256 type, any balance addition in CVL1 behaved as a `require_uint256()` casting,
-// leaving out the possibility of overflow. This is not the case in CVL2 where casting became more explicit.
-// A counterexample in CVL2 is having an initial state where Alice initial balance is larger than totalSupply, which 
+// having an initial state where Alice initial balance is larger than totalSupply, which 
 // overflows Alice's balance when receiving a transfer. This is not possible unless the contract is deployed into an 
 // already used address (or upgraded from corrupted state).
 // We restrict such behavior by making sure no balance is greater than the sum of balances.
@@ -356,7 +354,7 @@ rule onlyHolderOfSpenderCanChangeAllowance(env e) {
 │ Rules: mint behavior and side effects                                                                               │
 └─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 */
-rule mintSanity(env e) {
+rule mintIntegrity(env e) {
     requireInvariant totalSupplyIsSumOfBalances();
 
     address to;
@@ -387,14 +385,17 @@ rule mintRevertingConditions(env e) {
 
 	bool nonOwner = e.msg.sender != contractOwner();
 	bool payable = e.msg.value != 0;
-    bool shouldRevert = nonOwner || payable;
+    bool isExpectedToRevert = nonOwner || payable;
 
     mint@withrevert(e, account, amount);
-    if(lastReverted){
-        assert shouldRevert;
-    } else {
-        assert !shouldRevert;
-    }
+    
+    // if(lastReverted){
+    //     assert isExpectedToRevert;
+    // } else {
+    //     assert !isExpectedToRevert;
+    // }
+    
+    assert lastReverted <=> isExpectedToRevert;
 }
 
 rule mintDoesNotAffectThirdParty(env e) {
@@ -415,7 +416,7 @@ rule mintDoesNotAffectThirdParty(env e) {
 │ Rules: burn behavior and side effects                                                                               │
 └─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 */
-rule burnSanity(env e) {
+rule burnIntegrity(env e) {
     requireInvariant totalSupplyIsSumOfBalances();
 
     address from;
@@ -445,15 +446,17 @@ rule burnRevertingConditions(env e) {
 	bool notOwner = e.msg.sender != contractOwner();
 	bool payable = e.msg.value != 0;
     bool notEnoughBalance = balanceOf(account) < amount;
-    bool shouldRevert = notEnoughBalance || payable || notOwner;
+    bool isExpectedToRevert = notEnoughBalance || payable || notOwner;
 
     burn@withrevert(e, account, amount);
-    if(lastReverted) {
-        assert shouldRevert;
-    } 
-    else {
-        assert !shouldRevert;
-    }
+    // if(lastReverted) {
+    //     assert isExpectedToRevert;
+    // } 
+    // else {
+    //     assert !isExpectedToRevert;
+    // }
+
+    assert lastReverted <=> isExpectedToRevert;
 }
 
 rule burnDoesNotAffectThirdParty( env e) {
@@ -474,7 +477,7 @@ rule burnDoesNotAffectThirdParty( env e) {
 │ Rule: transfer behavior and side effects                                                                            │
 └─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 */
-rule transferSanity(env e) {
+rule transferIntegrity(env e) {
     requireInvariant totalSupplyIsSumOfBalances();
    
     address holder = e.msg.sender;
@@ -524,15 +527,17 @@ rule transferRevertingConditions(env e) {
 
 	bool payable = e.msg.value != 0;
     bool notEnoughBalance = balanceOf(e.msg.sender) < amount;
-    bool shouldRevert = payable || notEnoughBalance;
+    bool isExpectedToRevert = payable || notEnoughBalance;
 
     transfer@withrevert(e, account, amount);
-    if(lastReverted) {
-        assert shouldRevert;
-    } 
-    else {
-        assert !shouldRevert;
-    }
+    // if(lastReverted) {
+    //     assert isExpectedToRevert;
+    // } 
+    // else {
+    //     assert !isExpectedToRevert;
+    // }
+
+    assert lastReverted <=> isExpectedToRevert;
 }
 
 rule transferDoesNotAffectThirdParty( env e) {
@@ -553,7 +558,7 @@ rule transferDoesNotAffectThirdParty( env e) {
 │ Rule: transferFrom behavior and side effects                                                                        │
 └─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 */
-rule transferFromSanity(env e) {
+rule transferFromIntegrity(env e) {
     requireInvariant totalSupplyIsSumOfBalances();
 
     address spender = e.msg.sender;
@@ -595,11 +600,13 @@ rule transferFromRevertingConditions(env e) {
 
     transferFrom@withrevert(e, owner, recepient, transfered);   
 
-    if(lastReverted) {
-        assert isExpectedToRevert;
-    } else {
-        assert !(isExpectedToRevert);
-    }
+    // if(lastReverted) {
+    //     assert isExpectedToRevert;
+    // } else {
+    //     assert !(isExpectedToRevert);
+    // }
+
+    assert lastReverted <=> isExpectedToRevert;
 }
 
 rule transferFromDoesNotAffectThirdParty(env e) {
@@ -654,7 +661,7 @@ rule transferFromIsOneWayAdditive(env e) {
 │ Rule: approve behavior and side effects                                                                             │
 └─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 */
-rule approveSanity(env e) {
+rule approveIntegrity(env e) {
     address holder = e.msg.sender;
     address spender;
     uint256 amount;
@@ -670,15 +677,17 @@ rule approveRevertingConditions(env e) {
 	uint256 amount;
 
 	bool payable = e.msg.value != 0;
-	bool shouldRevert = payable;
+	bool isExpectedToRevert = payable;
 
 	approve@withrevert(e, spender, amount);
 
-	if(lastReverted){
-		assert shouldRevert;
-	} else {
-		assert !shouldRevert;
-	}
+	// if(lastReverted){
+	// 	assert isExpectedToRevert;
+	// } else {
+	// 	assert !isExpectedToRevert;
+	// }
+
+    assert lastReverted <=> isExpectedToRevert;
 }
 
 rule approveDoesNotAffectThirdParty(env e) {
@@ -704,7 +713,7 @@ rule approveDoesNotAffectThirdParty(env e) {
 │ Rule: permit behavior and side effects                                                                              │
 └─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 */
-rule permitSanity(env e) {
+rule permitIntegrity(env e) {
     address holder;
     address spender;
     uint256 amount;
