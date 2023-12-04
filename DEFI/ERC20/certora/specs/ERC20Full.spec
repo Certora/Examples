@@ -100,7 +100,7 @@ invariant totalSupplyIsSumOfBalances()
 
 /*
 ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│ Rule: frontRun (a call of method g blocks a call of method f)                                                                   │
+│ Rule: frontRun (a call of method g blocks a call of method f)                                                       │
 └─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 */
 // 
@@ -161,7 +161,7 @@ invariant totalSupplyIsSumOfBalances()
 // }
 /*
 ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│ Rule: contract owner never change                                                                   │
+│ Rule: contract owner never change                                                                                   │
 └─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 */
 rule contractOwnerNeverChange(env e){
@@ -174,7 +174,7 @@ rule contractOwnerNeverChange(env e){
 
 /*
 ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│ Rule: totalSupply never overflow                                                                │
+│ Rule: totalSupply never overflow                                                                                    │
 └─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 */
 
@@ -190,7 +190,7 @@ rule totalSupplyNeverOverflow(env e, method f, calldataarg args) filtered{f -> c
 
 /*
 ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│ Rule: max num of balances changes in single call is 2                                                                  │
+│ Rule: max num of balances changes in single call is 2                                                               │
 └─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 */
 rule noMethodChangesMoreThanTwoBalances(method f) {
@@ -205,7 +205,7 @@ rule noMethodChangesMoreThanTwoBalances(method f) {
 
 /*
 ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│ Rules: only approve, permit and transferFrom can change allowance
+│ Rules: only approve, permit and transferFrom can change allowance                                                   |
 └─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 */
 rule onlyAllowedMethodsMayChangeAllowance(env e) {
@@ -226,7 +226,7 @@ rule onlyAllowedMethodsMayChangeAllowance(env e) {
 
 /*
 ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│ Rules: only mint, burn, transfer and transferFrom can change user balance
+│ Rules: only mint, burn, transfer and transferFrom can change user balance                                           |
 └─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 */
 rule onlyAllowedMethodsMayChangeBalance(env e){
@@ -246,7 +246,7 @@ rule onlyAllowedMethodsMayChangeBalance(env e){
 
 /*
 ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│ Rules: only contract owner can burn or mint                                                                   │
+│ Rules: only contract owner can burn or mint                                                                         │
 └─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 */
 rule onlyOwnerMintOrBurn(env e){
@@ -280,7 +280,7 @@ rule onlyAllowedMethodsMayChangeTotalSupply(env e) {
 
 /*
 ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│ Rules: Find and show a path for each method.                                                                  │
+│ Rules: Find and show a path for each method.                                                                        │
 └─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 */
 rule reachability(method f)
