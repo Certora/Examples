@@ -2,8 +2,8 @@
 /***
 This example is a full spec for erc20.
 To run this use Certora cli with the conf file runERC20Full.conf
-Example of a run: https://vaas-stg.certora.com/output/1512/8bec278b94c0441dadb26010cff89f78?anonymousKey=b5c1efb2323cb084a17135d3f42b8ebb1a1c0225
-Mutation test for this spec: https://mutation-testing-beta.certora.com/?id=18893b8c-e076-4783-af25-1f28cc00a0fb&anonymousKey=66aaa442-ef1e-4b96-b263-01fd269c2ee5
+Example of a run: https://vaas-stg.certora.com/output/1512/874bac3d0eec43c6824ff9910f884e98?anonymousKey=b36ddee07d44f489a78330a5f994420b693c9a57
+Mutation test for this spec: https://mutation-testing-beta.certora.com?id=c397b634-0f66-4e71-8946-903a378085cd&anonymousKey=ee7c435e-c696-4e8a-8836-988aa395311d
 See https://docs.certora.com for a complete guide.
 ***/
 
@@ -98,67 +98,6 @@ hook Sstore _balances[KEY address addr] uint256 newValue (uint256 oldValue) STOR
 invariant totalSupplyIsSumOfBalances()
     to_mathint(totalSupply()) == sumOfBalances;
 
-/*
-┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│ Rule: frontRun (a call of method g blocks a call of method f)                                                       │
-└─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
-*/
-// 
-// rule frontRun(){
-//     env e1;
-//     method f;
-//     calldataarg fargs;
-
-//     env e2;
-//     method g;
-//     calldataarg gargs;
-
-//     require e1.msg.sender != e2.msg.sender; // wont check self frontRun
-//     require canIncreaseBalance(f) => !canIncreaseBalance(g); // prevents overflow
-//     require canDecreaseBalance(f) => !canDecreaseBalance(g); // prevents underflow
-//     require f.selector == sig:transferFrom(address,address,uint256).selector => !canDecreaseAllowance(g); // prevents g from cancel f allowance 
-
-//     storage init = lastStorage; // saves storage
-//     f(e1, fargs); // if pass f isnt reverts
-
-//     g(e2, gargs) at init;
-//     f@withrevert(e1, fargs);
-    
-//     assert !lastReverted;
-// }
-//  Note: Catch permit front run issue, discoverd in the general frontRun rule
-// rule permitFrontRun(){
-//     env e1;
-//     env e2;
-
-//     address clientHolder;
-//     address clientSpender;
-//     uint256 clientAmount;
-//     uint256 clientDeadline;
-//     uint8 clientV;
-//     bytes32 clientR;
-//     bytes32 clientS;
-
-//     address attackerHolder;
-//     address attackerSpender;
-//     uint256 attackerAmount;
-//     uint256 attackerDeadline;
-//     uint8 attackerV;
-//     bytes32 attackerR;
-//     bytes32 attackerS;
-
-//     require e1.msg.sender != e2.msg.sender;
-
-//     storage init = lastStorage;
-
-//     permit(e1, clientHolder, clientSpender, clientAmount, clientDeadline, clientV, clientR, clientS); // if pass not reverted
-    
-//     permit(e2, attackerHolder, attackerSpender, attackerAmount, attackerDeadline, attackerV, attackerR, attackerS) at init; // attacker attack
-
-//     permit@withrevert(e1, clientHolder, clientSpender, clientAmount, clientDeadline, clientV, clientR, clientS);
-
-//     assert !lastReverted, "attacker succeed to deny the service to permit function";
-// }
 /*
 ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
 │ Rule: contract owner never change                                                                                   │
@@ -776,4 +715,71 @@ rule permitDoesNotAffectThirdParty(env e) {
 	uint256 thirdPartyAllowanceAfter = allowance(thirdParty, everyUser);
 
     assert thirdPartyAllowanceBefore == thirdPartyAllowanceBefore;
+}
+
+rule permitDenialOfService(){
+    env e1;
+    env e2;
+
+    address clientHolder;
+    address clientSpender;
+    uint256 clientAmount;
+    uint256 clientDeadline;
+    uint8 clientV;
+    bytes32 clientR;
+    bytes32 clientS;
+
+    address attackerHolder;
+    address attackerSpender;
+    uint256 attackerAmount;
+    uint256 attackerDeadline;
+    uint8 attackerV;
+    bytes32 attackerR;
+    bytes32 attackerS;
+
+    require e1.msg.sender != e2.msg.sender;
+
+    storage init = lastStorage;
+
+    permit(e1, clientHolder, clientSpender, clientAmount, clientDeadline, clientV, clientR, clientS); // if pass not reverted
+    
+    permit(e2, attackerHolder, attackerSpender, attackerAmount, attackerDeadline, attackerV, attackerR, attackerS) at init; // attacker attack
+
+    permit(e1, clientHolder, clientSpender, clientAmount, clientDeadline, clientV, clientR, clientS);
+
+    satisfy true;
+}
+
+
+rule permitFrontRun(){
+    env e1;
+    env e2;
+
+    address clientHolder;
+    address clientSpender;
+    uint256 clientAmount;
+    uint256 clientDeadline;
+    uint8 clientV;
+    bytes32 clientR;
+    bytes32 clientS;
+
+    address attackerHolder;
+    address attackerSpender;
+    uint256 attackerAmount;
+    uint256 attackerDeadline;
+    uint8 attackerV;
+    bytes32 attackerR;
+    bytes32 attackerS;
+
+    require e1.msg.sender != e2.msg.sender;
+
+    storage init = lastStorage;
+
+    permit(e1, clientHolder, clientSpender, clientAmount, clientDeadline, clientV, clientR, clientS); // if pass not reverted
+    
+    permit(e2, attackerHolder, attackerSpender, attackerAmount, attackerDeadline, attackerV, attackerR, attackerS) at init; // attacker attack
+
+    permit@withrevert(e1, clientHolder, clientSpender, clientAmount, clientDeadline, clientV, clientR, clientS);
+
+    assert !lastReverted, "Cannot sign permit with same signature";
 }
