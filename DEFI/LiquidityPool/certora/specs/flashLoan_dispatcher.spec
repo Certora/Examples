@@ -6,12 +6,15 @@
  *
  * You can verify this spec by running any of the following scripts:
  *
- *  - `certoraRun certora/scripts/runFlashLoanNoDispatchers.conf` will verify the spec
+ *  - `certoraRun FlashLoanNoDispatchers.conf` will verify the spec
  *    with no valid dispatchers on the scene; this will treat the method as a
  *    `HAVOC_ALL` summary.
  *
- *  - `certoraRun certora/scripts/verifyFlashLoanTrivial.conf` will verify the spec with
+ *  - `certoraRun FlashLoanTrivial.conf` will verify the spec with
  *    only a trivial `FlashLoanReceiver` implementation.
+ *  
+ *  - `certoraRun FlashLoanTransfer.conf` will verify the spec with a
+ *    malicious reciever that transfers the money from the pool. 
  *
  *
  * See [the multi-contract section of the user guide][guide] for a complete
@@ -23,8 +26,8 @@
 using Asset as underlying;
 
 methods {
-    function balanceOf(address)                        external returns(uint256) envfree;
-    function underlying.balanceOf(address)             external returns(uint256) envfree;
+    function balanceOf(address) external returns(uint256) envfree;
+    function underlying.balanceOf(address) external returns(uint256) envfree;
     function _.executeOperation(uint256,uint256,address) external => DISPATCHER(true);
 }
 

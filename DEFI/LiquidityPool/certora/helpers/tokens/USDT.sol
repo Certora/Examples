@@ -2,7 +2,7 @@
  *Submitted for verification at Etherscan.io on 2017-11-28
 */
 
-// pragma solidity 0.8.2;
+pragma solidity 0.8.2;
 
 /**
  * @title SafeMath
@@ -339,7 +339,7 @@ contract USDT is Pausable, StandardToken, BlackList {
     }
 
     // Forward ERC20 methods to upgraded contract if this one is deprecated
-    function transfer(address _to, uint _value) public override(ERC20Basic, BasicToken) whenNotPaused {
+    function transfer(address _to, uint _value) public override whenNotPaused {
         require(!isBlackListed[msg.sender]);
         if (deprecated) {
             return UpgradedStandardToken(upgradedAddress).transferByLegacy(msg.sender, _to, _value);
@@ -359,7 +359,7 @@ contract USDT is Pausable, StandardToken, BlackList {
     }
 
     // Forward ERC20 methods to upgraded contract if this one is deprecated
-    function balanceOf(address who) public view override(ERC20Basic, BasicToken) returns (uint) {
+    function balanceOf(address who) public view override returns (uint) {
         if (deprecated) {
             return UpgradedStandardToken(upgradedAddress).balanceOf(who);
         } else {
