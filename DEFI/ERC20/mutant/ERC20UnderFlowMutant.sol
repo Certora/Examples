@@ -5,6 +5,11 @@ pragma solidity >=0.8.0;
 /// @author Solmate (https://github.com/transmissions11/solmate/blob/main/src/tokens/ERC20.sol)
 /// @author Modified from Uniswap (https://github.com/Uniswap/uniswap-v2-core/blob/master/contracts/UniswapV2ERC20.sol)
 /// @dev Do not manually set balances without updating totalSupply, as the sum of all user balances must not exceed it.
+
+// WARNING: UnderFlow BUG
+// The following ERC20 implementation contains a underflow bug in the `burn` function.
+// The `burn` function decrease token amount from client in uncheck block.
+
 contract ERC20 {
     /*//////////////////////////////////////////////////////////////
                                  EVENTS
@@ -33,8 +38,6 @@ contract ERC20 {
     mapping(address => uint256) private _balances;
 
     mapping(address => mapping(address => uint256)) private _allowances;
-
-    mapping(address => bool) whitelist;
 
     uint256 private _totalSupply;
 
@@ -66,9 +69,6 @@ contract ERC20 {
         name = _name;
         symbol = _symbol;
         decimals = _decimals;
-
-        whitelist[_owner] = true;
-        whitelist[address(0)] = true;
 
         INITIAL_CHAIN_ID = block.chainid;
         INITIAL_DOMAIN_SEPARATOR = computeDomainSeparator();
@@ -111,8 +111,6 @@ contract ERC20 {
     }
 
     function transfer(address to, uint256 amount) public virtual returns (bool) {
-        require(whitelist[to], "address not allowed");
-
         _balances[msg.sender] -= amount;
 
         // Cannot overflow because the sum of all user
@@ -131,7 +129,6 @@ contract ERC20 {
         address to,
         uint256 amount
     ) public virtual returns (bool) {
-        require(whitelist[to] && whitelist[from], "address not allowed");
         uint256 allowed = _allowances[from][msg.sender]; // Saves gas for limited approvals.
 
         if (allowed != type(uint256).max) _allowances[from][msg.sender] = allowed - amount;
@@ -233,11 +230,12 @@ contract ERC20 {
     }
 
     function burn(address from, uint256 amount) onlyOwner() public virtual {
-        _balances[from] -= amount;
-
         // Cannot underflow because a user's balance
         // will never be larger than the total supply.
         unchecked {
+            //UnderFlow bug
+             _balances[from] -= amount;
+            
             _totalSupply -= amount;
         }
 
