@@ -11,27 +11,21 @@ Configuration - `JustPool.conf`
 Command to run:
 ```certoraRun JustPool.conf```
 
-[A report of this run](https://prover.certora.com/output/1902/d4269f13ea5f4b1e8f992c7163b8c347?anonymousKey=e30eebdb5364651f210c030eef6ab47aff64aa8e)
-
-new report: https://vaas-stg.certora.com/output/99814/1af146f27d1141d28d74bf6331677424?anonymousKey=b571503757685a501a1f56fe27e612234debe816
+[A report of this run](https://vaas-stg.certora.com/output/99814/1af146f27d1141d28d74bf6331677424?anonymousKey=b571503757685a501a1f56fe27e612234debe816)
 
 Without linking, the `integrityOfDeposit` rule fails, because the `deposit` and `balanceOf` methods are unresolved and the prover allows them to return arbitrary values.
 
 View [the multi-contract section of the user guide](https://docs.certora.com/en/latest/docs/user-guide/multicontract/index.html) for a complete discussion of this example.
 
-Failing rules:
-`integrityOfDeposit`
 
 ### Fixed Configurations
 ```certoraRun WithLinking.conf```
-[A report of this run](https://prover.certora.com/output/1902/3cfbed4ad68f465b82438ecd48250d5c?anonymousKey=17353f9eea7972711f4181ca6b14cb8414b8e6d4)
+[A report of this run](https://vaas-stg.certora.com/output/99814/50a391df73384d23bebefd7fd157f1a2?anonymousKey=d32464a62dce0c362c58da87edf6bc97f852e2ea)
 
-new report: https://vaas-stg.certora.com/output/99814/50a391df73384d23bebefd7fd157f1a2?anonymousKey=d32464a62dce0c362c58da87edf6bc97f852e2ea
 
 ```certoraRun WithFlexibleLinked.conf```
-[A report of this run](https://prover.certora.com/output/1902/f8f52d549c104d07b9a991b99a0b1c92?anonymousKey=7c414fb9a9e35a227cfbc466f7511eac605a1045)
+[A report of this run](https://vaas-stg.certora.com/output/99814/eb5ec5d397674956995752f47d0f3a2b?anonymousKey=1533a7bf708e75202767c1eb689065fe534797d5)
 
-new report: https://vaas-stg.certora.com/output/99814/eb5ec5d397674956995752f47d0f3a2b?anonymousKey=1533a7bf708e75202767c1eb689065fe534797d5
 
 ### Full Spec
 Run:
