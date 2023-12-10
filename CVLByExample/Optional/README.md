@@ -14,7 +14,7 @@ method.
 
 In the following command the main contract is `Base`:
 
-```certoraRun certora/conf/runBaseOptional.conf```
+```certoraRun runBaseOptional.conf```
 
 [Report of this run](https://prover.certora.com/output/1902/824f4c76e4ff4c99aab3894c4bfcd0b8?anonymousKey=7ae477960d6d4399a4875eeca3ead98445767abe)
 
@@ -22,7 +22,7 @@ Since `bar` is defined in `Base`, all rules pass.
 
 In the following command the main contract is `Partial`:
 
-```certoraRun certora/conf/runPartialOptional.conf```
+```certoraRun runPartialOptional.conf```
 
 [Report of this run](https://prover.certora.com/output/1902/f9364f3f537a4054bb43e792e78e78d7?anonymousKey=28c5350fb911e6aac4bb4e6a6c34ba4ef130d9da)
 

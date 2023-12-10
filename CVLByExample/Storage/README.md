@@ -16,7 +16,7 @@ The spec demonstrates:
 
 Run this configuration via:
 
-```certoraRun certora/conf/runStorage.conf```
+```certoraRun runStorage.conf```
 
 [Report of this run](https://prover.certora.com/output/1902/658391048d1c49849074fe64f92e6b94?anonymousKey=659d643f47eda07a4978061d30b1d81d700372fc)
 
