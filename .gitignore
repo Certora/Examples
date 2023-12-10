@@ -1,6 +1,6 @@
 /**/.certora_internal
 **/.last_confs
-
+**.DS_Store
 **/node_modules/
 **/.env
 **/resource_errors.json
