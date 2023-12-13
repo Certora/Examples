@@ -49,3 +49,10 @@ It can be checked by running:
 ```certoraRun certora/conf/runERC20Fixed.conf```
 
 [The Prover report of this run](https://prover.certora.com/output/1902/8bb768a5872f4df7945ae63100a6346d?anonymousKey=e906b35f849559095e1fb704a28db80f40b56bb7)
+
+## Full Spec
+This example is a full spec for erc20.
+To run this use Certora cli with the conf file runERC20Full.conf
+Example of a run: https://prover.certora.com/output/1512/846955955f824eeeb9fcf2ecde213387?anonymousKey=ca2bab75317377ec2ecbdb76b5dd1b6f9e024d96
+Mutation test for this spec: https://mutation-testing.certora.com?id=c95fc217-3300-4323-a379-08b99421ca06&anonymousKey=932faa90-d711-4a6b-b4d6-eb5a58f8455a
+See https://docs.certora.com for a complete guide.
