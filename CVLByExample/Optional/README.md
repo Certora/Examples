@@ -16,7 +16,7 @@ In the following command the main contract is `Base`:
 
 ```certoraRun runBaseOptional.conf```
 
-[Report of this run](https://prover.certora.com/output/1902/824f4c76e4ff4c99aab3894c4bfcd0b8?anonymousKey=7ae477960d6d4399a4875eeca3ead98445767abe)
+[Report of this run](https://prover.certora.com/output/15800/506806227cfa4bf8adb33216eff2a10c?anonymousKey=c7f370dbcfce5051d9d25092c7f06bc91b00c3d2)
 
 Since `bar` is defined in `Base`, all rules pass.
 
@@ -24,7 +24,7 @@ In the following command the main contract is `Partial`:
 
 ```certoraRun runPartialOptional.conf```
 
-[Report of this run](https://prover.certora.com/output/1902/f9364f3f537a4054bb43e792e78e78d7?anonymousKey=28c5350fb911e6aac4bb4e6a6c34ba4ef130d9da)
+[Report of this run](https://prover.certora.com/output/15800/212d2c2419bd4663ade6238d3d9ed73c?anonymousKey=4a58c3ba998ff8b7279666c1f439060fa0ae77a0)
 
 Since `bar` is undefined in `Partial` the non-parameterized rules are skipped while the parameterized rule instantiates
 only the functions present in `Partial` and pass.

@@ -15,7 +15,7 @@ Run this configuration via:
 
 ```certoraRun runAuction.conf```
 
-[A report of this run](https://prover.certora.com/output/1902/32a97d6902c6418ebc5847c062073bce?anonymousKey=5c875dad99a1fcd5e39bda1acc5d47c3e18b9fe4)
+[A report of this run](https://prover.certora.com/output/15800/7566d29557fc49bb8fbc88fb63364dc5?anonymousKey=7140792242c73d6646692e34deaecbf02cc82b1b)
 
 ## Correct Code
 - The rule passes for `AuctionFixed.sol` because at the entrance to `bid` `address(this).balance` is already increased by `msg.value`,
@@ -26,5 +26,5 @@ Run this configuration via:
 
 ```certoraRun runAuctionFixed.conf```
 
-[A report of this run](https://prover.certora.com/output/1902/d0aecf17decc482c8e0bceacf7f09b9e?anonymousKey=b17fa824c7ac14ab9b63dada5d53e4c4fda15988)
+[A report of this run](https://prover.certora.com/output/15800/5dbc1a9e4f6949cea9871038e82097e9?anonymousKey=8d552772ee1a1a78b49b90d4558b0bb3444d4f73)
 

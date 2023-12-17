@@ -8,9 +8,9 @@ This directory demonstrates using the following summary definitions:
 ## AllDirect.spec 
     Every function being called (from solidity) is given its own direct summarization.
    
-    Run this spec via ```certoraRun certora/conf/AllDirect.conf```
+    Run this spec via ```certoraRun AllDirect.conf```
 
-    [A report of this run](https://prover.certora.com/output/1902/b738721bc99c4540a15f865de4044479?anonymousKey=f15d0e9e5b5cda2df7538efcec3599876079c96c)
+    [A report of this run](https://prover.certora.com/output/15800/9688edc297024247a0aef14c5f5bcbe9?anonymousKey=7410e26bdb1d90c4f56d783c7c6f34fd4106e0b1)
 
     The summarization ```function _.calleeOverloadedInInterfaceExternal()  external => ALWAYS(true) UNRESOLVED;```
     summarizes only unresolved functions. Therefore, `TestLibrary.calleeOverloadedInInterfaceExternal()` is not summarized and is false. Consequently, the rule `callOverloadedInInterfaceExternal` fails.
