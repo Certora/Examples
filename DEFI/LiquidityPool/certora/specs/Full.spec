@@ -259,7 +259,7 @@ rule reachability(method f)
 
 /*
 ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│ The total shares supply of the system is less than equal the underlying assert holding of the system                │
+│ The total shares supply of the system is less than equal the underlying asset holding of the system                │
 └─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 */
 invariant totalSharesLessThanUnderlyingBalance()
