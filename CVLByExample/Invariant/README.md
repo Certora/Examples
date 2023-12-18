@@ -16,18 +16,18 @@ The Certora Prover starts from an arbitrary state, only assuming that player 2 d
 But actually if in our starting state the ball can be at player 4, player 4 passes the ball to player 2, violating the invariant.
 
 To run the incorrect spec:
-```certoraRun certora/conf/runWeakInvariant.conf```
+```certoraRun runWeakInvariant.conf```
 
-[A report of this run](https://prover.certora.com/output/1902/08b4c079e3e54fb7b6ea07a4b0187339?anonymousKey=c6861d58bd612b3c2d9d656a361e98fada5ebbd7)
+[A report of this run](https://prover.certora.com/output/15800/69c8e23f33c1479cbad44c1333a635af?anonymousKey=6154079d49ca940c8a59ca7d2ee62b6052694381)
 
 ## Correct Spec
 
 This is fixed by the stronger spec `BallGameCorrect.spec`, requiring that the ball can be held either by player 1 or by player 3.
 
 The command for running this version:
-```certoraRun certora/conf/runFixed.conf```
+```certoraRun runFixed.conf```
 
-[A report of this run](file:///home/sitvanit/EVMVerifier-all/examples-doc/Examples/CVLByExample/Invariant/emv-1-certora-21-Nov--11-42/Reports/FinalResults.html)
+[A report of this run](https://prover.certora.com/output/15800/b05cae20910045b9805702dad78ff9ef?anonymousKey=f5fe95dfa296dbca91a3e5c88c4f518abef908ff)
 
 
 

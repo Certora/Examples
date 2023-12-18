@@ -10,9 +10,9 @@ The Certora Prover uses "over-approximations" of the arithmetic operations in th
 With the specification `NotSummarized.spec` the tool reports a wrong violation of the rule `yield_monotonic`. This is a case where function summarization becomes useful since we get to decide how we would like to over-approximate our function. 
 
 This spec is run via
-```certoraRun.py certora/conf/runInterestNotSummarized.conf```
+```certoraRun.py runInterestNotSummarized.conf```
 
-[A report of this run](https://prover.certora.com/output/1902/18f536c055eb4ec9914a29be80311b6b?anonymousKey=727bc70281ed3f35a0840d6a4b4db8abcf0e854d)
+[A report of this run](https://prover.certora.com/output/15800/3f444ff61b44410fa355bb4b912e2e2a?anonymousKey=d30bfc5a406a9916030804fa01c97c783ef89a6f)
 
 ## WithGhostSummary.spec
 
@@ -20,6 +20,6 @@ In the spec `WithGhostSummary.spec` the function `continuous_interest` is replac
 With this specification, the rule passes.
 
 This version is run via
-```certoraRun.py certora/conf/runInterest.conf```
+```certoraRun.py runInterest.conf```
 
-[A report of this run](https://prover.certora.com/output/1902/73a895f7ded84eb8825a0148f34d8239?anonymousKey=c6fb5f93904323fc4026e4f05e22ca6d56329c46)
+[A report of this run](https://prover.certora.com/output/15800/543decec519a4d6fb56e815b7c6601e5?anonymousKey=8bb2639f3152586c84e5a4fa8999c50fdbb2f0b2)
