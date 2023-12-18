@@ -272,7 +272,7 @@ invariant totalSharesLessThanUnderlyingBalance()
 
 /*
 ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│ The total shares supply of the system is zero if and only if the underlying assert holding of the system is zero    │
+│ The total shares supply of the system is zero if and only if the underlying asset holding of the system is zero    │
 └─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 */
 invariant totalSharesIsZeroWithUnderlying()
@@ -321,7 +321,7 @@ invariant totalIsSumBalances()
 
 /*
 ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│ Client Shares and Balance can (increase and decrease) or (decrease and increase)                                    │
+│ Client shares and balance can (increase and decrease) or (decrease and increase)                                    │
 └─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 */
 rule sharesAndBalanceConsistency(env e, method f) filtered {
