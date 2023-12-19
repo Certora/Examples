@@ -29,9 +29,9 @@ The faults of the spec are:
 
 
 This version can be checked by running:
-```certoraRun certora/conf/runERC20.conf```
+```certoraRun runERC20Broken.conf```
 
-[The Prover report of this run](https://prover.certora.com/output/1902/7993f66f45bf4126a5a2e6beda750ca1?anonymousKey=4e0b260893a8b711bda17c6b2ca8ac6232c1107e)
+[The Prover report of this run](https://prover.certora.com/output/15800/bd5b3b7d90eb4dfa9a1c0449c5f374aa?anonymousKey=eac1c44973b044ea82f96dde4179de341e81bd49)
 
 ## Correct Code
 `contracts/correct/ERC20Fixed.sol` is a version in which the rule above failures were fixed. the corrections in the code are:
@@ -46,13 +46,22 @@ The corrections in the spec are:
 - The rule catchOverflow() fails because depositAmount uses `unchecked` and therefore is not checking for overflow. The `assert_uint256(amount1 + amount2))` catches the overflow.
 
 It can be checked by running:
-```certoraRun certora/conf/runERC20Fixed.conf```
+```certoraRun runERC20Fixed.conf```
 
-[The Prover report of this run](https://prover.certora.com/output/1902/8bb768a5872f4df7945ae63100a6346d?anonymousKey=e906b35f849559095e1fb704a28db80f40b56bb7)
+[The Prover report of this run](https://prover.certora.com/output/15800/c15d9887881c4dd79c1c474cff5a3463?anonymousKey=81e208dee08aa35e805a111bbfdbf7ea693d7ca4)
 
 ## Full Spec
-This example is a full spec for erc20.
-To run this use Certora cli with the conf file runERC20Full.conf
-Example of a run: https://prover.certora.com/output/1512/846955955f824eeeb9fcf2ecde213387?anonymousKey=ca2bab75317377ec2ecbdb76b5dd1b6f9e024d96
-Mutation test for this spec: https://mutation-testing.certora.com?id=c95fc217-3300-4323-a379-08b99421ca06&anonymousKey=932faa90-d711-4a6b-b4d6-eb5a58f8455a
+
+This example is a full spec for ERC20.
+To run this use:
+```certoraRun runERC20Full.conf```
+
+[The Prover report of this run](https://prover.certora.com/output/15800/cbb6dba5639f4a1799f6367da9c5119d?anonymousKey=68ae2f8dc5dbe158ccdb34ea4794244f4fcb14ac)
+
+You can also run a Gambit mutation test on this example using:
+```certoraMutate --prover_conf runERC20Full.conf --mutation_conf mutation.conf --server production --sync```
+
+[Mutation report for this run](https://mutation-testing.certora.com?id=c95fc217-3300-4323-a379-08b99421ca06&anonymousKey=932faa90-d711-4a6b-b4d6-eb5a58f8455a)
+
+
 See https://docs.certora.com for a complete guide.
