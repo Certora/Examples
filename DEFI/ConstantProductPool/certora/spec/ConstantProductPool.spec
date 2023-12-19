@@ -25,13 +25,13 @@ methods{
     function getReserve1() external returns (uint256) envfree;
     function swap(address tokenIn, address recipient) external returns (uint256) envfree;
     
-    // calls to external contracts  
+    //calls to external contracts  
     function _token0.balanceOf(address account) external returns (uint256) envfree;
     function _token1.balanceOf(address account) external returns (uint256) envfree;
     function _token0.transfer(address, uint) external;
     function _token1.transfer(address, uint) external;
 
-    // external calls to be resolved by dispatcher - taking into account all available implementations 
+    //external calls to be resolved by dispatcher - taking into account all available implementations 
     function _.transferFrom(address sender, address recipient, uint256 amount) external => DISPATCHER(true);
     function _.balanceOf(address) external => DISPATCHER(true);
     
@@ -126,6 +126,18 @@ invariant balanceGreaterThanReserve()
     {
         preserved with (env e){
          setup(e);
+        }
+
+        // This preserved is safe because transferFrom is called from the currentContract whose code is known and
+        // it is not msg.sender. It would not be safe to do if the call was to a function of an unresolved contract.
+        preserved transferFrom(address sender, address recipient,uint256 amount) with (env e1) {
+            require e1.msg.sender != currentContract;
+        }
+
+       // This preserved is safe because transfer is called from the currentContract whose code is known and
+        // it is not msg.sender.
+        preserved transfer(address recipient, uint256 amount) with (env e2) {
+            require e2.msg.sender != currentContract;
         }
     }
 

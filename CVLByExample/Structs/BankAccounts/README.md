@@ -3,9 +3,9 @@ This directory demonstrates using solidity structs in cvl (`structs.spec`).
 
 Run this configuration via:
 
-```certoraRun certora/conf/runStructs.conf```
+```certoraRun runStructs.conf```
 
-[A report of this run](https://prover.certora.com/output/1902/7465fa9a92ff47ec82d5673ad7a46803?anonymousKey=5107d6a4f583955dea934eabb2abc88a66de51d8)
+[A report of this run](https://prover.certora.com/output/15800/bbf09a10c42f4e079c83924e5a151889?anonymousKey=140bc095391fe70aa2664291aa5ef6d19ab748a7)
 
 The invariant `checkNumOfAccounts` passes vacuously because of the Sload on `_customers` length.
 

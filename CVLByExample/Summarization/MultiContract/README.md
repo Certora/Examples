@@ -12,9 +12,9 @@ The main contract is `Main.sol` which calls its internal functions as well as fu
 This spec shows when a function is summarized according to its visibility.
 
 Run this spec via
-```certoraRun certora/conf/runInternalExternalSummary.conf```
+```certoraRun runInternalExternalSummary.conf```
 
-[The report of this run](https://prover.certora.com/output/1902/200199806e5b45f4a1e8d8dd5203b4dd?anonymousKey=76178c551a0f52b0f7c4ccc6c6abf1e1349ab28a)
+[The report of this run](https://prover.certora.com/output/15800/cac7d8a111414456b1e1d97aad82fb3a?anonymousKey=f76136a6b62e4744d72cfdc45fae8227bf53ff93)
 
 ### Failing Rules
 Rule `checkSummarizedExternalInCaller`:
@@ -37,6 +37,6 @@ each external `summarizedByFunction` is summarized by the CVL function `summary(
 
 Run this spec via
 
-```certoraRun certora/conf/runFunctionSummary.conf```
+```certoraRun runFunctionSummary.conf```
 
-[The result of this run](https://prover.certora.com/output/1902/99acf1eca52241c0aa2503997f87dcef?anonymousKey=4227ae43427f41621dacf0883c98bc9476482e83)
+[The result of this run](https://prover.certora.com/output/15800/7805eb8e73fb40e8ad56735446a1c15a?anonymousKey=32d31e15e53a4ff690da2ebbaec128074a7d7e21)

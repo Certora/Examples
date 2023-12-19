@@ -6,7 +6,7 @@ This directory demonstrates summarization of library functions vs. summarization
 Run this spec via
 ```certoraRun runLibraryVSContractSummary.conf```
 
-[A report of this run](https://prover.certora.com/output/1902/cb0d51bc02f54551a0967b8586d1c9a6?anonymousKey=e8f3e3676fa7b811c2de466fe2b68104cd6e16d1)
+[A report of this run](https://prover.certora.com/output/15800/e6d908d2545d4b58ac21aa775da729ac?anonymousKey=be788458e07d22409288376b7ebcab2d2c523edd)
 
 ## UserDefinedTypeSummarization.spec
 
@@ -16,4 +16,4 @@ Functions returning enum can be summarized.
 Run this spec via 
 ```certoraRun runUserDefinedTypeSummary.conf```
 
-[A report of this run](https://prover.certora.com/output/1902/605ad25bf03b4a809a10db61f0a4b7a4?anonymousKey=2009f88b25a771c1b5eb19a1d03ee2582221a3a6)
+[A report of this run](https://prover.certora.com/output/15800/c08331acc235459db96264cb15fada59?anonymousKey=3169dabf1c16106c53e3727136207e35d32b9174)
