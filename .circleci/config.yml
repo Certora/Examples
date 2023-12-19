@@ -7,6 +7,10 @@ version: 2.1
 commands:
   prepare:
     steps:
+      - add_ssh_keys:
+          fingerprints:
+            - "52:a3:91:f1:01:ae:82:72:c6:1d:33:0e:af:a4:19:a0"
+
       - checkout
 
       - run:
