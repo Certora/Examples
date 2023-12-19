@@ -62,3 +62,11 @@ Run:
  
 The rule `flashLoanIncreasesBalance` passes vacuously because there are no contracts in the scene that implement the `executeOperation` method.
 
+
+### Full spec
+This example is a full spec for LiquidityPool.
+To run this use Certora cli with the conf file runFullPoll.conf
+Example of a run: https://prover.certora.com/output/1512/8fb4697781554144ac1e137fed6ca241?anonymousKey=e8a8cf904d540a3f0f8306574c3cee72dadf8d6c
+UnsatCores: https://prover.certora.com/output/1512/d76148722d6d4da98d4b050d032f3ae1/UnsatCoreVisualisation.html?anonymousKey=0df6a5352e20529c1b97a1a6d2846d9a25207b35
+Mutation test for this spec: https://mutation-testing.certora.com/?id=1dd7e71d-1451-48a9-ae17-d05a46b1581e&anonymousKey=79e13549-03d2-4436-8293-0c7d0b6b20d9
+See https://docs.certora.com for a complete guide.

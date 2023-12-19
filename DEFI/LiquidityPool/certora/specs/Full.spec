@@ -1,14 +1,14 @@
 /***
 This example is a full spec for LiquidityPool.
 To run this use Certora cli with the conf file runFullPoll.conf
-Example of a run: 
-UnsatCores: 
-Mutation test for this spec: 
+Example of a run: https://prover.certora.com/output/1512/8fb4697781554144ac1e137fed6ca241?anonymousKey=e8a8cf904d540a3f0f8306574c3cee72dadf8d6c
+UnsatCores: https://prover.certora.com/output/1512/d76148722d6d4da98d4b050d032f3ae1/UnsatCoreVisualisation.html?anonymousKey=0df6a5352e20529c1b97a1a6d2846d9a25207b35
+Mutation test for this spec: https://mutation-testing.certora.com/?id=1dd7e71d-1451-48a9-ae17-d05a46b1581e&anonymousKey=79e13549-03d2-4436-8293-0c7d0b6b20d9
 See https://docs.certora.com for a complete guide.
 ***/
 
-
 using Asset as underlying;
+using TrivialReceiver as _TrivialReceiver;
 
 methods
 {
@@ -20,6 +20,7 @@ methods
     function sharesToAmount(uint256)                 external returns(uint256) envfree;
     function deposit(uint256)                        external returns(uint256);
     function withdraw(uint256)                       external returns(uint256);
+    function calcPremium(uint256)                    external returns (uint256) envfree;
 
     function _.executeOperation(uint256,uint256,address) external => DISPATCHER(true);
     function flashLoan(address, uint256)                 external;
@@ -174,7 +175,8 @@ rule withdrawRevertConditions(env e){
     bool reentrancy = ghostReentrancyStatus == 2;
     bool notEnoughAllowance = underlying.allowance(currentContract, currentContract) < sharesToAmount(amount);
     bool zeroAmount = sharesToAmount(amount) == 0;
-    bool expectedRevert = underflow || overflow || payable || reentrancy || notEnoughAllowance || zeroAmount;
+    bool poolIsEmpty = underlying.balanceOf(currentContract) == 0;
+    bool expectedRevert = poolIsEmpty || underflow || overflow || payable || reentrancy || notEnoughAllowance || zeroAmount;
 
     withdraw@withrevert(e, amount);
 
@@ -227,7 +229,8 @@ rule splitWithdrawFavoursTheContract(env e){
 └─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 */
 rule flashLoanIntegrity(env e){
-    
+    require e.msg.sender != currentContract; // this assumption must hold to avoid shares dilute attack
+
     address receiver;
     uint256 amount;
 
@@ -239,8 +242,33 @@ rule flashLoanIntegrity(env e){
     uint256 contractUnderlyingBalanceAfter = underlying.balanceOf(currentContract);
     uint256 contractSharesAfter = balanceOf(currentContract);
 
-    assert contractUnderlyingBalanceBefore <= contractUnderlyingBalanceAfter;
-    assert contractSharesBefore <= contractSharesAfter;
+    assert (amount == 0) => contractUnderlyingBalanceBefore == contractUnderlyingBalanceAfter;
+    assert (amount > 0) => contractUnderlyingBalanceBefore < contractUnderlyingBalanceAfter;
+    assert contractSharesBefore == contractSharesAfter;
+}
+
+rule flashLoanRevertConditions(env e){
+    require e.msg.sender != currentContract; // this assumption must hold to avoid shares dilute attack
+
+    address receiver;
+    uint256 amount;
+    
+    bool noPremium = calcPremium(amount) == 0;
+    bool receiverIsNotIFlashloanAddress = receiver != _TrivialReceiver;\
+    bool payable = e.msg.value != 0;
+    bool reentrancy = ghostReentrancyStatus == 2;
+    bool clientUnderflow = underlying.balanceOf(e.msg.sender) - calcPremium(amount) < 0;
+    bool poolUnderflow = underlying.balanceOf(currentContract) - amount < 0;
+    bool underflow = clientUnderflow || poolUnderflow;
+    bool poolBlanceOverflow = underlying.balanceOf(currentContract) + calcPremium(amount) > max_uint256;
+    bool clientBalanceOverflow = underlying.balanceOf(e.msg.sender) + amount > max_uint256;
+    bool overflow = poolBlanceOverflow || clientBalanceOverflow;
+    bool notEnoughAllowance = to_mathint(underlying.allowance(e.msg.sender, currentContract)) < calcPremium(amount) + amount || underlying.allowance(currentContract, currentContract) < amount;
+    bool isExpectedToRevert = notEnoughAllowance || overflow || underflow || noPremium || receiverIsNotIFlashloanAddress || payable || reentrancy;
+
+    flashLoan@withrevert(e, receiver, amount);
+
+    assert isExpectedToRevert <=> lastReverted;
 }
 
 /*
@@ -399,4 +427,22 @@ rule sharesRoundingTripFavoursContract(env e) {
 
     assert clientSharesBefore >= clientSharesAfter;
     assert contractSharesBefore <= contractSharesAfter;
+}
+
+/*
+┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ Conversions are monotonic increasing functions.                                                                     │
+└─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+*/
+
+rule amountToSharesConversion(env e){
+    uint256 amountA;
+    uint256 amountB;
+    assert amountA <= amountB => amountToShares(amountA) <= amountToShares(amountB);
+}
+
+rule sharesToAmountConversion(env e){
+    uint256 sharesA;
+    uint256 sharesB;
+    assert sharesA <= sharesB => sharesToAmount(sharesA) <= sharesToAmount(sharesB);
 }
