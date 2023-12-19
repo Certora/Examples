@@ -44,7 +44,7 @@ jobs:
           command: |
             export CERTORAKEY="10b3470b9c1db1177f0b01605f6bdf99fff3941a"
             cd ~/ExamplesRegtest
-            python3.11 RunNightlyTest.py --examples_repo_path ../Examples
+            python3.11 RunNightlyTest.py --examples_repo_path ../repo
       
       - store_artifacts:
           path: Report.csv
