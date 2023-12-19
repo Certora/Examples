@@ -9,7 +9,7 @@ commands:
     steps:
       - add_ssh_keys:
           fingerprints:
-            - "52:a3:91:f1:01:ae:82:72:c6:1d:33:0e:af:a4:19:a0"
+            - "a7:d9:8e:37:bd:7c:ef:3a:a6:9b:dc:4f:29:97:f9:6f"
 
       - checkout
 
