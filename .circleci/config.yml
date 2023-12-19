@@ -27,7 +27,7 @@ commands:
           name: Get ExamplesRegtest
           command: |
             cd ~/
-            git pull git@github.com:Certora/ExamplesRegtest.git
+            git clone git@github.com:Certora/ExamplesRegtest.git
 
 
 jobs:
