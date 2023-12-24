@@ -15,7 +15,7 @@ commands:
 
       - run:
           name: Get the current beta
-          command: pip3.11 install certora-cli-beta
+          command: pip3.11 install certora-cli
       
       - run:
           name: Get ConfRunnerInfra
