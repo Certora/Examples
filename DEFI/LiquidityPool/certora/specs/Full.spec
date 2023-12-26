@@ -18,6 +18,7 @@ methods
     function transferFrom(address, address, uint256) external returns(bool);
     function amountToShares(uint256)                 external returns(uint256) envfree;
     function sharesToAmount(uint256)                 external returns(uint256) envfree;
+    function depositedAmount()                       external returns(uint256) envfree;
     function deposit(uint256)                        external returns(uint256);
     function withdraw(uint256)                       external returns(uint256);
     function calcPremium(uint256)                    external returns (uint256) envfree;
@@ -35,11 +36,38 @@ methods
 │ Reentrancy ghost and hook                                                                                           │
 └─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 */
+definition lock_on() returns bool = ghostReentrancyStatus == 2;
+definition poll_functions(method f) returns bool = f.selector == sig:withdraw(uint256).selector ||
+                                      f.selector == sig:deposit(uint256).selector ||
+                                      f.selector == sig:flashLoan(address, uint256).selector;
+
 
 ghost uint256 ghostReentrancyStatus;
+ghost bool lock_status_on_call;
 
 hook Sload uint256 status currentContract._status STORAGE {
     require ghostReentrancyStatus == status;
+}
+
+hook Sstore currentContract._status uint256 status STORAGE {
+    ghostReentrancyStatus = status;
+}
+
+// we are hooking here on "CALL" opcodes in order to simulate reentrancy to a non-view function and check that the function reverts
+hook CALL(uint g, address addr, uint value, uint argsOffset, uint argsLength, uint retOffset, uint retLength) uint rc {
+    lock_status_on_call = lock_on(); 
+}
+
+// this rule prove the assumption e.msg.sender != currentContract;
+rule reentrancyCheck(env e, method f, calldataarg args) filtered{f -> poll_functions(f)}{
+    bool lockBefore = lock_on();
+    
+    f(e, args);
+    
+    bool lockAfter = lock_on();
+    
+    assert !lockBefore && !lockAfter;
+    assert lock_status_on_call;
 }
 
 /*
@@ -54,14 +82,14 @@ rule depositIntegrity(env e){
     uint256 amount;
     uint256 clientBalanceBefore = underlying.balanceOf(e.msg.sender);
     uint256 clientSharesBefore = balanceOf(e.msg.sender);
-    
-    deposit(e, amount);
+
+    uint256 depositedShares = deposit(e, amount);
 
     uint256 clientBalanceAfter = underlying.balanceOf(e.msg.sender);
     uint256 clientSharesAfter = balanceOf(e.msg.sender);
 
-    assert (amount == 0) => (clientBalanceBefore == clientBalanceAfter) && (clientSharesBefore == clientSharesAfter);
-    assert (amount > 0) => (clientBalanceBefore > clientBalanceAfter) && (clientSharesBefore < clientSharesAfter);
+    assert (amount == 0) => (depositedShares == 0) && (clientBalanceBefore == clientBalanceAfter) && (clientSharesBefore == clientSharesAfter);
+    assert (amount > 0) => (clientBalanceBefore - amount == to_mathint(clientBalanceAfter)) && (clientSharesBefore + depositedShares == to_mathint(clientSharesAfter));
 }
 
 rule depositRevertConditions(env e){
@@ -73,15 +101,15 @@ rule depositRevertConditions(env e){
     uint256 clientSharesBefore = balanceOf(e.msg.sender);
     
     bool underFlow = clientBalanceBefore - amount < 0;
-    bool emptyPool = totalSupply() == 0 || underlying.balanceOf(currentContract) == 0;
+    bool emptyPool = totalSupply() == 0 || depositedAmount() == 0;
     bool clientSharesOverflow = (clientSharesBefore + amount > max_uint256 && emptyPool) || clientSharesBefore + amountToShares(amount) > max_uint256;
     bool totalSharesOverflow = totalSupply() + amountToShares(amount) > max_uint256;
-    bool contractUnderlyingOverflow = underlying.balanceOf(currentContract) + amount > max_uint256;
+    bool contractUnderlyingOverflow = underlying.balanceOf(currentContract) + amount > max_uint256 || depositedAmount() + amount > max_uint256;
     bool overflow =  clientSharesOverflow || totalSharesOverflow || contractUnderlyingOverflow;
     bool payable = e.msg.value != 0;
-    bool reentrancy = ghostReentrancyStatus == 2;
+    bool reentrancy = lock_on();
     bool notEnoughAllowance = underlying.allowance(e.msg.sender, currentContract) < amount;
-    bool zeroShares = amountToShares(amount) == 0 && totalSupply() > 0 && underlying.balanceOf(currentContract) > 0;
+    bool zeroShares = amountToShares(amount) == 0 && !emptyPool;
     bool expectedRevert = underFlow || overflow || payable || reentrancy || notEnoughAllowance || zeroShares;
 
     deposit@withrevert(e, amount);
@@ -89,26 +117,9 @@ rule depositRevertConditions(env e){
     assert lastReverted <=> expectedRevert;
 }
 
-rule depositDontAffectThirdParty(env e){
-    address thirdParty;
-    uint256 amount;
-
-    require thirdParty != e.msg.sender && thirdParty != currentContract;
-
-    uint256 thirdPartyBalanceBefore = underlying.balanceOf(thirdParty);
-    uint256 thirdPartySharesBefore = balanceOf(thirdParty);
-
-    deposit(e, amount);
-
-    uint256 thirdPartyBalanceAfter = underlying.balanceOf(thirdParty);
-    uint256 thirdPartySharesAfter = balanceOf(thirdParty);
-
-    assert thirdPartyBalanceBefore == thirdPartyBalanceAfter;
-    assert thirdPartySharesBefore == thirdPartySharesAfter;
-}
-
 rule depositGreaterThanZeroWithMinted(env e) {
     uint256 amount;
+    require amount > 0;
     uint256 amountMinted = deposit(e, amount);
     
     assert amount > 0 <=> amountMinted > 0;
@@ -125,7 +136,7 @@ rule splitDepositFavoursTheContract(env e){
     requireInvariant totalSharesLessThanUnderlyingBalance();
     requireInvariant totalIsSumBalances();
     requireInvariant totalSharesEqualSumOfShares();
-    requireInvariant totalSharesIsZeroWithUnderlying();
+    requireInvariant totalSharesIsZeroWithUnderlyingDeposited();
 
     storage init = lastStorage;
 
@@ -146,17 +157,18 @@ rule withdrawIntegrity(env e){
 
     require e.msg.sender != currentContract; // this assumption must hold to avoid shares dilute attack
 
-    uint256 amount;
+    uint256 shares;
     uint256 clientBalanceBefore = underlying.balanceOf(e.msg.sender);
     uint256 clientSharesBefore = balanceOf(e.msg.sender);
-    
-    withdraw(e, amount);
+
+    uint256 withdrawAmount = withdraw(e, shares);
 
     uint256 clientBalanceAfter = underlying.balanceOf(e.msg.sender);
     uint256 clientSharesAfter = balanceOf(e.msg.sender);
 
-    assert (amount == 0) => (clientBalanceBefore == clientBalanceAfter) && (clientSharesBefore == clientSharesAfter);
-    assert (amount > 0) => (clientBalanceBefore < clientBalanceAfter) && (clientSharesBefore > clientSharesAfter);
+
+    assert (shares == 0) => (withdrawAmount == 0) && (clientBalanceBefore == clientBalanceAfter) && (clientSharesBefore == clientSharesAfter);
+    assert (shares > 0) => (clientBalanceBefore + withdrawAmount == to_mathint(clientBalanceAfter)) && (clientSharesBefore - shares == to_mathint(clientSharesAfter));
 }
 
 rule withdrawRevertConditions(env e){
@@ -172,7 +184,7 @@ rule withdrawRevertConditions(env e){
     bool underflow = clientBalanceUnderflow || poolUnderflow;
     bool overflow = clientBalanceBefore + sharesToAmount(amount) > max_uint256;
     bool payable = e.msg.value != 0;
-    bool reentrancy = ghostReentrancyStatus == 2;
+    bool reentrancy = lock_on();
     bool notEnoughAllowance = underlying.allowance(currentContract, currentContract) < sharesToAmount(amount);
     bool zeroAmount = sharesToAmount(amount) == 0;
     bool poolIsEmpty = underlying.balanceOf(currentContract) == 0;
@@ -181,24 +193,6 @@ rule withdrawRevertConditions(env e){
     withdraw@withrevert(e, amount);
 
     assert lastReverted <=> expectedRevert;
-}
-
-rule withdrawDontAffectThirdParty(env e){
-    address thirdParty;
-    uint256 amount;
-
-    require thirdParty != e.msg.sender && thirdParty != currentContract;
-
-    uint256 thirdPartyBalanceBefore = underlying.balanceOf(thirdParty);
-    uint256 thirdPartySharesBefore = balanceOf(thirdParty);
-
-    withdraw(e, amount);
-
-    uint256 thirdPartyBalanceAfter = underlying.balanceOf(thirdParty);
-    uint256 thirdPartySharesAfter = balanceOf(thirdParty);
-
-    assert thirdPartyBalanceBefore == thirdPartyBalanceAfter;
-    assert thirdPartySharesBefore == thirdPartySharesAfter;
 }
 
 rule splitWithdrawFavoursTheContract(env e){
@@ -210,7 +204,7 @@ rule splitWithdrawFavoursTheContract(env e){
     require sharesA + sharesB == to_mathint(wholeShares);
 
     requireInvariant totalSharesLessThanUnderlyingBalance();
-    requireInvariant totalSharesIsZeroWithUnderlying();
+    requireInvariant totalSharesIsZeroWithUnderlyingDeposited();
 
     storage init = lastStorage;
 
@@ -256,11 +250,11 @@ rule flashLoanRevertConditions(env e){
     bool noPremium = calcPremium(amount) == 0;
     bool receiverIsNotIFlashloanAddress = receiver != _TrivialReceiver;\
     bool payable = e.msg.value != 0;
-    bool reentrancy = ghostReentrancyStatus == 2;
+    bool reentrancy = lock_on();
     bool clientUnderflow = underlying.balanceOf(e.msg.sender) - calcPremium(amount) < 0;
-    bool poolUnderflow = underlying.balanceOf(currentContract) - amount < 0;
+    bool poolUnderflow = underlying.balanceOf(currentContract) - amount < 0 || depositedAmount() - amount < 0;
     bool underflow = clientUnderflow || poolUnderflow;
-    bool poolBlanceOverflow = underlying.balanceOf(currentContract) + calcPremium(amount) > max_uint256;
+    bool poolBlanceOverflow = underlying.balanceOf(currentContract) + calcPremium(amount) > max_uint256 || depositedAmount() + calcPremium(amount) > max_uint256;
     bool clientBalanceOverflow = underlying.balanceOf(e.msg.sender) + amount > max_uint256;
     bool overflow = poolBlanceOverflow || clientBalanceOverflow;
     bool notEnoughAllowance = to_mathint(underlying.allowance(e.msg.sender, currentContract)) < calcPremium(amount) + amount || underlying.allowance(currentContract, currentContract) < amount;
@@ -284,7 +278,6 @@ rule reachability(method f)
 	satisfy true;
 }
 
-
 /*
 ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
 │ The total shares supply of the system is less than equal the underlying asset holding of the system                │
@@ -292,6 +285,34 @@ rule reachability(method f)
 */
 invariant totalSharesLessThanUnderlyingBalance()
     totalSupply() <= underlying.balanceOf(currentContract)
+    {
+        preserved with(env e) {
+            require e.msg.sender != currentContract;
+            requireInvariant totalSharesLessThanDepositedAmount();
+            requireInvariant depositedAmountLessThanContractUnderlyingAsset();
+        }
+    }
+
+/*
+┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ The total shares supply of the system is less than equal the deposit amount                                         │
+└─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+*/
+invariant totalSharesLessThanDepositedAmount()
+    totalSupply() <= depositedAmount()
+    {
+        preserved with(env e) {
+            require e.msg.sender != currentContract;
+        }
+    }
+
+/*
+┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ The deposited Amount of the system is less than equal the contract underlying asset                                 │
+└─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+*/
+invariant depositedAmountLessThanContractUnderlyingAsset()
+    depositedAmount() <= underlying.balanceOf(currentContract)
     {
         preserved with(env e) {
             require e.msg.sender != currentContract;
@@ -303,8 +324,8 @@ invariant totalSharesLessThanUnderlyingBalance()
 │ The total shares supply of the system is zero if and only if the underlying asset holding of the system is zero    │
 └─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 */
-invariant totalSharesIsZeroWithUnderlying()
-		totalSupply() == 0 <=> underlying.balanceOf(currentContract) == 0
+invariant totalSharesIsZeroWithUnderlyingDeposited()
+		totalSupply() == 0 <=> depositedAmount() == 0
 		{
 			preserved with(env e) {
 				require e.msg.sender != currentContract;
@@ -349,7 +370,7 @@ invariant totalIsSumBalances()
 
 /*
 ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│ Client shares and balance can (increase and decrease) or (decrease and increase)                                    │
+│ Client shares and balance anti-monotonicity ((increase and decrease) or (decrease and increase))                    │
 └─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 */
 rule sharesAndBalanceConsistency(env e, method f) filtered {
@@ -395,7 +416,7 @@ rule moreSharesMoreWithdraw(env e) {
 └─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 */
 rule amountRoundingTripFavoursContract(env e) {
-    requireInvariant totalSharesIsZeroWithUnderlying();
+    requireInvariant totalSharesIsZeroWithUnderlyingDeposited();
 
     uint256 clientAmountBefore = underlying.balanceOf(e.msg.sender);
     uint256 contractAmountBefore = underlying.balanceOf(currentContract);
@@ -409,17 +430,27 @@ rule amountRoundingTripFavoursContract(env e) {
 }
 
 /*
-Bug detected, if contract deploy with balance it can be drained. 
+Bug detected, if contract deploy with balance it can be drained.
+
+in more details:
+if i am the last share holder it i can expolit the contract
+share machnisem which encourage first depositore to deposit
+by give him 1:1 ratio, and get as many shares i want until i will drain the deposited amount
+which give me basiclly only my underlying balance unless the contract already deployed with balance.
 */
 rule sharesRoundingTripFavoursContract(env e) {
     uint256 clientSharesBefore = balanceOf(e.msg.sender);
     uint256 contractSharesBefore = balanceOf(currentContract);
 
     requireInvariant totalSharesEqualSumOfShares();
-    require underlying.balanceOf(currentContract) > 0 => balanceOf(currentContract) > 0; //this assumption hides the bug and cant be proved.
+    requireInvariant totalSharesIsZeroWithUnderlyingDeposited();
+    requireInvariant depositedAmountLessThanContractUnderlyingAsset();
+    requireInvariant totalSharesLessThanDepositedAmount();
+    requireInvariant totalSharesLessThanUnderlyingBalance();
+    requireInvariant totalIsSumBalances();
+    
     require sumOfShares >= clientSharesBefore + contractSharesBefore;
     require e.msg.sender != currentContract; // this assumption must hold to avoid shares dilute attack
-
 
     uint256 clientAmount = withdraw(e, clientSharesBefore);
     uint256 clientSharesAfter = deposit(e, clientAmount);
@@ -445,4 +476,35 @@ rule sharesToAmountConversion(env e){
     uint256 sharesA;
     uint256 sharesB;
     assert sharesA <= sharesB => sharesToAmount(sharesA) <= sharesToAmount(sharesB);
+}
+
+rule calculatePremium(env e){
+    uint256 amountA;
+    uint256 amountB;
+    assert amountA <= amountB => calcPremium(amountA) <= calcPremium(amountB);
+}
+
+/*
+┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ ThirdParty not affected.                                                                                            │                                                                      │
+└─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+*/
+rule thirdPartyNotAffected(env e, method f, calldataarg args) filtered {
+    f -> f.selector != sig:transfer(address,uint256).selector &&
+    f.selector != sig:transferFrom(address,address,uint256).selector
+    }{
+    address thirdParty;
+
+    require thirdParty != currentContract && thirdParty != e.msg.sender; 
+
+    uint256 thirdPartyBalanceBefore = underlying.balanceOf(thirdParty);
+    uint256 thirdPartySharesBefore = balanceOf(thirdParty);
+
+    f(e, args);
+
+    uint256 thirdPartyBalanceAfter = underlying.balanceOf(thirdParty);
+    uint256 thirdPartySharesAfter = balanceOf(thirdParty);
+
+    assert (thirdPartyBalanceAfter == thirdPartyBalanceBefore);
+    assert (thirdPartySharesAfter == thirdPartySharesBefore);
 }

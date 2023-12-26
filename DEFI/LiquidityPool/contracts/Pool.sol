@@ -28,29 +28,28 @@ contract Pool is ERC20 {
   uint256 private constant feePrecision = 10000; 
   //feeRate is up to 1%, so less than 100 as it is divided by feePrecision
   uint256 public feeRate; 
+  uint256 public depositedAmount = 0;
 
   function sharesToAmount(uint256 shares) public view virtual returns (uint256) {
-     uint256 poolBalance=asset.balanceOf(address(this));  
-     return shares * poolBalance / totalSupply();  
+     return shares * depositedAmount / totalSupply();  
   }
 
 
-  function amountToShares(uint256 amount) public view virtual returns (uint256) {
-      uint256 poolBalance=asset.balanceOf(address(this));   
-      return amount * totalSupply() / poolBalance;   
+  function amountToShares(uint256 amount) public view virtual returns (uint256) { 
+      return amount * totalSupply() / depositedAmount;   
   }
 
   function deposit(uint256 amount) public nonReentrant() returns(uint256 shares) {
-      uint256 poolBalance=asset.balanceOf(address(this));
-        if (totalSupply()==0 || poolBalance == 0){
-            shares = amount;
-        }
-        else{
-          shares = amountToShares(amount);
-          require (shares != 0);
-        }
-        asset.transferFrom(msg.sender,address(this),amount);
-        _mint(msg.sender,shares);
+      if (totalSupply()==0 || depositedAmount == 0){
+          shares = amount;
+      }
+      else{
+        shares = amountToShares(amount);
+        require (shares != 0);
+      }
+      asset.transferFrom(msg.sender,address(this),amount);
+      depositedAmount = depositedAmount + amount;
+      _mint(msg.sender,shares);
     }
 
 
@@ -61,6 +60,7 @@ contract Pool is ERC20 {
     require (amountOut != 0);
    	_burn(msg.sender,shares);
 		asset.transferFrom(address(this),msg.sender,amountOut);
+    depositedAmount = depositedAmount - amountOut;
     }
 
     
@@ -69,8 +69,10 @@ contract Pool is ERC20 {
     require (totalPremium != 0);
     uint256 amountPlusPremium = amount + totalPremium;
     asset.transferFrom(address(this),msg.sender,amount);
+    depositedAmount = depositedAmount - amount;
     require(IFlashLoanReceiver(receiverAddress).executeOperation(amount,totalPremium,msg.sender),'P_INVALID_FLASH_LOAN_EXECUTOR_RETURN');
     asset.transferFrom(msg.sender,address(this),amountPlusPremium);
+    depositedAmount = depositedAmount + amountPlusPremium;
   }
 
   function calcPremium(uint256 amount) public view returns (uint256){
