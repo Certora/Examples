@@ -56,28 +56,28 @@
    - [simple](https://github.com/Certora/Examples/blob/master/CVLByExample/Invariant/certora/specs/BallGame.spec#L7)
     - [strengthening](https://github.com/Certora/Examples/blob/master/CVLByExample/Invariant/certora/specs/BallGameCorrect.spec#L7)
     - [`preserved`](https://github.com/Certora/Examples/blob/master/DEFI/ERC20/certora/specs/ERC20Broken.spec#L128)
-      - [`with (env e)`](https://github.com/Certora/Examples/blob/14668d39a6ddc67af349bc5b82f73db73349ef18/CVLByExample/ERC20/certora/specs/ERC20.spec#L128)
+      - [`with (env e)`](https://github.com/Certora/Examples/blob/master/DEFI/ERC20/certora/specs/ERC20Broken.spec#L128)
 
     - `requireInvariant`
-        - [in a rule](https://github.com/Certora/Examples/blob/14668d39a6ddc67af349bc5b82f73db73349ef18/CVLByExample/ConstantProductPool/certora/spec/ConstantProductPool.spec#L178)
-        - [in a `CVL` function](https://github.com/Certora/Examples/blob/14668d39a6ddc67af349bc5b82f73db73349ef18/CVLByExample/LiquidityPool/certora/specs/pool.spec#L27)
+        - [in a rule](https://github.com/Certora/Examples/blob/master/DEFI/ConstantProductPool/certora/spec/ConstantProductPool.spec#L190)
+        - [in a `CVL` function](https://github.com/Certora/Examples/blob/master/DEFI/LiquidityPool/certora/specs/pool.spec#L27)
 
-- [`lastreverted`](https://github.com/Certora/Examples/blob/14668d39a6ddc67af349bc5b82f73db73349ef18/CVLByExample/ERC20/certora/specs/ERC20.spec#L49)
+- [`lastreverted`](https://github.com/Certora/Examples/blob/master/DEFI/ERC20/certora/specs/ERC20Broken.spec#L49)
 
-- [`laststorage`](https://github.com/Certora/Examples/blob/14668d39a6ddc67af349bc5b82f73db73349ef18/CVLByExample/storage/certora/specs/storage.spec#L28)
+- [`laststorage`](https://github.com/Certora/Examples/blob/master/CVLByExample/Storage/certora/specs/storage.spec#L27)
 
-- [`mathint`](https://github.com/Certora/Examples/blob/14668d39a6ddc67af349bc5b82f73db73349ef18/CVLByExample/ERC20/certora/specs/ERC20Fixed.spec#L23C5-L23C12)
+- [`mathint`](https://github.com/Certora/Examples/blob/master/DEFI/ERC20/certora/specs/ERC20Fixed.spec#L23C5-L23C12)
 
-- [`method`](https://github.com/Certora/Examples/blob/14668d39a6ddc67af349bc5b82f73db73349ef18/CVLByExample/ERC20/certora/specs/ERC20Fixed.spec#L83)
+- [`method`](https://github.com/Certora/Examples/blob/master/DEFI/ERC20/certora/specs/ERC20Fixed.spec#L83)
 
 - `methods` block 
-    - [Calls to external contracts](https://github.com/Certora/Examples/blob/14668d39a6ddc67af349bc5b82f73db73349ef18/CVLByExample/ConstantProductPool/certora/spec/ConstantProductPool.spec#L29)
-    - [envfree](https://github.com/Certora/Examples/blob/14668d39a6ddc67af349bc5b82f73db73349ef18/CVLByExample/ConstantProductPool/certora/spec/ConstantProductPool.spec#L19C50-L19C57)
+    - [Calls to external contracts](https://github.com/Certora/Examples/blob/master/DEFI/ConstantProductPool/certora/spec/ConstantProductPool.spec#L29)
+    - [envfree](https://github.com/Certora/Examples/blob/master/DEFI/ConstantProductPool/certora/spec/ConstantProductPool.spec#L19C50-L19C57)
     - [`with (env)`]
     - Summary
-        - [`ALWAYS`](https://github.com/Certora/Examples/blob/8d58ba44af0b22cc8f7703542c248cd225d26ccc/CVLByExample/function-summary/multi-contract/certora/specs/spec_with_summary.spec#L22)
+        - [`ALWAYS`](https://github.com/Certora/Examples/blob/master/CVLByExample/Summarization/Keywords/certora/specs/AlwaysSummary.spec#L4)
         - [`AUTO`]
-        - [`CONSTANT`](https://github.com/Certora/Examples/blob/8136b977cfe2fbf8e9e7ab0d74896cc62403fdb8/CVLByExample/function-summary/simple/certora/specs/ConstantVSNondet.spec#L5)
+        - [`CONSTANT`](https://github.com/Certora/Examples/blob/master/CVLByExample/Summarization/Keywords/certora/specs/ConstantVSNondet.spec#L5)
         - [DISPATCHER](https://github.com/Certora/Examples/blob/631ba01b47f126dad8d1c067dd2277fb58bf616b/CVLByExample/ConstantProductPool/certora/spec/ConstantProductPool.spec#L36C4-L36C4)
 
         - [`NONDET`](https://github.com/Certora/Examples/blob/bf3255766c28068eea2d0513edb8daca7bcaa206/CVLByExample/function-summary/with-side-effects/certora/specs/HavocAllVSNondet.spec#L5)
