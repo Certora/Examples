@@ -53,9 +53,9 @@
 - [`import`](https://github.com/Certora/Examples/blob/master/CVLByExample/Import/certora/specs/sub.spec#L1)
 
 - `invariant`
-   - [simple](https://github.com/Certora/Examples/blob/14668d39a6ddc67af349bc5b82f73db73349ef18/CVLByExample/BallGame/certora/specs/BallGameCorrect.spec#L7)
-    - [strengthening](https://github.com/Certora/Examples/blob/14668d39a6ddc67af349bc5b82f73db73349ef18/CVLByExample/BallGame/certora/specs/BallGameCorrect.spec#L7)
-    - [`preserved`](https://github.com/Certora/Examples/blob/14668d39a6ddc67af349bc5b82f73db73349ef18/CVLByExample/ERC20/certora/specs/ERC20.spec#L128)
+   - [simple](https://github.com/Certora/Examples/blob/master/CVLByExample/Invariant/certora/specs/BallGame.spec#L7)
+    - [strengthening](https://github.com/Certora/Examples/blob/master/CVLByExample/Invariant/certora/specs/BallGameCorrect.spec#L7)
+    - [`preserved`](https://github.com/Certora/Examples/blob/master/DEFI/ERC20/certora/specs/ERC20Broken.spec#L128)
       - [`with (env e)`](https://github.com/Certora/Examples/blob/14668d39a6ddc67af349bc5b82f73db73349ef18/CVLByExample/ERC20/certora/specs/ERC20.spec#L128)
 
     - `requireInvariant`
