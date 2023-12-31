@@ -1,0 +1,80 @@
+# Java Maven CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-java/ for more details
+
+version: 2.1
+
+commands:
+  prepare:
+    steps:
+      - add_ssh_keys:
+          fingerprints:
+            - "a7:d9:8e:37:bd:7c:ef:3a:a6:9b:dc:4f:29:97:f9:6f"
+
+      - checkout
+
+      - run:
+          name: Get the current beta
+          command: pip3.11 install certora-cli
+      
+      - run:
+          name: Get ConfRunnerInfra
+          command: |
+            ssh-keyscan github.com >> ~/.ssh/known_hosts
+            pip3.11 install git+ssh://git@github.com/Certora/ConfRunnerInfra.git
+      
+      - run:
+          name: Get ExamplesRegtest
+          command: |
+            cd ~/
+            git clone git@github.com:Certora/ExamplesRegtest.git
+
+
+jobs:
+  examples-regtest:
+    docker:
+      - image: &img public.ecr.aws/y7e8i2v6/cvt-image:2023.10.25-2197-cf04537
+    resource_class: small
+    working_directory: ~/repo
+    steps:
+      - prepare
+
+      - run:
+          name: Run Reg Test
+          command: |
+            cd ~/ExamplesRegtest
+            python3.11 RunNightlyTest.py --examples_repo_path ../repo
+      
+      - store_artifacts:
+          path: Report.csv
+          destination: reports
+      
+      - store_test_results:
+          path: ~/repo
+
+
+parameters:
+  run_regtest:
+    default: false
+    type: boolean
+
+
+workflows:
+  version: 2
+  # Nightly builds will run every day at 4am GMT
+  examples-nightly:
+    triggers:
+      - schedule:
+          cron: "0 4 * * *"
+          filters:
+            branches:
+              only:
+                - master
+    jobs:
+      - examples-regtest
+
+  examples-manual:
+    when: << pipeline.parameters.run_regtest >>
+    jobs:
+      - examples-regtest
+
