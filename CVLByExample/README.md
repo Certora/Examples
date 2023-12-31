@@ -2,57 +2,55 @@
 
 - `array`
    - access
-      - [In a statement](https://github.com/Certora/Examples/blob/14668d39a6ddc67af349bc5b82f73db73349ef18/CVLByExample/structs/BankAccounts/certora/specs/Bank.spec#L87)
-      - [In SStore parameter](https://github.com/Certora/Examples/blob/14668d39a6ddc67af349bc5b82f73db73349ef18/CVLByExample/structs/BankAccounts/certora/specs/Bank.spec#L146)
-      - [by function call](https://github.com/Certora/Examples/blob/14668d39a6ddc67af349bc5b82f73db73349ef18/CVLByExample/structs/BankAccounts/certora/specs/Bank.spec#L76)
-   - [function declaration in method block](https://github.com/Certora/Examples/blob/14668d39a6ddc67af349bc5b82f73db73349ef18/CVLByExample/structs/BankAccounts/certora/specs/Bank.spec#L20C5-L20C74)
-- [`assert`](https://github.com/Certora/Examples/blob/14668d39a6ddc67af349bc5b82f73db73349ef18/CVLByExample/ConstantProductPool/certora/spec/ConstantProductPool.spec#L75)
+      - [In a statement](https://github.com/Certora/Examples/blob/master/CVLByExample/Structs/BankAccounts/certora/specs/structs.spec#L88)
+      - [In SStore parameter](https://github.com/Certora/Examples/blob/master/CVLByExample/Structs/BankAccounts/certora/specs/structs.spec#L146)
+      - [by function call](https://github.com/Certora/Examples/blob/master/CVLByExample/Structs/BankAccounts/certora/specs/structs.spec#L77)
+   - [function declaration in method block](https://github.com/Certora/Examples/blob/master/CVLByExample/Structs/BankAccounts/certora/specs/structs.spec#L21)
+- [`assert`](https://github.com/Certora/Examples/blob/master/DEFI/ConstantProductPool/certora/spec/ConstantProductPool.spec#L75)
 
-- [`assert_uint256`](https://github.com/Certora/Examples/blob/be09cf32c55e39f5f5aa8cba1431f9e519b52365/CVLByExample/ERC20/certora/specs/ERC20Fixed.spec#L189)
+- [`assert_uint256`](https://github.com/Certora/Examples/blob/master/DEFI/ERC20/certora/specs/ERC20Fixed.spec#L180)
 
-- [`at`](https://github.com/Certora/Examples/blob/14668d39a6ddc67af349bc5b82f73db73349ef18/CVLByExample/storage/certora/specs/storage.spec#L114)
+- [`at`](https://github.com/Certora/Examples/blob/master/CVLByExample/Storage/certora/specs/storage.spec#L113)
 
-- [builtin rule](https://github.com/Certora/Examples/blob/14668d39a6ddc67af349bc5b82f73db73349ef18/CVLByExample/ReadOnlyReentrancy/certora/spec/ReadOnlyReentrancy.spec#L1)
+- [builtin rule](https://github.com/Certora/Examples/blob/master/CVLByExample/Reentrancy/certora/spec/ReadOnlyReentrancy.spec#L1)
 
-- [`calldataarg`](https://github.com/Certora/Examples/blob/14668d39a6ddc67af349bc5b82f73db73349ef18/CVLByExample/ERC20/certora/specs/ERC20Fixed.spec#L120)
+- [`calldataarg`](https://github.com/Certora/Examples/blob/master/DEFI/ERC20/certora/specs/ERC20Fixed.spec#L83)
 
-- [cvldoc @param](https://github.com/Certora/Examples/blob/14668d39a6ddc67af349bc5b82f73db73349ef18/CVLByExample/structs/BankAccounts/certora/specs/Bank.spec#L43)
-- [cvldoc @title](https://github.com/Certora/Examples/blob/14668d39a6ddc67af349bc5b82f73db73349ef18/CVLByExample/NativeBalances/certora/specs/Auction.spec#L11)
+- [cvldoc @param](https://github.com/Certora/Examples/blob/master/CVLByExample/Structs/BankAccounts/certora/specs/structs.spec#L44)
+- [cvldoc @title](https://github.com/Certora/Examples/blob/master/CVLByExample/NativeBalances/certora/specs/Auction.spec#L11)
 
-- [CVL function](https://github.com/Certora/Examples/blob/14668d39a6ddc67af349bc5b82f73db73349ef18/CVLByExample/LiquidityPool/certora/specs/pool.spec#L24)
-    - [`override`](https://github.com/Certora/Examples/blob/be09cf32c55e39f5f5aa8cba1431f9e519b52365/CVLByExample/import/certora/specs/sub.spec#L38)
+- [CVL function](https://github.com/Certora/Examples/blob/master/DEFI/LiquidityPool/certora/specs/pool.spec#L24)
+    - [`override`](https://github.com/Certora/Examples/blob/master/CVLByExample/Import/certora/specs/sub.spec#L38)
 
-- [`definition`](https://github.com/Certora/Examples/blob/be09cf32c55e39f5f5aa8cba1431f9e519b52365/CVLByExample/import/certora/specs/base.spec#L22)
+- [`definition`](https://github.com/Certora/Examples/blob/master/CVLByExample/Import/certora/specs/base.spec#L22)
 
-- [`env`](https://github.com/Certora/Examples/blob/14668d39a6ddc67af349bc5b82f73db73349ef18/CVLByExample/ERC20/certora/specs/ERC20Fixed.spec#L20)
+- [`env`](https://github.com/Certora/Examples/blob/master/DEFI/ERC20/certora/specs/ERC20Fixed.spec#L20)
 
-- [`envfree`](https://github.com/Certora/Examples/blob/14668d39a6ddc67af349bc5b82f73db73349ef18/CVLByExample/ERC20/certora/specs/ERC20Fixed.spec#L8)
+- [`envfree`](https://github.com/Certora/Examples/blob/master/DEFI/ERC20/certora/specs/ERC20Fixed.spec#L8)
 
-- [`expect`](https://github.com/Certora/Examples/blob/bf3255766c28068eea2d0513edb8daca7bcaa206/CVLByExample/function-summary/multi-contract/certora/specs/spec_with_summary.spec#L6)
+- [`expect`](https://github.com/Certora/Examples/blob/master/CVLByExample/Summarization/MultiContract/certora/specs/FunctionSummary.spec#L11)
 
-- [`filtered`](https://github.com/Certora/Examples/blob/14668d39a6ddc67af349bc5b82f73db73349ef18/CVLByExample/Reentrancy/certora/spec/Reentrancy.spec#L29C9-L29C9)
+- [`filtered`](https://github.com/Certora/Examples/blob/master/CVLByExample/Reentrancy/certora/spec/Reentrancy.spec#L29)
 
-- [`forall`](https://github.com/Certora/Examples/blob/14668d39a6ddc67af349bc5b82f73db73349ef18/CVLByExample/QuantifierExamples/DoublyLinkedList/certora/spec/dll-linkedcorrectly.spec#L13)
+- [`forall`](https://github.com/Certora/Examples/blob/master/CVLByExample/QuantifierExamples/DoublyLinkedList/certora/spec/dll-linkedcorrectly.spec#L13)
 
-- [Function call](https://github.com/Certora/Examples/blob/14668d39a6ddc67af349bc5b82f73db73349ef18/CVLByExample/ERC20/certora/specs/ERC20Fixed.spec#L122)
+- [Function call](https://github.com/Certora/Examples/blob/master/DEFI/ERC20/certora/specs/ERC20Fixed.spec#L123)
 
 - `ghost`
-   - [ghost variable](https://docs.certora.com/en/latest/docs/confluence/anatomy/definitions.html?highlight=ghost#basic-definitions)
-      - [simple variable example](https://github.com/Certora/Examples/blob/14668d39a6ddc67af349bc5b82f73db73349ef18/CVLByExample/ERC20/certora/specs/ERC20.spec#L113)
+   - [ghost variable]
+      - [simple variable example](https://github.com/Certora/Examples/blob/master/DEFI/ERC20/certora/specs/ERC20Full.spec#L72)
 
-      - [ghost mapping](https://github.com/Certora/Examples/blob/14668d39a6ddc67af349bc5b82f73db73349ef18/CVLByExample/structs/BankAccounts/certora/specs/Bank.spec#L117)
-   - [ghost function](https://github.com/Certora/Examples/blob/14668d39a6ddc67af349bc5b82f73db73349ef18/CVLByExample/QuantifierExamples/DoublyLinkedList/certora/spec/dll-linkedcorrectly.spec#L24)
-   - [`init_state`](https://github.com/Certora/Examples/blob/14668d39a6ddc67af349bc5b82f73db73349ef18/CVLByExample/ConstantProductPool/certora/spec/ConstantProductPool.spec#L207)
-   - [`axiom`](https://github.com/Certora/Examples/blob/14668d39a6ddc67af349bc5b82f73db73349ef18/CVLByExample/structs/BankAccounts/certora/specs/Bank.spec#L119)
-   - [ghost summary](https://github.com/Certora/Examples/blob/7a13d19cb450effac1b937115ca7b20c23f1ab74/CVLByExample/function-summary/ghost-summary/certora/specs/WithGhostSummary.spec#L3)
+      - [ghost mapping](https://github.com/Certora/Examples/blob/master/CVLByExample/Structs/BankAccounts/certora/specs/structs.spec#L118)
+   - [ghost function](https://github.com/Certora/Examples/blob/master/CVLByExample/QuantifierExamples/DoublyLinkedList/certora/spec/dll-linkedcorrectly.spec#L24)
+   - [`init_state`](https://github.com/Certora/Examples/blob/master/DEFI/ConstantProductPool/certora/spec/ConstantProductPool.spec#L219)
+   - [`axiom`](https://github.com/Certora/Examples/blob/master/CVLByExample/Structs/BankAccounts/certora/specs/structs.spec#L120)
+   - [ghost summary](https://github.com/Certora/Examples/blob/master/CVLByExample/Summarization/GhostSummary/GhostMapping/certora/specs/WithGhostSummary.spec#L4)
 
 - `hook`
-   - [`Sstore`](https://github.com/Certora/Examples/blob/14668d39a6ddc67af349bc5b82f73db73349ef18/CVLByExample/ERC20/certora/specs/ERC20.spec#L117)
-   - [`Sload`](https://github.com/Certora/Examples/blob/14668d39a6ddc67af349bc5b82f73db73349ef18/CVLByExample/structs/BankAccounts/certora/specs/Bank.spec#L141)
+   - [`Sstore`](https://github.com/Certora/Examples/blob/master/DEFI/ERC20/certora/specs/ERC20Full.spec#L88)
+   - [`Sload`](https://github.com/Certora/Examples/blob/master/DEFI/ERC20/certora/specs/ERC20Full.spec#L84)
 
-- [`import`](https://github.com/Certora/Examples/blob/be09cf32c55e39f5f5aa8cba1431f9e519b52365/CVLByExample/import/certora/specs/sub.spec#L1)
-
-- [`init_state`](https://github.com/Certora/Examples/blob/14668d39a6ddc67af349bc5b82f73db73349ef18/CVLByExample/ConstantProductPool/certora/spec/ConstantProductPool.spec#L207)
+- [`import`](https://github.com/Certora/Examples/blob/master/CVLByExample/Import/certora/specs/sub.spec#L1)
 
 - `invariant`
    - [simple](https://github.com/Certora/Examples/blob/14668d39a6ddc67af349bc5b82f73db73349ef18/CVLByExample/BallGame/certora/specs/BallGameCorrect.spec#L7)
