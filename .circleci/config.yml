@@ -28,6 +28,7 @@ commands:
           command: |
             cd ~/
             git clone git@github.com:Certora/ExamplesRegtest.git
+            cd ExamplesRegtest
             git switch cli-beta
 
 
