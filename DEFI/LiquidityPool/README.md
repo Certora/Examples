@@ -28,9 +28,19 @@ View [the multi-contract section of the user guide](https://docs.certora.com/en/
 
 
 ### Full Spec
-Run:
-```certoraRun Pool.conf```
-[A report of this run](https://prover.certora.com/output/15800/d334ef766b4e42f2a9285ed2bd12307f?anonymousKey=e46391e835ef8ffae1adc9f13d2fd3ff50a5ef2c)
+This example is a full spec for LiquidityPool.
+To run this use Certora cli with the conf file runFullPoll.conf
+Example of a run: https://prover.certora.com/output/1512/b84b2123fc1f447ba6cff06d8e07552c?anonymousKey=9917501bc57d897a7ec341a2521b30d92237f95d
+UnsatCores: https://prover.certora.com/output/1512/ce180e9d91464a3a9271cb5bf7119125/UnsatCoreVisualisation.html?anonymousKey=88059d4e9f56250f609546f0b77ebc3ed819509d
+Mutation test for this spec: https://mutation-testing.certora.com/?id=66c71fdd-9a1d-44e4-b084-d8d4c3de9e61&anonymousKey=e157a2be-ed9d-4d30-90bb-06b6bee05daf.
+
+This spec discoverd a bug on PoolBroken.sol in rule sharesRoundingTripFavoursContract:
+If it depolyed with underlaying asset it could get stolen by the first depositor.
+A fixed version located in Pool.sol.
+
+The Bug fixed by calculating deposit amount and use it in the conversions instead of the contract underlying asset.
+The invariants noClientHasSharesWithMoreValueThanDepositedAmount, depositedAmountLessThanContractUnderlyingAsset
+As been added to make sure the fix is valid. 
 
 
 ## Flashloan
@@ -65,5 +75,4 @@ This example will verify the spec with a malicious receiver that transfers the m
 
 Command to run:
 ```certoraRun FlashLoanTransfer.conf```
-
 [A report of this run](https://prover.certora.com/output/15800/369ebb72bb20457e9856d1b5950330ef?anonymousKey=badcb6d6ba4411745bf47efa0f19ad7b9c00b362)
