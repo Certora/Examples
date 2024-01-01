@@ -51,7 +51,7 @@ jobs:
           name: Run CVL index Test
           command: |
             cd ~/ExamplesRegtest
-            python3.11 CVLIndexTest.py
+            python3.11 CVLIndexTest.py --examples_repo_path ../repo
 
 parameters:
   run_regtest:
