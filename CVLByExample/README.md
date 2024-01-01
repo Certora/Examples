@@ -78,94 +78,77 @@
         - [`ALWAYS`](https://github.com/Certora/Examples/blob/master/CVLByExample/Summarization/Keywords/certora/specs/AlwaysSummary.spec#L4)
         - [`AUTO`]
         - [`CONSTANT`](https://github.com/Certora/Examples/blob/master/CVLByExample/Summarization/Keywords/certora/specs/ConstantVSNondet.spec#L5)
-        - [DISPATCHER](https://github.com/Certora/Examples/blob/631ba01b47f126dad8d1c067dd2277fb58bf616b/CVLByExample/ConstantProductPool/certora/spec/ConstantProductPool.spec#L36C4-L36C4)
+        - [DISPATCHER](https://github.com/Certora/Examples/blob/master/DEFI/ConstantProductPool/certora/spec/ConstantProductPool.spec#L36C4-L36C4)
 
-        - [`NONDET`](https://github.com/Certora/Examples/blob/bf3255766c28068eea2d0513edb8daca7bcaa206/CVLByExample/function-summary/with-side-effects/certora/specs/HavocAllVSNondet.spec#L5)
-        - [`HAVOC_ALL`](https://github.com/Certora/Examples/blob/bf3255766c28068eea2d0513edb8daca7bcaa206/CVLByExample/function-summary/with-side-effects/certora/specs/HavocAllVSNondet.spec#L3)
+        - [`NONDET`](https://github.com/Certora/Examples/blob/master/CVLByExample/Summarization/Keywords/certora/specs/NondetVsHavoc.spec#L2)
+        - [`HAVOC_ALL`](https://github.com/Certora/Examples/blob/master/CVLByExample/Summarization/Keywords/certora/specs/NondetVsHavoc.spec#L3)
         - Summary Application
-            - [ALL](https://github.com/Certora/Examples/blob/8d58ba44af0b22cc8f7703542c248cd225d26ccc/CVLByExample/function-summary/multi-contract/certora/specs/spec_with_summary.spec#L23)
-            - [UNRESOLVED](https://github.com/Certora/Examples/blob/752bb111907f7aa538c81672aa960d932ffca1f5/CVLByExample/function-summary/Library/DirectSummary/certora/specs/AllDirect.spec#L27)
-        - [direct summarization](https://github.com/Certora/Examples/blob/752bb111907f7aa538c81672aa960d932ffca1f5/CVLByExample/function-summary/Library/DirectSummary/certora/specs/AllDirect.spec#L6)
-        - [wildcard summarization](https://github.com/Certora/Examples/blob/752bb111907f7aa538c81672aa960d932ffca1f5/CVLByExample/function-summary/Library/DirectSummary/certora/specs/AllDirect.spec#L27)
-        - [CVL Function Summary](https://github.com/Certora/Examples/blob/bf3255766c28068eea2d0513edb8daca7bcaa206/CVLByExample/function-summary/multi-contract/certora/specs/spec_with_summary.spec#L6))
-        - [Ghost Summary](https://github.com/Certora/Examples/blob/7a13d19cb450effac1b937115ca7b20c23f1ab74/CVLByExample/function-summary/ghost-summary/certora/specs/WithGhostSummary.spec#L3)
+            - [ALL](https://github.com/Certora/Examples/blob/master/CVLByExample/Summarization/MultiContract/certora/specs/InternalExternalSummary.spec#L14)
+            - [UNRESOLVED](https://github.com/Certora/Examples/blob/master/CVLByExample/Summarization/Library/DirectSummary/certora/specs/AllDirect.spec#L12)
+        - [direct summarization](https://github.com/Certora/Examples/blob/master/CVLByExample/Summarization/Library/DirectSummary/certora/specs/AllDirect.spec#L9)
+        - [wildcard summarization](https://github.com/Certora/Examples/blob/master/CVLByExample/Summarization/Library/DirectSummary/certora/specs/AllDirect.spec#L12)
+        - [CVL Function Summary](https://github.com/Certora/Examples/blob/master/CVLByExample/Summarization/WithEnv/WithEnvCVLFunctionSummary/withEnvSummary.spec#L7))
+        - [Ghost Summary](https://github.com/Certora/Examples/blob/master/CVLByExample/Summarization/WithEnv/WithEnvGhostSummary/WithEnv.spec#L10)
         
-    - [`optional`](https://github.com/Certora/Examples/blob/2b5dabe83d8fae7292ce7c2b59e89a24fd2bcbdc/CVLByExample/optional/certora/specs/Base.spec#L5)
-    - ['expect'](https://github.com/Certora/Examples/blob/bf3255766c28068eea2d0513edb8daca7bcaa206/CVLByExample/function-summary/multi-contract/certora/specs/spec_with_summary.spec#L6)
+    - [`optional`](https://github.com/Certora/Examples/blob/master/CVLByExample/Optional/certora/specs/Base.spec#L5)
+    - ['expect'](https://github.com/Certora/Examples/blob/master/CVLByExample/Summarization/MultiContract/certora/specs/FunctionSummary.spec#L11)
 
-- [`nativeBalances`](https://github.com/Certora/Examples/blob/14668d39a6ddc67af349bc5b82f73db73349ef18/CVLByExample/NativeBalances/certora/specs/Auction.spec#L24)
+- [`nativeBalances`](https://github.com/Certora/Examples/blob/master/CVLByExample/NativeBalances/certora/specs/Auction.spec#L24)
 
-- [`optional`](https://github.com/Certora/Examples/blob/2b5dabe83d8fae7292ce7c2b59e89a24fd2bcbdc/CVLByExample/optional/certora/specs/Base.spec#L5)
 - `override`
-   - [`definition`](https://github.com/Certora/Examples/blob/be09cf32c55e39f5f5aa8cba1431f9e519b52365/CVLByExample/import/certora/specs/sub.spec#L36)
-   - [`function`](https://github.com/Certora/Examples/blob/be09cf32c55e39f5f5aa8cba1431f9e519b52365/CVLByExample/import/certora/specs/sub.spec#L38)
+   - [`definition`](https://github.com/Certora/Examples/blob/master/CVLByExample/Import/certora/specs/sub.spec#L8)
+   - [`function`](https://github.com/Certora/Examples/blob/master/CVLByExample/Import/certora/specs/sub.spec#L38)
 
-- [`require`](https://github.com/Certora/Examples/blob/14668d39a6ddc67af349bc5b82f73db73349ef18/CVLByExample/ConstantProductPool/certora/spec/ConstantProductPool.spec#L44)
+- [`require`](https://github.com/Certora/Examples/blob/master/DEFI/ConstantProductPool/certora/spec/ConstantProductPool.spec#L44)
 
-- [`require_uint256`](https://github.com/Certora/Examples/blob/14668d39a6ddc67af349bc5b82f73db73349ef18/CVLByExample/ERC20/certora/specs/ERC20.spec#L166)
+- [`require_uint256`](https://github.com/Certora/Examples/blob/master/DEFI/ERC20/certora/specs/ERC20Broken.spec#L156)
 
 - `rule`
-   - [simple](https://github.com/Certora/Examples/blob/14668d39a6ddc67af349bc5b82f73db73349ef18/CVLByExample/LiquidityPool/certora/specs/pool.spec#L54)
+   - [simple](https://github.com/Certora/Examples/blob/master/DEFI/LiquidityPool/certora/specs/pool.spec#L54)
    - [parameterized]
-      -[simple parameters](https://github.com/Certora/Examples/blob/14668d39a6ddc67af349bc5b82f73db73349ef18/CVLByExample/LiquidityPool/certora/specs/pool.spec#L24)
-      - [method parameter](https://github.com/Certora/Examples/blob/14668d39a6ddc67af349bc5b82f73db73349ef18/CVLByExample/structs/BankAccounts/certora/specs/Bank.spec#L94)
+      -[simple parameters](https://github.com/Certora/Examples/blob/master/DEFI/LiquidityPool/certora/specs/pool.spec#L24)
+      - [method parameter](https://github.com/Certora/Examples/blob/master/CVLByExample/Structs/BankAccounts/certora/specs/structs.spec#L95)
 
-- [`satisfy`](https://github.com/Certora/Examples/blob/14668d39a6ddc67af349bc5b82f73db73349ef18/CVLByExample/ConstantProductPool/certora/spec/ConstantProductPool.spec#L243)
+- [`satisfy`](https://github.com/Certora/Examples/blob/master/DEFI/ConstantProductPool/certora/spec/ConstantProductPool.spec#L255)
 
-- [`selector`](https://github.com/Certora/Examples/blob/14668d39a6ddc67af349bc5b82f73db73349ef18/CVLByExample/ERC20/certora/specs/ERC20Fixed.spec#L92)
+- [`selector`](https://github.com/Certora/Examples/blob/master/DEFI/ERC20/certora/specs/ERC20Fixed.spec#L92)
 
-- [`sig`](https://github.com/Certora/Examples/blob/14668d39a6ddc67af349bc5b82f73db73349ef18/CVLByExample/ERC20/certora/specs/ERC20Fixed.spec#L92)
+- [`sig`](https://github.com/Certora/Examples/blob/master/DEFI/ERC20/certora/specs/ERC20Fixed.spec#L92)
 
-- [`storage`](https://github.com/Certora/Examples/blob/14668d39a6ddc67af349bc5b82f73db73349ef18/CVLByExample/storage/certora/specs/storage.spec#L28)
-    - [of a contract](https://github.com/Certora/Examples/blob/14668d39a6ddc67af349bc5b82f73db73349ef18/CVLByExample/storage/certora/specs/storage.spec#L87)
-    - [of a ghost](https://github.com/Certora/Examples/blob/14668d39a6ddc67af349bc5b82f73db73349ef18/CVLByExample/storage/certora/specs/storage.spec#L149)
-    - [of nativeBalances](https://github.com/Certora/Examples/blob/14668d39a6ddc67af349bc5b82f73db73349ef18/CVLByExample/storage/certora/specs/storage.spec#L117)
-    - [full storage](https://github.com/Certora/Examples/blob/14668d39a6ddc67af349bc5b82f73db73349ef18/CVLByExample/storage/certora/specs/storage.spec#L107)
-    - [`laststorage`](https://github.com/Certora/Examples/blob/14668d39a6ddc67af349bc5b82f73db73349ef18/CVLByExample/storage/certora/specs/storage.spec#L28)
-    - [direct storage access](https://github.com/Certora/Examples/blob/e28367462ee52f31e5ac84bad7fa26cf6b808cdc/CVLByExample/structs/BankAccounts/certora/specs/Bank.spec#L48)
+- [`storage`](https://github.com/Certora/Examples/blob/master/CVLByExample/Storage/certora/specs/storage.spec#L27)
+    - [of a contract](https://github.com/Certora/Examples/blob/master/CVLByExample/Storage/certora/specs/storage.spec#L86)
+    - [of a ghost](https://github.com/Certora/Examples/blob/master/CVLByExample/Storage/certora/specs/storage.spec#L149)
+    - [of nativeBalances](https://github.com/Certora/Examples/blob/master/CVLByExample/Storage/certora/specs/storage.spec#L116)
+    - [full storage](https://github.com/Certora/Examples/blob/master/CVLByExample/Storage/certora/specs/storage.spec#L106)
+    - [`laststorage`](https://github.com/Certora/Examples/blob/master/CVLByExample/Storage/certora/specs/storage.spec#L106)
+    - [direct storage access](https://github.com/Certora/Examples/blob/master/CVLByExample/Structs/BankAccounts/certora/specs/structs.spec#L48)
 
 - `struct`
-   - [struct return type](https://github.com/Certora/Examples/blob/14668d39a6ddc67af349bc5b82f73db73349ef18/CVLByExample/structs/BankAccounts/certora/specs/Bank.spec#L46)
+   - [struct return type](https://github.com/Certora/Examples/blob/master/CVLByExample/Structs/BankAccounts/certora/specs/structs.spec#L47)
    - `struct` in `methods` block
-      - [`struct` parameter](https://github.com/Certora/Examples/blob/14668d39a6ddc67af349bc5b82f73db73349ef18/CVLByExample/structs/BankAccounts/certora/specs/Bank.spec#L22)
-      - [`struct` return type](https://github.com/Certora/Examples/blob/14668d39a6ddc67af349bc5b82f73db73349ef18/CVLByExample/structs/BankAccounts/certora/specs/Bank.spec#L18)
-      - [returning a `struct` as a tuple](https://github.com/Certora/Examples/blob/14668d39a6ddc67af349bc5b82f73db73349ef18/CVLByExample/structs/BankAccounts/certora/specs/Bank.spec#L20)
+      - [`struct` parameter](https://github.com/Certora/Examples/blob/master/CVLByExample/Structs/BankAccounts/certora/specs/structs.spec#L23)
+      - [`struct` return type](https://github.com/Certora/Examples/blob/master/CVLByExample/Structs/BankAccounts/certora/specs/structs.spec#L19)
+      - [returning a `struct` as a tuple](https://github.com/Certora/Examples/blob/master/CVLByExample/Structs/BankAccounts/certora/specs/structs.spec#L21)
    - `struct` in a `CVL` function
-      - [`struct` parameter to a `CVL` function](https://github.com/Certora/Examples/blob/14668d39a6ddc67af349bc5b82f73db73349ef18/CVLByExample/structs/BankAccounts/certora/specs/Bank.spec#L35)
-      - [`struct` return type of a `CVL` function](https://github.com/Certora/Examples/blob/14668d39a6ddc67af349bc5b82f73db73349ef18/CVLByExample/structs/BankAccounts/certora/specs/Bank.spec#L46)
-      - [returning `struct` as a tuple](https://github.com/Certora/Examples/blob/14668d39a6ddc67af349bc5b82f73db73349ef18/CVLByExample/structs/BankAccounts/certora/specs/Bank.spec#L52)
-   - [assignment to struct](https://github.com/Certora/Examples/blob/14668d39a6ddc67af349bc5b82f73db73349ef18/CVLByExample/structs/BankAccounts/certora/specs/Bank.spec#L97)
-   - [Assigning `struct` to a tuple](https://github.com/Certora/Examples/blob/14668d39a6ddc67af349bc5b82f73db73349ef18/CVLByExample/structs/BankAccounts/certora/specs/Bank.spec#L76)
+      - [`struct` parameter to a `CVL` function](https://github.com/Certora/Examples/blob/master/CVLByExample/Structs/BankAccounts/certora/specs/structs.spec#L36)
+      - [`struct` return type of a `CVL` function](https://github.com/Certora/Examples/blob/master/CVLByExample/Structs/BankAccounts/certora/specs/structs.spec#L47)
+      - [returning `struct` as a tuple](https://github.com/Certora/Examples/blob/master/CVLByExample/Structs/BankAccounts/certora/specs/structs.spec#L53)
+   - [assignment to struct](https://github.com/Certora/Examples/blob/master/CVLByExample/Structs/BankAccounts/certora/specs/structs.spec#L98)
+   - [Assigning `struct` to a tuple](https://github.com/Certora/Examples/blob/master/CVLByExample/Structs/BankAccounts/certora/specs/structs.spec#L77)
 
-- Summarization
-   - [`ALWAYS`](https://github.com/Certora/Examples/blob/8d58ba44af0b22cc8f7703542c248cd225d26ccc/CVLByExample/function-summary/multi-contract/certora/specs/spec_with_summary.spec#L22) 
-   - [`CONSTANT`](https://github.com/Certora/Examples/blob/8136b977cfe2fbf8e9e7ab0d74896cc62403fdb8/CVLByExample/function-summary/simple/certora/specs/ConstantVSNondet.spec#L5)
-   - [`NONDET`](https://github.com/Certora/Examples/blob/bf3255766c28068eea2d0513edb8daca7bcaa206/CVLByExample/function-summary/with-side-effects/certora/specs/HavocAllVSNondet.spec#L5)
-   - [`HAVOC_ALL`](https://github.com/Certora/Examples/blob/8d58ba44af0b22cc8f7703542c248cd225d26ccc/CVLByExample/function-summary/with-side-effects/certora/specs/HavocAllVSNondet.spec#L3)
-   - [`DISPATCHER`](https://github.com/Certora/Examples/blob/631ba01b47f126dad8d1c067dd2277fb58bf616b/CVLByExample/ConstantProductPool/certora/spec/ConstantProductPool.spec#L36C4-L36C4)
-   - Summary Application
-      - [ALL](https://github.com/Certora/Examples/blob/8d58ba44af0b22cc8f7703542c248cd225d26ccc/CVLByExample/function-summary/multi-contract/certora/specs/spec_with_summary.spec#L23)
-      - [UNRESOLVED](https://github.com/Certora/Examples/blob/752bb111907f7aa538c81672aa960d932ffca1f5/CVLByExample/function-summary/Library/DirectSummary/certora/specs/AllDirect.spec#L27)
-      - [direct summarization](https://github.com/Certora/Examples/blob/752bb111907f7aa538c81672aa960d932ffca1f5/CVLByExample/function-summary/Library/DirectSummary/certora/specs/AllDirect.spec#L6)
-      - [wildcard summarization](https://github.com/Certora/Examples/blob/752bb111907f7aa538c81672aa960d932ffca1f5/CVLByExample/function-summary/Library/DirectSummary/certora/specs/AllDirect.spec#L27)
-   - [CVL Function Summary](https://github.com/Certora/Examples/blob/8d58ba44af0b22cc8f7703542c248cd225d26ccc/CVLByExample/function-summary/multi-contract/certora/specs/spec_with_summary.spec#L6)
-   - [Ghost Summary](https://github.com/Certora/Examples/blob/7a13d19cb450effac1b937115ca7b20c23f1ab74/CVLByExample/function-summary/ghost-summary/certora/specs/WithGhostSummary.spec#L3)
-
-
-- [`to_mathint`](https://github.com/Certora/Examples/blob/14668d39a6ddc67af349bc5b82f73db73349ef18/CVLByExample/ConstantProductPool/certora/spec/ConstantProductPool.spec#L45C66-L45C76)
+- [`to_mathint`](https://github.com/Certora/Examples/blob/master/DEFI/ConstantProductPool/certora/spec/ConstantProductPool.spec#L45)
 
 - `use`
    - `rule`
-      - [with filters](https://github.com/Certora/Examples/blob/be09cf32c55e39f5f5aa8cba1431f9e519b52365/CVLByExample/import/certora/specs/sub.spec#L3)
-      - [overriding imported filters](https://github.com/Certora/Examples/blob/be09cf32c55e39f5f5aa8cba1431f9e519b52365/CVLByExample/import/certora/specs/sub.spec#L3)
-   - [`invariant`](https://github.com/Certora/Examples/blob/be09cf32c55e39f5f5aa8cba1431f9e519b52365/CVLByExample/import/certora/specs/sub.spec#L8)
-      - [overriding imported `preserved`](https://github.com/Certora/Examples/blob/be09cf32c55e39f5f5aa8cba1431f9e519b52365/CVLByExample/import/certora/specs/sub.spec#L10)
-      - [adding a `preserved` block](https://github.com/Certora/Examples/blob/be09cf32c55e39f5f5aa8cba1431f9e519b52365/CVLByExample/import/certora/specs/sub.spec#L14)
-   - [builtin rule](https://github.com/Certora/Examples/blob/14668d39a6ddc67af349bc5b82f73db73349ef18/CVLByExample/ReadOnlyReentrancy/certora/spec/ReadOnlyReentrancy.spec#L1)
+      - [with filters](https://github.com/Certora/Examples/blob/master/CVLByExample/Import/certora/specs/sub.spec#L32)
+      - [overriding imported filters](https://github.com/Certora/Examples/blob/master/CVLByExample/Import/certora/specs/sub.spec#L32)
+   - [`invariant`](https://github.com/Certora/Examples/blob/master/CVLByExample/Import/certora/specs/sub.spec#L10)
+      - [overriding imported `preserved`](https://github.com/Certora/Examples/blob/master/CVLByExample/Import/certora/specs/sub.spec#L12)
+   - [builtin rule](https://github.com/Certora/Examples/blob/master/CVLByExample/Reentrancy/certora/spec/ReadOnlyReentrancy.spec#L1)
 
-- [`using`](https://github.com/Certora/Examples/blob/14668d39a6ddc67af349bc5b82f73db73349ef18/CVLByExample/LiquidityPool/certora/specs/pool_link.spec#L14)
+- [`using`](https://github.com/Certora/Examples/blob/master/DEFI/LiquidityPool/certora/specs/pool_link.spec#L14)
 
-- [`withrevert`](https://github.com/Certora/Examples/blob/14668d39a6ddc67af349bc5b82f73db73349ef18/CVLByExample/storage/certora/specs/storage.spec#L45C19-L45C19)
+- [`withrevert`](https://github.com/Certora/Examples/blob/master/CVLByExample/Storage/certora/specs/storage.spec#L44)
 
 
 These examples can serve as an introduction to CVL ( Certora Verification Language ).
