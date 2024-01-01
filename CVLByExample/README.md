@@ -39,12 +39,11 @@
 - `ghost`
    - [ghost variable]
       - [simple variable example](https://github.com/Certora/Examples/blob/master/DEFI/ERC20/certora/specs/ERC20Full.spec#L72)
-
       - [ghost mapping](https://github.com/Certora/Examples/blob/master/CVLByExample/Structs/BankAccounts/certora/specs/structs.spec#L118)
-   - [ghost function](https://github.com/Certora/Examples/blob/master/CVLByExample/QuantifierExamples/DoublyLinkedList/certora/spec/dll-linkedcorrectly.spec#L24)
-   - [`init_state`](https://github.com/Certora/Examples/blob/master/DEFI/ConstantProductPool/certora/spec/ConstantProductPool.spec#L219)
-   - [`axiom`](https://github.com/Certora/Examples/blob/master/CVLByExample/Structs/BankAccounts/certora/specs/structs.spec#L120)
-   - [ghost summary](https://github.com/Certora/Examples/blob/master/CVLByExample/Summarization/GhostSummary/GhostMapping/certora/specs/WithGhostSummary.spec#L4)
+      - [ghost function](https://github.com/Certora/Examples/blob/master/CVLByExample/QuantifierExamples/DoublyLinkedList/certora/spec/dll-linkedcorrectly.spec#L24)
+      - [`init_state`](https://github.com/Certora/Examples/blob/master/DEFI/ConstantProductPool/certora/spec/ConstantProductPool.spec#L219)
+      - [`axiom`](https://github.com/Certora/Examples/blob/master/CVLByExample/Structs/BankAccounts/certora/specs/structs.spec#L120)
+      - [ghost summary](https://github.com/Certora/Examples/blob/master/CVLByExample/Summarization/GhostSummary/GhostMapping/certora/specs/WithGhostSummary.spec#L4)
 
 - `hook`
    - [`Sstore`](https://github.com/Certora/Examples/blob/master/DEFI/ERC20/certora/specs/ERC20Full.spec#L88)
@@ -85,10 +84,10 @@
         - Summary Application
             - [ALL](https://github.com/Certora/Examples/blob/master/CVLByExample/Summarization/MultiContract/certora/specs/InternalExternalSummary.spec#L14)
             - [UNRESOLVED](https://github.com/Certora/Examples/blob/master/CVLByExample/Summarization/Library/DirectSummary/certora/specs/AllDirect.spec#L12)
-        - [direct summarization](https://github.com/Certora/Examples/blob/master/CVLByExample/Summarization/Library/DirectSummary/certora/specs/AllDirect.spec#L9)
-        - [wildcard summarization](https://github.com/Certora/Examples/blob/master/CVLByExample/Summarization/Library/DirectSummary/certora/specs/AllDirect.spec#L12)
-        - [CVL Function Summary](https://github.com/Certora/Examples/blob/master/CVLByExample/Summarization/WithEnv/WithEnvCVLFunctionSummary/withEnvSummary.spec#L7))
-        - [Ghost Summary](https://github.com/Certora/Examples/blob/master/CVLByExample/Summarization/WithEnv/WithEnvGhostSummary/WithEnv.spec#L10)
+            - [direct summarization](https://github.com/Certora/Examples/blob/master/CVLByExample/Summarization/Library/DirectSummary/certora/specs/AllDirect.spec#L9)
+            - [wildcard summarization](https://github.com/Certora/Examples/blob/master/CVLByExample/Summarization/Library/DirectSummary/certora/specs/AllDirect.spec#L12)
+            - [CVL Function Summary](https://github.com/Certora/Examples/blob/master/CVLByExample/Summarization/WithEnv/WithEnvCVLFunctionSummary/withEnvSummary.spec#L7))
+            - [Ghost Summary](https://github.com/Certora/Examples/blob/master/CVLByExample/Summarization/WithEnv/WithEnvGhostSummary/WithEnv.spec#L10)
         
     - [`optional`](https://github.com/Certora/Examples/blob/master/CVLByExample/Optional/certora/specs/Base.spec#L5)
     - ['expect'](https://github.com/Certora/Examples/blob/master/CVLByExample/Summarization/MultiContract/certora/specs/FunctionSummary.spec#L11)
@@ -154,18 +153,4 @@
 These examples can serve as an introduction to CVL ( Certora Verification Language ).
 It also contains examples that are based on real-life code and the spec that have caught critical bugs.
 
-See https://docs.certora.com for a complete guide. 
-
-
-To run the examples, use the provided configuration: 
-```
-cd ConstantProductPoolExample 
-certoraRun ConstantProductPoolExample/certora/conf/run.conf 
-```
-
-This will result in a run with violations as seen [here](https://prover.certora.com/output/40726/b2c63e002e864e9d94b6ee03bf49cef0?anonymousKey=b8b428b78410796d656109f8f2b6436202e139f5).
-
-For the fixed version, ConstantProductPoolFixed.sol run:
-```certoraRun ConstantProductPoolExample/certora/conf/runFixed.conf```
-
-runNondetSummary and runHavocSummary wait for https://certora.atlassian.net/browse/CERT-3825?filter=-2
+See https://docs.certora.com for a complete guide.
