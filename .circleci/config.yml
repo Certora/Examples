@@ -76,10 +76,12 @@ workflows:
     jobs:
       - examples-regtest
 
-  pull-request:
+  cvl-index-regression:
     jobs:
       - cvl-index:
           filters:
             branches:
-              ignore:
-                - /.*/
+              only:
+                - /.*/  # Run for all branches
+            tags:
+              ignore: /.*/  # Ignore tags
