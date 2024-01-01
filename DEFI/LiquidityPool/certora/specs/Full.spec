@@ -216,8 +216,8 @@ rule splitWithdrawFavoursTheContract(env e){
 
     uint256 wholeAmount = withdraw(e, wholeShares);
 
-    uint256 amountA = deposit(e, sharesA) at init;
-    uint256 amountB = deposit(e, sharesB);
+    uint256 amountA = withdraw(e, sharesA) at init;
+    uint256 amountB = withdraw(e, sharesB);
 
     assert to_mathint(wholeAmount) >= amountA + amountB;
 }
