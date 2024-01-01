@@ -74,7 +74,7 @@ workflows:
     jobs:
       - examples-regtest
 
-  examples-manual:
+  examples-manual-beta:
     when: << pipeline.parameters.run_regtest >>
     jobs:
       - examples-regtest
