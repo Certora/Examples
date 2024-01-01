@@ -40,7 +40,7 @@
 | **use**           | `rule`: [with filters](https://github.com/Certora/Examples/blob/master/CVLByExample/Import/certora/specs/sub.spec#L32), [overriding imported filters](https://github.com/Certora/Examples/blob/master/CVLByExample/Import/certora/specs/sub.spec#L32), [`invariant`](https://github.com/Certora/Examples/blob/master/CVLByExample/Import/certora/specs/sub.spec#L10): [overriding imported `preserved`](https://github.com/Certora/Examples/blob/master/CVLByExample/Import/certora/specs/sub.spec#L12), [builtin rule](https://github.com/Certora/Examples/blob/master/CVLByExample/Reentrancy/certora/spec/ReadOnlyReentrancy.spec#L1) |
 | **using**         | [`using`](https://github.com/Certora/Examples/blob/master/DEFI/LiquidityPool/certora/specs/pool_link.spec#L14) |
 | **withrevert**    | [`withrevert`](https://github.com/Certora/Examples/blob/master/CVLByExample/Storage/certora/specs/storage.spec#L44) |
-| **CVL Type**  | [mathint](https://github.com/Certora/Examples/blob/master/DEFI/ERC20/certora/specs/ERC20Fixed.spec#L28), [method](https://github.com/Certora/Examples/blob/master/DEFI/ERC20/certora/specs/ERC20Fixed.spec#L83), [env](https://github.com/Certora/Examples/blob/master/DEFI/ERC20/certora/specs/ERC20Fixed.spec#L20) |
+| **CVL Type**  | [mathint](https://github.com/Certora/Examples/blob/master/DEFI/ERC20/certora/specs/ERC20Fixed.spec#L23), [method](https://github.com/Certora/Examples/blob/master/DEFI/ERC20/certora/specs/ERC20Fixed.spec#L83), [env](https://github.com/Certora/Examples/blob/master/DEFI/ERC20/certora/specs/ERC20Fixed.spec#L20) |
 
 
 These examples can serve as an introduction to CVL ( Certora Verification Language ).
