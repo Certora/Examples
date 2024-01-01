@@ -24,8 +24,6 @@
 
 - [`definition`](https://github.com/Certora/Examples/blob/master/CVLByExample/Import/certora/specs/base.spec#L22)
 
-- [`env`](https://github.com/Certora/Examples/blob/master/DEFI/ERC20/certora/specs/ERC20Fixed.spec#L20)
-
 - [`envfree`](https://github.com/Certora/Examples/blob/master/DEFI/ERC20/certora/specs/ERC20Fixed.spec#L8)
 
 - [`expect`](https://github.com/Certora/Examples/blob/master/CVLByExample/Summarization/MultiContract/certora/specs/FunctionSummary.spec#L11)
@@ -65,9 +63,11 @@
 
 - [`laststorage`](https://github.com/Certora/Examples/blob/master/CVLByExample/Storage/certora/specs/storage.spec#L27)
 
-- [`mathint`](https://github.com/Certora/Examples/blob/master/DEFI/ERC20/certora/specs/ERC20Fixed.spec#L23C5-L23C12)
 
-- [`method`](https://github.com/Certora/Examples/blob/master/DEFI/ERC20/certora/specs/ERC20Fixed.spec#L83)
+- CVL Type
+   - [`mathint`](https://github.com/Certora/Examples/blob/master/DEFI/ERC20/certora/specs/ERC20Fixed.spec#L23C5-L23C12)
+   - [`method`](https://github.com/Certora/Examples/blob/master/DEFI/ERC20/certora/specs/ERC20Fixed.spec#L83)
+   - [`env`](https://github.com/Certora/Examples/blob/master/DEFI/ERC20/certora/specs/ERC20Fixed.spec#L20)
 
 - `methods` block 
     - [Calls to external contracts](https://github.com/Certora/Examples/blob/master/DEFI/ConstantProductPool/certora/spec/ConstantProductPool.spec#L29)
@@ -169,7 +169,6 @@ Certainly, here is the organized table without subcategories:
 | **cvldoc @title** | [cvldoc @title](https://github.com/Certora/Examples/blob/master/CVLByExample/NativeBalances/certora/specs/Auction.spec#L11) |
 | **CVL function**  | [CVL function](https://github.com/Certora/Examples/blob/master/DEFI/LiquidityPool/certora/specs/pool.spec#L24), [`override`](https://github.com/Certora/Examples/blob/master/CVLByExample/Import/certora/specs/sub.spec#L38) |
 | **definition**    | [`definition`](https://github.com/Certora/Examples/blob/master/CVLByExample/Import/certora/specs/base.spec#L22) |
-| **env**           | [`env`](https://github.com/Certora/Examples/blob/master/DEFI/ERC20/certora/specs/ERC20Fixed.spec#L20) |
 | **envfree**       | [`envfree`](https://github.com/Certora/Examples/blob/master/DEFI/ERC20/certora/specs/ERC20Fixed.spec#L8) |
 | **expect**        | [`expect`](https://github.com/Certora/Examples/blob/master/CVLByExample/Summarization/MultiContract/certora/specs/FunctionSummary.spec#L11) |
 | **filtered**      | [`filtered`](https://github.com/Certora/Examples/blob/master/CVLByExample/Reentrancy/certora/spec/Reentrancy.spec#L29) |
@@ -181,8 +180,6 @@ Certainly, here is the organized table without subcategories:
 | **invariant**     | [simple](https://github.com/Certora/Examples/blob/master/CVLByExample/Invariant/certora/specs/BallGame.spec#L7), [strengthening](https://github.com/Certora/Examples/blob/master/CVLByExample/Invariant/certora/specs/BallGameCorrect.spec#L7), [`preserved`](https://github.com/Certora/Examples/blob/master/DEFI/ERC20/certora/specs/ERC20Broken.spec#L128) with (env e), `requireInvariant` [in a rule](https://github.com/Certora/Examples/blob/master/DEFI/ConstantProductPool/certora/spec/ConstantProductPool.spec#L190), [in a `CVL` function](https://github.com/Certora/Examples/blob/master/DEFI/LiquidityPool/certora/specs/pool.spec#L27) |
 | **lastreverted**  | [`lastreverted`](https://github.com/Certora/Examples/blob/master/DEFI/ERC20/certora/specs/ERC20Broken.spec#L49) |
 | **laststorage**   | [`laststorage`](https://github.com/Certora/Examples/blob/master/CVLByExample/Storage/certora/specs/storage.spec#L27) |
-| **mathint**       | [`mathint`](https://github.com/Certora/Examples/blob/master/DEFI/ERC20/certora/specs/ERC20Fixed.spec#L23C5-L23C12) |
-| **method**        | [`method`](https://github.com/Certora/Examples/blob/master/DEFI/ERC20/certora/specs/ERC20Fixed.spec#L83) |
 | **methods block** | [Calls to external contracts](https://github.com/Certora/Examples/blob/master/DEFI/ConstantProductPool/certora/spec/ConstantProductPool.spec#L29), [envfree](https://github.com/Certora/Examples/blob/master/DEFI/ConstantProductPool/certora/spec/ConstantProductPool.spec#L19C50-L19C57), [`with (env)`], Summary [`ALWAYS`](https://github.com/Certora/Examples/blob/master/CVLByExample/Summarization/Keywords/certora/specs/AlwaysSummary.spec#L4), [`AUTO`], [`CONSTANT`](https://github.com/Certora/Examples/blob/master/CVLByExample/Summarization/Keywords/certora/specs/ConstantVSNondet.spec#L5), [DISPATCHER](https://github.com/Certora/Examples/blob/master/DEFI/ConstantProductPool/certora/spec/ConstantProductPool.spec#L36C4-L36C4), [`NONDET`](https://github.com/Certora/Examples/blob/master/CVLByExample/Summarization/Keywords/certora/specs/NondetVsHavoc.spec#L2), [`HAVOC_ALL`](https://github.com/Certora/Examples/blob/master/CVLByExample/Summarization/Keywords/certora/specs/NondetVsHavoc.spec#L3), Summary Application [ALL](https://github.com/Certora/Examples/blob/master/CVLByExample/Summarization/MultiContract/certora/specs/InternalExternalSummary.spec#L14), [UNRESOLVED](https://github.com/Certora/Examples/blob/master/CVLByExample/Summarization/Library/DirectSummary/certora/specs/AllDirect.spec#L12), [direct summarization](https://github.com/Certora/Examples/blob/master/CVLByExample/Summarization/Library/DirectSummary/certora/specs/AllDirect.spec#L9), [wildcard summarization](https://github.com/Certora/Examples/blob/master/CVLByExample/Summarization/Library/DirectSummary/certora/specs/AllDirect.spec#L12), [CVL Function Summary](https://github.com/Certora/Examples/blob/master/CVLByExample/Summarization/WithEnv/WithEnvCVLFunctionSummary/withEnvSummary.spec#L7)), [Ghost Summary](https://github.com/Certora/Examples/blob/master/CVLByExample/Summarization/WithEnv/WithEnvGhostSummary/WithEnv.spec#L10) |
 | **optional**      | [`optional`](https://github.com/Certora/Examples/blob/master/CVLByExample/Optional/certora/specs/Base.spec#L5) |
 | **expect**        | ['expect'](https://github.com/Certora/Examples/blob/master/CVLByExample/Summarization/MultiContract/certora/specs/FunctionSummary.spec#L11) |
@@ -200,3 +197,4 @@ Certainly, here is the organized table without subcategories:
 | **use**           | `rule`: [with filters](https://github.com/Certora/Examples/blob/master/CVLByExample/Import/certora/specs/sub.spec#L32), [overriding imported filters](https://github.com/Certora/Examples/blob/master/CVLByExample/Import/certora/specs/sub.spec#L32), [`invariant`](https://github.com/Certora/Examples/blob/master/CVLByExample/Import/certora/specs/sub.spec#L10): [overriding imported `preserved`](https://github.com/Certora/Examples/blob/master/CVLByExample/Import/certora/specs/sub.spec#L12), [builtin rule](https://github.com/Certora/Examples/blob/master/CVLByExample/Reentrancy/certora/spec/ReadOnlyReentrancy.spec#L1) |
 | **using**         | [`using`](https://github.com/Certora/Examples/blob/master/DEFI/LiquidityPool/certora/specs/pool_link.spec#L14) |
 | **withrevert**    | [`withrevert`](https://github.com/Certora/Examples/blob/master/CVLByExample/Storage/certora/specs/storage.spec#L44) |
+| **CVL Type**  | [mathint](https://github.com/Certora/Examples/blob/master/DEFI/ERC20/certora/specs/ERC20Fixed.spec#L23C5-L23C12), [method](https://github.com/Certora/Examples/blob/master/DEFI/ERC20/certora/specs/ERC20Fixed.spec#L83), [env](https://github.com/Certora/Examples/blob/master/DEFI/ERC20/certora/specs/ERC20Fixed.spec#L20) |
