@@ -15,7 +15,7 @@ commands:
 
       - run:
           name: Get the current beta
-          command: pip3.11 install certora-cli
+          command: pip3.11 install certora-cli-beta
       
       - run:
           name: Get ConfRunnerInfra
@@ -27,7 +27,7 @@ commands:
           name: Get ExamplesRegtest
           command: |
             cd ~/
-            git clone git@github.com:Certora/ExamplesRegtest.git
+            git clone git@github.com:Certora/ExamplesRegtest.git@cli-beta
 
 
 jobs:
@@ -62,14 +62,14 @@ parameters:
 workflows:
   version: 2
   # Nightly builds will run every day at 4am GMT
-  examples-nightly:
+  examples-nightly-beta:
     triggers:
       - schedule:
           cron: "0 4 * * *"
           filters:
             branches:
               only:
-                - master
+                - cli-beta
     jobs:
       - examples-regtest
 
