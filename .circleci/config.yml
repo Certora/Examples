@@ -81,5 +81,5 @@ workflows:
       - cvl-index:
           filters:
             branches:
-                only:
-                  - pull_request
+              ignore:
+                - /.*/
