@@ -65,19 +65,19 @@
 
 - [`laststorage`](https://github.com/Certora/Examples/blob/master/CVLByExample/Storage/certora/specs/storage.spec#L27)
 
-- [`mathint`](https://github.com/Certora/Examples/blob/master/DEFI/ERC20/certora/specs/ERC20Fixed.spec#L23C5-L23C12)
+- [`mathint`](https://github.com/Certora/Examples/blob/master/DEFI/ERC20/certora/specs/ERC20Fixed.spec#L23)
 
 - [`method`](https://github.com/Certora/Examples/blob/master/DEFI/ERC20/certora/specs/ERC20Fixed.spec#L83)
 
 - `methods` block 
     - [Calls to external contracts](https://github.com/Certora/Examples/blob/master/DEFI/ConstantProductPool/certora/spec/ConstantProductPool.spec#L29)
-    - [envfree](https://github.com/Certora/Examples/blob/master/DEFI/ConstantProductPool/certora/spec/ConstantProductPool.spec#L19C50-L19C57)
+    - [envfree](https://github.com/Certora/Examples/blob/master/DEFI/ConstantProductPool/certora/spec/ConstantProductPool.spec#L19)
     - [`with (env)`]
     - Summary
         - [`ALWAYS`](https://github.com/Certora/Examples/blob/master/CVLByExample/Summarization/Keywords/certora/specs/AlwaysSummary.spec#L4)
         - [`AUTO`]
         - [`CONSTANT`](https://github.com/Certora/Examples/blob/master/CVLByExample/Summarization/Keywords/certora/specs/ConstantVSNondet.spec#L5)
-        - [DISPATCHER](https://github.com/Certora/Examples/blob/master/DEFI/ConstantProductPool/certora/spec/ConstantProductPool.spec#L36C4-L36C4)
+        - [DISPATCHER](https://github.com/Certora/Examples/blob/master/DEFI/ConstantProductPool/certora/spec/ConstantProductPool.spec#L36)
 
         - [`NONDET`](https://github.com/Certora/Examples/blob/master/CVLByExample/Summarization/Keywords/certora/specs/NondetVsHavoc.spec#L2)
         - [`HAVOC_ALL`](https://github.com/Certora/Examples/blob/master/CVLByExample/Summarization/Keywords/certora/specs/NondetVsHavoc.spec#L3)
@@ -86,7 +86,7 @@
             - [UNRESOLVED](https://github.com/Certora/Examples/blob/master/CVLByExample/Summarization/Library/DirectSummary/certora/specs/AllDirect.spec#L12)
             - [direct summarization](https://github.com/Certora/Examples/blob/master/CVLByExample/Summarization/Library/DirectSummary/certora/specs/AllDirect.spec#L9)
             - [wildcard summarization](https://github.com/Certora/Examples/blob/master/CVLByExample/Summarization/Library/DirectSummary/certora/specs/AllDirect.spec#L12)
-            - [CVL Function Summary](https://github.com/Certora/Examples/blob/master/CVLByExample/Summarization/WithEnv/WithEnvCVLFunctionSummary/withEnvSummary.spec#L7))
+            - [CVL Function Summary](https://github.com/Certora/Examples/blob/master/CVLByExample/Summarization/WithEnv/WithEnvCVLFunctionSummary/withEnvSummary.spec#L7)
             - [Ghost Summary](https://github.com/Certora/Examples/blob/master/CVLByExample/Summarization/WithEnv/WithEnvGhostSummary/WithEnv.spec#L10)
         
     - [`optional`](https://github.com/Certora/Examples/blob/master/CVLByExample/Optional/certora/specs/Base.spec#L5)
@@ -181,9 +181,9 @@ Certainly, here is the organized table without subcategories:
 | **invariant**     | [simple](https://github.com/Certora/Examples/blob/master/CVLByExample/Invariant/certora/specs/BallGame.spec#L7), [strengthening](https://github.com/Certora/Examples/blob/master/CVLByExample/Invariant/certora/specs/BallGameCorrect.spec#L7), [`preserved`](https://github.com/Certora/Examples/blob/master/DEFI/ERC20/certora/specs/ERC20Broken.spec#L128) with (env e), `requireInvariant` [in a rule](https://github.com/Certora/Examples/blob/master/DEFI/ConstantProductPool/certora/spec/ConstantProductPool.spec#L190), [in a `CVL` function](https://github.com/Certora/Examples/blob/master/DEFI/LiquidityPool/certora/specs/pool.spec#L27) |
 | **lastreverted**  | [`lastreverted`](https://github.com/Certora/Examples/blob/master/DEFI/ERC20/certora/specs/ERC20Broken.spec#L49) |
 | **laststorage**   | [`laststorage`](https://github.com/Certora/Examples/blob/master/CVLByExample/Storage/certora/specs/storage.spec#L27) |
-| **mathint**       | [`mathint`](https://github.com/Certora/Examples/blob/master/DEFI/ERC20/certora/specs/ERC20Fixed.spec#L23C5-L23C12) |
+| **mathint**       | [`mathint`](https://github.com/Certora/Examples/blob/master/DEFI/ERC20/certora/specs/ERC20Fixed.spec#L23) |
 | **method**        | [`method`](https://github.com/Certora/Examples/blob/master/DEFI/ERC20/certora/specs/ERC20Fixed.spec#L83) |
-| **methods block** | [Calls to external contracts](https://github.com/Certora/Examples/blob/master/DEFI/ConstantProductPool/certora/spec/ConstantProductPool.spec#L29), [envfree](https://github.com/Certora/Examples/blob/master/DEFI/ConstantProductPool/certora/spec/ConstantProductPool.spec#L19C50-L19C57), [`with (env)`], Summary [`ALWAYS`](https://github.com/Certora/Examples/blob/master/CVLByExample/Summarization/Keywords/certora/specs/AlwaysSummary.spec#L4), [`AUTO`], [`CONSTANT`](https://github.com/Certora/Examples/blob/master/CVLByExample/Summarization/Keywords/certora/specs/ConstantVSNondet.spec#L5), [DISPATCHER](https://github.com/Certora/Examples/blob/master/DEFI/ConstantProductPool/certora/spec/ConstantProductPool.spec#L36C4-L36C4), [`NONDET`](https://github.com/Certora/Examples/blob/master/CVLByExample/Summarization/Keywords/certora/specs/NondetVsHavoc.spec#L2), [`HAVOC_ALL`](https://github.com/Certora/Examples/blob/master/CVLByExample/Summarization/Keywords/certora/specs/NondetVsHavoc.spec#L3), Summary Application [ALL](https://github.com/Certora/Examples/blob/master/CVLByExample/Summarization/MultiContract/certora/specs/InternalExternalSummary.spec#L14), [UNRESOLVED](https://github.com/Certora/Examples/blob/master/CVLByExample/Summarization/Library/DirectSummary/certora/specs/AllDirect.spec#L12), [direct summarization](https://github.com/Certora/Examples/blob/master/CVLByExample/Summarization/Library/DirectSummary/certora/specs/AllDirect.spec#L9), [wildcard summarization](https://github.com/Certora/Examples/blob/master/CVLByExample/Summarization/Library/DirectSummary/certora/specs/AllDirect.spec#L12), [CVL Function Summary](https://github.com/Certora/Examples/blob/master/CVLByExample/Summarization/WithEnv/WithEnvCVLFunctionSummary/withEnvSummary.spec#L7)), [Ghost Summary](https://github.com/Certora/Examples/blob/master/CVLByExample/Summarization/WithEnv/WithEnvGhostSummary/WithEnv.spec#L10) |
+| **methods block** | [Calls to external contracts](https://github.com/Certora/Examples/blob/master/DEFI/ConstantProductPool/certora/spec/ConstantProductPool.spec#L29), [envfree](https://github.com/Certora/Examples/blob/master/DEFI/ConstantProductPool/certora/spec/ConstantProductPool.spec#L19), [`with (env)`], Summary [`ALWAYS`](https://github.com/Certora/Examples/blob/master/CVLByExample/Summarization/Keywords/certora/specs/AlwaysSummary.spec#L4), [`AUTO`], [`CONSTANT`](https://github.com/Certora/Examples/blob/master/CVLByExample/Summarization/Keywords/certora/specs/ConstantVSNondet.spec#L5), [DISPATCHER](https://github.com/Certora/Examples/blob/master/DEFI/ConstantProductPool/certora/spec/ConstantProductPool.spec#L36), [`NONDET`](https://github.com/Certora/Examples/blob/master/CVLByExample/Summarization/Keywords/certora/specs/NondetVsHavoc.spec#L2), [`HAVOC_ALL`](https://github.com/Certora/Examples/blob/master/CVLByExample/Summarization/Keywords/certora/specs/NondetVsHavoc.spec#L3), Summary Application [ALL](https://github.com/Certora/Examples/blob/master/CVLByExample/Summarization/MultiContract/certora/specs/InternalExternalSummary.spec#L14), [UNRESOLVED](https://github.com/Certora/Examples/blob/master/CVLByExample/Summarization/Library/DirectSummary/certora/specs/AllDirect.spec#L12), [direct summarization](https://github.com/Certora/Examples/blob/master/CVLByExample/Summarization/Library/DirectSummary/certora/specs/AllDirect.spec#L9), [wildcard summarization](https://github.com/Certora/Examples/blob/master/CVLByExample/Summarization/Library/DirectSummary/certora/specs/AllDirect.spec#L12), [CVL Function Summary](https://github.com/Certora/Examples/blob/master/CVLByExample/Summarization/WithEnv/WithEnvCVLFunctionSummary/withEnvSummary.spec#L7), [Ghost Summary](https://github.com/Certora/Examples/blob/master/CVLByExample/Summarization/WithEnv/WithEnvGhostSummary/WithEnv.spec#L10) |
 | **optional**      | [`optional`](https://github.com/Certora/Examples/blob/master/CVLByExample/Optional/certora/specs/Base.spec#L5) |
 | **expect**        | ['expect'](https://github.com/Certora/Examples/blob/master/CVLByExample/Summarization/MultiContract/certora/specs/FunctionSummary.spec#L11) |
 | **nativeBalances**| [`nativeBalances`](https://github.com/Certora/Examples/blob/master/CVLByExample/NativeBalances/certora/specs/Auction.spec#L24) |
