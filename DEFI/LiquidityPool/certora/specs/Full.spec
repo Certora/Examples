@@ -1,7 +1,7 @@
 /***
 This example is a full spec for LiquidityPool.
 To run this use Certora cli with the conf file runFullPoll.conf
-Example of a run: https://prover.certora.com/output/1512/eec99e30bcc046e8ab1424bb356dd230?anonymousKey=135e2f12be7b326ef264bc200b2579b7a3f566be
+Example of a run: https://prover.certora.com/output/1512/b84b2123fc1f447ba6cff06d8e07552c?anonymousKey=9917501bc57d897a7ec341a2521b30d92237f95d
 UnsatCores: https://prover.certora.com/output/1512/ce180e9d91464a3a9271cb5bf7119125/UnsatCoreVisualisation.html?anonymousKey=88059d4e9f56250f609546f0b77ebc3ed819509d
 Mutation test for this spec: https://mutation-testing.certora.com/?id=66c71fdd-9a1d-44e4-b084-d8d4c3de9e61&anonymousKey=e157a2be-ed9d-4d30-90bb-06b6bee05daf
 See https://docs.certora.com for a complete guide.
@@ -126,16 +126,10 @@ rule depositGreaterThanZeroWithMinted(env e) {
 }
 
 rule splitDepositFavoursTheContract(env e){
-    require e.msg.sender != currentContract; // this assumption must hold to avoid shares dilute attack
-
     uint256 wholeAmount;
     uint256 amountA; 
     uint256 amountB;
     require amountA + amountB == to_mathint(wholeAmount);
-
-    requireInvariant totalSharesLessThanUnderlyingBalance();
-    requireInvariant totalIsSumBalances();
-    requireInvariant totalSharesEqualSumOfShares();
     requireInvariant totalSharesIsZeroWithUnderlyingDeposited();
 
     storage init = lastStorage;
@@ -196,21 +190,10 @@ rule withdrawRevertConditions(env e){
 }
 
 rule splitWithdrawFavoursTheContract(env e){
-    require e.msg.sender != currentContract; // this assumption must hold to avoid shares dilute attack
-
     uint256 wholeShares;
     uint256 sharesA; 
     uint256 sharesB;
     require sharesA + sharesB == to_mathint(wholeShares);
-
-    requireInvariant noClientHasSharesWithMoreValueThanDepositedAmount(e.msg.sender);
-    requireInvariant totalSharesEqualSumOfShares();
-    requireInvariant totalSharesIsZeroWithUnderlyingDeposited();
-    requireInvariant depositedAmountLessThanContractUnderlyingAsset();
-    requireInvariant totalSharesLessThanDepositedAmount();
-    requireInvariant totalSharesLessThanUnderlyingBalance();
-    requireInvariant totalIsSumBalances();
-    
 
     storage init = lastStorage;
 
