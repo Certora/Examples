@@ -79,8 +79,7 @@ workflows:
   pull-request:
     jobs:
       - cvl-index:
-          context: << pipeline.project.git.user >> # Add your context if necessary
-    filters:
-      branches:
-        only:
-          - pull_request
+          filters:
+            branches:
+                only:
+                  - pull_request
