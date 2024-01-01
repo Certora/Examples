@@ -30,10 +30,18 @@ View [the multi-contract section of the user guide](https://docs.certora.com/en/
 ### Full Spec
 This example is a full spec for LiquidityPool.
 To run this use Certora cli with the conf file runFullPoll.conf
-Example of a run: https://prover.certora.com/output/1512/8fb4697781554144ac1e137fed6ca241?anonymousKey=e8a8cf904d540a3f0f8306574c3cee72dadf8d6c
-UnsatCores: https://prover.certora.com/output/1512/d76148722d6d4da98d4b050d032f3ae1/UnsatCoreVisualisation.html?anonymousKey=0df6a5352e20529c1b97a1a6d2846d9a25207b35
-Mutation test for this spec: https://mutation-testing.certora.com/?id=1dd7e71d-1451-48a9-ae17-d05a46b1581e&anonymousKey=79e13549-03d2-4436-8293-0c7d0b6b20d9
-See https://docs.certora.com for a complete guide.
+Example of a run: https://prover.certora.com/output/1512/eec99e30bcc046e8ab1424bb356dd230?anonymousKey=135e2f12be7b326ef264bc200b2579b7a3f566be
+UnsatCores: https://prover.certora.com/output/1512/ce180e9d91464a3a9271cb5bf7119125/UnsatCoreVisualisation.html?anonymousKey=88059d4e9f56250f609546f0b77ebc3ed819509d
+Mutation test for this spec: https://mutation-testing.certora.com/?id=66c71fdd-9a1d-44e4-b084-d8d4c3de9e61&anonymousKey=e157a2be-ed9d-4d30-90bb-06b6bee05daf.
+
+This spec discoverd a bug on PoolBroken.sol in rule sharesRoundingTripFavoursContract:
+If it depolyed with underlaying asset it could get stolen by the first depositor.
+A fixed version located in Pool.sol.
+
+The Bug fixed by calculating deposit amount and use it in the conversions instead of the contract underlying asset.
+The invariants noClientHasSharesWithMoreValueThanDepositedAmount, depositedAmountLessThanContractUnderlyingAsset
+As been added to make sure the fix is valid. 
+
 
 ## Flashloan
 With the `DISPATCHER` summary, the Prover assumes that the recipient
