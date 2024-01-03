@@ -113,12 +113,7 @@ hook Sload uint256 balance _balances[KEY address a]  STORAGE {
 
 /** `totalSupply()` returns the sum of `balanceOf(u)` over all users `u`. */
 invariant totalSupplyIsSumOfBalances()
-    to_mathint(totalSupply()) == sum_of_balances
-    {
-        preserved with (env e){
-            require e.msg.sender != currentContract;
-        }
-    }
+    to_mathint(totalSupply()) == sum_of_balances;
 
 // satisfy examples
 // Generate an example trace for a first deposit operation that succeeds.
