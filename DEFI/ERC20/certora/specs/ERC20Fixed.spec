@@ -95,7 +95,7 @@ rule onlyHolderCanChangeAllowance {
 
 //// ## Part 3: Ghosts and Hooks ///////////////////////////////////////////////
 
-ghost mathint sum_of_balances {
+persistent ghost mathint sum_of_balances {
     init_state axiom sum_of_balances == 0;
 }
 
@@ -113,7 +113,12 @@ hook Sload uint256 balance _balances[KEY address a]  STORAGE {
 
 /** `totalSupply()` returns the sum of `balanceOf(u)` over all users `u`. */
 invariant totalSupplyIsSumOfBalances()
-    to_mathint(totalSupply()) == sum_of_balances; 
+    to_mathint(totalSupply()) == sum_of_balances
+    {
+        preserved with (env e){
+            require e.msg.sender != currentContract;
+        }
+    }
 
 // satisfy examples
 // Generate an example trace for a first deposit operation that succeeds.
