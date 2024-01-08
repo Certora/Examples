@@ -6,6 +6,6 @@
   
   "manual_mutants": {
      "contracts/ERC20.sol": "mutant"
-  }
-
+  },
+  "msg": "ERC20 mutations"
 }
