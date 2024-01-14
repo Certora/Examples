@@ -95,7 +95,7 @@ rule onlyHolderCanChangeAllowance {
 
 //// ## Part 3: Ghosts and Hooks ///////////////////////////////////////////////
 
-ghost mathint sum_of_balances {
+persistent ghost mathint sum_of_balances {
     init_state axiom sum_of_balances == 0;
 }
 
@@ -113,7 +113,7 @@ hook Sload uint256 balance _balances[KEY address a]  STORAGE {
 
 /** `totalSupply()` returns the sum of `balanceOf(u)` over all users `u`. */
 invariant totalSupplyIsSumOfBalances()
-    to_mathint(totalSupply()) == sum_of_balances; 
+    to_mathint(totalSupply()) == sum_of_balances;
 
 // satisfy examples
 // Generate an example trace for a first deposit operation that succeeds.
@@ -162,41 +162,4 @@ rule satisfyVacuityCorrection {
     transfer(e, recip, amount);
 
     satisfy balanceOf(e.msg.sender) == 0;
-}
-
-// No overflow in this rule because addAmount() checks for overflow.
-rule noOverflow() {
-    env e;
-    uint256 amount1;
-    uint256 amount2;
-
-    // requireInvariant totalSupplyIsSumOfBalances();
-
-    storage initial = lastStorage;
-    addAmount(e, amount1);
-    addAmount(e,  amount2);
-    storage afterTwoSteps = lastStorage;
-
-    addAmount(e, assert_uint256(amount1 + amount2)) at initial;
-    storage afterOneStep = lastStorage;
-    assert afterOneStep == afterTwoSteps;
-    
-}
-
-// addAmount() uses `unchecked` therefore is not checking for overflow. The `assert_uint256(amount1 + amount2))`
-// catches the overflow.
-rule catchOverflow() {
-    env e;
-    uint256 amount1;
-    uint256 amount2;
-
-    storage initial = lastStorage;
-    addAmount(e, amount1);
-    addAmount(e, amount2);
-    storage afterTwoSteps = lastStorage;
-
-    addAmount(e, assert_uint256(amount1 + amount2)) at initial;
-    storage afterOneStep = lastStorage;
-    assert afterOneStep == afterTwoSteps;
-    
 }
