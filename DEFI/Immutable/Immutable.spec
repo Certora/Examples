@@ -43,7 +43,7 @@ rule HavocProoved(env e){
 // }
 
 
-//Immutable cant be accessed through the direct storage access
+// Immutable cant be accessed through the direct storage access
 // rule DirectStorageAccess(env e){
 //     assert currentContract.MY_UINT ==2;
 // }
