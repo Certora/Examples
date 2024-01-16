@@ -81,7 +81,7 @@ function getMyUint() public view returns (uint) {
 }
 ```
 
-## Fifth: Direct Storage access doesn't support (without throwing explained error)
+## Fourth: Direct Storage access doesn't support (without throwing explained error)
 
 ```bash
 rule DirectStorageAccess(env e){
