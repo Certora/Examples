@@ -173,14 +173,6 @@ contract ConstantProductPool is ERC20 {
         reserve1 = balance1;
     }
 
-    function getReserve0() public view returns (uint256) {
-        return reserve0;
-    }
-
-    function getReserve1() public view returns (uint256) {
-        return reserve1;
-    }
-
     function _getAmountOut(
         uint256 amountIn,
         uint256 reserveAmountIn,

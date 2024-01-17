@@ -19,10 +19,7 @@ methods{
     function token0() external returns (address) envfree;
     function token1() external returns (address) envfree;
     function allowance(address,address) external returns (uint256) envfree;
-    function balanceOf(address) external returns (uint256)  envfree; 
     function totalSupply() external returns (uint256)  envfree;
-    function getReserve0() external returns (uint256) envfree;
-    function getReserve1() external returns (uint256) envfree;
     function swap(address tokenIn, address recipient) external returns (uint256) envfree;
     
     //calls to external contracts  
@@ -41,8 +38,8 @@ methods{
 function setup(env e){
     address zero_address = 0;
     uint256 MINIMUM_LIQUIDITY = 1000;
-    require totalSupply() == 0 || balanceOf(zero_address) == MINIMUM_LIQUIDITY;
-    require balanceOf(zero_address) + balanceOf(e.msg.sender) <= to_mathint(totalSupply());
+    require totalSupply() == 0 || currentContract._balances[zero_address] == MINIMUM_LIQUIDITY;
+    require currentContract._balances[zero_address] + currentContract._balances[e.msg.sender] <= to_mathint(totalSupply());
     require _token0 == token0();
     require _token1 == token1();
 }
@@ -96,10 +93,10 @@ rule noDecreaseByOther(method f, address account) {
     require account != currentContract; 
     uint256 allowance = allowance(account, e.msg.sender); 
     
-    uint256 before = balanceOf(account);
+    uint256 before = currentContract._balances[account];
     calldataarg args;
     f(e,args); /* check on all possible arguments */
-    uint256 after = balanceOf(account);
+    uint256 after = currentContract._balances[account];
     /* logic implication : true when: (a) the left hand side is false or (b) right hand side is true  */
     assert after < before =>  (e.msg.sender == account  ||  to_mathint(allowance) >= (before-after))  ;
 }
@@ -121,8 +118,8 @@ Formula:
 */
 
 invariant balanceGreaterThanReserve()
-    (getReserve0() <= _token0.balanceOf(currentContract))&&
-    (getReserve1() <= _token1.balanceOf(currentContract))
+    (currentContract.reserve0 <= _token0.balanceOf(currentContract))&&
+    (currentContract.reserve1 <= _token1.balanceOf(currentContract))
     {
         preserved with (env e){
          setup(e);
@@ -157,8 +154,8 @@ Formula:
 
 invariant integrityOfTotalSupply()
     
-    (totalSupply() == 0 <=> getReserve0() == 0) &&
-    (totalSupply() == 0 <=> getReserve1() == 0)
+    (totalSupply() == 0 <=> currentContract.reserve0 == 0) &&
+    (totalSupply() == 0 <=> currentContract.reserve1 == 0)
     {
         preserved with (env e){
             requireInvariant balanceGreaterThanReserve();
@@ -193,11 +190,11 @@ rule monotonicityOfMint(uint256 x, uint256 y, address recipient) {
     require x > y ;
     _token0.transfer(eT0, currentContract, x);
     uint256 amountOut0 = mint(eM,recipient);
-    uint256 balanceAfter1 = balanceOf(recipient);
+    uint256 balanceAfter1 = currentContract._balances[recipient];
     
     _token0.transfer(eT0, currentContract, y) at init;
     uint256 amountOut2 = mint(eM,recipient);
-    uint256 balanceAfter2 = balanceOf(recipient); 
+    uint256 balanceAfter2 = currentContract._balances[recipient]; 
     assert balanceAfter1 >= balanceAfter2; 
 }
 
@@ -270,7 +267,7 @@ rule zeroWithdrawNoEffect(address to) {
     env e;
     setup(e);
     // The assumption is  no skimming 
-    require getReserve0() == _token0.balanceOf(currentContract) && getReserve1() == _token1.balanceOf(currentContract);
+    require currentContract.reserve1 == _token0.balanceOf(currentContract) && currentContract.reserve1 == _token1.balanceOf(currentContract);
     storage before = lastStorage;
     burnSingle(e, _token0, 0, to);
     storage after = lastStorage;
