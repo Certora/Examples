@@ -4,9 +4,9 @@
  **/
 
 
-ghost bool called_extcall;
-ghost bool storage_access_before_call;
-ghost bool storage_access_after_call;
+persistent ghost bool called_extcall;
+persistent ghost bool storage_access_before_call;
+persistent ghost bool storage_access_after_call;
 
 // We are hooking here on "CALL" opcodes in order to capture if there was a storage access before or/and after a call
 hook CALL(uint g, address addr, uint value, uint argsOffset, uint argsLength, uint retOffset, uint retLength) uint rc {

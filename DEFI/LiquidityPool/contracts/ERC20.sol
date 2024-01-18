@@ -1,7 +1,7 @@
 pragma solidity >=0.8.0;
 
 import "./IERC20.sol";
-abstract contract ERC20  is IERC20{
+abstract contract ERC20 is IERC20{
 
     uint256 private _totalSupply;
     mapping(address => uint256) private _balanceOf;
