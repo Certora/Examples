@@ -267,7 +267,7 @@ rule zeroWithdrawNoEffect(address to) {
     env e;
     setup(e);
     // The assumption is  no skimming 
-    require currentContract.reserve1 == _token0.balanceOf(currentContract) && currentContract.reserve1 == _token1.balanceOf(currentContract);
+    require currentContract.reserve0 == _token0.balanceOf(currentContract) && currentContract.reserve1 == _token1.balanceOf(currentContract);
     storage before = lastStorage;
     burnSingle(e, _token0, 0, to);
     storage after = lastStorage;
