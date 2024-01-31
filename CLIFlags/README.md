@@ -1,5 +1,9 @@
 # Examples of CLI Flags for certoraRun
 
+This is an index of some of the CLI flags available in the certoraRun command along with some examples of runs. Each flag links to its corresponding documentation over at Certora Docs. In this folder you can also see some confs called `<flag>.conf` with examples of these flags on some of the other examples available in this repository.
+
+For more information about available CLI options go to: https://docs.certora.com/en/latest/docs/prover/cli/options.html
+
 | Flag | Examples |
 | ---- | -------- |
 | [--verify](https://docs.certora.com/en/latest/docs/prover/cli/options.html#verify) | Every run uses verify ([e.g.](https://prover.certora.com/output/15800/83116717cc7a48f5b53172666a83817e?anonymousKey=0a5ee559275dcb173b18a69caeda4f33a2b8f014)). |
