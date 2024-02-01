@@ -156,6 +156,7 @@ workflows:
     when: << pipeline.parameters.run_regtest >>
     jobs:
       - examples-regtest
+      - test-certoraMutate
 
   examples-nightly-beta:
     triggers:
