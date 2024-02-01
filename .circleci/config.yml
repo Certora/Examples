@@ -79,7 +79,7 @@ jobs:
           name: Test certoraMutate
           command: |
             cd ~/ExamplesRegtest
-            pytest TestCertoraMutate.py --examples-repo-dir=../Examples -v --junitxml=results.xml
+            pytest TestCertoraMutate.py --examples-repo-dir=../repo -v --junitxml=results.xml
 
       - store_test_results:
           path: ~/repo
