@@ -62,10 +62,6 @@ jobs:
       - run:
           name: Get the current version
           command: pip3.11 install certora-cli
-      
-      - run:
-          name: Install pytest
-          command: pip3.11 install pytest
 
       - run:
           name: Get ExamplesRegtest
@@ -79,7 +75,7 @@ jobs:
           name: Test certoraMutate
           command: |
             cd ~/ExamplesRegtest
-            pytest TestCertoraMutate.py --examples-repo-dir=../repo -v --junitxml=results.xml
+            python3.11 RunMutationTest.py --examples_repo_path ../repo
 
       - store_test_results:
           path: ~/repo
