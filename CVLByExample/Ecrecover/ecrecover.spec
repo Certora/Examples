@@ -185,12 +185,37 @@ rule signedParamAndDeadline(uint8 v,
 }
 
 
-
+/***
+ A signer can sign two different messages, in this case they have different signature 
+**/
 rule twoDifferent() {
     ecrecoverAxioms();
     bytes32 msgHashA;  uint8 vA; bytes32 rA; bytes32 sA; 
     bytes32 msgHashB;  uint8 vB; bytes32 rB; bytes32 sB;
     require  msgHashA != msgHashB;
     require ecrecover(msgHashA, vA, rA, sA) != 0 && ecrecover(msgHashB, vB, rB, sB) != 0;
-    assert ecrecover(msgHashA, vA, rA, sA) != ecrecover(msgHashB, vB, rB, sB); 
+    satisfy ecrecover(msgHashA, vA, rA, sA) == ecrecover(msgHashB, vB, rB, sB); 
+    assert ecrecover(msgHashA, vA, rA, sA) == ecrecover(msgHashB, vB, rB, sB) =>
+                    (rA != rB || sA != sB || vA != vB );
+}
+
+/**
+Once a message is executed, it can not be executed again 
+**/
+rule signedMessagesExecutedOnce(uint8 v,
+    bytes32 r,
+    bytes32 s,
+    address signer,
+    uint256 myParam,
+    uint256 deadline) {
+
+    env e1;
+    env e2;
+    ecrecoverAxioms();
+    //execute and assume succeeded
+    executeMyFunctionFromSignature(e1, v, r, s, signer, myParam, deadline);
+    //attemp to execute again, on a possible different env
+    executeMyFunctionFromSignature@withrevert(e2, v, r, s, signer, myParam, deadline);
+    bool reverted = lastReverted;
+    assert reverted ; 
 }

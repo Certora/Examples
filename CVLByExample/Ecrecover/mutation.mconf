@@ -1,0 +1,9 @@
+{ 
+  "gambit": {
+    "filename" : "Verify.sol",
+    "num_mutants": 5
+  },
+  "manual_mutants": {
+     "Verify.sol": "ManualMutation"
+  }
+}
