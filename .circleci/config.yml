@@ -33,8 +33,6 @@ jobs:
           command: |
             cd ~/
             git clone git@github.com:Certora/ExamplesRegtest.git
-            cd ExamplesRegtest
-            git switch liav/fixes
 
       - run:
           name: Run Reg Test
