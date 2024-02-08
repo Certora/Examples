@@ -149,6 +149,7 @@ rule onlySingleUserCanExecute(uint8 v,
     storage init = lastStorage; 
     //execute and assume succeeded
     executeMyFunctionFromSignature(e1, v, r, s, alice, myParam, deadline);
+    satisfy true;
     // compare another execution on the same state, look at reverting paths
     executeMyFunctionFromSignature@withrevert(e2, v, r, s, bob, myParam, deadline) at init;
     bool success = !lastReverted;
@@ -177,6 +178,7 @@ rule signedParamAndDeadline(uint8 v,
     storage init = lastStorage; 
     //execute and assume succeeded
     executeMyFunctionFromSignature(e1, v, r, s, owner, myParamA, deadlineA);
+    satisfy true;
     // compare another execution on the same state, look at reverting paths
     executeMyFunctionFromSignature@withrevert(e2, v, r, s, owner, myParamB, deadlineB) at init;
     bool success = !lastReverted;
@@ -214,6 +216,7 @@ rule signedMessagesExecutedOnce(uint8 v,
     ecrecoverAxioms();
     //execute and assume succeeded
     executeMyFunctionFromSignature(e1, v, r, s, signer, myParam, deadline);
+    satisfy true;
     //attemp to execute again, on a possible different env
     executeMyFunctionFromSignature@withrevert(e2, v, r, s, signer, myParam, deadline);
     bool reverted = lastReverted;
