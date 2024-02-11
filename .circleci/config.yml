@@ -127,11 +127,11 @@ workflows:
               only:
                 - cli-beta
     jobs:
-      - examples-regtest-beta:
+      - examples-regtest:
           certora_cli_package: certora-cli-beta
 
   examples-manual-beta:
     when: << pipeline.parameters.run_regtest_beta >>
     jobs:
-      - examples-regtest-beta:
+      - examples-regtest:
           certora_cli_package: certora-cli-beta
