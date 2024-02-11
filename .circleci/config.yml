@@ -85,7 +85,6 @@ jobs:
           name: Test certoraMutate
           command: |
             cd ~/ExamplesRegtest
-            git switch liav/add-certoramutate-test
             python3.11 RunMutationTest.py --examples_repo_path ../repo
 
       - store_test_results:
