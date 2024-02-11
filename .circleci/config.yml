@@ -4,13 +4,12 @@
 
 version: 2.1
 
-
-jobs:
-  examples-regtest:
-    docker:
-      - image: &img public.ecr.aws/y7e8i2v6/cvt-image:2023.10.25-2197-cf04537
-    resource_class: small
-    working_directory: ~/repo
+commands:
+  prepare:
+    parameters:
+      certora_cli_package:
+        type: string
+    
     steps:
       - add_ssh_keys:
           fingerprints:
@@ -20,7 +19,7 @@ jobs:
 
       - run:
           name: Get the current version
-          command: pip3.11 install certora-cli
+          command: pip3.11 install << parameters.certora_cli_package >>
       
       - run:
           name: Get ConfRunnerInfra
@@ -33,6 +32,29 @@ jobs:
           command: |
             cd ~/
             git clone git@github.com:Certora/ExamplesRegtest.git
+      
+      - when:
+          condition:
+            equal: [ certora-cli-beta, << parameters.certora_cli_package >>]
+          steps:
+            - run:
+                name: Switch ExamplesRegtest to cli-beta
+                command: |
+                  cd ~/ExamplesRegtest
+                  git switch cli-beta
+
+jobs:
+  examples-regtest:
+    parameters:
+      certora_cli_package:
+        type: string
+    docker:
+      - image: &img public.ecr.aws/y7e8i2v6/cvt-image:2023.10.25-2197-cf04537
+    resource_class: small
+    working_directory: ~/repo
+    steps:
+      - prepare:
+          certora_cli_package: << parameters.certora_cli_package >>
 
       - run:
           name: Run Reg Test
@@ -47,46 +69,24 @@ jobs:
       - store_test_results:
           path: ~/repo
   
-  examples-regtest-beta:
+  test-certoraMutate:
+    parameters:
+      certora_cli_package:
+        type: string
     docker:
       - image: &img public.ecr.aws/y7e8i2v6/cvt-image:2023.10.25-2197-cf04537
     resource_class: small
     working_directory: ~/repo
     steps:
-      - add_ssh_keys:
-          fingerprints:
-            - "a7:d9:8e:37:bd:7c:ef:3a:a6:9b:dc:4f:29:97:f9:6f"
-
-      - checkout
+      - prepare:
+          certora_cli_package: << parameters.certora_cli_package >>
 
       - run:
-          name: Get the current beta
-          command: pip3.11 install certora-cli-beta
-      
-      - run:
-          name: Get ConfRunnerInfra
-          command: |
-            ssh-keyscan github.com >> ~/.ssh/known_hosts
-            pip3.11 install git+ssh://git@github.com/Certora/ConfRunnerInfra.git
-      
-      - run:
-          name: Get ExamplesRegtest
-          command: |
-            cd ~/
-            git clone git@github.com:Certora/ExamplesRegtest.git
-            cd ExamplesRegtest
-            git switch cli-beta
-
-      - run:
-          name: Run Reg Test
+          name: Test certoraMutate
           command: |
             cd ~/ExamplesRegtest
-            python3.11 RunNightlyTest.py --examples_repo_path ../repo
-      
-      - store_artifacts:
-          path: Report.csv
-          destination: reports
-      
+            python3.11 RunMutationTest.py --examples_repo_path ../repo
+
       - store_test_results:
           path: ~/repo
 
@@ -113,12 +113,18 @@ workflows:
               only:
                 - master
     jobs:
-      - examples-regtest
+      - examples-regtest:
+          certora_cli_package: certora-cli
+      - test-certoraMutate:
+          certora_cli_package: certora-cli
 
   examples-manual:
     when: << pipeline.parameters.run_regtest >>
     jobs:
-      - examples-regtest
+      - examples-regtest:
+          certora_cli_package: certora-cli
+      - test-certoraMutate:
+          certora_cli_package: certora-cli
 
   examples-nightly-beta:
     triggers:
@@ -129,9 +135,15 @@ workflows:
               only:
                 - cli-beta
     jobs:
-      - examples-regtest-beta
+      - examples-regtest:
+          certora_cli_package: certora-cli-beta
+      - test-certoraMutate:
+          certora_cli_package: certora-cli-beta
 
   examples-manual-beta:
     when: << pipeline.parameters.run_regtest_beta >>
     jobs:
-      - examples-regtest-beta
+      - examples-regtest:
+          certora_cli_package: certora-cli-beta
+      - test-certoraMutate:
+          certora_cli_package: certora-cli-beta
