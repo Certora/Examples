@@ -114,9 +114,9 @@ workflows:
   examples-manual:
     when: << pipeline.parameters.run_regtest >>
     jobs:
-      - examples-regtest
+      - examples-regtest:
           certora_cli_package: certora-cli
-      - test-certoraMutate
+      - test-certoraMutate:
           certora_cli_package: certora-cli
 
   examples-nightly-beta:
