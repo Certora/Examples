@@ -33,9 +33,12 @@ commands:
             cd ~/
             git clone git@github.com:Certora/ExamplesRegtest.git
             cd ExamplesRegtest
-            if [[ << parameters.certora_cli_package >> == "certora-cli-beta" ]]; then
-              git switch cli-beta
-            fi
+      
+      - when:
+          condition:
+            equal: [ certora-cli-beta, << parameters.certora-cli-package >>]
+          steps:
+            - run: sit switch cli-beta 
 
 jobs:
   examples-regtest:
