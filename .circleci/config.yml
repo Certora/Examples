@@ -11,7 +11,6 @@ commands:
         type: string
     
     steps:
-      steps:
       - add_ssh_keys:
           fingerprints:
             - "a7:d9:8e:37:bd:7c:ef:3a:a6:9b:dc:4f:29:97:f9:6f"
@@ -49,7 +48,7 @@ jobs:
     working_directory: ~/repo
     steps:
       - prepare:
-          certora_cli_package: "<< parameters.certora_cli_package >>"
+          certora_cli_package: << parameters.certora_cli_package >>
 
       - run:
           name: Run Reg Test
@@ -72,7 +71,7 @@ jobs:
     working_directory: ~/repo
     steps:
       - prepare:
-          certora_cli_package: "<< parameters.certora_cli_package >>"
+          certora_cli_package: << parameters.certora_cli_package >>
 
       - run:
           name: Test certoraMutate
