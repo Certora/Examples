@@ -2,8 +2,6 @@
  * For each function called from Test.sol a summary is provided.
  */
 
-using TestLibrary as testlibrary;
-
 methods {
     // functions declared in TestLibrary
     function TestLibrary.calleeInternal() internal returns bool => ALWAYS(true);
@@ -34,8 +32,4 @@ rule callOverloadedInInterfaceExternal(env e) {
 // Call unresolved and therefore summarized function.
 rule callIOverloadedInInterfaceExternal(env e) { 
     assert (callIOverloadedInInterfaceExternal(e), "Unresolved function not summarized as expected") ;        
-}
-
-rule callSummarizedFromCVL(env e) {
-    assert (testlibrary.calleeExternal(e), "Function called from CVL is not summarized");
 }

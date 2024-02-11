@@ -104,12 +104,12 @@ rule integrityOfCustomerKeyRule(address a, method f) {
 
 /// Represent the sum of all accounts of all users
 /// sum _customers[a].accounts[i].accountBalance 
-ghost mathint sumBalances {
+persistent ghost mathint sumBalances {
     init_state axiom sumBalances == 0;
 }
 
 /// Mirror on a struct _customers[a].accounts[i].accountBalance
-ghost mapping(address => mapping(uint256 => uint256)) accountBalanceMirror {
+persistent ghost mapping(address => mapping(uint256 => uint256)) accountBalanceMirror {
     init_state axiom forall address a. forall uint256 i. accountBalanceMirror[a][i] == 0;
 }
 
