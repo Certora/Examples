@@ -36,7 +36,7 @@ commands:
       
       - when:
           condition:
-            equal: [ certora-cli-beta, << parameters.certora-cli-package >>]
+            equal: [ certora-cli-beta, << parameters.certora_cli_package >>]
           steps:
             - run: sit switch cli-beta 
 
