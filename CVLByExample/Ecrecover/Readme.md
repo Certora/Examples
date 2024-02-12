@@ -10,7 +10,7 @@ This repository contains a smart contract named `Verify` that implements a signa
         ```bash
         certoraRun ecrecover.conf --server production --prover_version master
         ```
-    - Execution Link: [Certora Run Output](https://prover.certora.com/output/1512/a218d8e1d23f4fac8448986e1ab6b791?anonymousKey=6ab622105d88de9dd59b16bc31dfec9c9ab6e412)
+    - Execution Link: [Certora Run Output](https://prover.certora.com/output/1512/259bb33a779b420aa6978aece0e506f0?anonymousKey=a666d86ce2aaeee393274d24259fd08af5a38e86)
 
 2. **Certora Mutate**
     - Command:

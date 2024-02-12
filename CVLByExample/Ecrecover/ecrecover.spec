@@ -148,15 +148,36 @@ rule onlySingleUserCanExecute(uint8 v,
     //save the current state
     storage init = lastStorage; 
     //execute and assume succeeded
+    address temp = ecrecover(getHash(bob, myParam, deadline), v, r, s);
     executeMyFunctionFromSignature(e1, v, r, s, alice, myParam, deadline);
-    satisfy true;
     // compare another execution on the same state, look at reverting paths
     executeMyFunctionFromSignature@withrevert(e2, v, r, s, bob, myParam, deadline) at init;
     bool success = !lastReverted;
     //if it succeeded it must be the same owner, or an unrealistic hash collision
-    assert success => alice==bob ; 
+    assert success => ( alice==bob ) ; 
 }
 
+
+/*** 
+   # High level property : there is only single owner that can be used
+    A rule which proves that for a given set of parameters only a single owner can execute .
+    This property is implemented as a relational property - it compares two different executions on the same state.
+*/
+rule ownerIsSigner(uint8 v,
+    bytes32 r,
+    bytes32 s,
+    address owner,
+    uint256 myParam,
+    uint256 deadline) {
+
+    env e;
+    ecrecoverAxioms();
+    //execute and assume succeeded
+    address signer = ecrecover(getHash(owner, myParam, deadline), v, r, s);
+    executeMyFunctionFromSignature(e, v, r, s, owner, myParam, deadline);
+
+    assert owner == signer;
+}
 
 /*** 
    # High level property : params and deadline are signed 
@@ -178,7 +199,6 @@ rule signedParamAndDeadline(uint8 v,
     storage init = lastStorage; 
     //execute and assume succeeded
     executeMyFunctionFromSignature(e1, v, r, s, owner, myParamA, deadlineA);
-    satisfy true;
     // compare another execution on the same state, look at reverting paths
     executeMyFunctionFromSignature@withrevert(e2, v, r, s, owner, myParamB, deadlineB) at init;
     bool success = !lastReverted;
@@ -216,9 +236,43 @@ rule signedMessagesExecutedOnce(uint8 v,
     ecrecoverAxioms();
     //execute and assume succeeded
     executeMyFunctionFromSignature(e1, v, r, s, signer, myParam, deadline);
-    satisfy true;
     //attemp to execute again, on a possible different env
     executeMyFunctionFromSignature@withrevert(e2, v, r, s, signer, myParam, deadline);
     bool reverted = lastReverted;
     assert reverted ; 
+}
+
+rule checkHash(
+    address bob,
+    uint256 myParam,
+    uint256 deadline) {
+
+    env e1;
+    ecrecoverAxioms();
+    //execute and assume succeeded
+    assert getHash(bob, myParam, deadline) == getHash(bob, myParam, deadline);
+}
+
+rule CheckRevertCondition(uint8 v,
+    bytes32 r,
+    bytes32 s,
+    address owner,
+    uint256 myParam,
+    uint256 deadline) {
+
+    env e;
+    ecrecoverAxioms();
+
+    //execute and assume succeeded
+    address signer = ecrecover(getHash(owner, myParam, deadline), v, r, s);
+    
+    bool msgValue = e.msg.value != 0;
+    bool signerIsZero = signer == 0;
+    bool signerDiffFromOwner =  signer != owner;
+    bool noncesOverflow = currentContract.nonces[owner] + 1 > max_uint256;
+    bool blockTimestampPassDeadline = e.block.timestamp >= deadline;
+
+    bool shouldRevert =  msgValue || signerIsZero || signerDiffFromOwner || signerDiffFromOwner || blockTimestampPassDeadline ; 
+    executeMyFunctionFromSignature@withrevert(e, v, r, s, owner, myParam, deadline);
+    assert shouldRevert <=> lastReverted;
 }
