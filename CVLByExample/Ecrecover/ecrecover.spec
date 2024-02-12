@@ -159,7 +159,7 @@ rule onlySingleUserCanExecute(uint8 v,
 
 
 /*** 
-   # High level property : there is only single owner that can be used
+   # High level property : Owner must be the signer of the hash
     A rule which proves that for a given set of parameters only a single owner can execute .
     This property is implemented as a relational property - it compares two different executions on the same state.
 */
