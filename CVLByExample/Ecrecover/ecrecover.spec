@@ -272,7 +272,7 @@ rule CheckRevertCondition(uint8 v,
     bool noncesOverflow = currentContract.nonces[owner] + 1 > max_uint256;
     bool blockTimestampPassDeadline = e.block.timestamp >= deadline;
 
-    bool shouldRevert =  msgValue || signerIsZero || signerDiffFromOwner || signerDiffFromOwner || blockTimestampPassDeadline ; 
+    bool shouldRevert =  noncesOverflow || msgValue || signerIsZero || signerDiffFromOwner || signerDiffFromOwner || blockTimestampPassDeadline ; 
     executeMyFunctionFromSignature@withrevert(e, v, r, s, owner, myParam, deadline);
     assert shouldRevert <=> lastReverted;
 }
