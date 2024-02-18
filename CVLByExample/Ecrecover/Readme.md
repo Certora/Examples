@@ -8,14 +8,14 @@ This repository contains a smart contract named `Verify` that implements a signa
 1. **Certora Run for ecrecover**
     - Command:
         ```bash
-        certoraRun ecrecover.conf --server production --prover_version master
+        certoraRun Fullecrecover.conf --server production --prover_version master
         ```
     - Execution Link: [Certora Run Output](https://prover.certora.com/output/1512/01ce19bfd3fa4a3b98e216bf2c085c24?anonymousKey=f85d1e9348a4e5f8293700660f90f41eb96aa83e)
 
 2. **Certora Mutate**
     - Command:
         ```bash
-        certoraMutate --mutation_conf mutation.mconf --prover_conf ecrecover.conf --server production
+        certoraMutate --mutation_conf mutation.mconf --prover_conf Fullecrecover.conf --server production
         ```
     - Mutation Link: [Certora Mutate Output](https://mutation-testing.certora.com/?id=71f2ffd2-80ea-47b5-b3b9-29cc73c91752&anonymousKey=d3f0379a-9a60-4b34-9edb-7210e763a91e)
 
