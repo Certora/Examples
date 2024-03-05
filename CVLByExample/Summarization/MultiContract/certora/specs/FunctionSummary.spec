@@ -8,7 +8,7 @@ methods {
     // A wildcard method entry may not specify return types in the method signature.
     // The summarized functions belong to other contracts and therefore defined as `external`.
     // Functions of other contracts
-    function _.summarizedByFunction() external => summary() expect uint256;
+    function _.summarizedByFunction() external => summary() expect uint256 ALL;
     function _.notSummarized() external optional envfree; 
     // functions of the main contract
     function callByFunctionInCalled1() external returns(uint256) envfree;

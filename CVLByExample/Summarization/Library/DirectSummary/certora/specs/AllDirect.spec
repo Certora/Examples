@@ -5,7 +5,7 @@
 methods {
     // functions declared in TestLibrary
     function TestLibrary.calleeInternal() internal returns bool => ALWAYS(true);
-    function _.calleeExternal() external => ALWAYS(true);
+    function _.calleeExternal() external => ALWAYS(true) ALL;
     // functions declared in IUnresolved
     function _.calleeOverloadedInInterfaceExternal()  external => ALWAYS(true) UNRESOLVED;
     // functions from the contract Test.

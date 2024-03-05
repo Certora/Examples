@@ -6,17 +6,17 @@
  */
 methods {
     // should summarize both contract and lib functions
-    function _.funcWithStruct(CalledLibrary.S s) external => ALWAYS(1);
+    function _.funcWithStruct(CalledLibrary.S s) external => ALWAYS(1) ALL;
 
     // should summarize both contract and lib functions
-    function _.funcWithEnum(CalledLibrary.E e) external => ALWAYS(4);
+    function _.funcWithEnum(CalledLibrary.E e) external => ALWAYS(4) ALL;
 
     // should summarize only the lib function
-    function _.funcWithStorage(uint[] storage s) external => ALWAYS(2);
+    function _.funcWithStorage(uint[] storage s) external => ALWAYS(2) ALL;
 
     // should summarize only the contract function (in the context of a library, no location
     // means _not_ storage, so that shouldn't be summarized here)
-    function _.funcWithStorage(uint[] s) external => ALWAYS(3);
+    function _.funcWithStorage(uint[] s) external => ALWAYS(3) ALL;
     
     function callLibFuncWithStruct(CalledLibrary.S s) external returns (uint) envfree;
     function callLibFuncWithEnum(CalledLibrary.E e) external returns (uint) envfree;
