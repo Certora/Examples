@@ -32,7 +32,7 @@ rule HavocProoved(env e){
 
 // ghost uint ghostUint256;
 
-// hook Sload uint256 _MY_UINT currentContract.MY_UINT STORAGE {
+// hook Sload uint256 _MY_UINT currentContract.MY_UINT {
 //     require ghostUint256 == _MY_UINT;
 // }
 

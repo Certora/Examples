@@ -21,23 +21,23 @@ ghost mapping(bytes32 => uint256) ArtGhost {
     init_state axiom forall bytes32 ilk. ArtGhost[ilk] == 0;
 }
 
-hook Sload uint256 v currentContract.ilks[KEY bytes32 ilk].(offset 0) STORAGE {
+hook Sload uint256 v currentContract.ilks[KEY bytes32 ilk].(offset 0) {
     require ArtGhost[ilk] == v;
 }
 
 // Updating ArtGhost in sync with sumOfVaultDebtGhost.
-hook Sstore currentContract.ilks[KEY bytes32 ilk].(offset 0) uint256 newArt (uint256 oldArt) STORAGE {
+hook Sstore currentContract.ilks[KEY bytes32 ilk].(offset 0) uint256 newArt (uint256 oldArt) {
     havoc sumOfVaultDebtGhost assuming to_mathint(sumOfVaultDebtGhost@new()) == to_mathint(sumOfVaultDebtGhost@old()) + 
     to_mathint((newArt * rateGhost[ilk]) - (oldArt * rateGhost[ilk]));
     ArtGhost[ilk] = newArt;
 }
 
-hook Sload uint256 v currentContract.ilks[KEY bytes32 ilk].(offset 32) STORAGE {
+hook Sload uint256 v currentContract.ilks[KEY bytes32 ilk].(offset 32) {
     require rateGhost[ilk] == v;
 }
 
 // Updating RateGhost in sync with sumOfVaultDebtGhost.
-hook Sstore currentContract.ilks[KEY bytes32 ilk].(offset 32) uint256 newRate (uint256 oldRate) STORAGE {
+hook Sstore currentContract.ilks[KEY bytes32 ilk].(offset 32) uint256 newRate (uint256 oldRate) {
     havoc sumOfVaultDebtGhost assuming to_mathint(sumOfVaultDebtGhost@new()) == 
         to_mathint(sumOfVaultDebtGhost@old() + (ArtGhost[ilk] * newRate) - (ArtGhost[ilk] * oldRate));
     rateGhost[ilk] = newRate;

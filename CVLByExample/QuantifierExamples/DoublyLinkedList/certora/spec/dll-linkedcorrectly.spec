@@ -30,37 +30,37 @@ ghost prevstar(address, address) returns bool {
 
 // HOOKS
 
-hook Sstore currentContract.dll.head address newHead STORAGE {
+hook Sstore currentContract.dll.head address newHead {
     ghostHead = newHead;
 }
-hook Sstore currentContract.dll.tail address newTail STORAGE {
+hook Sstore currentContract.dll.tail address newTail {
     ghostTail = newTail;
 }
 
-hook Sstore currentContract.dll.accounts[KEY address key].next address newNext STORAGE {
+hook Sstore currentContract.dll.accounts[KEY address key].next address newNext {
     ghostNext[key] = newNext;
 }
 
-hook Sstore currentContract.dll.accounts[KEY address key].prev address newPrev STORAGE {
+hook Sstore currentContract.dll.accounts[KEY address key].prev address newPrev {
     ghostPrev[key] = newPrev;
 }
-hook Sstore currentContract.dll.accounts[KEY address key].value uint256 newValue STORAGE {
+hook Sstore currentContract.dll.accounts[KEY address key].value uint256 newValue {
     ghostValue[key] = newValue;
 }
 
-hook Sload address head currentContract.dll.head STORAGE {
+hook Sload address head currentContract.dll.head {
     require ghostHead == head;
 }
-hook Sload address tail currentContract.dll.tail STORAGE {
+hook Sload address tail currentContract.dll.tail {
     require ghostTail == tail;
 }
-hook Sload address next currentContract.dll.accounts[KEY address key].next STORAGE {
+hook Sload address next currentContract.dll.accounts[KEY address key].next {
     require ghostNext[key] == next;
 }
-hook Sload address prev currentContract.dll.accounts[KEY address key].prev STORAGE {
+hook Sload address prev currentContract.dll.accounts[KEY address key].prev {
     require ghostPrev[key] == prev;
 }
-hook Sload uint256 value currentContract.dll.accounts[KEY address key].value STORAGE {
+hook Sload uint256 value currentContract.dll.accounts[KEY address key].value {
     require ghostValue[key] == value;
 }
 

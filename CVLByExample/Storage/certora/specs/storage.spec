@@ -128,7 +128,7 @@ ghost mapping(address => mathint) numOfOperations {
 }
 
 /// hook on a complex data structure, a mapping to a struct with a dynamic array
-hook Sstore _customers[KEY address a].accounts[INDEX uint256 i].accountBalance uint256 new_value (uint old_value) STORAGE {
+hook Sstore _customers[KEY address a].accounts[INDEX uint256 i].accountBalance uint256 new_value (uint old_value) {
     require  old_value == accountBalanceMirror[a][i]; // Need this inorder to sync on insert of new element  
     accountBalanceMirror[a][i] = new_value;
     numOfOperations[a] = old_value + 1;

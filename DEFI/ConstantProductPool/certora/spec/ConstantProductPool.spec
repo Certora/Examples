@@ -238,7 +238,7 @@ ghost mathint sumBalances{
 /* here we state when and how the ghost is updated */
 hook Sstore _balances[KEY address a] uint256 new_balance
 // the old value that balances[a] holds before the store
-    (uint256 old_balance) STORAGE {
+    (uint256 old_balance) {
   sumBalances = sumBalances + new_balance - old_balance;
 }
 

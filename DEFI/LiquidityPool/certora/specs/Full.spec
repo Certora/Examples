@@ -45,11 +45,11 @@ definition poll_functions(method f) returns bool = f.selector == sig:withdraw(ui
 ghost uint256 ghostReentrancyStatus;
 ghost bool lock_status_on_call;
 
-hook Sload uint256 status currentContract._status STORAGE {
+hook Sload uint256 status currentContract._status {
     require ghostReentrancyStatus == status;
 }
 
-hook Sstore currentContract._status uint256 status STORAGE {
+hook Sstore currentContract._status uint256 status {
     ghostReentrancyStatus = status;
 }
 
