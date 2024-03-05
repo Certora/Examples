@@ -321,7 +321,7 @@ ghost mathint sumOfShares {
     init_state axiom sumOfShares == 0;
 }
 
-hook Sstore _balanceOf[KEY address user] uint256 newSharesBalance (uint256 oldSharesBalance) STORAGE
+hook Sstore _balanceOf[KEY address user] uint256 newSharesBalance (uint256 oldSharesBalance)
 {
     sumOfShares = sumOfShares + newSharesBalance - oldSharesBalance;
 }
@@ -340,8 +340,7 @@ ghost mathint sumBalances {
     init_state axiom sumBalances == 0;
 }
 
-hook Sstore underlying._balanceOf[KEY address user] uint256 newBalance (uint256 oldBalance) STORAGE
-{
+hook Sstore underlying._balanceOf[KEY address user] uint256 newBalance (uint256 oldBalance) {
     sumBalances = sumBalances + newBalance - oldBalance;
 }
 
