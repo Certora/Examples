@@ -49,7 +49,7 @@ rule storageDoesNotChangeByWithdrawWhenRevert() {
 /// This rule demonstrates how to verify changes in the full storage when changing data structures of the current contract.
 /// The storage changes after each customer addition.
 /// The rule Should pass.
-rule addingCustomersChangesStorageShouldPass(BankAccountRecord.Customer c1, BankAccountRecord.Customer c2) {
+rule addingCustomersChangesStorage(BankAccountRecord.Customer c1, BankAccountRecord.Customer c2) {
     require c1.id != c2.id;
     addCustomer(c1);
     storage afterC1 = lastStorage;
@@ -72,7 +72,7 @@ rule witnessForStorageChangeAfterEachCustomerAddition(BankAccountRecord.Customer
 /// This rule demonstrates how to compare the storage of a specific contract and nativeBalances in several
 /// points of the run using several variables and indices.
 /// Different storage after each customer addition.
-rule integrityOfStoragePerCustomerShouldPass(BankAccountRecord.Customer c1, BankAccountRecord.Customer c2) {
+rule integrityOfStoragePerCustomer(BankAccountRecord.Customer c1, BankAccountRecord.Customer c2) {
     require c1.id != c2.id;
     require !isCustomer(c1.id);
     require !isCustomer(c2.id);
