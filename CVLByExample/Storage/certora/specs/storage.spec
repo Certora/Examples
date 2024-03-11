@@ -94,11 +94,7 @@ rule integrityOfStoragePerCustomerShouldPass(BankAccountRecord.Customer c1, Bank
 
 /// This rule demonstrates how to call `deposit` (can be any transaction) twice from the same state by restoring the storage to
 /// its initial state before the second call.
-/// Two withdrawals are sequentially called where both start from the initial state. Therefore, the storage after each of the
-/// withdrawals are the same.
-/// This fails in the default configuration because of the call to an unresolved function in withdraw. 
-/// It passes with -optimistic_fallback.
-rule storageAfterTwoDepositFromInitDoesNotChangeShouldPass() {
+rule storageAfterTwoDepositFromInitDoesNotChange() {
     uint256 bankAccount;
     env e;
     require e.msg.sender < max_address;
@@ -111,6 +107,29 @@ rule storageAfterTwoDepositFromInitDoesNotChangeShouldPass() {
     // corresponds to a single entry is used instead.
     uint256 afterCallBalance = nativeBalances[bank];
     deposit(e, bankAccount) at initStorage;
+    assert (nativeBalances[bank] == afterCallBalance, "Different native balances from same initial storage");
+    assert(lastStorage[bank] == afterCallStorage[bank], "Different native storage from same initial storage");
+    assert(lastStorage[nativeBalances] == afterCallStorage[nativeBalances], 
+        "Different storage of native balances after call from same initial storage");
+}
+
+/// Two withdrawals are sequentially called where both start from the initial state. Therefore, the storage after each of the
+/// withdrawals are the same.
+/// This fails in the default configuration because of the call to an unresolved function in withdraw. 
+/// It passes with --optimistic_fallback.
+rule storageAfterTwoWithdrawalsFromInitDoesNotChange() {
+    uint256 bankAccount;
+    env e;
+    require e.msg.sender < max_address;
+    // uint256 initBalance = nativeBalances[bank];
+    storage initStorage = lastStorage;
+    withdraw(e, bankAccount);
+    // Only full storage can be assigned to a variable.
+    storage afterCallStorage = lastStorage;
+    // nativeBalances is mapping(address => uint256. mapping is not yet supported as a CVL local variable type, so a variable
+    // corresponds to a single entry is used instead.
+    uint256 afterCallBalance = nativeBalances[bank];
+    withdraw(e, bankAccount) at initStorage;
     assert (nativeBalances[bank] == afterCallBalance, "Different native balances from same initial storage");
     assert(lastStorage[bank] == afterCallStorage[bank], "Different native storage from same initial storage");
     assert(lastStorage[nativeBalances] == afterCallStorage[nativeBalances], 
