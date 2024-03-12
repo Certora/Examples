@@ -56,6 +56,11 @@ hook Sload uint256 _balance _balances[KEY address account] {
 }
 
 hook Sstore _balances[KEY address account] uint256 _balance (uint256 _balance_old) {
+    if(!didAccessAccount[account]) {
+        didAccessAccount[account] = true;
+        sumOfBalances_init = sumOfBalances_init - _balance_old;
+        require sumOfBalances_init >= 0;
+    }
     sumOfBalances = sumOfBalances + _balance - _balance_old;
 }
 
