@@ -1,6 +1,7 @@
 methods {
-    function sqrt(uint256 y) internal  returns (uint256) => floorSqrt(y);
+    function sqrt(uint256 y) internal returns (uint256) => floorSqrt(y);
 }
+
 // A precise summarization of sqrt
 ghost floorSqrt(uint256) returns uint256 {    
                 // sqrt(x)^2 <= x

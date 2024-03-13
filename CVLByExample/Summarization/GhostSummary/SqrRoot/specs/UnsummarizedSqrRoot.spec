@@ -1,9 +1,3 @@
-/*
-methods {
-    function sqrt(uint256 y) internal returns (uint256);
-}
-*/
-
 rule addLiquidityMonotonicity(uint256 amount0, uint256 amount1, uint256 amount2, uint256 amount3) {
     env e;
     storage initStorage = lastStorage;
