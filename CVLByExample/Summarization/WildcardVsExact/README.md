@@ -1,6 +1,6 @@
 # What happens when a function has both exact and wildcard summarizations?
 
-When a function matches a wildcard summarization but also has an exact summarization, the exact summarization will be used to summarize
+When a function matches a wildcard summarization but also has an exact summarization, the exact summarization is used to summarize
 this function. We will demonstrate such case using a simple example.
 
 We have 2 very simple contracts: `A` (in `A.sol`) and `B` (in `B.sol`).
