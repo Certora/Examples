@@ -122,8 +122,7 @@ ghost mapping(address => uint256) numOfAccounts {
 }
 
 /// Store hook to synchronize numOfAccounts with the length of the customers[KEY address a].accounts array.
-/// We need to use (offset 32) here, as there is no keyword yet to access the length.
-hook Sstore _customers[KEY address user].(offset 32) uint256 newLength {
+hook Sstore _customers[KEY address user].accounts.length uint256 newLength {
     if (newLength > numOfAccounts[user])
         require accountBalanceMirror[user][require_uint256(newLength-1)] == 0 ;   
     numOfAccounts[user] = newLength;
@@ -137,8 +136,7 @@ invariant checkNumOfAccounts(address user)
     numOfAccounts[user] == bank.getNumberOfAccounts(user);
 
 /// This Sload is required in order to eliminate adding unintializaed account balance to sumBalances.
-/// (offset 32) is the location of the size of the mapping. It is used because the field `size` is not yet supported in cvl.  
-hook Sload uint256 length _customers[KEY address user].(offset 32) {
+hook Sload uint256 length _customers[KEY address user].accounts.length {
     require numOfAccounts[user] == length; 
 }
 
