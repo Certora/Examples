@@ -23,21 +23,20 @@ ghost mapping(bytes32 => uint256) ghostIndexes {
 // ghost field for the length of the values array (stored in offset 0)
 ghost uint256 ghostLength {
     // assumption: it's infeasible to grow the list to these many elements.
-    axiom ghostLength < 0xffffffffffffffffffffffffffffffff;
+    axiom ghostLength < max_uint256;
 }
 
 // HOOKS
 // Store hook to synchronize ghostLength with the length of the set._inner._values array. 
-// We need to use (offset 0) here, as there is no keyword yet to access the length.
-hook Sstore currentContract.set.(offset 0) uint256 newLength STORAGE {
+hook Sstore currentContract.set._inner._values.length uint256 newLength {
     ghostLength = newLength;
 }
 // Store hook to synchronize ghostValues array with set._inner._values.
-hook Sstore currentContract.set._inner._values[INDEX uint256 index] bytes32 newValue STORAGE {
+hook Sstore currentContract.set._inner._values[INDEX uint256 index] bytes32 newValue {
     ghostValues[index] = newValue;
 }
 // Store hook to synchronize ghostIndexes array with set._inner._indexes.
-hook Sstore currentContract.set._inner._indexes[KEY bytes32 value] uint256 newIndex STORAGE {
+hook Sstore currentContract.set._inner._indexes[KEY bytes32 value] uint256 newIndex {
     ghostIndexes[value] = newIndex;
 }
 
@@ -50,14 +49,13 @@ hook Sstore currentContract.set._inner._indexes[KEY bytes32 value] uint256 newIn
 // and that the solver can use this knowledge in the proofs.
 
 // Load hook to synchronize ghostLength with the length of the set._inner._values array. 
-// Again we use (offset 0) here, as there is no keyword yet to access the length.
-hook Sload uint256 length currentContract.set.(offset 0) STORAGE {
+hook Sload uint256 length currentContract.set._inner._values.length {
     require ghostLength == length;
 }
-hook Sload bytes32 value currentContract.set._inner._values[INDEX uint256 index] STORAGE {
+hook Sload bytes32 value currentContract.set._inner._values[INDEX uint256 index] {
     require ghostValues[index] == value;
 }
-hook Sload uint256 index currentContract.set._inner._indexes[KEY bytes32 value] STORAGE {
+hook Sload uint256 index currentContract.set._inner._indexes[KEY bytes32 value] {
     require ghostIndexes[value] == index;
 }
 

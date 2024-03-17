@@ -114,7 +114,7 @@ ghost mathint sum_of_balances {
     init_state axiom sum_of_balances == 0;
 }
 
-hook Sstore _balances[KEY address a] uint new_value (uint old_value) STORAGE {
+hook Sstore _balances[KEY address a] uint new_value (uint old_value) {
     // when balance changes, update ghost
     sum_of_balances = sum_of_balances + new_value - old_value;
 }

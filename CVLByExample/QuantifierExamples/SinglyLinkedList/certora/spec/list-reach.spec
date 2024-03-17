@@ -42,7 +42,7 @@ definition updateSucc(bytes32 a, bytes32 b) returns bool = forall bytes32 X. for
             (reach@old(X, Y) && !(reach@old(X, a) && a != Y && reach@old(a, Y))) ||
             (reach@old(X, a) && reach@old(b, Y)));
 
-hook Sstore currentContract.list.elements[KEY bytes32 key].nextKey bytes32 newNextKey STORAGE {
+hook Sstore currentContract.list.elements[KEY bytes32 key].nextKey bytes32 newNextKey {
     bytes32 otherKey;
     
     require reachSuccInvariant(otherKey);
@@ -56,24 +56,24 @@ hook Sstore currentContract.list.elements[KEY bytes32 key].nextKey bytes32 newNe
     assert reachSuccInvariant(otherKey), "Successor invariant not preserved";
 }
 
-hook Sstore currentContract.list.elements[KEY bytes32 key].valid uint256 value STORAGE {
+hook Sstore currentContract.list.elements[KEY bytes32 key].valid uint256 value {
     ghostValid[key] = value != 0;
 }
 
-hook Sstore currentContract.list.head bytes32 newHead STORAGE {
+hook Sstore currentContract.list.head bytes32 newHead {
     ghostHead = newHead;
 }
 
-hook Sload bytes32 nextKey currentContract.list.elements[KEY bytes32 key].nextKey STORAGE {
+hook Sload bytes32 nextKey currentContract.list.elements[KEY bytes32 key].nextKey {
     require ghostSucc[key] == nextKey;
     require reachSuccInvariant(key);
 }
 
-hook Sload bytes32 head currentContract.list.head STORAGE {
+hook Sload bytes32 head currentContract.list.head {
     require ghostHead == head;
 }
 
-hook Sload uint256 valueValid currentContract.list.elements[KEY bytes32 key].valid STORAGE {
+hook Sload uint256 valueValid currentContract.list.elements[KEY bytes32 key].valid {
     require valueValid != 0 <=> ghostValid[key];
 }
 

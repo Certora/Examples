@@ -1,6 +1,0 @@
-{ 
-  "gambit": {
-            "filename" : "contracts/Pool.sol",
-            "num_mutants": 30
-  }
-}

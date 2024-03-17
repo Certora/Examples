@@ -6,6 +6,7 @@ See https://docs.certora.com for a complete guide.
 // reference from the spec to additional contracts used in the verification 
 using DummyERC20A as _token0;
 using DummyERC20B as _token1;
+using ConstantProductPool as _pool;
 
 
 /*
@@ -25,6 +26,8 @@ methods{
     //calls to external contracts  
     function _token0.balanceOf(address account) external returns (uint256) envfree;
     function _token1.balanceOf(address account) external returns (uint256) envfree;
+    function _token0.allowance(address owner, address spender) external returns (uint256) envfree;
+    function _token1.allowance(address owner, address spender) external returns (uint256) envfree;
     function _token0.transfer(address, uint) external;
     function _token1.transfer(address, uint) external;
 
@@ -127,14 +130,29 @@ invariant balanceGreaterThanReserve()
 
         // This preserved is safe because transferFrom is called from the currentContract whose code is known and
         // it is not msg.sender. It would not be safe to do if the call was to a function of an unresolved contract.
-        preserved transferFrom(address sender, address recipient,uint256 amount) with (env e1) {
+        preserved _.transferFrom(address sender, address recipient,uint256 amount) with (env e1) {
+            requireInvariant allowanceOfPoolAlwaysZero(e1.msg.sender);
             require e1.msg.sender != currentContract;
         }
 
-       // This preserved is safe because transfer is called from the currentContract whose code is known and
+        // This preserved is safe because transfer is called from the currentContract whose code is known and
         // it is not msg.sender.
-        preserved transfer(address recipient, uint256 amount) with (env e2) {
+        preserved _.transfer(address recipient, uint256 amount) with (env e2) {
             require e2.msg.sender != currentContract;
+        }
+    }
+
+invariant allowanceOfPoolAlwaysZero(address a)
+    _token0.allowance(_pool, a) == 0 && _token1.allowance(_pool, a) == 0
+    {
+        // This preserved is safe because we know the code in the pool contract.
+        preserved _.approve(address spender, uint256 amount) with (env e1) {
+            require e1.msg.sender != _pool;
+        }
+
+        // This preserved is safe because we know the code in the pool contract.
+        preserved _.increaseAllowance(address spender, uint256 addedValue) with (env e2) {
+            require e2.msg.sender != _pool;
         }
     }
 
@@ -220,7 +238,7 @@ ghost mathint sumBalances{
 /* here we state when and how the ghost is updated */
 hook Sstore _balances[KEY address a] uint256 new_balance
 // the old value that balances[a] holds before the store
-    (uint256 old_balance) STORAGE {
+    (uint256 old_balance) {
   sumBalances = sumBalances + new_balance - old_balance;
 }
 

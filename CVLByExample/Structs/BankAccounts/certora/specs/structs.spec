@@ -122,8 +122,7 @@ ghost mapping(address => uint256) numOfAccounts {
 }
 
 /// Store hook to synchronize numOfAccounts with the length of the customers[KEY address a].accounts array.
-/// We need to use (offset 32) here, as there is no keyword yet to access the length.
-hook Sstore _customers[KEY address user].(offset 32) uint256 newLength STORAGE {
+hook Sstore _customers[KEY address user].accounts.length uint256 newLength {
     if (newLength > numOfAccounts[user])
         require accountBalanceMirror[user][require_uint256(newLength-1)] == 0 ;   
     numOfAccounts[user] = newLength;
@@ -137,20 +136,19 @@ invariant checkNumOfAccounts(address user)
     numOfAccounts[user] == bank.getNumberOfAccounts(user);
 
 /// This Sload is required in order to eliminate adding unintializaed account balance to sumBalances.
-/// (offset 32) is the location of the size of the mapping. It is used because the field `size` is not yet supported in cvl.  
-hook Sload uint256 length _customers[KEY address user].(offset 32) STORAGE {
+hook Sload uint256 length _customers[KEY address user].accounts.length {
     require numOfAccounts[user] == length; 
 }
 
 /// hook on a complex data structure, a mapping to a struct with a dynamic array
-hook Sstore _customers[KEY address a].accounts[INDEX uint256 i].accountBalance uint256 new_value (uint old_value) STORAGE {
+hook Sstore _customers[KEY address a].accounts[INDEX uint256 i].accountBalance uint256 new_value (uint old_value) {
     require  old_value == accountBalanceMirror[a][i]; // Need this inorder to sync on insert of new element  
     sumBalances =  sumBalances + new_value - old_value ;
     accountBalanceMirror[a][i] = new_value;
 }
 
 /// Sload on a struct field.
-hook Sload uint256 value  _customers[KEY address a].accounts[INDEX uint256 i].accountBalance   STORAGE {
+hook Sload uint256 value  _customers[KEY address a].accounts[INDEX uint256 i].accountBalance   {
     // when balance load, safely assume it is less than the sum of all values
     require to_mathint(value) <= sumBalances;
     require to_mathint(i) <= to_mathint(numOfAccounts[a]-1);
