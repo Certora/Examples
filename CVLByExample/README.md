@@ -38,7 +38,7 @@
 | **withrevert**    | [`withrevert`](https://github.com/Certora/Examples/blob/master/CVLByExample/Storage/certora/specs/storage.spec#L44) |
 | **CVL Type**  | [mathint](https://github.com/Certora/Examples/blob/master/DEFI/ERC20/certora/specs/ERC20Fixed.spec#L23), [method](https://github.com/Certora/Examples/blob/master/DEFI/ERC20/certora/specs/ERC20Fixed.spec#L83), [env](https://github.com/Certora/Examples/blob/master/DEFI/ERC20/certora/specs/ERC20Fixed.spec#L20) |
 | **ercecover**  | [example](https://github.com/Certora/Examples/blob/master/CVLByExample/Ecrecover/ecrecover.spec#L67) |
-| **TransientStorage**  | [example](https://github.com/Certora/Examples/blob/master/CVLByExample/Ecrecover/ecrecover.spec#L67) |
+| **TransientStorage**  | [Tstore Hook](https://github.com/Certora/Examples/blob/niv/CERT-5340-Transient-Storage/CVLByExample/TransientStorage/certora/specs/Mutexer.spec#L11) [Tload Hook](https://github.com/Certora/Examples/blob/68a0dcd08111f8c5976b4e9eebb435020d7a91d1/CVLByExample/TransientStorage/certora/specs/Mutexer.spec#L17) |
 
 
 
