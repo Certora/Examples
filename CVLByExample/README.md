@@ -37,7 +37,8 @@
 | **using**         | [`using`](https://github.com/Certora/Examples/blob/master/DEFI/LiquidityPool/certora/specs/pool_link.spec#L14) |
 | **withrevert**    | [`withrevert`](https://github.com/Certora/Examples/blob/master/CVLByExample/Storage/certora/specs/storage.spec#L44) |
 | **CVL Type**  | [mathint](https://github.com/Certora/Examples/blob/master/DEFI/ERC20/certora/specs/ERC20Fixed.spec#L23), [method](https://github.com/Certora/Examples/blob/master/DEFI/ERC20/certora/specs/ERC20Fixed.spec#L83), [env](https://github.com/Certora/Examples/blob/master/DEFI/ERC20/certora/specs/ERC20Fixed.spec#L20) |
-| **ercecover**  | [example](https://github.com/Certora/Examples/blob/niv/Add-ecrecover-example/CVLByExample/Ecrecover/ecrecover.spec#L67) |
+| **ercecover**  | [example](https://github.com/Certora/Examples/blob/master/CVLByExample/Ecrecover/ecrecover.spec#L67) |
+| **TransientStorage**  | [example](https://github.com/Certora/Examples/blob/master/CVLByExample/Ecrecover/ecrecover.spec#L67) |
 
 
 
