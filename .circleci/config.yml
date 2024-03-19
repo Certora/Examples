@@ -26,6 +26,11 @@ commands:
           command: |
             ssh-keyscan github.com >> ~/.ssh/known_hosts
             pip3.11 install git+ssh://git@github.com/Certora/ConfRunnerInfra.git
+
+      - run:
+          name: Install ReportAnalysis package
+          command: pip3.11 install git+ssh://git@github.com-reportanalysis/Certora/ReportAnalysis.git
+
       
       - run:
           name: Get ExamplesRegtest
@@ -42,6 +47,13 @@ commands:
                 command: |
                   cd ~/ExamplesRegtest
                   git switch cli-beta
+      
+      - aws-cli/setup:
+          profile_name: "default"
+      - aws-cli/assume_role_with_web_identity:
+          profile_name: "default"
+          role_arn: $CIRCLECI_OIDC_DEVELOPMENT
+          session_duration: "8100"
 
 jobs:
   examples-regtest:
@@ -60,14 +72,31 @@ jobs:
           name: Run Reg Test
           command: |
             cd ~/ExamplesRegtest
-            python3.11 RunNightlyTest.py --examples_repo_path ../repo
-      
+            python3.11 RunNightlyTest.py \
+              --path ../repo \
+              --examples_repo_path ../repo \
+              --conf_ignore conf_ignore.txt \
+              --json_flags "{'run_source' : 'LIGHT_TEST', 'disable_auto_cache_key_gen': true}" \
+              --checks Verification \
+              --send_message
+
       - store_artifacts:
           path: Report.csv
           destination: reports
       
       - store_test_results:
           path: ~/repo
+
+      - run:
+          name: Save report to cloud
+          command: ReportUploader --table_name Examples-<< parameters.certora_cli_package >>
+          when: always
+
+      - run:
+          name: Run nightly report analyzer
+          no_output_timeout: 5h 
+          command: ReportAnalyzer --table_name Examples-<< parameters.certora_cli_package >>
+  
   
   test-certoraMutate:
     parameters:
@@ -115,6 +144,7 @@ workflows:
     jobs:
       - examples-regtest:
           certora_cli_package: certora-cli
+          context: aws_development
       - test-certoraMutate:
           certora_cli_package: certora-cli
 
@@ -123,6 +153,7 @@ workflows:
     jobs:
       - examples-regtest:
           certora_cli_package: certora-cli
+          context: aws_development
       - test-certoraMutate:
           certora_cli_package: certora-cli
 
@@ -137,6 +168,7 @@ workflows:
     jobs:
       - examples-regtest:
           certora_cli_package: certora-cli-beta
+          context: aws_development
       - test-certoraMutate:
           certora_cli_package: certora-cli-beta
 
@@ -145,5 +177,6 @@ workflows:
     jobs:
       - examples-regtest:
           certora_cli_package: certora-cli-beta
+          context: aws_development
       - test-certoraMutate:
           certora_cli_package: certora-cli-beta
