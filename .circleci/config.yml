@@ -69,8 +69,8 @@ commands:
                   git switch cli-beta
       
       - aws-cli/setup:
-          role-arn: CIRCLECI_OIDC_DEVELOPMENT
-          aws-region: AWS_DEFAULT_REGION
+          role-arn: $CIRCLECI_OIDC_CDK_DEVELOPMENT
+          aws-region: us-west-2
 
       # - aws-cli/setup:
       #     profile_name: "default"
