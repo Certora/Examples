@@ -72,13 +72,6 @@ commands:
           role-arn: $CIRCLECI_OIDC_CDK_DEVELOPMENT
           aws-region: AWS_DEFAULT_REGION
 
-      # - aws-cli/setup:
-      #     profile_name: "default"
-      # - aws-cli/assume_role_with_web_identity:
-      #     profile_name: "default"
-      #     role_arn: $CIRCLECI_OIDC_DEVELOPMENT
-      #     session_duration: "8100"
-
 jobs:
   examples-regtest:
     parameters:
@@ -172,6 +165,7 @@ workflows:
           context: aws_development
       - test-certoraMutate:
           certora_cli_package: certora-cli
+          context: aws_development
 
   examples-manual:
     when: << pipeline.parameters.run_regtest >>
@@ -181,6 +175,7 @@ workflows:
           context: aws_development
       - test-certoraMutate:
           certora_cli_package: certora-cli
+          context: aws_development
 
   examples-nightly-beta:
     triggers:
@@ -196,6 +191,7 @@ workflows:
           context: aws_development
       - test-certoraMutate:
           certora_cli_package: certora-cli-beta
+          context: aws_development
 
   examples-manual-beta:
     when: << pipeline.parameters.run_regtest_beta >>
@@ -205,3 +201,4 @@ workflows:
           context: aws_development
       - test-certoraMutate:
           certora_cli_package: certora-cli-beta
+          context: aws_development
