@@ -5,7 +5,7 @@
 version: 2.1
 
 orbs:
-  aws-cli: circleci/aws-cli@4.0.0
+  aws-cli: circleci/aws-cli@3.1.4
 
 commands:
   prepare:
@@ -69,11 +69,15 @@ commands:
                   git switch cli-beta
       
       - aws-cli/setup:
-          profile_name: "default"
-      - aws-cli/assume_role_with_web_identity:
-          profile_name: "default"
-          role_arn: $CIRCLECI_OIDC_DEVELOPMENT
-          session_duration: "8100"
+          role-arn: $CIRCLECI_OIDC_DEVELOPMENT
+          aws-region: AWS_DEFAULT_REGION
+
+      # - aws-cli/setup:
+      #     profile_name: "default"
+      # - aws-cli/assume_role_with_web_identity:
+      #     profile_name: "default"
+      #     role_arn: $CIRCLECI_OIDC_DEVELOPMENT
+      #     session_duration: "8100"
 
 jobs:
   examples-regtest:
