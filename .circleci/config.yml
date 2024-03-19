@@ -70,7 +70,7 @@ commands:
       
       - aws-cli/setup:
           role-arn: $CIRCLECI_OIDC_CDK_DEVELOPMENT
-          aws-region: us-west-2
+          aws-region: "us-west-2"
 
       # - aws-cli/setup:
       #     profile_name: "default"
