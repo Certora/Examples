@@ -28,7 +28,7 @@ commands:
 
       - add_ssh_keys:
           fingerprints:
-            - "a7:d9:8e:37:bd:7c:ef:3a:a6:9b:dc:4f:29:97:f9:6f"
+            - "SHA256:PSVM//UMgJbpyVsblT7INJ8goNIYOkm6UHcX10Krtmg"
 
       - checkout
 
@@ -52,7 +52,7 @@ commands:
           # TODO: Replace to master after infra merge
           command: |
             cd ~/
-            git clone -b niv/CERT-5465-Infra git@github.com:Certora/ExamplesRegtest.git 
+            git clone -b niv/CERT-5465-Infra git@github.com-examplesregtest:Certora/ExamplesRegtest.git 
       
       - when:
           condition:
