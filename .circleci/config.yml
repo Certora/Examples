@@ -37,9 +37,10 @@ commands:
       
       - run:
           name: Get ExamplesRegtest
+          # TODO: Replace to master after infra merge
           command: |
             cd ~/
-            git clone git@github.com:Certora/ExamplesRegtest.git
+            git clone -b niv/CERT-5465-Infra git@github.com:Certora/ExamplesRegtest.git 
       
       - when:
           condition:
