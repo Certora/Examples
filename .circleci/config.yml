@@ -69,7 +69,7 @@ commands:
                   git switch cli-beta
       
       - aws-cli/setup:
-          role-arn: $CIRCLECI_OIDC_DEVELOPMENT
+          role-arn: CIRCLECI_OIDC_DEVELOPMENT
           aws-region: AWS_DEFAULT_REGION
 
       # - aws-cli/setup:
@@ -147,7 +147,7 @@ jobs:
 
 parameters:
   run_regtest:
-    default: false
+    default: true
     type: boolean
   
   run_regtest_beta:
