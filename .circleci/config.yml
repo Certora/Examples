@@ -30,6 +30,10 @@ commands:
           fingerprints:
             - "SHA256:PSVM//UMgJbpyVsblT7INJ8goNIYOkm6UHcX10Krtmg"
 
+      - run: 
+          name: Fix ssh config
+          command: echo "HostName github.com" >> ~/.ssh/config
+
       - checkout
 
       - run:
