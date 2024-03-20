@@ -9,13 +9,13 @@ definition isLocked(uint256 status) returns bool = status == lockValue();
 persistent ghost bool contract_lock_status;
 
 hook ALL_TSTORE(uint loc, uint v) {
-    if (loc == getContractLock()) {
+    if (loc == getContractLock() && executingContract == currentContract) {
         contract_lock_status = isLocked(v);
     }
 }
 
 hook ALL_TLOAD(uint loc) uint v {
-    if (loc == getContractLock()) {
+    if (loc == getContractLock() && executingContract == currentContract) {
         require contract_lock_status == isLocked(v);
     }
 }
