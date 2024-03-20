@@ -96,18 +96,20 @@ jobs:
               --json_flags '{"run_source" : "LIGHT_TEST", "disable_auto_cache_key_gen": true}' \
               --checks Verification \
               --send_message \
-              --report_path ../repo/Report.csv
+              --disable_cleanup
 
       - store_artifacts:
-          path: Report.csv
+          path: cd ~/ExamplesRegtest/Report.csv
           destination: reports
       
       - store_test_results:
-          path: ~/repo
+          path: ~/ExamplesRegtest
 
       - run:
           name: Save report to cloud
-          command: ReportUploader --table_name Examples-<< parameters.certora_cli_package >>
+          command: |
+            cd ~/ExamplesRegtest
+            ReportUploader --table_name Examples-<< parameters.certora_cli_package >>
           when: always
 
       - run:
