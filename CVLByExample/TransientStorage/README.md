@@ -8,7 +8,7 @@ This folder contains a smart contract named `MockMutexer` that implements a reen
 1. **Certora Run for TransientStorage**
     - Command:
         ```bash
-        certoraRun runTransientStorage.conf --server production --prover_version shelly/transientstoragestart # TODO: need to change to master after the PR merged.
+        certoraRun runTransientStorage.conf --server production --prover_version master
         ```
     - Execution Link: [Certora Run Output](https://prover.certora.com/output/1512/24c43c368dae4faba7838a42db38b758?anonymousKey=b552bb927ceab0f44804a1ad9b8d9e431721ba28)
 
