@@ -95,7 +95,8 @@ jobs:
               --conf_ignore conf_ignore.txt \
               --json_flags '{"run_source" : "LIGHT_TEST", "disable_auto_cache_key_gen": true}' \
               --checks Verification \
-              --send_message
+              --send_message \
+              --report_path ../repo/Report.csv
 
       - store_artifacts:
           path: Report.csv
