@@ -59,7 +59,7 @@ To run this use:
 [The Prover report of this run](https://prover.certora.com/output/15800/cbb6dba5639f4a1799f6367da9c5119d?anonymousKey=68ae2f8dc5dbe158ccdb34ea4794244f4fcb14ac)
 
 You can also run a [mutation test](https://docs.certora.com/en/latest/docs/gambit/index.html) on this example using:
-```certoraMutate --prover_conf runERC20Full.conf --mutation_conf mutation.mconf```
+```certoraMutate --conf mutation.conf```
 
 [Mutation report for this run](https://mutation-testing.certora.com?id=c95fc217-3300-4323-a379-08b99421ca06&anonymousKey=932faa90-d711-4a6b-b4d6-eb5a58f8455a)
 
