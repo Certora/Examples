@@ -99,7 +99,7 @@ jobs:
               --disable_cleanup
 
       - store_artifacts:
-          path: cd ~/ExamplesRegtest/Report.csv
+          path: ~/ExamplesRegtest/Report.csv
           destination: reports
       
       - store_test_results:
