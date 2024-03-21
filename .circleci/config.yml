@@ -69,7 +69,7 @@ commands:
                   git switch cli-beta
       
       - aws-cli/setup:
-          role-arn: $CIRCLECI_OIDC_CDK_DEVELOPMENT
+          role-arn: $CIRCLECI_OIDC_CDK_STAGING
           aws-region: AWS_DEFAULT_REGION
 
 jobs:
@@ -165,20 +165,20 @@ workflows:
     jobs:
       - examples-regtest:
           certora_cli_package: certora-cli
-          context: aws_development
+          context: aws_staging
       - test-certoraMutate:
           certora_cli_package: certora-cli
-          context: aws_development
+          context: aws_staging
 
   examples-manual:
     when: << pipeline.parameters.run_regtest >>
     jobs:
       - examples-regtest:
           certora_cli_package: certora-cli
-          context: aws_development
+          context: aws_staging
       - test-certoraMutate:
           certora_cli_package: certora-cli
-          context: aws_development
+          context: aws_staging
 
   examples-nightly-beta:
     triggers:
@@ -191,17 +191,17 @@ workflows:
     jobs:
       - examples-regtest:
           certora_cli_package: certora-cli-beta
-          context: aws_development
+          context: aws_staging
       - test-certoraMutate:
           certora_cli_package: certora-cli-beta
-          context: aws_development
+          context: aws_staging
 
   examples-manual-beta:
     when: << pipeline.parameters.run_regtest_beta >>
     jobs:
       - examples-regtest:
           certora_cli_package: certora-cli-beta
-          context: aws_development
+          context: aws_staging
       - test-certoraMutate:
           certora_cli_package: certora-cli-beta
-          context: aws_development
+          context: aws_staging
