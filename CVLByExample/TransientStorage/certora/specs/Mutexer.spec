@@ -20,6 +20,9 @@ hook ALL_TLOAD(uint loc) uint v {
     }
 }
 
+invariant lockStatusDontChange()
+    !contract_lock_status;
+
 // if function call not reverted contract was unlocked before and should be unlocked after.
 rule checkContractLock(){
     env e;

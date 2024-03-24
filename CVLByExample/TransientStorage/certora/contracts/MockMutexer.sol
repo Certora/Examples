@@ -10,7 +10,11 @@ enum Access {
 }
 
 contract MockMutexer is Mutexer {
+    uint256 initalValue;
+
     event Accessed(Access indexed access);
+
+    constructor() contractLock{}
 
     // getters
     function lockValue() external returns (uint){
