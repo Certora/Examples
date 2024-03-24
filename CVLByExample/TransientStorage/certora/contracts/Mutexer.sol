@@ -12,7 +12,7 @@ abstract contract Mutexer {
         Locked
     }
 
-    uint256 internal constant CONTRACT_LOCK = 5;
+    uint256 internal constant CONTRACT_LOCK = uint256(keccak256("Mutexer.CONTRACT_LOCK")) - 1;
 
     modifier contractLock() {
         if (_tload(CONTRACT_LOCK) == Mutex.Locked) revert Locked(CONTRACT_LOCK);
