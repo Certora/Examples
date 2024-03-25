@@ -4,7 +4,7 @@ pragma solidity >=0.8.0;
 contract Immutable {
     // coding convention to uppercase constant variables
     Owner public immutable OWNER;
-    uint public immutable MY_UINT;
+    uint private immutable MY_UINT;
 
     constructor() {
         OWNER = Owner(msg.sender);
