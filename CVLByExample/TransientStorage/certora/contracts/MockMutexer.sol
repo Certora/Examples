@@ -10,7 +10,6 @@ enum Access {
 }
 
 contract MockMutexer is Mutexer {
-    uint256 initalValue;
 
     event Accessed(Access indexed access);
 
