@@ -14,4 +14,8 @@ contract PrivateImmutable {
     function getMyUint() public view returns (uint) {
         return MY_UINT + 1;
     }
+
+    function getOwner() public view returns (Owner) {
+        return OWNER;
+    }
 }

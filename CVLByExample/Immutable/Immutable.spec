@@ -1,4 +1,3 @@
-
 using Owner as owner;
 
 methods{
@@ -40,10 +39,4 @@ rule HavocProoved(env e){
 //     uint256 currentGhost = ghostUint256;
 //     f(e, args);
 //     assert currentGhost == ghostUint256;
-// }
-
-
-// Immutable cant be accessed through the direct storage access
-// rule DirectStorageAccess(env e){
-//     assert currentContract.MY_UINT ==2;
 // }
