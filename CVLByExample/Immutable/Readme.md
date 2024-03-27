@@ -1,60 +1,72 @@
-# Immutable Example README
+# Immutable Handling in Certora
 
-The Immutable example showcases how to handle Immutable variables in CVL.
+This document outlines the procedure for handling immutable variables in CVL. Immutable variables play a crucial role in smart contract development, and ensuring their correct handling is essential for security and correctness. This README provides examples, execution instructions, and potential pitfalls related to immutable variables when using Certora.
 
-## First Linking to immutable variable works only if the variable is declared public.
+## Overview
 
-### Public Linking Execution (Immutable.sol):
+The Immutable example demonstrates how Certora handles immutable variables in smart contracts. Immutable variables are those whose values cannot be changed once assigned.
 
-To execute on public linking (Immutable.sol), follow these steps:
+## 1. Linking To Public Immutable
+
+### Execution contracts:
+
+1. `Immutable.sol`.
+2. `Owner.sol`.
+
+### Execution spec:
+`Immutable.spec`
+
+### Execution Command:
 
 ```bash
 certoraRun runImmutable.conf --server production --prover_version master
 ```
 
-The process involves compiling Immutable.sol and exposing internal function information. The job is then submitted to the server. Track the progress and view results at [Certora Prover](https://prover.certora.com). Once completed, the detailed results will be available at [this link](https://prover.certora.com/output/1512/4fcdf5f50e6a4746a0fa72e6b7f35f51?anonymousKey=ac111a02702ff2ac73842ae71208ad0ec8f3378c).
+### Results:
 
-### Private Linking Execution (PrivateImmutable.sol - same spec):
+Track the progress and view detailed results at [Certora Prover](https://prover.certora.com).
 
-For private linking execution (PrivateImmutable.sol), use the following command:
+## 2. Linking To Private Immutable
+
+### Execution contracts:
+
+1. `PrivateImmutable.sol`.
+2. `Owner.sol`.
+
+### Execution spec:
+`Immutable.spec`
+
+### Execution Command:
 
 ```bash
 certoraRun runPrivateImmutable.conf --server production --prover_version master
 ```
 
-During this process, Owner.sol and PrivateImmutable.sol are compiled, and internal function information is exposed. However, if an error occurs, such as linking to a variable OWNER that doesn't exist in PrivateImmutable, the Certora Prover will report the issue.
+### Raise Error:
 
 ```bash
-CRITICAL: Encountered an error running Certora Prover:
-Link to a variable OWNER that doesn't exist in the contract PrivateImmutable, neither as a state variable nor as an immutable.
+CRITICAL: [main] ERROR ALWAYS - Found errors in Immutable.spec:
+CRITICAL: [main] ERROR ALWAYS - Error in spec file (Immutable.spec:16:29): could not type expression "OWNER(e)", message: No function-like entry for OWNER was found in the symbol table. Perhaps something was misspelled?
+CRITICAL: [main] ERROR ALWAYS - Error in spec file (Immutable.spec:18:28): could not type expression "OWNER(e)", message: No function-like entry for OWNER was found in the symbol table. Perhaps something was misspelled?
 ```
 
-## Second: Immutable Variable Hooks
+## 3. Immutable Variable Hooks
 
-The hook on the Immutable variable may encounter issues. When attempting to add the specified hook and ghost, execution results in a critical error. The error indicates a problem with the specification file, particularly with the named pattern root 'MY_UINT.' Ensure compatibility with solc version 0.5.13 or later.
+### Issue Description:
+
+When attempting to add hooks and ghosts to immutable variables, a critical error occur, indicating a problem with the specification file.
+
+### Error Message:
 
 ```bash
-ghost uint ghostUint256;
-
-hook Sload uint256 _MY_UINT currentContract.MY_UINT STORAGE {
-    require ghostUint256 == _MY_UINT;
-}
-
-rule UintNeverChengedUsingGhost(env e, method f, calldataarg args){
-    uint256 currentGhost = ghostUint256;
-    f(e, args);
-    assert currentGhost == ghostUint256;
-}
-
 CRITICAL: [main] ERROR ALWAYS - Error in spec file (Immutable.spec:10:1): named pattern root 'MY_UINT' is not defined: did you spell something wrong? Note, named slots are only supported from solc 0.5.13 onward.
 CRITICAL: Encountered an error running Certora Prover:
 CVL specification syntax and type check failed
 ```
 
+## 4. Proving Assumptions on Immutable Variables
 
-## Third: Proving Assumptions on Immutable Variables
-
-Proving assumptions on Immutable variables is demonstrated with the following spec and contract:
+### Specification and Contract Example:
 
 #### Specification (spec):
 
@@ -81,14 +93,15 @@ function getMyUint() public view returns (uint) {
 }
 ```
 
-## Fourth: Direct Storage access doesn't support (without throwing explained error)
+## 5. Direct Storage Access Support
+Works only if the private immutable variable has a getter.
+
+### Execution Command:
 
 ```bash
-rule DirectStorageAccess(env e){
-    assert currentContract.MY_UINT ==2;
-}
-
-CRITICAL: Found errors
-CRITICAL: Encountered an error running Certora Prover:
-CVL specification syntax and type check failed
+certoraRun runPrivateImmutableDirectStorageAccess.conf --server production --prover_version master
 ```
+
+### Results:
+
+View detailed results at [this link](https://prover.certora.com/output/1512/a46f910d922a4068954d09ba377b6e72?anonymousKey=ebb0e3bac716ec48d9e600beaf4afa5094a19144).
