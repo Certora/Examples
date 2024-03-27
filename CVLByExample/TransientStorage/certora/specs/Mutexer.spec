@@ -20,18 +20,8 @@ hook ALL_TLOAD(uint loc) uint v {
     }
 }
 
-// if function call not reverted contract was unlocked before and should be unlocked after.
-rule checkContractLock(){
-    env e;
-
-    bool lock_status_before = contract_lock_status;
-
-    contractLevelAccess(e);
-
-    bool lock_status_after = contract_lock_status;
-
-    assert !lock_status_before && !lock_status_after;
-}
+invariant lockStatusDontChange()
+    !contract_lock_status;
 
 // if contract was locked function call always reverted
 rule checkContractLockReverts(){
