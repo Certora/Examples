@@ -70,6 +70,7 @@ commands:
       - aws-cli/setup:
           role-arn: $CIRCLECI_OIDC_CDK_STAGING
           aws-region: AWS_DEFAULT_REGION
+          session-duration: "10800"
 
 jobs:
   examples-regtest:
