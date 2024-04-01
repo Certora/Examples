@@ -15,7 +15,10 @@ contract PrivateImmutable {
         return MY_UINT + 1;
     }
 
-    function getOwner() public view returns (Owner) {
-        return OWNER;
+    function DoSomething() external view returns (uint) {
+        if (msg.sender == address(OWNER)) {
+            return 1;
+        }
+        return 0;
     }
 }

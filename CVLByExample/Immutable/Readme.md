@@ -94,7 +94,7 @@ function getMyUint() public view returns (uint) {
 ```
 
 ## 5. Direct Storage Access Support
-Works only if the private immutable variable has a getter.
+Works only if the private immutable variable is being used in external function.
 
 ### Execution Command:
 
