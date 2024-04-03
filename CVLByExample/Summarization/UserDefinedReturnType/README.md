@@ -10,10 +10,9 @@ Run this spec via
 
 ## UserDefinedTypeSummarization.spec
 
-Functions returning struct or array are not summarized (the summary is not applied).
-Functions returning enum can be summarized.
+Functions returning struct are summarized (the summary is applied).
 
 Run this spec via 
 ```certoraRun runUserDefinedTypeSummary.conf```
 
-[A report of this run](https://prover.certora.com/output/15800/c08331acc235459db96264cb15fada59?anonymousKey=3169dabf1c16106c53e3727136207e35d32b9174)
+[A report of this run](https://vaas-stg.certora.com/output/52759/efe0839038494208bf1ebe611218e8be?anonymousKey=06d8fc1fe3ff10679c07ba2e084ad1d35489d505)
