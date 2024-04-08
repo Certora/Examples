@@ -40,6 +40,7 @@
 | **ercecover**  | [example](https://github.com/Certora/Examples/blob/master/CVLByExample/Ecrecover/ecrecover.spec#L67) |
 | **TransientStorage**  | [Tstore Hook](https://github.com/Certora/Examples/blob/niv/CERT-5340-Transient-Storage/CVLByExample/TransientStorage/certora/specs/Mutexer.spec#L11) [Tload Hook](https://github.com/Certora/Examples/blob/68a0dcd08111f8c5976b4e9eebb435020d7a91d1/CVLByExample/TransientStorage/certora/specs/Mutexer.spec#L17) |
 | **executingContract**  | [example](https://github.com/Certora/Examples/blob/651177a30d13e4c79034efa6c1cb5166601d065a/CVLByExample/TransientStorage/certora/specs/Mutexer.spec#L12) |
+| **UnresolvedCallSummarization**  | [example](https://github.com/Certora/Examples/blob/5be4492864f7adb10d01a71628dfbe8343a2868b/CVLByExample/UnresolvedCallSummarization/TrusterLenderPool.spec#L7) |
 
 
 
