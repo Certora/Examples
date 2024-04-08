@@ -3,6 +3,8 @@
 ## Overview
 This repository contains a smart contract named `TrusterLenderPool`, featuring a `flashLoan` function. However, there exists a significant vulnerability within this function. The vulnerability allows the pool contract to act as the `msg.sender` for any call, presenting a critical security flaw. This example showcases the utilization of a new feature in CVL called Unresolved Call Summarization. This feature accentuates how the vulnerability can be exploited to grant the attacker an infinite allowance, subsequently leading to the potential draining of all funds within the contract.
 
+**NOTE** based on https://www.damnvulnerabledefi.xyz/
+
 ## Usage
 
 ```cvl
@@ -21,7 +23,7 @@ In this implementation, we summarize all unresolved calls into one of the follow
 1. **Certora Run Command**
     - Command:
         ```bash
-        certoraRun truster.conf --server production --prover_version master
+        certoraRun truster.conf
         ```
     - Execution Link: [Certora Run Output](https://prover.certora.com/output/1512/06475b1b09f54738878f41df691da63d?anonymousKey=0d071bf246bc1285e041a0555c2aa295aaee865)
 
