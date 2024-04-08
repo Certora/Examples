@@ -1,42 +1,45 @@
 using Owner as owner;
 
-methods{
-    function getMyUint() external returns uint envfree;
-    }
-
-rule OwnerNeverChangedUsingLinking(env e, method f, calldataarg arg){
+// Access private immutable via linking (variable must be referenced in the code!)
+rule ownerNeverChangedUsingLinking(env e, method f, calldataarg arg){
     address currentOwner;
     require currentOwner == owner;
     f(e, arg);
     assert currentOwner == owner;
 }
 
-rule OwnerNeverChangedUsingCalls(env e, method f, calldataarg arg){
-    address currentOwner;
-    require currentOwner == OWNER(e);
-    f(e, arg);
-    assert currentOwner == OWNER(e);
+// Access private immutable via direct storage access (variable must be referenced in the code!)
+rule ownerNeverChangedUsingDirectStorageAccess(env e){
+    method f;
+    calldataarg args;
+    
+    address directOwner = currentContract.OWNER;
+
+    f(e, args);
+
+    assert directOwner == currentContract.OWNER;
 }
 
-//proved but not related to reality
-rule HavocProoved(env e){
-    require MY_UINT(e) == 5;
-    assert getMyUint() == 6;
+// Access public immutable via direct storage access
+rule uintNeverChangedDirectStorageAccess(env e){
+    method f;
+    calldataarg args;
+
+    uint256 myUint = currentContract.MY_UINT;
+
+    f(e, args);
+
+    assert myUint == currentContract.MY_UINT;
 }
 
+// Access public immutable via getter
+rule uintNeverChangedGetter(env e){
+    method f;
+    calldataarg args;
 
-// CRITICAL: [main] ERROR ALWAYS - Error in spec file (Immutable.spec:10:1): named pattern root 'MY_UINT' is not defined: did you spell something wrong? Note, named slots are only supported from solc 0.5.13 onward.
-// CRITICAL: Encountered an error running Certora Prover:
-// CVL specification syntax and type check failed
+    uint256 myUint = currentContract.MY_UINT(e);
 
-// ghost uint ghostUint256;
+    f(e, args);
 
-// hook Sload uint256 _MY_UINT currentContract.MY_UINT {
-//     require ghostUint256 == _MY_UINT;
-// }
-
-// rule UintNeverChengedUsingGhost(env e, method f, calldataarg args){
-//     uint256 currentGhost = ghostUint256;
-//     f(e, args);
-//     assert currentGhost == ghostUint256;
-// }
+    assert myUint == currentContract.MY_UINT(e);
+}
