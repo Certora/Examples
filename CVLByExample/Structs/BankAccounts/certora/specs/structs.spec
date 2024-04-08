@@ -72,9 +72,10 @@ rule updateOfBlacklist() {
     uint256 account1;
 
     uint256 ind = addToBlackList(e, user, account);
-    BankAccountRecord.IdAccount report = currentContract.blackList[ind];
-    user1 = report.id;
-    account1 = report.account;
+    
+    user1 = currentContract.blackList[ind].id;
+    account1 = currentContract.blackList[ind].account;
+
     assert (user == user1 && account == account1, "Customer in black list is not the one added.");
 }
 
