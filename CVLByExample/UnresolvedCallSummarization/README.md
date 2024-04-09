@@ -23,7 +23,7 @@ In this implementation, we summarize all unresolved calls into one of the follow
 1. **Certora Run Command**
     - Command:
         ```bash
-        certoraRun truster.conf
+        certoraRun unresolvedCallSummarization.conf
         ```
     - Execution Link: [Certora Run Output](https://prover.certora.com/output/1512/06475b1b09f54738878f41df691da63d?anonymousKey=0d071bf246bc1285e041a0555c2aa295aaee865)
 
