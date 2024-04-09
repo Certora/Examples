@@ -17,8 +17,6 @@ using Bank as bank;  // bank is the same as currentContract.
 methods {
      /// Definition of a user-defined solidity method returning a struct
     function getCustomer(address a) external returns(BankAccountRecord.Customer) envfree;
-    /// Definition of a compiler-generated method returning a struct as a tuple 
-    function blackList(uint256) external returns (address, uint) envfree;
     /// Definition of a function with struct as an argument 
     function addCustomer(BankAccountRecord.Customer) external envfree;
 
@@ -74,7 +72,10 @@ rule updateOfBlacklist() {
     uint256 account1;
 
     uint256 ind = addToBlackList(e, user, account);
-    user1, account1 = blackList(ind);
+    
+    user1 = currentContract.blackList[ind].id;
+    account1 = currentContract.blackList[ind].account;
+
     assert (user == user1 && account == account1, "Customer in black list is not the one added.");
 }
 
