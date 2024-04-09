@@ -39,5 +39,5 @@ Check out the results [here](https://prover.certora.com/output/1512/24590eb03fe6
 
 ## How to execute
 ```bash
-certoraRun runImmutable.conf --server production --prover_version master
+certoraRun runImmutable.conf
 ```
