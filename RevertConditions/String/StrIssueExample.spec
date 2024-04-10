@@ -1,5 +1,4 @@
-/**
- * Example of reverts caused by string encoding
+/* Example of reverts caused by string encoding
  * ============================================
  * The rules here assert that a revert in `push` and `getData` can only occur due to
  * eth being sent, or bad index in the case of `getData`. Both rules fail because
@@ -37,7 +36,8 @@
 rule verifyPush(uint256 xx, string yy) {
     env e;
     push@withrevert(e, xx, yy);
-    assert lastReverted <=> (e.msg.value != 0);
+    bool isReverted = lastReverted;
+    assert isReverted <=> (e.msg.value != 0);
 }
 
 
@@ -45,7 +45,8 @@ rule verifyPush(uint256 xx, string yy) {
 rule verifyGetData(uint256 index) {
     env e;
     getData@withrevert(e, index);
-    assert lastReverted <=> (
+    bool isReverted = lastReverted;
+    assert isReverted <=> (
         (e.msg.value != 0) ||
         (index >= arrayLength())
     );

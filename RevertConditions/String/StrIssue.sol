@@ -16,8 +16,6 @@ contract StrIssue {
 
   S[] internal structArray;
 
-  string internal harnessedTestString;
-
   /// @notice Push a new struct.
   function push(uint256 xVal, string memory yVal) public {
     structArray.push(S({x: xVal, y: yVal}));
