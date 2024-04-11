@@ -2,7 +2,8 @@ pragma solidity 0.8.10;
 pragma experimental ABIEncoderV2;
 
 /*
-A wrapper contract for calling functions from the library UserConfiguration.
+an example of bitvector representation where every bit represent a different token. Based on :
+https://github.com/aave/aave-v3-core/blob/master/contracts/protocol/libraries/configuration/UserConfiguration.sol  ```
 */
 contract PerciseBitwiseOps{
     uint16 public constant MAX_RESERVES_COUNT = 128;
