@@ -1,7 +1,7 @@
 # Precise Bitwise Ops Example
 
 ## Overview
-This repository contains a smart contract named `PreciseBitwiseOps`. It showcases two essential functions: `setBorrowing` and `isBorrowing`. The highlight of this example lies in demonstrating the application of a new feature in CVL, termed `precise_bitwise_ops`. This feature can be activated either by passing the `--precise_bitwise_ops` flag during execution or by permanently setting it in the configuration file as `"precise_bitwise_ops": true`. By enabling this feature, the modeling of intricate bitwise operations becomes precise, thus preventing any misleading counter-examples.
+This repository contains a smart contract named `PreciseBitwiseOps`. It showcases two essential functions: `setBorrowing` and `isBorrowing`. The highlight of this example lies in demonstrating reasoning precisely about bitwise operation. By default, the Prover overapproximate bitwise operations applied in a non-standard way (xor, or, and non 2^n-1 masks for better running time. This feature can be activated either by passing the `--precise_bitwise_ops` flag during execution or by permanently setting it in the configuration file as `"precise_bitwise_ops": true`. By enabling this feature, the modeling of intricate bitwise operations becomes precise, thus preventing any misleading counter-examples.
 
 ## Usage
 
