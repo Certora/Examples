@@ -5,7 +5,7 @@ pragma experimental ABIEncoderV2;
 an example of bitvector representation where every bit represent a different token. Based on :
 https://github.com/aave/aave-v3-core/blob/master/contracts/protocol/libraries/configuration/UserConfiguration.sol  ```
 */
-contract PerciseBitwiseOps{
+contract PreciseBitwiseOps{
     uint16 public constant MAX_RESERVES_COUNT = 128;
     string public constant INVALID_RESERVE_INDEX = '74'; // 'Invalid reserve index'
     uint256 public data;
