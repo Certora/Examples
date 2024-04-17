@@ -3,7 +3,7 @@ import {Owner} from './Owner.sol';
 pragma solidity >=0.8.0;
 contract Immutable {
     // coding convention to uppercase constant variables
-    Owner public immutable OWNER;
+    Owner private immutable OWNER;
     uint public immutable MY_UINT;
 
     constructor() {
@@ -12,6 +12,7 @@ contract Immutable {
     }
 
     function getMyUint() public view returns (uint) {
+        require(address(OWNER) != msg.sender);
         return MY_UINT + 1;
     }
 }
