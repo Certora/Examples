@@ -1,7 +1,7 @@
 # Revert On Return Size Example
 
 ## Overview
-This repository contains a smart contract named `ReturnSize` that includes a function called `callerFunction`. This function takes a library address and a uint as arguments, relying on the implementation of `calledFunction` within the provided contract address to execute certain logic based on the input uint. The purpose of this example is to demonstrate revert condition based on the unersolved call return size and for completion show the utilization of the CVL prover argument flag `-superOptimisticReturnsize`. by adding the flag the Prover takes into account only values where return size is as expected.
+This repository contains a smart contract named `ReturnSize` that includes a function called `callerFunction`. This function takes a contract address and a uint as arguments, relying on the implementation of `calledFunction` within the provided contract address to execute certain logic based on the input uint. The purpose of this example is to demonstrate revert condition based on the unersolved call return size and for completion shows the utilization of the CVL prover argument flag `-superOptimisticReturnsize`. by adding the flag the Prover takes into account only values where return size is as expected.
 
 **NOTE:** For additional information about the flag, please refer to the [Certora Documentation](https://docs.certora.com/en/latest/docs/prover/cli/options.html#prover-args-optimisticreturnsize-true).
 

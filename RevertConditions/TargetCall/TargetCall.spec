@@ -1,13 +1,9 @@
-methods{
-    function _.doSomething(uint) external => NONDET;
-}
 
 rule targetCallRevertConditions()
 {
     env e;
-    uint x;
 
-    forward@withrevert(e, x);
+    forward@withrevert(e);
     bool isReverted = lastReverted;
 
     assert !isReverted <=> e.msg.value == 0;
