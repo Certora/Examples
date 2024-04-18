@@ -8,3 +8,6 @@
   - [Revert due to string encoding](String/StrIssueExample.spec)
   - [Identifying illegally encoded strings](String/StrIssuePersistent.spec)
   - [Invariant for legal string writes](String/StrIssueInvariant.spec)
+
+* **ReturnSize**
+  - [Revert due to unresolved call return size](ReturnSize/README.md)
