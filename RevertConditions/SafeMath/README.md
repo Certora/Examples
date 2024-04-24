@@ -1,7 +1,7 @@
 # SafeMath Reverts
 SafeMath is a Solidity library developed by OpenZeppelin that wraps over Solidity math operation to prevent undefined behaviors.
 Instead, when such a state is reached (for example division by 0) the SafeMath will be responsible to revert the transaction.
-From Solidity 8.0 onward, SafeMath is integrated be default into the language and is not needed to be imported explicitly to use it.
+From Solidity 8.0 onward, the checks SafeMath provides are implemented at the language level and SafeMath doesn't need to be imported to get them.
 
 The simple contract and spec in this example demonstrate 3 different reverts on 3 undefined states that SafeMath catches.
 `SafeMathReverts.sol` is a contract that has a uint256 value which can be manipulated in different ways, it can be increased, decreased and divided. The spec checks that no matter the amounts value is being manipulated with, the contract will always revert when reaching an undefined state.

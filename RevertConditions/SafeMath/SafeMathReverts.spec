@@ -22,7 +22,7 @@ rule decreaseValueRevertingConditions {
 
     decreaseValue@withrevert(amount);
 
-    assert lastReverted <=> valueBefore - amount < 0;
+    assert lastReverted <=> valueBefore - amount < 0;  // (valueBefore - amount) is a mathint and can be negative.
 }
 
 rule divideValueRevertingConditions {
