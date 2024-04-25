@@ -1,7 +1,7 @@
 # Revert On Return Size Example
 
 ## Overview
-This repository hosts a smart contract named `TargetCall`, featuring a function called `forward`. This function initiates the `execute` function of a specified target contract, set during the constructor invocation. The purpose of this example is to illustrate a revert condition based on the `TargetCall`. The compiler includes a check ensuring that the called target is a contract (verifies the code size). However, the prover can bypass this check by passing a regular address, resulting in a revert of the function.
+This repository hosts a smart contract named `TargetCall`, featuring a function called `forward`. This function initiates the `execute` function of a specified target contract, set during the constructor invocation. The purpose of this example is to illustrate a revert condition based on the `TargetCall`. The compiler inserts a check ensuring that the called target is a contract (verifies the code size). However, the Prover can create a violation by passing a regular address (i.e. one without code)", resulting in a revert of the function.
 
 ## Executions
 
