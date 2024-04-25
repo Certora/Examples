@@ -9,5 +9,8 @@
   - [Identifying illegally encoded strings](String/StrIssuePersistent.spec)
   - [Invariant for legal string writes](String/StrIssueInvariant.spec)
 
-* **ReturnSize**
+* **Return Size**
   - [Revert due to unresolved call return size](ReturnSize/README.md)
+
+* **Target Call**
+  - [Revert due to none contract call](TargetCall/README.md)
