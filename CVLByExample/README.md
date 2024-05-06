@@ -42,7 +42,8 @@
 | **executingContract**  | [example](https://github.com/Certora/Examples/blob/651177a30d13e4c79034efa6c1cb5166601d065a/CVLByExample/TransientStorage/certora/specs/Mutexer.spec#L12) |
 | **directStorageAccess**  | [example](https://github.com/Certora/Examples/blob/ad5e75bf63d915bbff634bf8e02c404304eef595/CVLByExample/Immutable/DirectStoragePrivateImmutable.spec#L6) |
 | **UnresolvedCallSummarization**  | [example](https://github.com/Certora/Examples/blob/5be4492864f7adb10d01a71628dfbe8343a2868b/CVLByExample/UnresolvedCallSummarization/TrusterLenderPool.spec#L7) |
-
+| **ContractAlias**  | [example](
+https://github.com/Certora/Examples/blob/42395eb745d20c40c14f297fd28b3a658f87f889/CVLByExample/ContractAlias/ContractAlias.spec#L1-L3) |
 
 
 
