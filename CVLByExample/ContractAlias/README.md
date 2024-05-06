@@ -1,7 +1,7 @@
 # Contract Alias Example
 
 ## Overview
-This repository contains a smart contract named `ContractA` that implements the `Always1` function. The example demonstrates a new CVL (Certora Verification Language) feature which involves using a contract alias from an imported specification file. In this example, we have implemented a contract alias in the `Imported.spec` file and then utilized it in the `ContractAlias.spec` file to perform summarization on the `Always1` function.
+This repository contains a smart contract named `ContractA` that implements the `Always1` function. The example demonstrates a CVL feature that involves using a contract alias from an imported specification file. In this example, we have implemented a contract alias in the `Imported.spec` file and then utilized it in the `ContractAlias.spec` file to perform summarization on the `Always1` function.
 
 ## Executions
 
