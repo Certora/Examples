@@ -65,8 +65,7 @@ commands:
                 name: Switch ExamplesRegtest to cli-beta
                 command: |
                   cd ~/ExamplesRegtest
-                  git fetch --all
-                  git checkout cli-beta
+                  git switch cli-beta
       
       - aws-cli/setup:
           role-arn: $CIRCLECI_OIDC_CDK_STAGING
