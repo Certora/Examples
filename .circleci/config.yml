@@ -65,6 +65,8 @@ commands:
                 name: Switch ExamplesRegtest to cli-beta
                 command: |
                   cd ~/ExamplesRegtest
+                  git fetch
+                  git branch -a
                   git switch cli-beta
       
       - aws-cli/setup:
