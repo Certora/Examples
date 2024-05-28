@@ -1,3 +1,6 @@
+import "ETH.spec";
+//import "ERC20UtilsSummary.spec";
+
 using main as harness;
 using mock as mock;
 
@@ -43,8 +46,6 @@ methods {
         mock.approve(address,uint256),
     ] default NONDET;
 }
-
-definition ETH() returns address = 0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE;
 
 definition permit224_sig() returns uint32 = 0xd505accf;
     //sig:mock.permit(address,address,uint256,uint256,uint8,bytes32,bytes32).selector;

@@ -1,3 +1,5 @@
+import "ETH.spec";
+
 using DummyERC20A as erc20A;
 using DummyERC20B as erc20B;
 using DummyERC20C as erc20C;
@@ -10,8 +12,6 @@ methods {
     function ERC20Utils.permit(address token, bytes calldata data) internal with (env e) => dispatchPermit(e, token, data);
     function ERC20Utils.isETH(address token, uint256 amount) internal returns (uint256) with (env e) => isETHSummary(token, amount, e.msg.value);
 }
-
-definition ETH() returns address = 0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE;
 
 function isETHSummary(address token, uint256 amount, uint256 msgvalue) returns uint256 {
     if (token == ETH()) {
@@ -36,8 +36,10 @@ function dispatchBalanceOf(env e, address token, address account) returns uint25
         return erc20C.balanceOf(ed, account);
     } else if (token == ETH()) {
         return nativeBalances[account];
+    } else {
+        require false; // optimistic
     }
-    require false; // optimistic
+    return 0;
 }
 
 function dispatchTransfer(env e, address token, address recipient, uint256 amount) returns bool {
@@ -51,8 +53,10 @@ function dispatchTransfer(env e, address token, address recipient, uint256 amoun
         return erc20B.transfer(ed, recipient, amount);
     } else if (token == erc20C) {
         return erc20C.transfer(ed, recipient, amount);
+    } else {
+        require false; // optimistic
     }
-    require false; // optimistic
+    return true;
 }
 
 function dispatchTransferFrom(env e, address token, address sender, address recipient, uint256 amount) returns bool {
@@ -66,8 +70,10 @@ function dispatchTransferFrom(env e, address token, address sender, address reci
         return erc20B.transferFrom(ed, sender, recipient, amount);
     } else if (token == erc20C) {
         return erc20C.transferFrom(ed, sender, recipient, amount);
+    } else {
+        require false; // optimistic
     }
-    require false; // optimistic
+    return true;
 }
 
 function dispatchApprove(env e, address token, address to) {
@@ -81,8 +87,9 @@ function dispatchApprove(env e, address token, address to) {
         erc20B.approve(ed, to, max_uint256);
     } else if (token == erc20C) {
         erc20C.approve(ed, to, max_uint256);
+    } else {
+        require false; // optimistic
     }
-    require false; // optimistic
 }
 
 function dispatchPermit(env e, address token, bytes data) {
@@ -95,6 +102,9 @@ function dispatchPermit(env e, address token, bytes data) {
         erc20A.permit(ed, data);
     } else if (token == erc20B) {
         erc20B.permit(ed, data);
+    } else if (token == erc20C) {
+        erc20C.permit(ed, data);
+    } else {
+        require false; // optimistic
     }
-    require false; // optimistic
 }
