@@ -6,9 +6,6 @@
  *
  * You can verify this spec by running any of the following scripts:
  *
- *  - `certoraRun FlashLoanNoDispatchers.conf` will verify the spec
- *    with no valid dispatchers on the scene; this will treat the method as a
- *    `HAVOC_ALL` summary.
  *
  *  - `certoraRun FlashLoanTrivial.conf` will verify the spec with
  *    only a trivial `FlashLoanReceiver` implementation.
