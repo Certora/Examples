@@ -45,6 +45,11 @@ commands:
           command: |
             ssh-keyscan github.com >> ~/.ssh/known_hosts
             pip3.11 install git+ssh://git@github.com/Certora/ConfRunnerInfra.git
+
+      - run:
+          name: Install ReportAnalysis package
+          command: pip3.11 install git+ssh://git@github.com-reportanalysis/Certora/ReportAnalysis.git
+
       
       - run:
           name: Get ExamplesRegtest
