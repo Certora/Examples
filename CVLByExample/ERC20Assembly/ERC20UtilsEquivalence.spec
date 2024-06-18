@@ -1,5 +1,4 @@
 import "ETH.spec";
-//import "ERC20UtilsSummary.spec";
 
 using main as harness;
 using mock as mock;
@@ -235,14 +234,27 @@ rule test_call_through_transfer(env e, address token) {
     nullify_ghosts();
     address recipient;
     uint256 amount;
+
+    env e1;
+    mathint recipient_balance_pre = harness.getBalance(e1, token, recipient);
     bool result = harness.safeTransfer(e, token, recipient, amount);
+    mathint recipient_balance_post = harness.getBalance(e1, token, recipient);
 
     assert token != ETH() => mock.safeTransferSuccess();
     assert called_transfer <=> (token != ETH());
     assert token == callee_token_transfer || token == ETH();
     assert token != ETH() => recipient == mock.safeTransferRecipient();
     assert token != ETH() => amount == mock.safeTransferAmount();
-    satisfy token != ETH();
+    
+    /// For ETH() only we don't pass through the mock and call the fallback instead.
+    if(token == ETH()) {
+        assert (result && recipient != harness) => 
+            recipient_balance_post - recipient_balance_pre == to_mathint(amount);
+        assert !(result && recipient != harness) => 
+            recipient_balance_post == recipient_balance_pre;
+    }
+    
+    satisfy token == ETH();
 }
 
 /// @title Validate revert condition for transfer()
