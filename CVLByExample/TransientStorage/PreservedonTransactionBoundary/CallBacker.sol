@@ -1,8 +1,15 @@
 pragma solidity 0.8.24;
 
-contract CallBacker {
+import {Vault} from './Vault.sol';
 
-    function callback() public view returns (uint256) {
-        return 0;
+contract CallBacker {
+    Vault v;
+    constructor(address vault){
+        v = Vault(vault);
+    }
+    function callback() public {
+        int256 delta = v.getDelta();
+        v.borrow(delta);
+        v.repay(delta);
     }
 }
