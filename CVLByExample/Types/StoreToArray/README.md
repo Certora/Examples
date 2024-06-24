@@ -25,10 +25,6 @@ You can use tuple assignment to directly store values into array elements. This 
 Here’s an example demonstrating how to store values directly to an array:
 
 ```solidity
-// SPDX-License-Identifier: UNLICENSED
-
-pragma solidity >=0.8.7 <0.9.0;
-
 contract StoreToArray {
     function tuple() public returns (uint256, uint256){
         return (2, 2);
