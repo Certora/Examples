@@ -15,4 +15,4 @@ Functions returning struct are summarized (the summary is applied).
 Run this spec via 
 ```certoraRun runUserDefinedTypeSummary.conf```
 
-[A report of this run](https://vaas-stg.certora.com/output/52759/efe0839038494208bf1ebe611218e8be?anonymousKey=06d8fc1fe3ff10679c07ba2e084ad1d35489d505)
+[A report of this run](https://prover.certora.com/output/15800/92b993cf9ffd42f19c74bff917a44d98?anonymousKey=fab22a437a32abe4ae642beb06a410a9036d9736)
