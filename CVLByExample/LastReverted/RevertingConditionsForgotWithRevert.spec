@@ -9,16 +9,13 @@ rule transferRevertingConditions {
     address recipient;
     uint256 amount;
 
-    require e.msg.value == 0;
-    require amount + balanceOf(recipient) <= max_uint256;
-    
-    bool senderIsZero = e.msg.sender == 0;
-    bool recipientIsZero = recipient == 0;
-    bool notEnoughFunds = balanceOf(e.msg.sender) < amount;
-    
-    transfer(e, recipient, amount);
+    require e.msg.sender != recipient;
 
-    assert lastReverted <=> senderIsZero || recipientIsZero || notEnoughFunds;
+    uint256 balanceBefore = balanceOf(e.msg.sender);
+
+    transfer@withrevert(e, recipient, amount);
+
+    assert to_mathint(balanceOf(e.msg.sender)) > balanceBefore - amount => lastReverted;
 }
 
 rule approveRevertingConditions {
