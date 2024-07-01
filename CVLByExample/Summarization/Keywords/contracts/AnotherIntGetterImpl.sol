@@ -23,4 +23,10 @@ contract AnotherIntGetterImpl is IntGetter {
   function dummyB() public pure returns (uint256) {
         return 222;
   }
+
+  function noSuchFun() external {}
+
+  fallback() external {
+    anothervar1 = 5;
+  }
 }

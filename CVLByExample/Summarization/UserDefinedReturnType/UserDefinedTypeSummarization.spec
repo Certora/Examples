@@ -1,6 +1,6 @@
 methods {
     // Summarized functions from library
-    function CalledLibrary.getLoc(CalledLibrary.S memory record) internal returns (CalledLibrary.E) => getSecond();
+    function CalledLibrary.getLoc(CalledLibrary.S memory record) internal returns (CalledLibrary.E) => getOppositeLoc(record);
     // A struct return type summarization
     function CalledLibrary.toStruct(uint256 _x, bool _b, CalledLibrary.E _loc) internal returns (CalledLibrary.S memory) => getDoubledStruct(_x, _b, _loc);
     // An array return type summarization.
@@ -12,8 +12,12 @@ methods {
 
 }
 
-function getSecond() returns CalledLibrary.E {
-    return CalledLibrary.E.SECOND;
+function getOppositeLoc(CalledLibrary.S s) returns CalledLibrary.E {
+    if (s.loc == CalledLibrary.E.FIRST) {
+        return CalledLibrary.E.SECOND;
+    }
+    
+    return CalledLibrary.E.FIRST;
 }
 
 function getDoubledStruct(uint256 _x, bool _b, CalledLibrary.E _loc) returns CalledLibrary.S {
@@ -29,7 +33,7 @@ function doubledArray(uint256 min, uint256 max) returns uint256[] {
 }
 
 rule checkLoc(CalledLibrary.S record) {
-    assert (callGetLoc(record) != CalledLibrary.E.FIRST, "enum function not summarized");
+    assert (callGetLoc(record) != record.loc, "enum function not summarized");
 }
 
 rule checkStructField(uint256 _x, bool _b, CalledLibrary.E _loc) {

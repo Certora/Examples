@@ -86,3 +86,18 @@ To run this spec with a link run
 [The report of this run](https://prover.certora.com/output/15800/bfab06516c284769bd7a5d41f520d95a?anonymousKey=65421f0b6a30bd261348c979d96d0f6e6c6643cc)
 
 All rules pass.
+
+## DispatcherFallbackInlining.spec
+
+This spec shows how you can make the prover inline fallback functions when it doesn't find an implementation in a contract.
+
+`CallsExternalContract` has a function `foo()` which simply calls the function `noSuchFun()` on an external address. `IntGetterImpl` doesn't have this function but has a fallback that sets one of it's fields to 5. `AnotherIntGetterImpl` do have this function and a fallback that sets one of it's fields to 5.
+
+The spec has 2 rules: 
+* `fallback_should_be_reached_with_flag` - shows the case where we make the prover only calling `IntGetterImpl` and since it doesn't have the function, the fallback will be used instead through the rule.
+* 'fallback_should_never_be_reached' - And the case in which we make the prover call `AnotherIntGetterImpl` and we don't use the fallback since it has the function `noSuchFunc()` defined.
+
+To run this spec with a link run
+```certoraRun runDispatcherFallbackInlining.conf```
+
+[The report of this run](https://vaas-stg.certora.com/output/15800/b1f5f96540cf4f2e9a61ecab69198203?anonymousKey=e85561774dc621d29cea45ae0b5829f2ad775316)

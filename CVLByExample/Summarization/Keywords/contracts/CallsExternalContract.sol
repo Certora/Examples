@@ -5,6 +5,7 @@ import './IntGetterImpl.sol';
 contract CallsExternalContract {
   IntGetterImpl public g1;
   AnotherIntGetterImpl public g2;
+  address public a;
   
   function getFromG1() external view returns (uint256) { 
     return g1.get1(); 
@@ -23,23 +24,27 @@ contract CallsExternalContract {
   }
 
   function getDummyB() public view returns(uint256) {
-        return g2.dummyB();
+    return g2.dummyB();
   }
 
   function setXA(uint256 _x) public {
-        g1.setX(_x);
-    }
+    g1.setX(_x);
+  }
 
-    function getXA() public returns(uint256){
-        return g1.getX();
-    }
+  function getXA() public returns(uint256){
+    return g1.getX();
+  }
 
-    function setXB(uint256 _x) public {
-        g2.setX(_x);
-    }
+  function setXB(uint256 _x) public {
+      g2.setX(_x);
+  }
 
-    function getXB() public returns(uint256){
-        return g2.getX();
-    }
+  function getXB() public returns(uint256){
+      return g2.getX();
+  }
+
+  function foo() external {
+    a.call(abi.encodeWithSignature("noSuchFun()"));
+  }
 
 }

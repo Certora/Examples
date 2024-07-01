@@ -20,5 +20,8 @@ contract IntGetterImpl is IntGetter {
     var2 = val;
   }
 
+  fallback() external {
+    var1 = 5;
+  }
 }
 

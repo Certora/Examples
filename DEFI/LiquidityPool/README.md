@@ -57,15 +57,6 @@ we show how.
 
 See [the multi-contract section of the user guide](https://docs.certora.com/en/latest/docs/user-guide/multicontract/index.html#working-with-unknown-contracts) for a complete discussion of this example.
 
-### Vacuous Rule
-This example will verify the spec with no valid dispatchers on the scene; this will treat the method as a `HAVOC_ALL` summary. The rule is vacuous.
-
-Command to run:
-```certoraRun FlashLoanNoDispatcher.conf```
-
-[A report of this run](https://prover.certora.com/output/15800/3ea6afb6b1c943b88c9f03d6bba5bc98?anonymousKey=db9d6c66345146546b60b4545e4af858296f2a76)
-
-
 ### Trivial Receiver
 This example will verify the spec with only a trivial `FlashLoanReceiver` implementation.
 
