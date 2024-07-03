@@ -20,7 +20,7 @@ You can run the spec `RevertingConditions.spec` using:
 certoraRun RevertingConditions.conf
 ```
 
-[Report of this run](https://vaas-stg.certora.com/output/15800/a94059c2cbdb48f4916b79a39a3369b1?anonymousKey=0eafe130683f88d017ac61b4e18c60c1e42b6e8b)
+[Report of this run](https://vaas-stg.certora.com/output/15800/2125559fbde743158140aa3bc20642fd?anonymousKey=51addc5175c5c751d6a222626280f85c932d40f0)
 
 Another feature of the prover is that the syntax checker will tell you when you're doing something wrong by using `lastReverted` after using a function without `@withrevert`. For example in `RevertingConditionsForgotWithRevert.spec` we have the same spec but we didn't store `lastReverted` and called the function `balanceOf` and used `lastReverted` afterwards.
 
