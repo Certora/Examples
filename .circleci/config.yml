@@ -78,7 +78,7 @@ jobs:
       certora_cli_package:
         type: string
     docker:
-      - image: &img public.ecr.aws/certora/cvt-image:2024.02.26-3326-f1cf60c
+      - image: &img public.ecr.aws/certora/cvt-image:2024.06.13-3755-0351582
     resource_class: small
     working_directory: ~/repo
     steps:
@@ -117,7 +117,7 @@ jobs:
       certora_cli_package:
         type: string
     docker:
-      - image: &img public.ecr.aws/y7e8i2v6/cvt-image:2023.10.25-2197-cf04537
+      - image: &img public.ecr.aws/certora/cvt-image:2024.06.13-3755-0351582
     resource_class: small
     working_directory: ~/repo
     steps:
@@ -145,7 +145,6 @@ parameters:
 
 
 workflows:
-  version: 2
   # Nightly builds will run every day at 4am GMT
   examples-nightly:
     triggers:
