@@ -75,12 +75,16 @@ commands:
 jobs:
   examples-regtest:
     parameters:
+      certora_ci_name:
+        type: string
       certora_cli_package:
         type: string
     docker:
       - image: &img public.ecr.aws/certora/cvt-image:2024.06.13-3755-0351582
     resource_class: small
     working_directory: ~/repo
+    environment:
+      CERTORA_CI_CLIENT: << parameters.certora_ci_name >>
     steps:
       - prepare:
           certora_cli_package: << parameters.certora_cli_package >>
@@ -93,9 +97,14 @@ jobs:
               --path ../repo \
               --examples_repo_path ../repo \
               --conf_ignore conf_ignore.txt \
-              --json_flags '{"run_source" : "LIGHT_TEST", "disable_auto_cache_key_gen": true}' \
+              --json_flags '{
+                "run_source": "LIGHT_TEST", 
+                "disable_auto_cache_key_gen": true, 
+                "group_id": "$CIRCLE_WORKFLOW_ID"
+              }' \
               --send_message \
               --disable_cleanup
+
 
       - store_artifacts:
           path: ~/ExamplesRegtest/Report.csv
@@ -156,6 +165,7 @@ workflows:
                 - master
     jobs:
       - examples-regtest:
+          certora_ci_name: Examples Release Nightly
           certora_cli_package: certora-cli
           context: aws_staging
       - test-certoraMutate:
@@ -166,6 +176,7 @@ workflows:
     when: << pipeline.parameters.run_regtest >>
     jobs:
       - examples-regtest:
+          certora_ci_name: Examples Release Manual
           certora_cli_package: certora-cli
           context: aws_staging
       - test-certoraMutate:
@@ -182,6 +193,7 @@ workflows:
                 - cli-beta
     jobs:
       - examples-regtest:
+          certora_ci_name: Examples Beta Nightly
           certora_cli_package: certora-cli-beta
           context: aws_staging
       - test-certoraMutate:
@@ -192,6 +204,7 @@ workflows:
     when: << pipeline.parameters.run_regtest_beta >>
     jobs:
       - examples-regtest:
+          certora_ci_name: Examples Beta Manual
           certora_cli_package: certora-cli-beta
           context: aws_staging
       - test-certoraMutate:
