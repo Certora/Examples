@@ -175,6 +175,10 @@ workflows:
       triggers:
         - schedule:
             cron: "0 4 * * *"
+            filters:
+              branches:
+                only:
+                  - master
       jobs:
         - check-release
 
