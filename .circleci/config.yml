@@ -15,19 +15,9 @@ commands:
     
     steps:
       - add_ssh_keys:
-            fingerprints:
-              - "eb:f4:c0:f4:3d:48:cb:dc:c7:c6:8c:2d:af:7b:f5:8d"
-
-      - run:  
-          name: Fix ssh config
-          command: echo "HostName github.com" >> ~/.ssh/config
-
-      - add_ssh_keys:
           fingerprints:
+            - "eb:f4:c0:f4:3d:48:cb:dc:c7:c6:8c:2d:af:7b:f5:8d"
             - "ed:e5:da:0f:fc:01:f3:35:d3:f2:5a:21:4b:27:37:38"
-
-      - add_ssh_keys:
-          fingerprints:
             - "SHA256:PSVM//UMgJbpyVsblT7INJ8goNIYOkm6UHcX10Krtmg"
 
       - run: 
@@ -57,15 +47,13 @@ commands:
             cd ~/
             git clone git@github.com-examplesregtest:Certora/ExamplesRegtest.git 
       
-      - when:
-          condition:
-            equal: [ certora-cli-beta, << parameters.certora_cli_package >>]
-          steps:
-            - run:
-                name: Switch ExamplesRegtest to cli-beta
-                command: |
-                  cd ~/ExamplesRegtest
-                  git switch cli-beta
+      - run:
+            name: Switch to cli-beta
+            command: |
+              cd ~/ExamplesRegtest
+              if [ "<< parameters.certora_cli_package >>" == "certora-cli-beta" ] || [ "<< parameters.certora_cli_package >>" == "certora-cli-alpha-master" ]; then
+                git switch cli-beta
+              fi
       
       - aws-cli/setup:
           role-arn: $CIRCLECI_OIDC_CDK_STAGING
@@ -73,6 +61,38 @@ commands:
           session-duration: "10800"
 
 jobs:
+  
+  check-release:
+    docker:
+      - image: &img public.ecr.aws/certora/cvt-image:2024.06.13-3755-0351582
+    resource_class: small
+    working_directory: ~/repo
+    steps:
+      - add_ssh_keys:
+          fingerprints:
+            - "eb:f4:c0:f4:3d:48:cb:dc:c7:c6:8c:2d:af:7b:f5:8d"
+            - "ed:e5:da:0f:fc:01:f3:35:d3:f2:5a:21:4b:27:37:38"
+            - "SHA256:PSVM//UMgJbpyVsblT7INJ8goNIYOkm6UHcX10Krtmg"
+      
+      - run: 
+          name: Fix ssh config
+          command: echo "HostName github.com" >> ~/.ssh/config
+      
+      - checkout
+
+      - run:
+          name: Get ExamplesRegtest
+          command: |
+            cd ~/
+            git clone git@github.com-examplesregtest:Certora/ExamplesRegtest.git 
+      
+      - run:
+          name: Check Certora CLI Releases
+          command: |
+            cd ~/ExamplesRegtest
+            python3.11 install requests
+            python3.11 ReleaseCheckAndTrigger.py
+
   examples-regtest:
     parameters:
       certora_cli_package:
@@ -142,27 +162,34 @@ parameters:
   run_regtest_beta:
     default: false
     type: boolean
+  
+  run_check_and_trigger:
+    default: false
+    type: boolean
 
 
 workflows:
-  # Nightly builds will run every day at 4am GMT
-  examples-nightly:
-    triggers:
-      - schedule:
-          cron: "0 4 * * *"
-          filters:
-            branches:
-              only:
-                - master
-    jobs:
-      - examples-regtest:
-          certora_cli_package: certora-cli
-          context: aws_staging
-      - test-certoraMutate:
-          certora_cli_package: certora-cli
-          context: aws_staging
 
-  examples-manual:
+  # Nightly check and trigger
+  check-and-trigger:
+      triggers:
+        - schedule:
+            cron: "0 4 * * *"
+            filters:
+              branches:
+                only:
+                  - master
+      jobs:
+        - check-release
+
+  # Manual check and trigger
+  manual-check-and-trigger:
+    when: << pipeline.parameters.run_check_and_trigger >>
+    jobs:
+      - check-release
+  
+  # Trigger by check-and-trigger
+  examples-release:
     when: << pipeline.parameters.run_regtest >>
     jobs:
       - examples-regtest:
@@ -171,8 +198,20 @@ workflows:
       - test-certoraMutate:
           certora_cli_package: certora-cli
           context: aws_staging
+  
+  # Trigger by check-and-trigger
+  examples-beta:
+    when: << pipeline.parameters.run_regtest_beta >>
+    jobs:
+      - examples-regtest:
+          certora_cli_package: certora-cli-beta
+          context: aws_staging
+      - test-certoraMutate:
+          certora_cli_package: certora-cli-beta
+          context: aws_staging
 
-  examples-nightly-beta:
+  # Run Nightly cli-beta with cli-alpha-master package
+  examples-nightly:
     triggers:
       - schedule:
           cron: "0 4 * * *"
@@ -182,18 +221,8 @@ workflows:
                 - cli-beta
     jobs:
       - examples-regtest:
-          certora_cli_package: certora-cli-beta
+          certora_cli_package: certora-cli-alpha-master
           context: aws_staging
       - test-certoraMutate:
-          certora_cli_package: certora-cli-beta
-          context: aws_staging
-
-  examples-manual-beta:
-    when: << pipeline.parameters.run_regtest_beta >>
-    jobs:
-      - examples-regtest:
-          certora_cli_package: certora-cli-beta
-          context: aws_staging
-      - test-certoraMutate:
-          certora_cli_package: certora-cli-beta
+          certora_cli_package: certora-cli-alpha-master
           context: aws_staging
