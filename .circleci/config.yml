@@ -182,7 +182,7 @@ workflows:
   manual-check-and-trigger:
     when: << pipeline.parameters.run_check_and_trigger >>
     jobs:
-      - check-release:
+      - check-release
   
   # Trigger by check-and-trigger
   examples-release:
