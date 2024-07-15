@@ -55,7 +55,9 @@ commands:
           name: Get ExamplesRegtest
           command: |
             cd ~/
-            git clone git@github.com-examplesregtest:Certora/ExamplesRegtest.git@liav/test-infra
+            git clone git@github.com-examplesregtest:Certora/ExamplesRegtest.git
+            cd ExamplesRegtest
+            git switch liav/test-infra
       
       - when:
           condition:
