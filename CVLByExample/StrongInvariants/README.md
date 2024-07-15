@@ -24,7 +24,7 @@ You can view the results of running the invariants verification at the following
 
 ### Key Differences
 
-- **Strong Invariant:** Checked continuously, including during external calls. Ensures contract state consistency across all execution paths. In the `modifyAndExternalCall` function, the strong invariant detects the change in `storageValue` and fails the check, showcasing its strict enforcement of contract state.
+- **Strong Invariant:** Checked recursively, including during external calls. Ensures contract state consistency across all execution paths. In the `modifyAndExternalCall` function, the strong invariant detects the change in `storageValue` and fails the check, showcasing its strict enforcement of the contract state.
 - **Weak Invariant:** Only checked at the boundaries of top-level calls. Allows temporary state changes during internal execution, focusing on the final state after all operations. In the `modifyAndExternalCall` function, the weak invariant misses the intermediate change in `storageValue`, demonstrating its leniency compared to the strong invariant.
 
 ## Conclusion
