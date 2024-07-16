@@ -92,7 +92,7 @@ jobs:
           command: |
             cd ~/ExamplesRegtest
             python3.11 RunNightlyTest.py \
-              --examples_repo_path ../repo \
+              --path ../repo \
               --conf_ignore conf_ignore.txt \
               --json_flags '{"run_source" : "LIGHT_TEST", "disable_auto_cache_key_gen": true}' \
               --send_message \
