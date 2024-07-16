@@ -87,10 +87,13 @@ jobs:
             git clone git@github.com-examplesregtest:Certora/ExamplesRegtest.git 
       
       - run:
+          name: Install Requests package
+          command: pip3.11 install requests
+      
+      - run:
           name: Check Certora CLI Releases
           command: |
             cd ~/ExamplesRegtest
-            pip3.11 install requests
             python3.11 ReleaseCheckAndTrigger.py
 
   examples-regtest:
