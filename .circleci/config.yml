@@ -90,7 +90,7 @@ jobs:
           name: Check Certora CLI Releases
           command: |
             cd ~/ExamplesRegtest
-            python3.11 install requests
+            pip3.11 install requests
             python3.11 ReleaseCheckAndTrigger.py
 
   examples-regtest:
