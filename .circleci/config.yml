@@ -45,7 +45,7 @@ commands:
           name: Get ExamplesRegtest
           command: |
             cd ~/
-            git clone git@github.com-examplesregtest:Certora/ExamplesRegtest.git 
+            git clone git@github.com-examplesregtest:Certora/ExamplesRegtest.git
       
       - run:
             name: Switch to cli-beta
@@ -98,12 +98,16 @@ jobs:
 
   examples-regtest:
     parameters:
+      certora_ci_name:
+        type: string
       certora_cli_package:
         type: string
     docker:
       - image: &img public.ecr.aws/certora/cvt-image:2024.06.13-3755-0351582
     resource_class: small
     working_directory: ~/repo
+    environment:
+      CERTORA_CI_CLIENT: << parameters.certora_ci_name >>
     steps:
       - prepare:
           certora_cli_package: << parameters.certora_cli_package >>
@@ -114,11 +118,11 @@ jobs:
             cd ~/ExamplesRegtest
             python3.11 RunNightlyTest.py \
               --path ../repo \
-              --examples_repo_path ../repo \
               --conf_ignore conf_ignore.txt \
-              --json_flags '{"run_source" : "LIGHT_TEST", "disable_auto_cache_key_gen": true}' \
+              --json_flags "{\"run_source\": \"LIGHT_TEST\", \"disable_auto_cache_key_gen\": true, \"group_id\": \"$CIRCLE_WORKFLOW_ID\"}" \
               --send_message \
               --disable_cleanup
+
 
       - store_artifacts:
           path: ~/ExamplesRegtest/Report.csv
@@ -196,6 +200,7 @@ workflows:
     when: << pipeline.parameters.run_regtest >>
     jobs:
       - examples-regtest:
+          certora_ci_name: Examples Release Manual
           certora_cli_package: certora-cli
           context: aws_staging
       - test-certoraMutate:
