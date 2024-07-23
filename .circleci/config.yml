@@ -200,7 +200,7 @@ workflows:
     when: << pipeline.parameters.run_regtest >>
     jobs:
       - examples-regtest:
-          certora_ci_name: Examples Release Manual
+          certora_ci_name: Examples Release
           certora_cli_package: certora-cli
           context: aws_staging
       - test-certoraMutate:
@@ -212,6 +212,7 @@ workflows:
     when: << pipeline.parameters.run_regtest_beta >>
     jobs:
       - examples-regtest:
+          certora_ci_name: Examples Beta
           certora_cli_package: certora-cli-beta
           context: aws_staging
       - test-certoraMutate:
@@ -229,6 +230,7 @@ workflows:
                 - cli-beta
     jobs:
       - examples-regtest:
+          certora_ci_name: Examples Nightly
           certora_cli_package: certora-cli-alpha-master
           context: aws_staging
       - test-certoraMutate:
