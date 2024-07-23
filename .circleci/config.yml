@@ -44,11 +44,11 @@ commands:
           name: Get ConfRunnerInfra
           command: |
             ssh-keyscan github.com >> ~/.ssh/known_hosts
-            pip3.11 install git+ssh://git@github.com/Certora/ConfRunnerInfra.git
+            pip3.11 install git+ssh://git@github.com/Certora/ConfRunnerInfra.git@liav/cert-6640-migrate-api-upload
 
-      - run:
-          name: Install ReportAnalysis package
-          command: pip3.11 install git+ssh://git@github.com-reportanalysis/Certora/ReportAnalysis.git
+      # - run:
+      #     name: Install ReportAnalysis package
+      #     command: pip3.11 install git+ssh://git@github.com-reportanalysis/Certora/ReportAnalysis.git
 
       
       - run:
