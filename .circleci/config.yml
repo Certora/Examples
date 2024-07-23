@@ -97,8 +97,10 @@ jobs:
             git clone git@github.com-examplesregtest:Certora/ExamplesRegtest.git 
       
       - run:
-          name: Install Requests package
-          command: pip3.11 install requests
+          name: Install packages
+          command: |
+            pip3.11 install requests
+            pip3.11 install semver
       
       - run:
           name: Check Certora CLI Releases
