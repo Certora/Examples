@@ -234,14 +234,24 @@ workflows:
 
   # Run Nightly cli-beta with cli-alpha-master package
   examples-nightly:
-    when: << pipeline.parameters.run_examples_nightly >>
     triggers:
       - schedule:
           cron: "0 4 * * *"
           filters:
             branches:
               only:
-                - niv/Fix-Examples-Nightly
+                - cli-beta
+    jobs:
+      - examples-regtest:
+          certora_ci_name: Examples Nightly
+          certora_cli_package: certora-cli-alpha-master
+          context: aws_staging
+      - test-certoraMutate:
+          certora_cli_package: certora-cli-alpha-master
+          context: aws_staging
+  
+  examples-manual:
+    when: << pipeline.parameters.run_examples_nightly >>
     jobs:
       - examples-regtest:
           certora_ci_name: Examples Nightly
