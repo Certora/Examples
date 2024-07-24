@@ -128,13 +128,11 @@ jobs:
           name: Run Reg Test
           command: |
             cd ~/ExamplesRegtest
-            python3.11 RunNightlyTest.py \
-              --path ../repo \
-              --conf_ignore conf_ignore.txt \
-              --json_flags "{\"run_source\": \"LIGHT_TEST\", \"disable_auto_cache_key_gen\": true, \"group_id\": \"$CIRCLE_WORKFLOW_ID\"}" \
-              --send_message \
-              --disable_cleanup
-
+            command="python3.11 RunNightlyTest.py --path ../repo --conf_ignore conf_ignore.txt --json_flags '{\"run_source\": \"LIGHT_TEST\", \"disable_auto_cache_key_gen\": true, \"group_id\": \"$CIRCLE_WORKFLOW_ID\"}' --send_message --disable_cleanup"
+            if [ "<< parameters.certora_cli_package >>" == "certora-cli-alpha-master" ]; then
+              command="$command --prover_version master"
+            fi
+            eval $command
 
       - store_artifacts:
           path: ~/ExamplesRegtest/Report.csv
@@ -186,6 +184,9 @@ parameters:
     default: false
     type: boolean
 
+  run_examples_nightly:
+    default: false
+    type: boolean
 
 workflows:
 
@@ -233,6 +234,7 @@ workflows:
 
   # Run Nightly cli-beta with cli-alpha-master package
   examples-nightly:
+    when: << pipeline.parameters.run_examples_nightly >>
     triggers:
       - schedule:
           cron: "0 4 * * *"
