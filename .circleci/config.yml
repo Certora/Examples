@@ -241,7 +241,7 @@ workflows:
           filters:
             branches:
               only:
-                - cli-beta
+                - niv/Fix-Examples-Nightly
     jobs:
       - examples-regtest:
           certora_ci_name: Examples Nightly
