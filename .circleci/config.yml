@@ -45,11 +45,6 @@ commands:
           command: |
             ssh-keyscan github.com >> ~/.ssh/known_hosts
             pip3.11 install git+ssh://git@github.com/Certora/ConfRunnerInfra.git
-
-      - run:
-          name: Install ReportAnalysis package
-          command: pip3.11 install git+ssh://git@github.com-reportanalysis/Certora/ReportAnalysis.git
-
       
       - run:
           name: Get ExamplesRegtest
@@ -140,13 +135,6 @@ jobs:
       
       - store_test_results:
           path: ~/ExamplesRegtest
-
-      - run:
-          name: Save report to cloud
-          command: |
-            cd ~/ExamplesRegtest
-            ReportUploader --table_name Examples-<< parameters.certora_cli_package >>
-          when: always
   
   
   test-certoraMutate:
