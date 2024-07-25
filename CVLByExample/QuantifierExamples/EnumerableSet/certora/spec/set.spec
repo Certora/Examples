@@ -89,7 +89,7 @@ rule containsEqualsInSet()
 
 rule lengthEqualsGhost()
 {
-    uint256 len = length();
+    uint256 len = length@withrevert();
     assert !lastReverted, "length() should never revert";
     assert len == ghostLength, "length() should return the length of the values list";
 }
