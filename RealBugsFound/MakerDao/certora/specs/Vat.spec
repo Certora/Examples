@@ -27,8 +27,8 @@ hook Sload uint256 v currentContract.ilks[KEY bytes32 ilk].(offset 0) {
 
 // Updating ArtGhost in sync with sumOfVaultDebtGhost.
 hook Sstore currentContract.ilks[KEY bytes32 ilk].(offset 0) uint256 newArt (uint256 oldArt) {
-    havoc sumOfVaultDebtGhost assuming to_mathint(sumOfVaultDebtGhost@new()) == to_mathint(sumOfVaultDebtGhost@old()) + 
-    to_mathint((newArt * rateGhost[ilk]) - (oldArt * rateGhost[ilk]));
+    havoc sumOfVaultDebtGhost assuming sumOfVaultDebtGhost@new() == sumOfVaultDebtGhost@old() + 
+    (newArt * rateGhost[ilk]) - (oldArt * rateGhost[ilk]);
     ArtGhost[ilk] = newArt;
 }
 
@@ -38,8 +38,8 @@ hook Sload uint256 v currentContract.ilks[KEY bytes32 ilk].(offset 32) {
 
 // Updating RateGhost in sync with sumOfVaultDebtGhost.
 hook Sstore currentContract.ilks[KEY bytes32 ilk].(offset 32) uint256 newRate (uint256 oldRate) {
-    havoc sumOfVaultDebtGhost assuming to_mathint(sumOfVaultDebtGhost@new()) == 
-        to_mathint(sumOfVaultDebtGhost@old() + (ArtGhost[ilk] * newRate) - (ArtGhost[ilk] * oldRate));
+    havoc sumOfVaultDebtGhost assuming sumOfVaultDebtGhost@new() == 
+        sumOfVaultDebtGhost@old() + (ArtGhost[ilk] * newRate) - (ArtGhost[ilk] * oldRate);
     rateGhost[ilk] = newRate;
 }
 
@@ -50,5 +50,5 @@ hook Sstore currentContract.ilks[KEY bytes32 ilk].(offset 32) uint256 newRate (u
 // vice is the total bad debt.
 // debt is the sum over all DAI balances.
 invariant fundamental_equation_of_dai()
-   to_mathint(debt()) == to_mathint(vice() + sumOfVaultDebtGhost())
+   debt() == vice() + sumOfVaultDebtGhost()
    filtered { f -> !f.isFallback }
