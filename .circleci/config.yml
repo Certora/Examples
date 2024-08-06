@@ -57,7 +57,7 @@ commands:
             command: |
               cd ~/ExamplesRegtest
               if [ "<< parameters.certora_cli_package >>" == "certora-cli-beta" ] || [ "<< parameters.certora_cli_package >>" == "certora-cli-alpha-master" ]; then
-                git switch niv/CERT-6802-Add-Analyzer 
+                git switch cli-beta 
               fi
       
       - aws-cli/setup:
