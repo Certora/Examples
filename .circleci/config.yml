@@ -8,6 +8,17 @@ orbs:
   aws-cli: circleci/aws-cli@3.1.4
 
 commands:
+  report_analysis:
+    steps:
+      - run:
+          name: Install ReportAnalysis package
+          command: pip3.11 install git+ssh://git@github.com-reportanalysis/Certora/ReportAnalysis.git
+
+      - run:
+          name: Run nightly report analyzer
+          command: |
+            ReportAnalyzer --ci_client "Examples Nightly"
+  
   prepare:
     parameters:
       certora_cli_package:
@@ -45,7 +56,7 @@ commands:
           command: |
             ssh-keyscan github.com >> ~/.ssh/known_hosts
             pip3.11 install git+ssh://git@github.com/Certora/ConfRunnerInfra.git
-      
+
       - run:
           name: Get ExamplesRegtest
           command: |
@@ -133,6 +144,9 @@ jobs:
               command="$command --prover_version master"
             fi
             eval $command
+
+      - report_analysis:
+          when: on_fail
 
       - store_artifacts:
           path: ~/ExamplesRegtest/Report.csv
@@ -256,7 +270,7 @@ workflows:
     when: << pipeline.parameters.run_examples_nightly >>
     jobs:
       - examples-regtest:
-          certora_ci_name: Examples Nightly
+          certora_ci_name: Examples Nightly Manual
           certora_cli_package: certora-cli-alpha-master
           examples_repo_path: << pipeline.parameters.examples_repo_path >>
           context: aws_staging
