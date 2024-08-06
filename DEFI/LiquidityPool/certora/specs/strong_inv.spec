@@ -2,19 +2,24 @@ using Asset as underlying;
 
 methods
 {
-    function totalSupply()                           external returns(uint256) envfree;
-    function flashLoan(address, uint256)             external;
     function underlying.balanceOf(address)           external returns(uint256) envfree;
+    function depositedAmount()                       external returns(uint256) envfree;
 }
 
-// Define strong invariant
-strong invariant strongTotalSharesLessThanUnderlyingBalance()
-    totalSupply() <= underlying.balanceOf(currentContract)
+strong invariant strongDepositedAmountLessThanContractUnderlyingAsset()
+    depositedAmount() <= underlying.balanceOf(currentContract)
     filtered { f -> f.selector == sig:flashLoan(address,uint256).selector }
-    
+    {
+        preserved with(env e) {
+            require e.msg.sender != currentContract;
+        }
+    }
 
-// Define weak invariant
-weak invariant weakTotalSharesLessThanUnderlyingBalance()
-    totalSupply() <= underlying.balanceOf(currentContract)
+weak invariant weakDepositedAmountLessThanContractUnderlyingAsset()
+    depositedAmount() <= underlying.balanceOf(currentContract)
     filtered { f -> f.selector == sig:flashLoan(address,uint256).selector }
-    
+    {
+        preserved with(env e) {
+            require e.msg.sender != currentContract;
+        }
+    }

@@ -72,3 +72,81 @@ This example will verify the spec with a malicious receiver that transfers the m
 Command to run:
 ```certoraRun FlashLoanTransfer.conf```
 [A report of this run](https://prover.certora.com/output/15800/369ebb72bb20457e9856d1b5950330ef?anonymousKey=badcb6d6ba4411745bf47efa0f19ad7b9c00b362)
+
+
+## Strong/Weak Invariants FlashLoan
+
+In this example, we use the `flashLoan` function to demonstrate the difference between strong and weak invariants.
+
+### Invariant
+
+```cvl
+depositedAmount() <= underlying.balanceOf(currentContract)
+filtered { f -> f.selector == sig:flashLoan(address,uint256).selector }
+{
+    preserved with(env e) {
+        require e.msg.sender != currentContract;
+    }
+}
+```
+
+### Strong Invariant
+
+The strong invariant performs the following verification process:
+
+```solidity
+function flashLoan(address receiverAddress, uint256 amount) nonReentrant() public {     
+    require Inv;  // <----- start block 1     
+    uint256 totalPremium = calcPremium(amount);
+    require(totalPremium != 0);
+    uint256 amountPlusPremium = amount + totalPremium;
+    asset.transferFrom(address(this), msg.sender, amount);
+    depositedAmount -= amount;
+    assert Inv;  // <----- end block 1
+    require(IFlashLoanReceiver(receiverAddress).executeOperation(amount, totalPremium, msg.sender), 'P_INVALID_FLASH_LOAN_EXECUTOR_RETURN');  // <--- HAVOC_ECF
+    require Inv;  // <----- start block 2
+    asset.transferFrom(msg.sender, address(this), amountPlusPremium);
+    depositedAmount += amountPlusPremium;
+    assert Inv;  // <----- end block 2
+}
+```
+
+In summary, the strong invariant ensures that the invariant holds during both block 1 and block 2 of the function execution. It assumes that the external call cannot modify the contract storage and break the invariant.
+
+This version of the invariant holds during the verification process.
+
+### Weak Invariant
+
+The weak invariant performs the following verification process:
+
+```solidity
+require Inv;  // <----- start block 1
+function flashLoan(address receiverAddress, uint256 amount) nonReentrant() public {          
+    uint256 totalPremium = calcPremium(amount);
+    require(totalPremium != 0);
+    uint256 amountPlusPremium = amount + totalPremium;
+    asset.transferFrom(address(this), msg.sender, amount);
+    depositedAmount -= amount;
+    require(IFlashLoanReceiver(receiverAddress).executeOperation(amount, totalPremium, msg.sender), 'P_INVALID_FLASH_LOAN_EXECUTOR_RETURN');  // <--- HAVOC_ALL
+    asset.transferFrom(msg.sender, address(this), amountPlusPremium);
+    depositedAmount += amountPlusPremium;
+}
+assert Inv;  // <----- end block 1
+```
+
+In summary, the weak invariant ensures that the invariant holds before the function call and after it finishes, without making any assumptions about the external call.
+
+This version of the invariant does not hold during the verification process.
+
+### Execution
+
+Command to run:
+```shell
+certoraRun strongInv.conf
+```
+
+[A report of this run](https://vaas-stg.certora.com/output/1512/8f383f9e0edb4a6d9d226b5530275e47?anonymousKey=6443dcca04e7ff6fb16080ed7dda049a67f80955)
+
+### Documentation
+
+For more details on invariants, see the [Certora Invariants Documentation](https://docs.certora.com/en/latest/docs/cvl/invariants.html).
