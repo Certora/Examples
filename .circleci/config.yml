@@ -126,13 +126,18 @@ jobs:
           name: Run Reg Test
           command: |
             cd ~/ExamplesRegtest
-            ls -l
             python3.11 CopyExpected.py
             command="Regression --path << parameters.examples_repo_path >> --conf_ignore conf_ignore.txt --json_flags '{\"run_source\": \"LIGHT_TEST\", \"disable_auto_cache_key_gen\": true, \"group_id\": \"$CIRCLE_WORKFLOW_ID\"}' --send_message --checks Verification"
             if [ "<< parameters.certora_cli_package >>" == "certora-cli-alpha-master" ]; then
               command="$command --prover_version master"
             fi
             eval $command
+ 
+     - run:
+        name: Force a failure
+        command: |
+          echo "Forcing a failure"
+          exit 1
 
       - run:
           name: Install ReportAnalysis package and execute ReportAnalyzer 
