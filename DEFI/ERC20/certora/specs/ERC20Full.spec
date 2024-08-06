@@ -82,7 +82,7 @@ ghost mathint numberOfChangesOfBalances {
 // already used address (or upgraded from corrupted state).
 // We restrict such behavior by making sure no balance is greater than the sum of balances.
 hook Sload uint256 balance _balances[KEY address addr] {
-    require sumOfBalances >= to_mathint(balance);
+    require sumOfBalances >= balance;
 }
 
 hook Sstore _balances[KEY address addr] uint256 newValue (uint256 oldValue) {
@@ -96,7 +96,7 @@ hook Sstore _balances[KEY address addr] uint256 newValue (uint256 oldValue) {
 └─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 */
 invariant totalSupplyIsSumOfBalances()
-    to_mathint(totalSupply()) == sumOfBalances;
+    totalSupply() == sumOfBalances;
 
 /*
 ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
@@ -252,7 +252,7 @@ rule onlyAuthorizedCanTransfer(env e, method f) filtered { f -> canDecreaseBalan
     ) => (
         f.selector == sig:burn(address,uint256).selector ||
         e.msg.sender == account ||
-        balanceBefore - balanceAfter <= to_mathint(allowanceBefore)
+        balanceBefore - balanceAfter <= allowanceBefore
     );
 }
 
@@ -312,8 +312,8 @@ rule mintIntegrity(env e) {
     assert e.msg.sender == contractOwner(), "Only contract owner can call mint.";
 
     // updates balance and totalSupply
-    assert to_mathint(balanceOf(to)) == toBalanceBefore   + amount;
-    assert to_mathint(totalSupply()) == totalSupplyBefore + amount;
+    assert balanceOf(to) == toBalanceBefore   + amount;
+    assert totalSupply() == totalSupplyBefore + amount;
 }
 
 rule mintRevertingConditions(env e) {
@@ -374,8 +374,8 @@ rule burnIntegrity(env e) {
     assert e.msg.sender == contractOwner(), "Only contract owner can call burn.";
 
     // updates balance and totalSupply
-    assert to_mathint(balanceOf(from)) == fromBalanceBefore   - amount;
-    assert to_mathint(totalSupply())   == totalSupplyBefore - amount;
+    assert balanceOf(from) == fromBalanceBefore   - amount;
+    assert totalSupply()   == totalSupplyBefore - amount;
 }
 
 rule burnRevertingConditions(env e) {
@@ -433,8 +433,8 @@ rule transferIntegrity(env e) {
     // check outcome
    
     // balances of holder and recipient are updated
-    assert to_mathint(balanceOf(holder))    == holderBalanceBefore    - (holder == recipient ? 0 : amount);
-    assert to_mathint(balanceOf(recipient)) == recipientBalanceBefore + (holder == recipient ? 0 : amount);
+    assert balanceOf(holder) == holderBalanceBefore    - (holder == recipient ? 0 : amount);
+    assert balanceOf(recipient) == recipientBalanceBefore + (holder == recipient ? 0 : amount);
 }
 
 // We are checking just that if transfer(10) works, then also transfer(5);transfer(5) works. 
@@ -515,11 +515,11 @@ rule transferFromIntegrity(env e) {
 
     // allowance is valid & updated
     assert allowanceBefore >= amount;
-    assert to_mathint(allowance(holder, spender)) == (allowanceBefore == max_uint256 ? max_uint256 : allowanceBefore - amount);
+    assert allowance(holder, spender) == (allowanceBefore == max_uint256 ? max_uint256 : allowanceBefore - amount);
 
     // balances of holder and recipient are updated
-    assert to_mathint(balanceOf(holder))    == holderBalanceBefore    - (holder == recipient ? 0 : amount);
-    assert to_mathint(balanceOf(recipient)) == recipientBalanceBefore + (holder == recipient ? 0 : amount);
+    assert balanceOf(holder)    == holderBalanceBefore    - (holder == recipient ? 0 : amount);
+    assert balanceOf(recipient) == recipientBalanceBefore + (holder == recipient ? 0 : amount);
 }
 
 // overflow is not possible (sumOfBlances = totalSupply <= maxuint)
@@ -674,7 +674,7 @@ rule permitIntegrity(env e) {
 
     // allowance and nonce are updated
     assert allowance(holder, spender) == amount;
-    assert to_mathint(nonces(holder)) == nonceBefore + 1;
+    assert nonces(holder) == nonceBefore + 1;
 
     // deadline was respected
     assert deadline >= e.block.timestamp;

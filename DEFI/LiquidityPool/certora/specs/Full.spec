@@ -89,7 +89,7 @@ rule depositIntegrity(env e){
     uint256 clientSharesAfter = balanceOf(e.msg.sender);
 
     assert (amount == 0) => (depositedShares == 0) && (clientBalanceBefore == clientBalanceAfter) && (clientSharesBefore == clientSharesAfter);
-    assert (amount > 0) => (clientBalanceBefore - amount == to_mathint(clientBalanceAfter)) && (clientSharesBefore + depositedShares == to_mathint(clientSharesAfter));
+    assert (amount > 0) => (clientBalanceBefore - amount == clientBalanceAfter) && (clientSharesBefore + depositedShares == clientSharesAfter);
 }
 
 rule depositRevertConditions(env e){
@@ -129,7 +129,7 @@ rule splitDepositFavoursTheContract(env e){
     uint256 wholeAmount;
     uint256 amountA; 
     uint256 amountB;
-    require amountA + amountB == to_mathint(wholeAmount);
+    require amountA + amountB == wholeAmount;
     requireInvariant totalSharesIsZeroWithUnderlyingDeposited();
 
     storage init = lastStorage;
@@ -139,7 +139,7 @@ rule splitDepositFavoursTheContract(env e){
     uint256 sharesA = deposit(e, amountA) at init;
     uint256 sharesB = deposit(e, amountB);
 
-    assert to_mathint(wholeShares) >= sharesA + sharesB;
+    assert wholeShares >= sharesA + sharesB;
 }
 
 /*
@@ -162,7 +162,7 @@ rule withdrawIntegrity(env e){
 
 
     assert (shares == 0) => (withdrawAmount == 0) && (clientBalanceBefore == clientBalanceAfter) && (clientSharesBefore == clientSharesAfter);
-    assert (shares > 0) => (clientBalanceBefore + withdrawAmount == to_mathint(clientBalanceAfter)) && (clientSharesBefore - shares == to_mathint(clientSharesAfter));
+    assert (shares > 0) => (clientBalanceBefore + withdrawAmount == clientBalanceAfter) && (clientSharesBefore - shares == clientSharesAfter);
 }
 
 rule withdrawRevertConditions(env e){
@@ -193,7 +193,7 @@ rule splitWithdrawFavoursTheContract(env e){
     uint256 wholeShares;
     uint256 sharesA; 
     uint256 sharesB;
-    require sharesA + sharesB == to_mathint(wholeShares);
+    require sharesA + sharesB == wholeShares;
 
     storage init = lastStorage;
 
@@ -202,7 +202,7 @@ rule splitWithdrawFavoursTheContract(env e){
     uint256 amountA = withdraw(e, sharesA) at init;
     uint256 amountB = withdraw(e, sharesB);
 
-    assert to_mathint(wholeAmount) >= amountA + amountB;
+    assert wholeAmount >= amountA + amountB;
 }
 
 
@@ -246,7 +246,7 @@ rule flashLoanRevertConditions(env e){
     bool poolBlanceOverflow = underlying.balanceOf(currentContract) + calcPremium(amount) > max_uint256 || depositedAmount() + calcPremium(amount) > max_uint256;
     bool clientBalanceOverflow = underlying.balanceOf(e.msg.sender) + amount > max_uint256;
     bool overflow = poolBlanceOverflow || clientBalanceOverflow;
-    bool notEnoughAllowance = to_mathint(underlying.allowance(e.msg.sender, currentContract)) < calcPremium(amount) + amount || underlying.allowance(currentContract, currentContract) < amount;
+    bool notEnoughAllowance = underlying.allowance(e.msg.sender, currentContract) < calcPremium(amount) + amount || underlying.allowance(currentContract, currentContract) < amount;
     bool isExpectedToRevert = notEnoughAllowance || overflow || underflow || noPremium || receiverIsNotIFlashloanAddress || payable || reentrancy;
 
     flashLoan@withrevert(e, receiver, amount);
@@ -327,7 +327,7 @@ hook Sstore _balanceOf[KEY address user] uint256 newSharesBalance (uint256 oldSh
 }
 
 invariant totalSharesEqualSumOfShares()
-		to_mathint(totalSupply()) == sumOfShares;
+		totalSupply() == sumOfShares;
 
 
 /*
@@ -345,7 +345,7 @@ hook Sstore underlying._balanceOf[KEY address user] uint256 newBalance (uint256 
 }
 
 invariant totalIsSumBalances()
-    to_mathint(underlying.totalSupply()) == sumBalances;
+    underlying.totalSupply() == sumBalances;
 
 /*
 ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
@@ -444,10 +444,10 @@ invariant noClientHasSharesWithMoreValueThanDepositedAmount(address a)
         sharesToAmount(balanceOf(a)) <= depositedAmount()
 		{
 			preserved with(env e) {
-				require balanceOf(a) + balanceOf(e.msg.sender) < to_mathint(totalSupply());
+				require balanceOf(a) + balanceOf(e.msg.sender) < totalSupply();
 			}
             preserved transferFrom(address sender, address recipient, uint256 amount) with (env e) {
-                require balanceOf(sender) + balanceOf(e.msg.sender) + balanceOf(recipient) < to_mathint(totalSupply());
+                require balanceOf(sender) + balanceOf(e.msg.sender) + balanceOf(recipient) < totalSupply();
             }
 		}
 /*

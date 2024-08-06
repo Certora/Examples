@@ -21,6 +21,6 @@ rule checkDispatcherUnresolvedSummarizationResult() {
 rule checkDispatcherUniqueSummarizationResult() {
     uint256 dummyB = getDummyB();
     
-    assert (to_mathint(dummyB) == 222, "DISPATCHER(true) summarizations changes values of unchanged contract.");
+    assert (dummyB == 222, "DISPATCHER(true) summarizations changes values of unchanged contract.");
 }
 
