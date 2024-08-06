@@ -185,6 +185,10 @@ parameters:
   run_examples_nightly:
     default: false
     type: boolean
+  
+  examples_repo_path:
+    type: string
+    default: "../repo"
 
 workflows:
 
@@ -254,6 +258,7 @@ workflows:
       - examples-regtest:
           certora_ci_name: Examples Nightly
           certora_cli_package: certora-cli-alpha-master
+          examples_repo_path: << pipeline.parameters.examples_repo_path >>
           context: aws_staging
       - test-certoraMutate:
           certora_cli_package: certora-cli-alpha-master
