@@ -130,7 +130,6 @@ jobs:
               command="$command --prover_version master"
             fi
             eval $command
-            python3.11 DeleteExpected.py
 
       - store_artifacts:
           path: ~/ExamplesRegtest/Report.csv
