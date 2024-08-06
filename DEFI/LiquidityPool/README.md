@@ -136,7 +136,9 @@ assert Inv;  // <----- end block 1
 
 In summary, the weak invariant ensures that the invariant holds before the function call and after it finishes, without making any assumptions about the external call.
 
-This version of the invariant does not hold during the verification process.
+This version of the invariant does not hold during the verification process due to the fact the havoc call manipulated the deposited amount value and make it higher than the underlying asset of the pool.
+full details are shown in the following rule report.
+
 
 ### Execution
 
@@ -145,7 +147,7 @@ Command to run:
 certoraRun strongInv.conf
 ```
 
-[A report of this run](https://vaas-stg.certora.com/output/1512/8f383f9e0edb4a6d9d226b5530275e47?anonymousKey=6443dcca04e7ff6fb16080ed7dda049a67f80955)
+[A report of this run](https://vaas-stg.certora.com/output/1512/aa8f7b935d844726a0ad1cf2769fbe3e?anonymousKey=b04044a1d180134495d96672f7d66ea27b759640)
 
 ### Documentation
 
