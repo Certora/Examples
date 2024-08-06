@@ -50,7 +50,7 @@ commands:
           name: Get ExamplesRegtest
           command: |
             cd ~/
-            git clone git@github.com-examplesregtest:Certora/ExamplesRegtest.git
+            git clone git@github.com-examplesregtest:Certora/ExamplesRegtest.git@niv/CERT-6802-Add-Analyzer
       
       - run:
             name: Switch to cli-beta
@@ -123,11 +123,13 @@ jobs:
           name: Run Reg Test
           command: |
             cd ~/ExamplesRegtest
-            command="python3.11 RunNightlyTest.py --path ../repo --conf_ignore conf_ignore.txt --json_flags '{\"run_source\": \"LIGHT_TEST\", \"disable_auto_cache_key_gen\": true, \"group_id\": \"$CIRCLE_WORKFLOW_ID\"}' --send_message --disable_cleanup"
+            python3.11 CopyExpected.py
+            command="Regression --path ../repo --conf_ignore conf_ignore.txt --json_flags '{\"run_source\": \"LIGHT_TEST\", \"disable_auto_cache_key_gen\": true, \"group_id\": \"$CIRCLE_WORKFLOW_ID\"}' --send_message"
             if [ "<< parameters.certora_cli_package >>" == "certora-cli-alpha-master" ]; then
               command="$command --prover_version master"
             fi
             eval $command
+            python3.11 DeleteExpected.py
 
       - store_artifacts:
           path: ~/ExamplesRegtest/Report.csv
