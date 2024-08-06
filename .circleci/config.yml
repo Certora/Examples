@@ -13,7 +13,6 @@ commands:
       - run:
           name: Install ReportAnalysis package
           command: pip3.11 install git+ssh://git@github.com-reportanalysis/Certora/ReportAnalysis.git
-          when: on_fail
 
       - run:
           name: Run nightly report analyzer
@@ -146,7 +145,14 @@ jobs:
             fi
             eval $command
 
-      - report_analysis
+      - run:
+          name: Run Report Analysis on Failure
+          command: |
+            circleci-agent step halt  # Exit early to simulate failure
+          when: always
+          
+      - report_analysis:
+          when: on_fail
 
       - store_artifacts:
           path: ~/ExamplesRegtest/Report.csv
