@@ -134,12 +134,6 @@ jobs:
             eval $command
  
       - run:
-          name: Force a failure
-          command: |
-            echo "Forcing a failure"
-            exit 1
-
-      - run:
           name: Install ReportAnalysis package and execute ReportAnalyzer 
           command: |
             pip3.11 install git+ssh://git@github.com-reportanalysis/Certora/ReportAnalysis.git
