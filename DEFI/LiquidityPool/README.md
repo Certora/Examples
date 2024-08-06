@@ -111,7 +111,7 @@ function flashLoan(address receiverAddress, uint256 amount) nonReentrant() publi
 }
 ```
 
-In summary, the strong invariant ensures that the invariant holds during both block 1 and block 2 of the function execution. It assumes that the external call cannot modify the contract storage and break the invariant.
+In summary, the strong invariant ensures that the invariant holds during both block 1 and block 2 of the function execution. By induction, the Prover assumes that the external call may modify the contract storage but that the invariant holds afterward. 
 
 This version of the invariant holds during the verification process.
 
