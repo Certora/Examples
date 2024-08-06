@@ -13,6 +13,7 @@ commands:
       - run:
           name: Install ReportAnalysis package
           command: pip3.11 install git+ssh://git@github.com-reportanalysis/Certora/ReportAnalysis.git
+          when: on_fail
 
       - run:
           name: Run nightly report analyzer
@@ -145,8 +146,7 @@ jobs:
             fi
             eval $command
 
-      - report_analysis:
-          when: on_fail
+      - report_analysis
 
       - store_artifacts:
           path: ~/ExamplesRegtest/Report.csv
