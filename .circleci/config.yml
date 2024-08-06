@@ -7,18 +7,7 @@ version: 2.1
 orbs:
   aws-cli: circleci/aws-cli@3.1.4
 
-commands:
-  report_analysis:
-    steps:
-      - run:
-          name: Install ReportAnalysis package
-          command: pip3.11 install git+ssh://git@github.com-reportanalysis/Certora/ReportAnalysis.git
-
-      - run:
-          name: Run nightly report analyzer
-          command: |
-            ReportAnalyzer --ci_client "Examples Nightly"
-  
+commands:  
   prepare:
     parameters:
       certora_cli_package:
@@ -146,13 +135,12 @@ jobs:
             eval $command
 
       - run:
-          name: Run Report Analysis on Failure
+          name: Install ReportAnalysis package and execute ReportAnalyzer 
           command: |
-            circleci-agent step halt  # Exit early to simulate failure
-          when: always
-          
-      - report_analysis:
+            pip3.11 install git+ssh://git@github.com-reportanalysis/Certora/ReportAnalysis.git
+            ReportAnalyzer --ci_client "Examples Nightly"
           when: on_fail
+
 
       - store_artifacts:
           path: ~/ExamplesRegtest/Report.csv
