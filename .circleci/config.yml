@@ -50,7 +50,7 @@ commands:
           name: Get ExamplesRegtest
           command: |
             cd ~/
-            git clone --branch niv/CERT-6802-Add-Analyzer git@github.com:Certora/ExamplesRegtest.git
+            git clone -b niv/CERT-6802-Add-Analyzer git@github.com-examplesregtest:Certora/ExamplesRegtest.git
       
       - run:
             name: Switch to cli-beta
