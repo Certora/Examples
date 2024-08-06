@@ -133,11 +133,11 @@ jobs:
             fi
             eval $command
  
-     - run:
-        name: Force a failure
-        command: |
-          echo "Forcing a failure"
-          exit 1
+      - run:
+          name: Force a failure
+          command: |
+            echo "Forcing a failure"
+            exit 1
 
       - run:
           name: Install ReportAnalysis package and execute ReportAnalyzer 
