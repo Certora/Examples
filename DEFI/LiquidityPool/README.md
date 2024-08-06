@@ -103,7 +103,7 @@ function flashLoan(address receiverAddress, uint256 amount) nonReentrant() publi
     asset.transferFrom(address(this), msg.sender, amount);
     depositedAmount -= amount;
     assert Inv;  // <----- end block 1
-    require(IFlashLoanReceiver(receiverAddress).executeOperation(amount, totalPremium, msg.sender), 'P_INVALID_FLASH_LOAN_EXECUTOR_RETURN');  // <--- HAVOC_ECF
+    require(IFlashLoanReceiver(receiverAddress).executeOperation(amount, totalPremium, msg.sender), 'P_INVALID_FLASH_LOAN_EXECUTOR_RETURN');  // <--- HAVOC_ALL
     require Inv;  // <----- start block 2
     asset.transferFrom(msg.sender, address(this), amountPlusPremium);
     depositedAmount += amountPlusPremium;
@@ -127,7 +127,7 @@ function flashLoan(address receiverAddress, uint256 amount) nonReentrant() publi
     uint256 amountPlusPremium = amount + totalPremium;
     asset.transferFrom(address(this), msg.sender, amount);
     depositedAmount -= amount;
-    require(IFlashLoanReceiver(receiverAddress).executeOperation(amount, totalPremium, msg.sender), 'P_INVALID_FLASH_LOAN_EXECUTOR_RETURN');  // <--- HAVOC_ALL
+    require(IFlashLoanReceiver(receiverAddress).executeOperation(amount, totalPremium, msg.sender), 'P_INVALID_FLASH_LOAN_EXECUTOR_RETURN');  // <--- HAVOC_ECF
     asset.transferFrom(msg.sender, address(this), amountPlusPremium);
     depositedAmount += amountPlusPremium;
 }
