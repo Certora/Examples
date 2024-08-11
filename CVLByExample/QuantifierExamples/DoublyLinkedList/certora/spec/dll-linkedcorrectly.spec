@@ -18,9 +18,12 @@ ghost mapping(address => address) ghostPrev {
 ghost mapping(address => uint256) ghostValue {
     init_state axiom forall address x. ghostValue[x] == 0;
 }
-ghost address ghostHead;
-ghost address ghostTail;
-ghost uint256 ghostLength;
+ghost address ghostHead {
+    init_state axiom ghostHead == 0;
+}
+ghost address ghostTail {
+    init_state axiom ghostTail == 0;
+}
 ghost nextstar(address, address) returns bool {
     init_state axiom forall address x. forall address y. nextstar(x, y) == (x == y);
 }
