@@ -4,7 +4,7 @@ A specification file of ERC4626.
 
 This spec can be checked against implementations of ERC4626.
 
-We have an implementation of an ERC4626 contract in `certora/harnesses/mixins/ERC4626AccountingHarness.sol`.
+We have an implementation of [Solmate](https://github.com/transmissions11/solmate) ERC4626 contract in `certora/harnesses/tokens/ERC4626AccountingHarness.sol`.
 
 You can run this conf using
 ```certoraRun runERC4626Full.conf```

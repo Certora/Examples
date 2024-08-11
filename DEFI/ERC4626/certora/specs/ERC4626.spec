@@ -385,12 +385,6 @@ function safeAssumptions(env e, address receiver, address owner) {
     requireInvariant noSupplyIfNoAssets();
     requireInvariant assetsMoreThanSupply(); 
 
-    //// # Note : we don't want to use singleBalanceBounded and singleBalanceBounded invariants 
-    /* requireInvariant sumOfBalancePairsBounded(receiver, owner );
-    requireInvariant singleBalanceBounded(receiver);
-    requireInvariant singleBalanceBounded(owner);
-    */
-    ///// # but, it safe to assume that a single balance is less than sum of balances
     require ( (receiver != owner => balanceOf(owner) + balanceOf(receiver) <= totalSupply())  && 
                 balanceOf(receiver) <= totalSupply() &&
                 balanceOf(owner) <= totalSupply());
