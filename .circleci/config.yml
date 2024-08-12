@@ -7,7 +7,7 @@ version: 2.1
 orbs:
   aws-cli: circleci/aws-cli@3.1.4
 
-commands:
+commands:  
   prepare:
     parameters:
       certora_cli_package:
@@ -45,7 +45,7 @@ commands:
           command: |
             ssh-keyscan github.com >> ~/.ssh/known_hosts
             pip3.11 install git+ssh://git@github.com/Certora/ConfRunnerInfra.git
-      
+
       - run:
           name: Get ExamplesRegtest
           command: |
@@ -57,7 +57,7 @@ commands:
             command: |
               cd ~/ExamplesRegtest
               if [ "<< parameters.certora_cli_package >>" == "certora-cli-beta" ] || [ "<< parameters.certora_cli_package >>" == "certora-cli-alpha-master" ]; then
-                git switch cli-beta
+                git switch cli-beta 
               fi
       
       - aws-cli/setup:
@@ -109,6 +109,9 @@ jobs:
         type: string
       certora_cli_package:
         type: string
+      examples_repo_path:
+        type: string
+        default: "../repo"
     docker:
       - image: &img public.ecr.aws/certora/cvt-image:2024.06.13-3755-0351582
     resource_class: small
@@ -123,11 +126,13 @@ jobs:
           name: Run Reg Test
           command: |
             cd ~/ExamplesRegtest
-            command="python3.11 RunNightlyTest.py --path ../repo --conf_ignore conf_ignore.txt --json_flags '{\"run_source\": \"LIGHT_TEST\", \"disable_auto_cache_key_gen\": true, \"group_id\": \"$CIRCLE_WORKFLOW_ID\"}' --send_message --disable_cleanup"
+            python3.11 CopyExpected.py
+            command="Regression --path << parameters.examples_repo_path >> --conf_ignore conf_ignore.txt --json_flags '{\"run_source\": \"LIGHT_TEST\", \"disable_auto_cache_key_gen\": true, \"group_id\": \"$CIRCLE_WORKFLOW_ID\"}' --send_message --checks Verification"
             if [ "<< parameters.certora_cli_package >>" == "certora-cli-alpha-master" ]; then
               command="$command --prover_version master"
             fi
             eval $command
+
 
       - store_artifacts:
           path: ~/ExamplesRegtest/Report.csv
@@ -180,6 +185,10 @@ parameters:
   run_examples_nightly:
     default: false
     type: boolean
+  
+  examples_repo_path:
+    type: string
+    default: "../repo"
 
 workflows:
 
@@ -247,8 +256,9 @@ workflows:
     when: << pipeline.parameters.run_examples_nightly >>
     jobs:
       - examples-regtest:
-          certora_ci_name: Examples Nightly
+          certora_ci_name: Examples Nightly Manual
           certora_cli_package: certora-cli-alpha-master
+          examples_repo_path: << pipeline.parameters.examples_repo_path >>
           context: aws_staging
       - test-certoraMutate:
           certora_cli_package: certora-cli-alpha-master
