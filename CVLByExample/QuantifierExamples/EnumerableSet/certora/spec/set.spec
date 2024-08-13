@@ -22,13 +22,12 @@ ghost mapping(bytes32 => uint256) ghostIndexes {
 }
 // ghost field for the length of the values array (stored in offset 0)
 ghost uint256 ghostLength {
-    init_state axiom ghostLength == 0;
     // assumption: it's infeasible to grow the list to these many elements.
     axiom ghostLength < max_uint256;
 }
 
 // HOOKS
-// Store hook to synchronize ghostLength with the length of the set._inner._values array.
+// Store hook to synchronize ghostLength with the length of the set._inner._values array. 
 hook Sstore currentContract.set._inner._values.length uint256 newLength {
     ghostLength = newLength;
 }
@@ -49,7 +48,7 @@ hook Sstore currentContract.set._inner._indexes[KEY bytes32 value] uint256 newIn
 // By following this simple pattern it is ensured that the ghost state and the storage are always the same
 // and that the solver can use this knowledge in the proofs.
 
-// Load hook to synchronize ghostLength with the length of the set._inner._values array.
+// Load hook to synchronize ghostLength with the length of the set._inner._values array. 
 hook Sload uint256 length currentContract.set._inner._values.length {
     require ghostLength == length;
 }
@@ -68,7 +67,7 @@ hook Sload uint256 index currentContract.set._inner._indexes[KEY bytes32 value] 
 
 invariant setInvariant()
     (forall uint256 index. 0 <= index && index < ghostLength => to_mathint(ghostIndexes[ghostValues[index]]) == index + 1)
-    && (forall bytes32 value. ghostIndexes[value] == 0 ||
+    && (forall bytes32 value. ghostIndexes[value] == 0 || 
          (ghostValues[ghostIndexes[value] - 1] == value && ghostIndexes[value] >= 1 && ghostIndexes[value] <= ghostLength));
 
 // DEFINITION
