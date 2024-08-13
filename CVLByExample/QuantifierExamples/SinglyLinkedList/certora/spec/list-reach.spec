@@ -29,9 +29,7 @@ ghost mapping(bytes32 => bytes32) ghostSucc {
 }
 
 // Our ghost copy of the list head.
-ghost bytes32 ghostHead {
-    init_state axiom ghostHead == to_bytes32(0);
-}
+ghost bytes32 ghostHead;
 
 definition isSucc(bytes32 a, bytes32 b) returns bool = reach(a, b) && a != b && (forall bytes32 X. reach(a, X) && reach(X, b) => (a == X || b == X));
 
@@ -39,17 +37,17 @@ definition reachSuccInvariant(bytes32 key) returns bool =
     (key == to_bytes32(0) && ghostSucc[key] == to_bytes32(0))
     || (key != to_bytes32(0) && isSucc(key, ghostSucc[key]));
 
-definition updateSucc(bytes32 a, bytes32 b) returns bool = forall bytes32 X. forall bytes32 Y. reach@new(X, Y) ==
+definition updateSucc(bytes32 a, bytes32 b) returns bool = forall bytes32 X. forall bytes32 Y. reach@new(X, Y) == 
             (X == Y ||
             (reach@old(X, Y) && !(reach@old(X, a) && a != Y && reach@old(a, Y))) ||
             (reach@old(X, a) && reach@old(b, Y)));
 
 hook Sstore currentContract.list.elements[KEY bytes32 key].nextKey bytes32 newNextKey {
     bytes32 otherKey;
-
+    
     require reachSuccInvariant(otherKey);
     assert !reach(newNextKey,key), "Setting next introduces cycle";
-
+    
     // update ghost successor
     ghostSucc[key] = newNextKey;
     // update ghost reachability
@@ -89,13 +87,13 @@ invariant inListIffValid()
     }
 
 invariant reach_invariant()
-    forall bytes32 X. forall bytes32 Y. forall bytes32 Z. (
+    forall bytes32 X. forall bytes32 Y. forall bytes32 Z. ( 
         reach(X, X)
         && (reach(X,Y) && reach (Y, X) => X == Y)
         && (reach(X,Y) && reach (Y, Z) => reach(X, Z))
         && (reach(X,Y) && reach (X, Z) => (reach(Y,Z) || reach(Z,Y)))
     )
-    {
+    { 
         preserved {
             requireInvariant inListIffValid();
         }
@@ -103,7 +101,7 @@ invariant reach_invariant()
 
 invariant reach_succ(bytes32 key)
     reachSuccInvariant(key)
-    {
+    { 
         preserved {
             requireInvariant reach_invariant();
             requireInvariant inListIffValid();
