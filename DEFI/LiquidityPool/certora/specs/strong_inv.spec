@@ -8,7 +8,6 @@ methods
 
 strong invariant strongDepositedAmountLessThanContractUnderlyingAsset()
     depositedAmount() <= underlying.balanceOf(currentContract)
-    filtered { f -> f.selector == sig:flashLoan(address,uint256).selector }
     {
         preserved with(env e) {
             require e.msg.sender != currentContract;
@@ -17,7 +16,6 @@ strong invariant strongDepositedAmountLessThanContractUnderlyingAsset()
 
 weak invariant weakDepositedAmountLessThanContractUnderlyingAsset()
     depositedAmount() <= underlying.balanceOf(currentContract)
-    filtered { f -> f.selector == sig:flashLoan(address,uint256).selector }
     {
         preserved with(env e) {
             require e.msg.sender != currentContract;

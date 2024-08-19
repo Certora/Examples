@@ -147,7 +147,7 @@ Command to run:
 certoraRun strongInv.conf
 ```
 
-[A report of this run](https://vaas-stg.certora.com/output/1512/aa8f7b935d844726a0ad1cf2769fbe3e?anonymousKey=b04044a1d180134495d96672f7d66ea27b759640)
+[A report of this run](https://prover.certora.com/output/1512/f46d506c29e843de96df149f8b6d84ed?anonymousKey=9ddb286c9aa8932f75f7ff139fc43d9e075ae991)
 
 ### Documentation
 
