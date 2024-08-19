@@ -134,7 +134,7 @@ function flashLoan(address receiverAddress, uint256 amount) nonReentrant() publi
 assert Inv;  // <----- end block 1
 ```
 
-In summary, the weak invariant ensures that the invariant holds before the function call and after it finishes, without making any assumptions about the external call.
+In general, the weak invariant ensures that the invariant holds after a function finishes where external call are modeled according to the definitions provided (or the Prover's defaults) 
 
 This version of the invariant does not hold during the verification process due to the fact the havoc call manipulated the deposited amount value and make it higher than the underlying asset of the pool.
 full details are shown in the following rule report.
