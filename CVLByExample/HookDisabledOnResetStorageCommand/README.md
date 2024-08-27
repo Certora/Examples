@@ -46,7 +46,7 @@ rule resetZeroesAllFunds(address to, uint256 amount) {
 
 ### Specification Breakdown
 
-- **Hook `Sstore`**: This hook is set to trigger on any storage write (`Sstore`) to the variable `dontUseMe`. However, it contains an assertion `assert false` to demonstrate that if it actually invoked the rule will get a violation.
+- **Hook `Sstore`**: This hook is set to trigger on any storage write (`Sstore`) to the variable `dontUseMe`. However, it contains an assertion `assert false` to demonstrate that if it is invoked the rule will get a violation.
   
 - **Rule `resetZeroesAllFunds`**: This rule verifies that after using the `reset_storage` command on the `BankReset` contract, all funds are zeroed out. It starts by ensuring that there exists at least one address with non-zero funds, then resets the storage and asserts that all funds are zero.
 
@@ -62,11 +62,11 @@ rule resetZeroesAllFunds(address to, uint256 amount) {
      certoraRun BankReset.conf
      ```
 
-3. **Check the Output**: The execution show that the rule `resetZeroesAllFunds` passes, and the hook `Sstore` for `dontUseMe` is never triggered as expected.
+3. **Check the Output**: The execution shows that the rule `resetZeroesAllFunds` passes, and the hook `Sstore` for `dontUseMe` is never triggered as expected.
 
 ### Execution Link
 
-For an example of the output, you can check the execution link: [Certora Run Output](https://prover.certora.com/output/1512/985319a08a424a6e81b8e1dcd9836848?anonymousKey=0ee6ab56949403b32b14f84c4d76ac08eb9acede)
+An example of the output can be seen in the execution link: [Certora Run Output](https://prover.certora.com/output/1512/985319a08a424a6e81b8e1dcd9836848?anonymousKey=0ee6ab56949403b32b14f84c4d76ac08eb9acede)
 
 
 For further details on Certora Verification Language and best practices, please refer to the [Certora Documentation](https://docs.certora.com).
