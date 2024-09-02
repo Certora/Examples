@@ -104,16 +104,16 @@ hook Sstore _balances[KEY address a] uint new_value (uint old_value) {
     sum_of_balances = sum_of_balances + new_value - old_value;
 }
 
-// This `sload` makes `sum_of_balances >= to_mathint(balance)` hold at the beginning of each rule.
+// This `sload` makes `sum_of_balances >= balance` hold at the beginning of each rule.
 hook Sload uint256 balance _balances[KEY address a]  {
-  require sum_of_balances >= to_mathint(balance);
+  require sum_of_balances >= balance;
 }
 
 //// ## Part 4: Invariants
 
 /** `totalSupply()` returns the sum of `balanceOf(u)` over all users `u`. */
 invariant totalSupplyIsSumOfBalances()
-    to_mathint(totalSupply()) == sum_of_balances;
+    totalSupply() == sum_of_balances;
 
 // satisfy examples
 // Generate an example trace for a first deposit operation that succeeds.
@@ -141,7 +141,7 @@ rule satisfyWithManyOps(){
 
     requireInvariant totalSupplyIsSumOfBalances();
     // The following two requirement are to avoid overflow exmaples.
-    require to_mathint(balanceOf(e.msg.sender)) > e.msg.value + 10 * amount;
+    require balanceOf(e.msg.sender) > e.msg.value + 10 * amount;
     require balanceOf(recipient) + amount < max_uint;
     require e.msg.sender != 0;
     require recipient != 0;

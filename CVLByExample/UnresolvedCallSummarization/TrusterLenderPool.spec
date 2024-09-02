@@ -4,8 +4,9 @@ using DamnValuableToken as token;
 methods{
     function token.totalSupply() external returns (uint256) envfree;
     function token.allowance(address, address) external returns (uint256) envfree;
-    function _._ external => DISPATCH [
-        token.approve(address, uint256), 
+
+    unresolved external in TrusterLenderPool.flashLoan(uint256,address,address,bytes) => DISPATCH(use_fallback=true) [
+        token.approve(address, uint256),
         currentContract._
     ] default NONDET;
 }

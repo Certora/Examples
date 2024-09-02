@@ -22,7 +22,7 @@ function getOppositeLoc(CalledLibrary.S s) returns CalledLibrary.E {
 
 function getDoubledStruct(uint256 _x, bool _b, CalledLibrary.E _loc) returns CalledLibrary.S {
     CalledLibrary.S out;
-    require to_mathint(out.x) == _x * 2;
+    require out.x == _x * 2;
     require out.b == _b;
     require out.loc == _loc;
     return out;

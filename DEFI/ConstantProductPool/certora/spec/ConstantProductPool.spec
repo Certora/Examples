@@ -42,7 +42,7 @@ function setup(env e){
     address zero_address = 0;
     uint256 MINIMUM_LIQUIDITY = 1000;
     require totalSupply() == 0 || currentContract._balances[zero_address] == MINIMUM_LIQUIDITY;
-    require currentContract._balances[zero_address] + currentContract._balances[e.msg.sender] <= to_mathint(totalSupply());
+    require currentContract._balances[zero_address] + currentContract._balances[e.msg.sender] <= totalSupply();
     require _token0 == token0();
     require _token1 == token1();
 }
@@ -72,7 +72,7 @@ rule integrityOfSwap(address recipient) {
     uint256 balanceBefore = _token0.balanceOf(recipient);
     uint256 amountOut = swap(_token1, recipient);
     uint256 balanceAfter = _token0.balanceOf(recipient);
-    assert to_mathint(balanceAfter) == balanceBefore + amountOut; 
+    assert balanceAfter == balanceBefore + amountOut; 
 }
 
 /*
@@ -101,7 +101,7 @@ rule noDecreaseByOther(method f, address account) {
     f(e,args); /* check on all possible arguments */
     uint256 after = currentContract._balances[account];
     /* logic implication : true when: (a) the left hand side is false or (b) right hand side is true  */
-    assert after < before =>  (e.msg.sender == account  ||  to_mathint(allowance) >= (before-after))  ;
+    assert after < before =>  (e.msg.sender == account  ||  allowance >= (before-after))  ;
 }
 
 
@@ -243,7 +243,7 @@ hook Sstore _balances[KEY address a] uint256 new_balance
 }
 
 invariant sumFunds() 
-	sumBalances == to_mathint(totalSupply());
+	sumBalances == totalSupply();
 
 
 /*

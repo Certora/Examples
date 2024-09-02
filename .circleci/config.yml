@@ -132,6 +132,14 @@ jobs:
               command="$command --prover_version master"
             fi
             eval $command
+ 
+      - run:
+          name: Install ReportAnalysis package and execute ReportAnalyzer 
+          command: |
+            pip3.11 install git+ssh://git@github.com-reportanalysis/Certora/ReportAnalysis.git
+            ReportAnalyzer --ci_client "Examples Nightly"
+          when: on_fail
+
 
 
       - store_artifacts:

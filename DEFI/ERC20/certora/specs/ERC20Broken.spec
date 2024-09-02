@@ -123,7 +123,7 @@ hook Sstore _balances[KEY address a] uint new_value (uint old_value) {
 
 /// @dev This rule is unsound!
 invariant balancesBoundedByTotalSupply(address alice, address bob)
-    balanceOf(alice) + balanceOf(bob) <= to_mathint(totalSupply())
+    balanceOf(alice) + balanceOf(bob) <= totalSupply()
 {
     preserved transfer(address recip, uint256 amount) with (env e) {
         require recip        == alice || recip        == bob;
@@ -138,7 +138,7 @@ invariant balancesBoundedByTotalSupply(address alice, address bob)
 
 /** `totalSupply()` returns the sum of `balanceOf(u)` over all users `u`. */
 invariant totalSupplyIsSumOfBalances()
-    to_mathint(totalSupply()) == sum_of_balances;
+    totalSupply() == sum_of_balances;
 
 // Safe casting examples
 // addAmount() uses `unchecked` therefore is not checking for overflow. 
