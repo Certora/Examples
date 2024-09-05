@@ -151,8 +151,8 @@ hook Sstore _customers[KEY address a].accounts[INDEX uint256 i].accountBalance u
 /// Sload on a struct field.
 hook Sload uint256 value  _customers[KEY address a].accounts[INDEX uint256 i].accountBalance   {
     // when balance load, safely assume it is less than the sum of all values
-    require to_mathint(value) <= sumBalances;
-    require to_mathint(i) <= to_mathint(numOfAccounts[a]-1);
+    require value <= sumBalances;
+    require i <= numOfAccounts[a]-1;
 }
 
 /// Non-customers have no account.
@@ -163,7 +163,7 @@ invariant emptyAccount(address user)
 
 /// struct as a parameter of preserved function.
 invariant totalSupplyEqSumBalances()
-    to_mathint(totalSupply()) == sumBalances 
+    totalSupply() == sumBalances 
     {
         preserved addCustomer(BankAccountRecord.Customer c) 
         {
