@@ -56,10 +56,45 @@ methods {
     function _.transferFrom(address,address,uint256) external => DISPATCHER(true);
 
     function ERC20a.balanceOf(address) external returns uint256 envfree;
+    function ERC20a.allowance(address, address) external returns uint256 envfree;
     function ERC20a.transferFrom(address,address,uint256) external returns bool;
+
+    function ERC20b.allowance(address, address) external returns uint256 envfree;
 }
 
+////////////////////////////////////////////////////////////////////////////////
+////           Dynamic Calls                                               /////
+////////////////////////////////////////////////////////////////////////////////
 
+persistent ghost bool callMade;
+persistent ghost bool delegatecallMade;
+
+
+hook CALL(uint g, address addr, uint value, uint argsOffset, uint argsLength, uint retOffset, uint retLength) uint rc {
+    if (addr != currentContract.asset) {
+        callMade = true;
+    }
+}
+
+hook DELEGATECALL(uint g, address addr, uint argsOffset, uint argsLength, uint retOffset, uint retLength) uint rc {
+    delegatecallMade = true;
+}
+
+/*
+This rule proves there are no instances in the code in which the user can act as the contract.
+By proving this rule we can safely assume in our spec that e.msg.sender != currentContract.
+*/
+rule noDynamicCalls {
+    method f;
+    env e;
+    calldataarg args;
+
+    require !callMade && !delegatecallMade;
+
+    f(e, args);
+
+    assert !callMade && !delegatecallMade;
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 ////           #  asset To shares mathematical properties                  /////
@@ -166,12 +201,10 @@ invariant assetsMoreThanSupply()
     }
 
 invariant noAssetsIfNoSupply() 
-   ( userAssets(currentContract) == 0 => totalSupply() == 0 ) &&
-    ( totalAssets() == 0 => ( totalSupply() == 0 ))
-
-    {
+    (userAssets(currentContract) == 0 => totalSupply() == 0) &&
+    (totalAssets() == 0 => (totalSupply() == 0)) {
         preserved with (env e) {
-        address any;
+            address any;
             safeAssumptions(e, any, e.msg.sender);
         }
     }
@@ -270,6 +303,7 @@ rule dustFavorsTheHouse(uint assetsIn )
 invariant vaultSolvency()
     totalAssets() >= totalSupply()  && userAssets(currentContract) >= totalAssets()  {
       preserved with(env e){
+            requireInvariant zeroAllowanceOnAssets(e.msg.sender);
             requireInvariant totalSupplyIsSumOfBalances();
             require e.msg.sender != currentContract;
             require currentContract != asset(); 
@@ -288,6 +322,12 @@ rule redeemingAllValidity() {
     assert ownerBalanceAfter == 0;
 }
 
+invariant zeroAllowanceOnAssets(address user)
+    ERC20a.allowance(currentContract, user) == 0 && ERC20b.allowance(currentContract, user) == 0 {
+        preserved with(env e) {
+            require e.msg.sender != currentContract;
+        }
+    }
 
 ////////////////////////////////////////////////////////////////////////////////
 ////               # stakeholder properties  (Risk Analysis )         //////////
@@ -322,7 +362,14 @@ filtered {
         "a contributor's assets must decrease if and only if the receiver's shares increase";
 }
 
-rule onlyContributionMethodsReduceAssets(method f) {
+
+definition isTransferOnTokens(method f, address asset) returns bool =
+    (f.selector == sig:transfer(address,uint256).selector || f.selector == sig:transferFrom(address,address,uint256).selector) &&
+    f.contract == asset;
+
+
+rule onlyContributionMethodsReduceAssets(method f) 
+filtered { f -> !(isTransferOnTokens(f, ERC20a) || isTransferOnTokens(f, ERC20b)) } {
     address user; require user != currentContract;
     uint256 userAssetsBefore = userAssets(user);
 
@@ -383,7 +430,10 @@ function safeAssumptions(env e, address receiver, address owner) {
     requireInvariant vaultSolvency();
     requireInvariant noAssetsIfNoSupply();
     requireInvariant noSupplyIfNoAssets();
-    requireInvariant assetsMoreThanSupply(); 
+    requireInvariant assetsMoreThanSupply();
+
+    require e.msg.sender != currentContract;  // This is proved by rule noDynamicCalls
+    requireInvariant zeroAllowanceOnAssets(e.msg.sender);
 
     require ( (receiver != owner => balanceOf(owner) + balanceOf(receiver) <= totalSupply())  && 
                 balanceOf(receiver) <= totalSupply() &&
