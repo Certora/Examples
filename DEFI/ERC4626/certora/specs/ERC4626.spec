@@ -362,14 +362,7 @@ filtered {
         "a contributor's assets must decrease if and only if the receiver's shares increase";
 }
 
-
-definition isTransferOnTokens(method f, address asset) returns bool =
-    (f.selector == sig:transfer(address,uint256).selector || f.selector == sig:transferFrom(address,address,uint256).selector) &&
-    f.contract == asset;
-
-
-rule onlyContributionMethodsReduceAssets(method f) 
-filtered { f -> !(isTransferOnTokens(f, ERC20a) || isTransferOnTokens(f, ERC20b)) } {
+rule onlyContributionMethodsReduceAssets(method f) {
     address user; require user != currentContract;
     uint256 userAssetsBefore = userAssets(user);
 
@@ -383,8 +376,9 @@ filtered { f -> !(isTransferOnTokens(f, ERC20a) || isTransferOnTokens(f, ERC20b)
 
     assert userAssetsBefore > userAssetsAfter =>
         (f.selector == sig:deposit(uint256,address).selector ||
-         f.selector == sig:mint(uint256,address).selector),
-        "a user's assets must not go down except on calls to contribution methods";
+         f.selector == sig:mint(uint256,address).selector ||
+         f.contract == ERC20a || f.contract == ERC20b),
+        "a user's assets must not go down except on calls to contribution methods or calls directly to the asset.";
 }
 
 rule reclaimingProducesAssets(method f)
