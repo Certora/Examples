@@ -132,8 +132,8 @@ jobs:
             python3.11 CopyExpected.py
             command="Regression --path << parameters.examples_repo_path >> --conf_ignore conf_ignore.txt --json_flags '{\"run_source\": \"LIGHT_TEST\", \"disable_auto_cache_key_gen\": true, \"group_id\": \"$CIRCLE_WORKFLOW_ID\"}' --send_message --checks Verification"
             if [ "<< parameters.certora_cli_package >>" == "certora-cli-alpha-master" ]; then
-              if [ -n "<< parameters.commit_sha >>" ]; then
-                command="$command --commit_sha1 << parameters.commit_sha >>"
+              if [ -n "<< pipeline.parameters.commit_sha >>" ]; then
+                command="$command --commit_sha1 << pipeline.parameters.commit_sha >>"
               else
                 command="$command --prover_version master"
               fi
