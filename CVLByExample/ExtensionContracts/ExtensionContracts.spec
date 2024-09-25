@@ -16,7 +16,7 @@ rule setInExtension1viaDelegate(env e) {
     uint n;
     base1.callSetInExtension1(e, n);
     assert base1.inExtension1 == n;
-    assert base1.getInExtension1(e) == 2; // the summarization should apply
+    assert base1.getInExtension1(e) == 2; // the summarization of Extension1.getInExtension1() is applied
 }
 
 rule setInExtension2Direct(env e) {
