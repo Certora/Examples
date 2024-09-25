@@ -21,7 +21,7 @@ Contract B {
 ```
 Then when someone calls B(aAddress).foo() the call is delegated to B via A's fallback function.
 
-Usually the prover doesn't "understand" that B is in an extension of A, so the call above is unresolved.
+By default, the prover overapproximates and assumes that B can be any contract, so the call above is unresolved.
 To support this pattern a new option `contract_extensions` was added which accepts a dictionary of the form:
 ```
 "contract_extensions": {
