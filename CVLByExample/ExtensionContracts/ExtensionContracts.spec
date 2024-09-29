@@ -6,6 +6,8 @@ methods {
     function Extension1.getInExtension1() internal returns (uint) => 2;
 }
 
+use builtin rule sanity;
+
 rule setInExtension1Direct(env e) {
     uint n;
     base1.setInExtension1(e, n);
