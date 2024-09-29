@@ -202,17 +202,17 @@ rule monotonicityOfMint(uint256 x, uint256 y, address recipient) {
     env eT0;
     env eM;
     setup(eM);
-    address a;
-    require a == _token0 || a == _token1;
+    address token;
+    require token == _token0 || token == _token1;
     requireInvariant integrityOfTotalSupply();
     storage init = lastStorage;
     require recipient != currentContract;
     require x > y ;
-    a.transfer(eT0, currentContract, x);
+    token.transfer(eT0, currentContract, x);
     uint256 amountOut0 = mint(eM,recipient);
     uint256 balanceAfter1 = currentContract._balances[recipient];
     
-    a.transfer(eT0, currentContract, y) at init;
+    token.transfer(eT0, currentContract, y) at init;
     uint256 amountOut2 = mint(eM,recipient);
     uint256 balanceAfter2 = currentContract._balances[recipient]; 
     assert balanceAfter1 >= balanceAfter2; 
@@ -260,18 +260,18 @@ rule possibleToFullyWithdraw(address sender, uint256 amount) {
     env eT0;
     env eM;
     setup(eM);
-    address a;
-    require a == _token0 || a == _token1;
-    uint256 balanceBefore = a.balanceOf(eT0,sender);
+    address token;
+    require token == _token0 || token == _token1;
+    uint256 balanceBefore = token.balanceOf(eT0,sender);
     
     require eM.msg.sender == sender;
     require eT0.msg.sender == sender;
     require amount > 0;
-    a.transfer(eT0, currentContract, amount);
+    token.transfer(eT0, currentContract, amount);
     uint256 amountOut0 = mint(eM,sender);
     // immediately withdraw 
     burnSingle(eM, _token0, amountOut0, sender);
-    satisfy (balanceBefore == a.balanceOf(eT0, sender));
+    satisfy (balanceBefore == token.balanceOf(eT0, sender));
 }
 
 
