@@ -17,7 +17,7 @@ do
       --msg "${contract} : Reentrancy"
 
   certoraRun ${FILE} \
-      --verify ${contract}:certora/spec/ReadOnlyReentrancy.spec \
+      --verify ${contract}:certora/spec/ViewReentrancy.spec \
       --optimistic_loop --loop_iter 3 \
       --msg "${contract} : ROReentrancy"
 done

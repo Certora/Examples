@@ -18,7 +18,7 @@ The contract in `BankNoGuardFix.sol` contains another common approach to reentra
 The `certora\spec` folder contains three different reentrancy checks.
 
 ### Read Only Reentrancy 
-File `ReadOnlyReentrancy.spec` uses the `viewReentrancy` builtin rule.
+File `ViewReentrancy.spec` uses the `viewReentrancy` builtin rule.
 see [docs](https://docs.certora.com/en/latest/docs/cvl/builtin.html#read-only-reentrancy-detection-viewreentrancy) for more information on how the Certora Prover checks for view reentrancy. 
 The rule is violated for the `BankGuardFix.sol` because the guard does not protect third parties that use a view function.
 
