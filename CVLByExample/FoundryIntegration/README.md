@@ -1,7 +1,11 @@
 # Foundry Fuzz Testing Integration
-The Certora Prover can integrate easily with the Foundry fuzz tests and formally verify the test cases using a very simple spec file and enabling `"foundry_tests_mode": true` in the conf file.
-For more information go to [Certora's Documentation]()
 
-This directory contains several examples of runs using Foundry integrations to demonstrate how to use it and how the Prover report looks like.
+The Certora Prover offers seamless integration with Foundry fuzz tests, allowing for the formal verification of test cases through a simple specification file and by setting `"foundry_tests_mode": true` in the configuration file.
 
-*NOTE: This feature is in early alpha stages.*
+Unlike the standard Foundry fuzz tester, which executes tests with random inputs to discover any input combinations that cause test case failures, the Certora Prover transforms the test into a symbolic representation and applies SMT solvers to formally verify it. In essence, if a test is verified by the Prover, it is verified against all possible combinations of input values.
+
+For further information, please refer to [Certora's Documentation]().
+
+This directory contains several examples showcasing Foundry integrations, demonstrating usage as well as the Prover’s reporting format.
+
+*Note: This feature is currently in an early alpha phase.*

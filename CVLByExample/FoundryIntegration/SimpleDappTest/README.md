@@ -1,10 +1,12 @@
 # Simple Dapp Testing
-In this example we have a Solidity contract, called `SimpleDapp`, allows users to deposit and withdraw Ether (ETH). This contract is essentially a simple ETH vault where users can safely deposit and later withdraw their funds. 
 
-We also have a fuzz test contract called `SimpleDappTest`. It tests the functionality of the deposit and withdraw functions, ensuring that a user cannot withdraw more than they have deposited.
+This example is base on [a Cyfrin repo](https://github.com/Cyfrin/fuzz-testing-on-foundry). It features a Solidity contract named `SimpleDapp`, which allows users to deposit and withdraw Ether (ETH). The contract functions as a basic ETH vault, enabling users to securely deposit funds and withdraw them later.
+
+Additionally, there is a fuzz test contract named `SimpleDappTest`, designed to verify the functionality of the deposit and withdrawal methods. It ensures, in particular, that a user cannot withdraw more than their deposited amount.
 
 To run this example, use:
 ```certoraRun SimpleDappTest.conf```
-[Report of this run.](https://vaas-stg.certora.com/output/15800/95791d707c564ad786ccbe5b7ce38e38?anonymousKey=e9903bf39567da6b8dd74d6a5091cdcd63bd6e39)
 
-*NOTE: This Foundry Fuzz Testing Integrations is in early alpha stages.*
+[View the report for this run.](https://prover.certora.com/output/15800/7faf69fd82034fe8824393078c63ead2?anonymousKey=27031765775db06bc5e3bf4f3fc87be556bb59b1)
+
+*Note: Foundry Fuzz Testing Integration is currently in an early alpha phase.*
