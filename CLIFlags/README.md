@@ -32,4 +32,3 @@ For more information about available CLI options go to: https://docs.certora.com
 | [--link](https://docs.certora.com/en/latest/docs/prover/cli/options.html?highlight=bank#link) | [Liquidity Pool without linking](https://prover.certora.com/output/15800/e80f04180604458597fecc47c2b64e74?anonymousKey=b893bb90a8858acf903ba4aff1006af89a96d188) / [With linking](https://prover.certora.com/output/15800/f8f4b7a9180b49c1acdff4111a3c8e7a?anonymousKey=4a5b9ea156448922f7a1b4a25311d2b1e5c676ad) |
 | [--address](https://docs.certora.com/en/latest/docs/prover/cli/options.html?highlight=bank#address) | |
 | [--struct_link](https://docs.certora.com/en/latest/docs/prover/cli/options.html?highlight=bank#struct-link) | |
-| --foundry_tests_mode | [Foundry integration example](https://prover.certora.com/output/15800/70e5d5141ce34e4eae0f9966b78b34d9?anonymousKey=40a3a0266ff277d769a873681b1fc7829b0b5c55) |
