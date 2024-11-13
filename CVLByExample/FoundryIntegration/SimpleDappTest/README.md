@@ -1,6 +1,6 @@
 # Simple Dapp Testing
 
-This example is base on [a Cyfrin repo](https://github.com/Cyfrin/fuzz-testing-on-foundry). It features a Solidity contract named `SimpleDapp`, which allows users to deposit and withdraw Ether (ETH). The contract functions as a basic ETH vault, enabling users to securely deposit funds and withdraw them later.
+This example is based on [a Cyfrin repo](https://github.com/Cyfrin/fuzz-testing-on-foundry). It features a Solidity contract named `SimpleDapp`, which allows users to deposit and withdraw Ether (ETH). The contract functions as a basic ETH vault, enabling users to securely deposit funds and withdraw them later.
 
 Additionally, there is a fuzz test contract named `SimpleDappTest`, designed to verify the functionality of the deposit and withdrawal methods. It ensures, in particular, that a user cannot withdraw more than their deposited amount.
 
