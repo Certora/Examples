@@ -48,7 +48,7 @@ The new format configuration (`hello_world_new_fromat.conf`) leverages a `build_
 ```
 
 **Key Difference:**
-- **Old Format:** Requires manual specification of the `.wasm` file.
+- **Old Format:** Requires manual compilation and specification of the `.wasm` file.
 - **New Format:** Automatically builds the project using the specified build script.
 
 ---
