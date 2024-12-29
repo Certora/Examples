@@ -18,3 +18,7 @@ You can use a different set of trusted methods by specifying your own `trustedMe
 And the adding `"prover_resource_files": ["trustedMethods:trustedMethod.json"]` to the config file.
 
 It's also possible to define a wildcard for the contract address or for the method sighash by using "_".
+
+Run this example using:
+```certoraRun Example.conf```
+[A report of this run](https://vaas-stg.certora.com/output/15800/7329f2dcf86c49f6b96891439eeaa467?anonymousKey=cde57e9e5f2ab7c5300399cdaa97585add830664)
