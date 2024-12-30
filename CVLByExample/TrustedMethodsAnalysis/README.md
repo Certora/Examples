@@ -15,7 +15,7 @@ You can use a different set of trusted methods by specifying your own `trustedMe
     "0xe918820024e2a7437b90f5206bbd039e7b0592d8": ["0x62134c6c","0x2c38f646",...]
 }
 ```
-And the adding `"prover_resource_files": ["trustedMethods:trustedMethod.json"]` to the config file.
+And adding `"prover_resource_files": ["trustedMethods:trustedMethod.json"]` to the config file.
 
 It's also possible to define a wildcard for the contract address or for the method sighash by using "_".
 
