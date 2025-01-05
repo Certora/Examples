@@ -21,4 +21,4 @@ It's also possible to define a wildcard for the contract address or for the meth
 
 Run this example using:
 ```certoraRun Example.conf```
-[A report of this run](https://vaas-stg.certora.com/output/15800/7329f2dcf86c49f6b96891439eeaa467?anonymousKey=cde57e9e5f2ab7c5300399cdaa97585add830664)
+[A report of this run](https://prover.certora.com/output/15800/4b6ef8f696284c839d772d6826b1b126?anonymousKey=7ebf992183ae4227631ec8e3df862a5d444dc552)
