@@ -6,9 +6,20 @@ methods {
 
 use builtin rule sanity;
 
+ghost bool ghostLocked;
 
 // TODO
 // tload/tstore hooks for locked field.
+/*
+hook Sload bool value currentContract.locked {
+    require ghostLocked == value;
+}
+
+hook Sstore currentContract.locked bool value (bool oldValue) {
+    require ghostLocked == oldValue;
+    ghostLocked = value;
+}
+*/
 
 rule lockLocks() {
     // TODO: direct field access
