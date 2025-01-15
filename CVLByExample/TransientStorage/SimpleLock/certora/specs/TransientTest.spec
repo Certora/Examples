@@ -11,11 +11,11 @@ ghost bool ghostLocked;
 // TODO
 // tload/tstore hooks for locked field.
 /*
-hook Sload bool value currentContract.locked {
+hook Tload bool value currentContract.locked {
     require ghostLocked == value;
 }
 
-hook Sstore currentContract.locked bool value (bool oldValue) {
+hook Tstore currentContract.locked bool value (bool oldValue) {
     require ghostLocked == oldValue;
     ghostLocked = value;
 }
