@@ -33,3 +33,4 @@ For more information about available CLI options go to: https://docs.certora.com
 | [--address](https://docs.certora.com/en/latest/docs/prover/cli/options.html?highlight=bank#address) | |
 | [--struct_link](https://docs.certora.com/en/latest/docs/prover/cli/options.html?highlight=bank#struct-link) | |
 | --foundry_tests_mode | [Foundry integration example](https://prover.certora.com/output/15800/70e5d5141ce34e4eae0f9966b78b34d9?anonymousKey=40a3a0266ff277d769a873681b1fc7829b0b5c55) |
+| --auto_dispatcher | [True](https://prover.certora.com/output/15800/e803efce805b473e9347e6b1b47fd8ac?anonymousKey=8b01aeed7d78c9165d7f79df8639aa7da550f361)/[False](https://prover.certora.com/output/15800/d65194e18b1c442db1182d3266ec6638?anonymousKey=536d7d2b5bf3cb3d75a5a06c0a002fc68a9e76e1) |
