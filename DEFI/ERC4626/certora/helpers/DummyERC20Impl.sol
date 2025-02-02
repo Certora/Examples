@@ -62,4 +62,9 @@ contract DummyERC20Impl {
         a[sender][msg.sender] = sub(a[sender][msg.sender], amount);
         return true;
     }
+
+    // Depositing ETH for token in 1 to 1 ratio
+    function deposit() external payable {
+        b[msg.sender] += msg.value;
+    }
 }
