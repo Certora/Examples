@@ -17,7 +17,7 @@ This folder demonstrates the newly introduced **CVL revert functionality** and t
    A CVL spec demonstrating:
    - Calling a Solidity function with `@withrevert`, e.g. `foo@withrevert(b)`.
    - Writing a CVL function (`cvlFunctionThatMayRevert`) that explicitly reverts when a condition fails.
-   - Verifying the `lastReverted` flag matches expected behavior.
+   - Two different ways to handle potential reverts from `canRevert(bool)`, illustrating how revert can either be captured inline or bubble up through a CVL wrapper.
 
 ## Usage
 
@@ -29,13 +29,12 @@ This folder demonstrates the newly introduced **CVL revert functionality** and t
     - The output should confirm that the spec passes, with the expected behavior of `lastReverted` in each case.
     - Link: [Example Output](https://prover.certora.com/output/1512/5891181678d0461cb8bcf35122816e8a?anonymousKey=1980299435d6469aa3673d883de13982c204431a)
 
-
 3. **Examine the Rules**  
-   - **`testFooWithRevert`** confirms that calling `foo` with `@withrevert` sets `lastReverted` exactly when the argument is false.
-   - **`testCvlFunctionWithRevert`** confirms that a CVL function can revert and sets `lastReverted` accordingly.
-   - **`testCanRevert`** uses a wrapper function to capture the return value of the revert signal from `canRevert`.
-
+   - **`testFooWithRevert`**: Confirms that calling `foo` with `@withrevert` sets `lastReverted` exactly when the argument is false.  
+   - **`testCvlFunctionWithRevert`**: Demonstrates how a CVL function (`cvlFunctionThatMayRevert`) can explicitly revert, and how `@withrevert` captures that.  
+   - **`testCanRevertInline`**: Uses `wrapperForCanRevertInline(bool)` which internally calls `canRevert@withrevert(condition)`, returning `lastReverted`.  
+   - **`testCanRevertBubbleUp`**: Illustrates revert **bubbling up**. In `wrapperForCanRevertBubble(bool)`, we call `canRevert(condition)` *without* `@withrevert`, but then call the wrapper itself with `@withrevert` from the rule. The internal revert propagates, setting `lastReverted`.
 
 ## Conclusion
 
-With these files (`C.sol`, `example.spec`, and this `README.md`), you can see how the new CVL revert feature works in practice. By enabling `-cvlFunctionRevert`, you can write more expressive and accurate specs that treat reverts in CVL and Solidity calls consistently, capturing those reverts in **`lastReverted`** for precise modeling in your verification.
+With these files (`C.sol`, `example.spec`, `Example.conf`, and this `README.md`), you can see how the new CVL revert feature works in practice. By enabling the `-cvlFunctionRevert` flag, you can write more expressive and accurate specs that treat reverts in CVL and Solidity calls consistently, capturing those reverts in **`lastReverted`** for precise modeling in your verification. The **bubble-up** behavior especially highlights how deeper CVL calls can now propagate reverts just like Solidity calls.
