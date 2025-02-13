@@ -1,4 +1,4 @@
-ghost mapping(address => uint256) balances;
+ghost mapping(address => uint256) mirrorBalances;
 
 hook Sstore currentContract.balances[KEY address a] uint256 newVal {
     balances[a] = newVal;
