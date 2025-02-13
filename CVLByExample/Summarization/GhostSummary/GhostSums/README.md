@@ -28,4 +28,4 @@ To run this spec use:
 ```
 certoraRun ghostSums.conf
 ```
-[A report of this run](https://vaas-stg.certora.com/output/15800/3fa0a8471c4949bcbf36f2ba4523ef20?anonymousKey=df74bdd5c4d125425645dcda6fbe8bf347338692)
+[A report of this run](https://vaas-stg.certora.com/output/15800/7ff661db131142c7bcd61b567d197aee?anonymousKey=592fe9f029a9f38a92e456005bdfaac965685823)
