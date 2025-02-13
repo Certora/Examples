@@ -22,10 +22,10 @@ Restrictions:
 ## SimpleToken
 The contract `SimpleToken` is a simple token implementation that supports balances of users, and minting, burning and transferring tokens.
 
-The spec `ghostSums.spec` uses the new `sum` keyword for a rule that checks that the total supply of tokens is equal to the sum of balances after every function activation.
+The spec `ghostSums.spec` uses the new `sum` keyword for an invariant that checks that the total supply of tokens is always equal to the sum of balances.
 
 To run this spec use:
 ```
 certoraRun ghostSums.conf
 ```
-[A report of this run](https://vaas-stg.certora.com/output/15800/7ff661db131142c7bcd61b567d197aee?anonymousKey=592fe9f029a9f38a92e456005bdfaac965685823)
+[A report of this run](https://prover.certora.com/output/15800/bd1d17a747e14492a2ba045cc030f620?anonymousKey=359cd5fa902d410378ca59fb32029681eae61ab3)

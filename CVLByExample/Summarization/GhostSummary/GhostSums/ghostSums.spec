@@ -1,15 +1,14 @@
-ghost mapping(address => uint256) mirrorBalances;
+ghost mapping(address => uint256) mirrorBalances {
+    init_state axiom (sum address a. mirrorBalances[a]) == 0;
+}
 
 hook Sstore currentContract.balances[KEY address a] uint256 newVal {
-    balances[a] = newVal;
+    mirrorBalances[a] = newVal;
 }
 
 hook Sload uint256 val currentContract.balances[KEY address a]  {
-    require balances[a] == val;
+    require mirrorBalances[a] == val;
 }
 
-rule totalSupplyIsSumOfBalances(env e, method f, calldataarg args) {
-    require currentContract.totalSupply == (sum address a. balances[a]);
-    f(e, args);
-    assert currentContract.totalSupply == (sum address a. balances[a]);
-}
+invariant totalSupplyIsSumOfBalances()
+    currentContract.totalSupply == (sum address a. mirrorBalances[a]);
