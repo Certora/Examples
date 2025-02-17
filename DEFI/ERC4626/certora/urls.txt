@@ -1,0 +1,21 @@
+# Vault solvency injected bug
+https://prover.certora.com/output/98279/8ec31f35328e4fc4a86cebb0ff673c11?anonymousKey=fa2fb1dbccc174f38db0f30c7e3b7a38c8ee8816
+https://prover.certora.com/output/98279/95a1978ebaec447a824ef32657c96fb9?anonymousKey=1f084ae13bb2dfb62354cf123524f816106c2460
+https://prover.certora.com/output/98279/ac311e8cf120420abae0d0f6f559fef7?anonymousKey=b53aa9493e4ba0b49db2f9b1c01651007c0fa126
+
+# Vault solvency no bug
+https://prover.certora.com/output/98279/29b94d017b5a4f9997e1fd2e4069dbd0?anonymousKey=d0cf1af3881cff1cfd3c25278f4011c548fcb00c
+https://prover.certora.com/output/98279/00de3de3424f42a89c56c9809ffe2223?anonymousKey=8d0706071bb374c666f1fe0286d1d141d8d31ae3
+https://prover.certora.com/output/98279/4dce9841020b493eb0efc5ae7bc89597?anonymousKey=a80c51af7febdd132ffb29e927bd43c8bc2dfdcf
+
+# Vault total monotonicity
+https://prover.certora.com/output/98279/d15cbd9d4f914bb5a83c3284611b7c49?anonymousKey=29d52186b57b6e002d48f807f4b0b998a5fdbaef
+https://prover.certora.com/output/98279/98533197677546a087138b52a5e81161?anonymousKey=c4a95ef6495d18761a5dba12e7d934bd58eeeb35
+
+# Vault total monotonicity injected bug - wrong bug, won't be caught by rule
+https://prover.certora.com/output/98279/5f4adf6ed7da49dfba69d68644bec089?anonymousKey=2d3e268ef7d138b7cc89a45217310784658eb0cb
+https://prover.certora.com/output/98279/4606cae7c60441eeb2699cfe33583f3f?anonymousKey=2514c07e4afa990cec54a208f58b772788b2b225
+
+# Vault total monotonicity injected bug
+https://prover.certora.com/output/98279/59a4b4dde0dd49d191b217dcbb0dabff?anonymousKey=7d33d435a6b380e9d2fe86d9318f4cebefdda3de
+https://prover.certora.com/output/98279/e5eb868cc8c347719634e702f398425b?anonymousKey=c0764528a8df975b47a81bbab170bcf355f9a4f9
