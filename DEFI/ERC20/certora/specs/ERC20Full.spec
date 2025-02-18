@@ -443,11 +443,11 @@ rule transferIsOneWayAdditive(env e) {
 	address recipient;
 	uint256 amount_a;
     uint256 amount_b;
-	mathint sum = amount_a + amount_b;
-	require sum < max_uint256;
+	mathint sum_amount = amount_a + amount_b;
+	require sum_amount < max_uint256;
 	storage init = lastStorage; // saves storage
 	
-	transfer(e, recipient, assert_uint256(sum));
+	transfer(e, recipient, assert_uint256(sum_amount));
 	storage after1 = lastStorage;
 
 	transfer@withrevert(e, recipient, amount_a) at init; // restores storage
@@ -579,11 +579,11 @@ rule transferFromIsOneWayAdditive(env e) {
     address spender = e.msg.sender;
 	uint256 amount_a;
     uint256 amount_b;
-	mathint sum = amount_a + amount_b;
-	require sum < max_uint256;
+	mathint sum_amount = amount_a + amount_b;
+	require sum_amount < max_uint256;
 	storage init = lastStorage; // saves storage
 	
-	transferFrom(e, owner, recipient, assert_uint256(sum));
+	transferFrom(e, owner, recipient, assert_uint256(sum_amount));
 	storage after1 = lastStorage;
 
 	transferFrom@withrevert(e, owner, recipient, amount_a) at init; // restores storage
