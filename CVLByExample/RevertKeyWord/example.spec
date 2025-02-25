@@ -96,7 +96,7 @@ rule testCanRevertBubbleUp {
 // ---------------------------------------------------------
 // The contract function callSummarizeMe(b) calls summarizeMe(b),
 // which is summarized by cvlSummarizeMe(b). That summary reverts
-// if b == false. We'll use the 'sanity' tag to see the call trace.
+// if b == false. We'll use the 'rule sanity basic' flag to see the call trace.
 rule testCallSummarizeMe{
     bool condition;
     // Because summarizeMe is mapped to cvlSummarizeMe in CVL (which can revert),
