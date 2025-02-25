@@ -5,37 +5,51 @@ methods {
     // Contract functions that may revert
     function foo(bool) external envfree;
     function canRevert(bool) external returns bool envfree;
+
+    // For demonstrating summary usage
+    function callSummarizeMe(bool) external envfree;
+    function summarizeMe(bool b) external => cvlSummarizeMe(b);
 }
 
 // ---------------------------------------------------------
 // 2. CVL function that explicitly uses the 'revert' keyword
 // ---------------------------------------------------------
 function cvlFunctionThatMayRevert(bool input) {
-    // If input is false, we revert with a message
     if (!input) {
         revert("Input was false in CVL function");
     }
 }
 
 // ---------------------------------------------------------
-// 3. Demonstration #1: Calling 'foo' with @withrevert directly
+// 3. A summary function that can revert.
+// ---------------------------------------------------------
+// The contract's `summarizeMe(bool b)` is mapped to `cvlSummarizeMe(b)` in CVL.
+// If `b` is false, we revert with a message. When called via `callSummarizeMe@withrevert(b)`,
+// any revert here bubbles up and sets `lastReverted`.
+function cvlSummarizeMe(bool b) {
+    if (!b) {
+        revert("Summarize revert because b is false");
+    }
+}
+
+// ---------------------------------------------------------
+// 4. Example rule: calling 'foo' with @withrevert
 // ---------------------------------------------------------
 rule testFooWithRevert {
     bool condition;
-    // Using @withrevert to see if 'foo' reverts
+    // Using @withrevert to capture whether 'foo' reverts
     foo@withrevert(condition);
 
-    // 'foo' reverts exactly when 'condition' is false
-    // => 'lastReverted' == !condition
+    // 'foo' reverts when 'condition' is false
     assert lastReverted <=> !condition;
 }
 
 // ---------------------------------------------------------
-// 4. Demonstration #2: Calling a CVL function with @withrevert
+// 5. Example rule: calling a CVL function with @withrevert
 // ---------------------------------------------------------
 rule testCvlFunctionWithRevert {
     bool condition;
-    // If 'cvlFunctionThatMayRevert' reverts, 'lastReverted' becomes true
+    // If 'cvlFunctionThatMayRevert' reverts, 'lastReverted' is set to true
     cvlFunctionThatMayRevert@withrevert(condition);
 
     // Check that 'lastReverted' matches whether 'condition' was false
@@ -43,7 +57,7 @@ rule testCvlFunctionWithRevert {
 }
 
 // ---------------------------------------------------------
-// 5. Demonstration #3 (Old Approach): 'canRevert' using @withrevert INSIDE the wrapper
+// 6. Demonstration #1 for canRevert: inline approach
 // ---------------------------------------------------------
 function wrapperForCanRevertInline(bool condition) returns bool {
     // Here we call canRevert WITH @withrevert internally
@@ -55,27 +69,41 @@ rule testCanRevertInline {
     bool condition;
     bool outcome = wrapperForCanRevertInline(condition);
 
-    // 'outcome' is true iff 'canRevert' reverted, which happens if condition == false
+    // 'outcome' is true exactly when 'condition' is false (i.e., canRevert reverts)
     assert outcome <=> !condition;
 }
 
 // ---------------------------------------------------------
-// 6. Demonstration #4 (New Approach): Revert "bubbling up" through a CVL function
+// 7. Demonstration #2 for canRevert: revert "bubbling up"
 // ---------------------------------------------------------
-// In this approach, 'canRevert' is called WITHOUT @withrevert inside the function.
-// Then, from the rule, we call the wrapper itself with @withrevert, allowing the
-// revert to "bubble up" and set 'lastReverted' if an internal revert occurs.
+// We call 'canRevert(condition)' WITHOUT '@withrevert' inside the wrapper,
+// letting the revert bubble up to the outer call (the rule).
 function wrapperForCanRevertBubble(bool condition) {
-    // Notice: no @withrevert here
-    canRevert(condition); 
+    canRevert(condition);
 }
 
 rule testCanRevertBubbleUp {
     bool condition;
-    // We call the wrapper with @withrevert from the rule
+    // We call the wrapper with @withrevert, so if 'canRevert' reverts, it bubbles up
     wrapperForCanRevertBubble@withrevert(condition);
 
-    // If 'canRevert(condition)' reverts internally when condition == false,
-    // that revert will bubble up and set 'lastReverted' to true.
+    // If 'condition' is false => 'canRevert' reverts => bubble up => lastReverted = true
+    assert lastReverted <=> !condition;
+}
+
+// ---------------------------------------------------------
+// 8. Summarize-Me case: the "most interesting" scenario
+// ---------------------------------------------------------
+// The contract function callSummarizeMe(b) calls summarizeMe(b),
+// which is summarized by cvlSummarizeMe(b). That summary reverts
+// if b == false. We'll use the 'sanity' tag to see the call trace.
+rule testCallSummarizeMe{
+    bool condition;
+    // Because summarizeMe is mapped to cvlSummarizeMe in CVL (which can revert),
+// calling callSummarizeMe with @withrevert will set lastReverted if condition == false.
+    callSummarizeMe@withrevert(condition);
+
+    // If condition is false => revert => lastReverted = true
+    // If condition is true => no revert => lastReverted = false
     assert lastReverted <=> !condition;
 }
