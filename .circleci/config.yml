@@ -69,7 +69,7 @@ jobs:
   
   check-release:
     docker:
-      - image: &img public.ecr.aws/certora/cvt-image:2024.06.13-3755-0351582
+      - image: &cvt public.ecr.aws/certora/cvt-image:2024.10.16-4473-ba570af
     resource_class: small
     working_directory: ~/repo
     steps:
@@ -116,7 +116,7 @@ jobs:
         type: string
         default: ""
     docker:
-      - image: &img public.ecr.aws/certora/cvt-image:2024.06.13-3755-0351582
+      - image: *cvt
     resource_class: small
     working_directory: ~/repo
     environment:
@@ -162,7 +162,7 @@ jobs:
       certora_cli_package:
         type: string
     docker:
-      - image: &img public.ecr.aws/certora/cvt-image:2024.06.13-3755-0351582
+      - image: *cvt
     resource_class: small
     working_directory: ~/repo
     steps:
@@ -181,7 +181,6 @@ jobs:
 
       - store_test_results:
           path: ~/repo
-
 
 
 parameters:
