@@ -1,6 +1,6 @@
 # Using `calledContract` and `executingContract` in Summaries
 
-This directory demonstrates how to use two new CVL keywords—`calledContract` and `executingContract`—to track function call details within a summary context. The repository contains:
+This directory demonstrates how to use two CVL keywords—`calledContract` and `executingContract`—to track function call details within a summary context. The repository contains:
 
 1. A Solidity file, **`CalledContractAndExecutingContract.sol`**, which defines contracts **`Primary`**, **`Secondary`**, and **`Tertiary`**, as well as a **`Library`**.  
 2. A CVL spec file, **`CalledContractAndExecutingContract.spec`**, which verifies rules about contract function calls and how the two new keywords behave under different call types.
@@ -93,9 +93,9 @@ By comparing `called`, `executing`, and `sender` in each rule, we ensure that **
 - For **library calls** and **delegate calls**, `calledContract` can be the contract *initiating* the code execution (since libraries and delegate calls run in the caller’s context).
 
 ### `executingContract`
-- Represents the address of the contract that is *actually executing* the code.
+- Represents the address of the contract that *initiated the call*.
 - For **internal** and **delegate** calls, this will be the same as `calledContract`.
-- For **external** calls, it will be the address of the caller (since the receiving contract code runs *there*), while `calledContract` is the address of the receiver.
+- For **external** calls, it will be the address of the caller, while `calledContract` is the address of the receiver.
 
 ### Additional Notes on the Keywords
 

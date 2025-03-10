@@ -3,10 +3,13 @@
 // The contracts also have several `call` methods that call the different callee
 // methods from different callers.
 //
-// The summaries for all the `callee` methods just save the `calledContract`
-// in the `called` ghost; the rules then check that the ghost is updated
-// correctly.  All assertions should pass.
-//
+// The summaries for all the `callee` methods save several values in ghosts:
+// * `calledContract` in the `called` ghost.
+// * `executingContract` in the `executing` ghost.
+// * `e.msg.sender` in the `sender` ghost.
+// the rules then check that all ghosts are updated correctly.
+// All assertions should pass.
+
 
 using Primary   as primary;
 using Secondary as secondary;
