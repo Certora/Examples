@@ -88,9 +88,9 @@ By comparing `called`, `executing`, and `sender` in each rule, we ensure that **
 ## 3. Behavior of `calledContract` and `executingContract`
 
 ### `calledContract`
-- Represents the address of the contract on which the summarized method was called.
-- For **internal calls**, `calledContract` is the same as the contract containing the function (i.e., “this”).
-- For **library calls** and **delegate calls**, `calledContract` can be the contract *initiating* the code execution (since libraries and delegate calls run in the caller’s context).
+- Represents the address of the contract on which the summarized method was called, or more precisely in whose context it runs. It is essentially `address(this)` in the context of the original call you are summarizing.
+- For **internal calls**, and non-delegate **external calls** `calledContract` is the same as the contract containing the function.
+- For **library calls** and **delegate calls**, `calledContract` is the contract *initiating* the code execution (since libraries and delegate calls run in the caller’s context).
 
 ### `executingContract`
 - Represents the address of the contract that *initiated the call*.
@@ -98,9 +98,6 @@ By comparing `called`, `executing`, and `sender` in each rule, we ensure that **
 - For **external** calls, it will be the address of the caller, while `calledContract` is the address of the receiver.
 
 ### Additional Notes on the Keywords
-
-- **`calledContract`** is only valid within the `methods` block (i.e., inside function summaries). It is essentially `address(this)` in the context of the original call you are summarizing.  
-- **`executingContract`** is also only valid within the `methods` block (and in certain hook bodies) and distinguishes the actual execution context when calls involve libraries or delegate calls.  
 - They are not arbitrary variables that can be combined or manipulated further. You can only pass them into your summary function (e.g., `saveContracts`) or reference them directly in your specification.  
 
 ## 4. Run the Example
@@ -109,4 +106,4 @@ To run the example use:
 certoraRun CalledContractAndExecutingContract.conf
 ```
 
-[The report of this run](https://prover.certora.com/output/15800/9e05615085b445f98e4cc26a06dd15c7?anonymousKey=a858189c9d763bcc29bad9941fa8543d3eba89b8)
+[The report of this run](https://prover.certora.com/output/15800/c768f4f7ac724e2db90104a412b7a89b?anonymousKey=2c30fbec58b46141e53e0d2d1693b8b6dab00e27)
