@@ -44,6 +44,7 @@
 | **ContractAlias**  | [example](https://github.com/Certora/Examples/blob/42395eb745d20c40c14f297fd28b3a658f87f889/CVLByExample/ContractAlias/ContractAlias.spec#L1-L3) |
 | **StoreToArray**  | [example](https://github.com/Certora/Examples/blob/niv/CERT-6524/CVLByExample/Types/StoreToArray/StoreToArray.spec#L4) |
 | **HookOnResetStorageCommand**  | [example](https://github.com/Certora/Examples/blob/niv/CERT-7022-Add-Hook-On-Reset-Storage-Example/CVLByExample/HookDisabledOnResetStorageCommand/BankReset.spec#L1-L10) |
+| **RevertKeyWord**  | [example](https://github.com/Certora/Examples/blob/niv/CERT-8248-Revert-Example/CVLByExample/RevertKeyWord/example.spec#L13) |
 
 
 
