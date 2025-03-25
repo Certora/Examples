@@ -7,21 +7,22 @@ https://medium.com/certora/exploiting-an-invariant-break-how-we-found-a-pool-dra
 
 
 pragma solidity ^0.8.0;
-import "../ERC20.sol";
+import "./ERC20.sol";
 
 
 /*
 In constant-product pools, liquidity providers (LPs) deposit two types of underlying tokens (Token0 and Token1) in exchange for LP tokens. 
 They can later burn LP tokens to reclaim a proportional amount of Token0 and Token1.
-Trident users can swap one underlying token for the other by transferring some tokens of one type to the pool and receiving a number of the other token.
-To determine the exchange rate, the pool returns enough tokens to ensure 
-(reserves0 ⋅ reserves1)ᵖʳᵉ =(reserves0 ⋅ reserves1)ᵖᵒˢᵗ where reserves0 and reserves1 are the amount of token0 and token1 that the system holds. 
+Trident users can swap one underlying token for the other by transferring some tokens of one type to the pool and receiving some number of the other token.
+To determine the exchange rate, the pool returns enough tokens to ensure that
+(reserves0 ⋅ reserves1)ᵖʳᵉ =(reserves0 ⋅ reserves1)ᵖᵒˢᵗ
+where reserves0 and reserves1 are the amount of token0 and token1 the system holds. 
 
 On first liquidity deposit, the system transfers 1000 LP tokens to address 0 to ensure the pool cannot be emptied.  
 */
 
 contract ConstantProductPool is ERC20 {
-    uint256 internal constant MINIMUM_LIQUIDITY = 1000;
+    uint256 internal constant MINIMUM_LIQUIDTY = 1000;
     address public token0;
     address public token1;
     uint256 internal reserve0;
@@ -56,9 +57,9 @@ contract ConstantProductPool is ERC20 {
         uint256 _totalSupply = totalSupply();
         uint256 k = kLast;
         if (_totalSupply == 0) {
-            liquidity = computed - MINIMUM_LIQUIDITY;
+            liquidity = MINIMUM_LIQUIDTY - computed;
             require(amount0 > 0 && amount1 > 0, "INVALID AMOUNTS");
-            _mint(address(0), MINIMUM_LIQUIDITY);
+            _balances[address(0)] = MINIMUM_LIQUIDTY;
         } else {
             uint256 kIncrease = computed - k;
             liquidity = (kIncrease * _totalSupply) / k;
@@ -80,10 +81,15 @@ contract ConstantProductPool is ERC20 {
         (uint256 balance0, uint256 balance1) = _getBalances();
         uint256 _totalSupply = totalSupply();
 
-        uint256 amount0 = (liquidity * balance0 ) / _totalSupply;
-        uint256 amount1 = (liquidity * balance1 ) / _totalSupply;
-        
-        _burn( recipient, liquidity);
+        /* Bug: the amounts computed should be according to the reserve, otherwise one can swap for all of the other tokens.
+           This bug violates the integrity of the totalSupply property.
+        */
+        //uint256 amount0 = (liquidity * balance0 ) / _totalSupply;
+        //uint256 amount1 = (liquidity * balance1 ) / _totalSupply;
+        uint256 amount0 = (liquidity * _reserve0 ) / _totalSupply;
+        uint256 amount1 = (liquidity * _reserve1 ) / _totalSupply;
+
+        _burn( msg.sender, liquidity);
         if (tokenOut == token0) {
             amount1 += _getAmountOut(
                 amount0,
@@ -132,7 +138,7 @@ contract ConstantProductPool is ERC20 {
             amountOut = _getAmountOut(amountIn, _reserve1, _reserve0);
             balance0 -= amountOut;
         }
-        transfer( recipient, tokenOut, amountOut);
+        transfer(recipient, tokenOut, amountOut);
         _update(balance0, balance1);
     }
 

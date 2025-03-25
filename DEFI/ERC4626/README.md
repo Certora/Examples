@@ -9,4 +9,6 @@ We have an implementation of [Solmate](https://github.com/transmissions11/solmat
 You can run this conf using
 ```certoraRun runERC4626Full.conf```
 
-[Report of this run](https://vaas-stg.certora.com/output/15800/e848598a592b46628e7b4874a8169772?anonymousKey=0cce21ae8450c5ca2792d9b628c392e1c54906e4)
+[Report of this run](https://prover.certora.com/output/40726/7900f52fe75f4716a69e133099c065e8/?anonymousKey=ab556122086a606ac1bf13a479268f172ec51871)
+
+[ERC4626](certora/harnesses/tokens/ERC4626Broken.sol) is version of ERC4626 which is vulnerable to a donation attack. Instead of internal accounting, the contract uses the external asset balance of the contract. In this case some rules can be altered to take the fact that the external balance can be greater than the actual one. However still some rules are broken demonstrating a vulnerability.   

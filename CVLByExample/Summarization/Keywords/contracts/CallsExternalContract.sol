@@ -5,6 +5,7 @@ import './IntGetterImpl.sol';
 contract CallsExternalContract {
   IntGetterImpl public g1;
   AnotherIntGetterImpl public g2;
+  bool flag;
   address public a;
   
   function getFromG1() external view returns (uint256) { 
@@ -45,6 +46,18 @@ contract CallsExternalContract {
 
   function foo() external {
     a.call(abi.encodeWithSignature("noSuchFun()"));
+  }
+
+
+  function set_a(uint256 _x) external {
+    flag = true; 
+    g2.setX(_x);
+    if(!flag)
+      a = msg.sender; 
+  }
+
+function set_flag(bool v) external {
+    flag = v; 
   }
 
 }
