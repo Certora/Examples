@@ -10,3 +10,8 @@
 **/emv*
 **/collect.json
 
+**/fuzz/
+**/fuzzcov/
+**/lib/
+**/out/
+**/cache/
