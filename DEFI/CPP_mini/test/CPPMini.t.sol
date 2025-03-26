@@ -82,6 +82,8 @@ contract CPPMiniTest is Test {
     function invariant_reserve() public  view {
         uint256 reserve0 = cpp.getReserve0();
         uint256 reserve1 = cpp.getReserve1();
-        assertEq(reserve0 == 0 , reserve1 == 0);
+        uint256 totalSupply = cpp.totalSupply();
+        assertEq(reserve0 == 0 , totalSupply == 0);
+        assertEq(reserve1 == 0 , totalSupply == 0);
     }
 }
