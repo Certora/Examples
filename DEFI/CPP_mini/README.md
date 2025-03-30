@@ -33,7 +33,7 @@ The bug is demonstrated in a manual crafted test `test_manual()` and shows how i
 To run the verification:
 ```certoraRun certora/conf/runBroken.conf```
 
-As seen in the report: https://prover.certora.com/output/40726/4ba34bd0d7d54c279c7cb261d1616fef/?anonymousKey=626461dda2213599b57007646d3198b21c249908
+As seen in the report, the property is violated: https://prover.certora.com/output/40726/4ba34bd0d7d54c279c7cb261d1616fef/?anonymousKey=626461dda2213599b57007646d3198b21c249908
 
 
 Once the bug is fixed the property is verified:
