@@ -24,7 +24,7 @@ forge coverage --report lcov --report-file fuzz --match-contract CPPMini
 genhtml fuzz -o fuzzcov
 open fuzzcov/index.html
 ```
-Coverage is very good - 96.3% however bug is missed.
+Coverage is very good - 96.3%, however the bug is missed.
 
 The bug is demonstrated in a manual crafted test `test_manual()` and shows how it can cause a complete drain of the protocol.
 
