@@ -6,7 +6,7 @@ This folder shows a **simplified** demonstration of the new `requireInvariant` s
 2. A **CVL specification** (`DataInvariant.spec`) that declares an invariant requiring **nonnegative** balances.
 3. A **configuration file** (`DataInvariant.conf`) used to run the Certora Prover with our spec.
 
-Under the **old** semantics, the invariant won't be enforced at the time the hook triggered, leading to a **false passing** invariant execution. Under the **new** `requireInvariant` semantics, the invariant is checked at rule boundaries or after calls/havocs for strong invariants, correctly **failing** when a negative balance occurs.
+the invariant won't be enforced at the time the hook triggered
 
 ## Overview
 
