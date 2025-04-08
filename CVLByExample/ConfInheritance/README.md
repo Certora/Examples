@@ -1,66 +1,78 @@
-# Inheriting Configurations with `override_base_config`
+# Configuration File Inheritance Example
 
-## Overview
+This folder demonstrates how to use the **`override_base_config`** feature to inherit and selectively modify Certora Prover configuration files. By defining **common** settings in a **base** config (`base.conf`), you can then:
 
-This folder demonstrates the **new `override_base_config`** feature in Certora’s configuration files. By defining shared verification settings in a **base** config (`parent.conf`) and referencing it from a **child** config (`run.conf`), we can easily **inherit** and **override** only what we need.
+1. **Add** new settings in a child config (`new_fields.conf`).
+2. **Override** existing settings in a different child config (`override_fields.conf`).
 
-### Files
+This helps avoid duplication, simplifies maintenance, and keeps your configuration consistent.
+
+---
+
+## Files
 
 1. **`MainContract.sol`**  
-   A simple contract showcasing a bidding function (`bid()`) with specific requirements related to native balances.
-
-2. **`MainSpec.spec`**  
-   A spec file with rules verifying how the contract’s native balance changes under different conditions.
-
-3. **`parent.conf`** (Base Config)  
-   Contains common verification parameters:
-   - Files to verify (e.g., `MainContract.sol`)  
-   - The contract-to-spec pairing (`"verify": "MainContract:MainContract.spec"`)  
-   - Default settings like `"optimistic_loop": true` and `"loop_iter": "3"`
-
-4. **`run.conf`** (Child Config)  
-   References **`parent.conf`** using `override_base_config: "parent.conf"` and selectively overrides some fields:
-   - `"optimistic_loop"`: set to `false`
-   - `"loop_iter"`: changed to `"10"`
-
----
-
-## How It Works
-
-1. **Base Config (`parent.conf`)**  
-   Lists the default settings, such as files, the main spec to verify, and global parameters like loop unrolling.
-
-2. **Child Config (`run.conf`)**  
-   Declares:
+   An example Solidity contract (kept minimal for demonstration).
+2. **`base.conf`**  
+   The **base configuration** providing shared defaults:
    ```jsonc
    {
-     "override_base_config": "parent.conf",
-     "optimistic_loop": false,
-     "loop_iter": "10"
+     "files": ["MainContract.sol"],
+     "verify": "MainContract:MainContract.spec",
+     "msg": "Main contract",
+     "optimistic_loop": true,
+     "loop_iter": "3",
+     "rule_sanity": "basic"
    }
    ```
-   This means the **Prover** merges these overrides with whatever is in `parent.conf`.
-
-3. **Result**  
-   - All unspecified attributes in `run.conf` default to those from `parent.conf`.
-   - Specified attributes in `run.conf` **override** the parent’s.
+   - Defines common fields like files, which contract and spec to verify, default loops, etc.
+3. **`new_fields.conf`**  
+   A child config **adding** an attribute that did not exist in `base.conf`:
+   ```jsonc
+   {
+     "override_base_config": "base.conf",
+     "optimistic_hashing": true
+   }
+   ```
+   - Inherits everything from `base.conf` and adds `"optimistic_hashing": true`.
+   - All original base fields remain unchanged unless redefined here.
+4. **`override_fields.conf`**  
+   Another child config **overriding** certain fields from `base.conf`:
+   ```jsonc
+   {
+     "override_base_config": "base.conf",
+     "loop_iter": "10",
+     "optimistic_loop": false
+   }
+   ```
+   - Changes `loop_iter` from `"3"` to `"10"`.
+   - Changes `optimistic_loop` from `true` to `false`.
 
 ---
 
-## Running the Example
+## Usage
 
-Use the `certoraRun` command to reference `run.conf` and explicitly override the base config:
-
+Run the Certora Prover by pointing to either `new_fields.conf` or `override_fields.conf`, 
 ```bash
-certoraRun run.conf
+# Example 1: Inherit base.conf and add the 'optimistic_hashing' field
+certoraRun new_fields.conf
+
+# Example 2: Inherit base.conf but override loop_iter and optimistic_loop
+certoraRun override_fields.conf
 ```
 
-- The **resulting** configuration is a combination of **`parent.conf`** plus the **overrides** in **`run.conf`**.
+### What Happens Under the Hood?
+- The Prover sees `"override_base_config": "base.conf"` in the child `.conf`.
+- It **merges** the child’s fields with the base config:
+  - **New fields** in the child (e.g. `optimistic_hashing`) are appended.
+  - **Existing fields** in the child (e.g. `loop_iter`) override those in `base.conf`.
+  - **Unmentioned fields** remain as specified in `base.conf`.
 
 ---
 
-## Why This Matters
+## Why Use This Feature?
 
-- **Reduced Duplication**: Shared settings (e.g., file names, solver arguments, general flags) go in a single base file, so you don’t repeat them in every `.conf`.
-- **Easier Maintenance**: To update a common parameter (e.g., solidity version, environment setup), change it in one place.
-- **Selective Overriding**: If you need to tweak certain fields for a particular run (like a different loop bound or turning off `optimistic_loop`), you can do so easily.
+- **Reduce Duplication**: Shared configuration (e.g. file lists, solver arguments) is defined once in `base.conf`.
+- **Focus on Differences**: Child configs highlight only what is unique to each run, making them shorter and clearer.
+- **Easier Maintenance**: Updating a common field (e.g. compiler version) means editing only the base config.
+- **Flexible Overrides**: If you need different loop bounds or flags for a particular test, simply override them in a child config.
