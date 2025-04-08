@@ -1,20 +1,16 @@
 # Configuration File Inheritance Example
 
-This folder demonstrates how to use the **`override_base_config`** feature to inherit and selectively modify Certora Prover configuration files. By defining **common** settings in a **base** config (`base.conf`), you can then:
-
-1. **Add** new settings in a child config (`new_fields.conf`).
-2. **Override** existing settings in a different child config (`override_fields.conf`).
-
-This helps avoid duplication, simplifies maintenance, and keeps your configuration consistent.
+This folder demonstrates how to use the **`override_base_config`** feature to inherit and selectively modify Certora Prover configuration files. By defining **common** settings in a **base** config (`base.conf`) and referencing it from different child configs, you can avoid duplication and streamline maintenance.
 
 ---
 
 ## Files
 
 1. **`MainContract.sol`**  
-   An example Solidity contract (kept minimal for demonstration).
+   A minimal Solidity contract to be verified.
+
 2. **`base.conf`**  
-   The **base configuration** providing shared defaults:
+   **Base** configuration with shared defaults:
    ```jsonc
    {
      "files": ["MainContract.sol"],
@@ -25,19 +21,19 @@ This helps avoid duplication, simplifies maintenance, and keeps your configurati
      "rule_sanity": "basic"
    }
    ```
-   - Defines common fields like files, which contract and spec to verify, default loops, etc.
+   - Defines the source files, contract–spec pairing, default loop settings, etc.
+
 3. **`new_fields.conf`**  
-   A child config **adding** an attribute that did not exist in `base.conf`:
+   Child config **adding** a new field (`optimistic_hashing`) not present in `base.conf`:
    ```jsonc
    {
      "override_base_config": "base.conf",
      "optimistic_hashing": true
    }
    ```
-   - Inherits everything from `base.conf` and adds `"optimistic_hashing": true`.
-   - All original base fields remain unchanged unless redefined here.
+
 4. **`override_fields.conf`**  
-   Another child config **overriding** certain fields from `base.conf`:
+   Child config **overriding** certain fields from `base.conf`:
    ```jsonc
    {
      "override_base_config": "base.conf",
@@ -45,34 +41,56 @@ This helps avoid duplication, simplifies maintenance, and keeps your configurati
      "optimistic_loop": false
    }
    ```
-   - Changes `loop_iter` from `"3"` to `"10"`.
-   - Changes `optimistic_loop` from `true` to `false`.
+
+5. **`invalid_base.conf`**  
+   A config that **incorrectly** attempts to act as a base while also referencing **another** base:
+   ```jsonc
+   {
+     "files": ["MainContract.sol"],
+     "verify": "MainContract:MainContract.spec",
+     "msg": "Main contract",
+     "optimistic_loop": true,
+     "loop_iter": "3",
+     "rule_sanity": "basic",
+     "override_base_config": "base.conf"
+   }
+   ```
+   - **This is invalid** because a base config must **not** itself contain `override_base_config`.
+   - The feature currently supports **only one** level of inheritance (no nested base configs).
 
 ---
 
-## Usage
+## Usage Examples
 
-Run the Certora Prover by pointing to either `new_fields.conf` or `override_fields.conf`, 
+### Merging **`base.conf`** + **`new_fields.conf`**
 ```bash
-# Example 1: Inherit base.conf and add the 'optimistic_hashing' field
 certoraRun new_fields.conf
+```
+- Inherits `base.conf` and **adds** `"optimistic_hashing": true`.
 
-# Example 2: Inherit base.conf but override loop_iter and optimistic_loop
+### Merging **`base.conf`** + **`override_fields.conf`**
+```bash
 certoraRun override_fields.conf
 ```
-
-### What Happens Under the Hood?
-- The Prover sees `"override_base_config": "base.conf"` in the child `.conf`.
-- It **merges** the child’s fields with the base config:
-  - **New fields** in the child (e.g. `optimistic_hashing`) are appended.
-  - **Existing fields** in the child (e.g. `loop_iter`) override those in `base.conf`.
-  - **Unmentioned fields** remain as specified in `base.conf`.
+- Changes `loop_iter` from `"3"` to `"10"` and sets `optimistic_loop` to `false`.
 
 ---
 
-## Why Use This Feature?
+## Invalid Base Example
 
-- **Reduce Duplication**: Shared configuration (e.g. file lists, solver arguments) is defined once in `base.conf`.
-- **Focus on Differences**: Child configs highlight only what is unique to each run, making them shorter and clearer.
-- **Easier Maintenance**: Updating a common field (e.g. compiler version) means editing only the base config.
-- **Flexible Overrides**: If you need different loop bounds or flags for a particular test, simply override them in a child config.
+- **`invalid_base.conf`** tries to reference `base.conf` even though it presumably acts as a base config for something else.  
+- **This is disallowed** because the feature only supports **single-level inheritance**: a base config **cannot** itself specify an `override_base_config` field.  
+- Attempting to run or inherit from `invalid_base.conf` results in an error.
+
+---
+
+## Why Use `override_base_config`?
+
+1. **Reduce Duplication**  
+   Common fields (e.g., file lists, compiler version, environment arguments) live in **one** place.
+
+2. **Clear Overrides**  
+   Child configs only show what differs from the parent.
+
+3. **Easier Maintenance**  
+   Updating a shared parameter (e.g., loop iterations) means editing just one file.
