@@ -13,7 +13,9 @@ methods {
 // Check array bounds carefully to avoid out-of-range checks
 // We only enforce i < arr.length - 1 => arr[i] <= arr[i+1]
 invariant isSorted(uint256 i) 
-    i < currentContract.arr.length - 1 => currentContract.arr[i] <= currentContract.arr[require_uint256(i + 1)];
+    i < currentContract.arr.length - 1 => currentContract.arr[i] <= currentContract.arr[require_uint256(i + 1)] 
+    && i > 1 => currentContract.arr[i] <= currentContract.arr[require_uint256(i + 1)] ;
+
 
 
 // ---------------------------------------------------------
@@ -24,8 +26,12 @@ function safeSortedAssumption(uint256 i) {
 }
 
 // ---------------------------------------------------------
-// 4. Read Hook: whenever 'arr[i]' is accessed via 'readAt(i)', call 'safeSortedAssumption(i)'
+// 4. Load and Store Hooks: whenever 'arr[i]' is accessed via 'readAt(i)', call 'safeSortedAssumption(i)'
 // ---------------------------------------------------------
 hook Sload uint256 ret currentContract.arr[INDEX uint256 index] {
-    safeSortedAssumption(index);
+        safeSortedAssumption(index);
+}
+
+hook Sstore currentContract.arr[INDEX uint256 index]  uint256 val {
+        safeSortedAssumption(index);
 }
