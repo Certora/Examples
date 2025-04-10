@@ -77,10 +77,23 @@ certoraRun override_fields.conf
 ---
 
 ## Invalid Base Example
+### Attempting to Use **`invalid_base.conf`**
+```bash
+certoraRun invalid_base.conf
+```
+Error:
+```
+certoraRun invalid_base.conf
 
-- **`invalid_base.conf`** tries to reference `base.conf` even though it presumably acts as a base config for something else.  
-- **This is disallowed** because the feature only supports **single-level inheritance**: a base config **cannot** itself specify an `override_base_config` field.  
-- Attempting to run or inherit from `invalid_base.conf` results in an error.
+Cannot load base config: override_fields.conf
+base config cannot include 'override_base_config'
+
+Error when reading invalid_base.conf: Cannot load base config: override_fields.conf
+base config cannot include 'override_base_config'
+```
+
+- **`invalid_base.conf`** tries to reference `override_fields.conf` as a base config.
+- **This is disallowed** because the feature only supports **single-level inheritance**: a base config **cannot** itself specify an `override_base_config` field.
 
 ---
 
