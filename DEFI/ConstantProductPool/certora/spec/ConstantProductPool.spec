@@ -42,7 +42,7 @@ function setup(env e){
     address zero_address = 0;
     uint256 MINIMUM_LIQUIDITY = 1000;
     require totalSupply() == 0 || currentContract._balances[zero_address] == MINIMUM_LIQUIDITY, "Either pool is empty or minimum liquidity is locked";
-    require currentContract._balances[zero_address] + currentContract._balances[e.msg.sender] <= totalSupply(), "Sum of balances must not exceed total supply";
+    require currentContract._balances[zero_address] + currentContract._balances[e.msg.sender] <= totalSupply(), "Sum of balances does not exceed total supply, rule sumFunds";
     require _token0 == token0(), "Token0 reference must match contract's token0";
     require _token1 == token1(), "Token1 reference must match contract's token1";
 }
@@ -68,11 +68,10 @@ Formula:
 rule integrityOfSwap(address recipient) {
     env e; /* represents global solidity variables such as msg.sender, block.timestamp */
     setup(e);
-    require recipient != currentContract, "Recipient must not be the pool contract so that token balance changes can be observed";  
     uint256 balanceBefore = _token0.balanceOf(recipient);
     uint256 amountOut = swap(_token1, recipient);
     uint256 balanceAfter = _token0.balanceOf(recipient);
-    assert balanceAfter == balanceBefore + amountOut; 
+    assert (recipient != currentContract) => balanceAfter == balanceBefore + amountOut; 
 }
 
 /*
@@ -132,7 +131,7 @@ invariant balanceGreaterThanReserve()
         // it is not msg.sender. It would not be safe to do if the call was to a function of an unresolved contract.
         preserved _.transferFrom(address sender, address recipient,uint256 amount) with (env e1) {
             requireInvariant allowanceOfPoolAlwaysZero(e1.msg.sender);
-            require e1.msg.sender != currentContract, "Caller must not be the pool contract for external transferFrom calls";
+            require e1.msg.sender != currentContract, "The pool does not call itself";
         }
 
         // This preserved is safe because transfer is called from the currentContract whose code is known and
