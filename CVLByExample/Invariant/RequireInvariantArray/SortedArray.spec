@@ -1,37 +1,29 @@
-// ---------------------------------------------------------
-// 1. Declare the contract methods we want to call or inspect
-// ---------------------------------------------------------
-methods {
-    function insert(uint256) external envfree;
-    function remove(uint256) external envfree;
-    function readAt(uint256) external returns (uint256) envfree;
-}
 
-// ---------------------------------------------------------
-// 2. Define the sorted invariant: arr[i] <= arr[i+1] for all valid i, **Violated** under the new semantics and **Verified** under the old semantics.
-// ---------------------------------------------------------
+
+// ---------------------------------------------------------------
+// Define the sorted invariant: arr[i] <= arr[i+1] for all valid i
+// ---------------------------------------------------------------
 // Check array bounds carefully to avoid out-of-range checks
-// We only enforce i < arr.length - 1 => arr[i] <= arr[i+1]
 invariant isSorted(uint256 i) 
-    (i < currentContract.arr.length - 1 => currentContract.arr[i] <= currentContract.arr[require_uint256(i + 1)] )
-     && ((i > 1 && i < currentContract.arr.length )=> currentContract.arr[assert_uint256(i-1)] <= currentContract.arr[require_uint256(i)]);
+    i < currentContract.arr.length - 1 => currentContract.arr[i] <= currentContract.arr[require_uint256(i + 1)] ;
 
 
+// ----------------------------------------------------------------
+// An incorrect invariant that is not violated in the old semantics 
+// ----------------------------------------------------------------
+invariant incorrect(uint256 i) 
+    i < currentContract.arr.length => currentContract.arr[i] == 71;
 
-// ---------------------------------------------------------
-// 3. A function that calls 'requireInvariant' with the isSorted(i) invariant
-// ---------------------------------------------------------
-function safeSortedAssumption(uint256 i) {
-    requireInvariant isSorted(i);
-}
 
-// ---------------------------------------------------------
-// 4. Load and Store Hooks: whenever 'arr[i]' is accessed via 'readAt(i)', call 'safeSortedAssumption(i)'
-// ---------------------------------------------------------
+// ----------------------------------------------------------------------------
+// Load and Store Hooks: whenever 'arr[i]' is accessed assume the invariants 
+// ----------------------------------------------------------------------------
 hook Sload uint256 ret currentContract.arr[INDEX uint256 index] {
-        safeSortedAssumption(index);
+        requireInvariant isSorted(index);
+        requireInvariant incorrect(index);
 }
 
 hook Sstore currentContract.arr[INDEX uint256 index]  uint256 val {
-        safeSortedAssumption(index);
+        requireInvariant isSorted(index);
+        requireInvariant incorrect(index);
 }
