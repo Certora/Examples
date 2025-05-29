@@ -242,7 +242,7 @@ invariant totalSupplyIsSumOfBalances()
 
 
 rule totalsMonotonicity() {
-    method f; env e; calldataarg args;
+    method f; env e;
     require e.msg.sender != currentContract; 
     uint256 totalSupplyBefore = totalSupply();
     uint256 totalAssetsBefore = totalAssets();
