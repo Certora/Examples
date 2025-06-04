@@ -1,9 +1,11 @@
-# Reasoning about Events
+# Reasoning about Solidity events
 
-This directory demonstrates how to reason about events with the Prover. 
-The Prover cannot natively reason about the Events, therefore a workaround is needed.
+This directory demonstrates how to reason about Solidity events with the Prover. 
+The Prover cannot natively reason about events, therefore a workaround is needed.
 
 The workaround is to wrap the `emits` of Solidity `events` into an internal function and then apply internal summarization to reason about the emitted event. 
+
+See `contracts/Auction.sol` for the original code that uses and an event and take a look at `contract/AuctionFixed.sol` for code that uses the workaround.
 
 - 
 Run this configuration via:

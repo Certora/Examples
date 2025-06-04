@@ -1,7 +1,7 @@
 /**
- * @title  Reasoning about Events example
+ * @title  Reasoning about Solidity events example
  *
- * This is an example specification for reason about events in CVL.
+ * This is an example specification for reasoning about events in CVL.
  */
 
 methods {
