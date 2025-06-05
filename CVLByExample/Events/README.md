@@ -5,7 +5,7 @@ The Prover cannot natively reason about events, therefore a workaround is needed
 
 The workaround is to wrap the `emits` of Solidity `events` into an internal function and then apply internal summarization to reason about the emitted event. 
 
-See `contracts/Auction.sol` for the original code that uses and an event and take a look at `contract/AuctionFixed.sol` for code that uses the workaround.
+See `contracts/Auction.sol` for the original code that uses an event and take a look at `contract/AuctionFixed.sol` for code that uses the workaround.
 
 - 
 Run this configuration via:
