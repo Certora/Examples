@@ -7,30 +7,22 @@ methods {
 
 rule increaseValueRevertingConditions {
     uint256 amount;
-    
     uint256 valueBefore = value();
-
     increaseValue@withrevert(amount);
-
     assert lastReverted <=> valueBefore + amount > max_uint256;
 }
 
+// (valueBefore - amount) is a mathint and can be negative.
 rule decreaseValueRevertingConditions {
     uint256 amount;
-    
     uint256 valueBefore = value();
-
     decreaseValue@withrevert(amount);
-
-    assert lastReverted <=> valueBefore - amount < 0;  // (valueBefore - amount) is a mathint and can be negative.
+    assert lastReverted <=> valueBefore - amount < 0;
 }
 
 rule divideValueRevertingConditions {
     uint256 divideBy;
-
     uint256 valueBefore = value();
-
     divideValue@withrevert(divideBy);
-
     assert lastReverted <=> divideBy == 0;
 }

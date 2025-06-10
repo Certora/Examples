@@ -11,9 +11,7 @@ function workOnSCVL(uint x, RootStruct.Simple s) {
 
 rule checkWorkOnS(uint x) {
     require x < 3;
-
     env e;
     workOnSExt(e, x);
-
     assert rootStruct.s.b1;
 }

@@ -9,19 +9,19 @@
 // * `e.msg.sender` in the `sender` ghost.
 // the rules then check that all ghosts are updated correctly.
 // All assertions should pass.
-
-
-using Primary   as primary;
+using Primary as primary;
 using Secondary as secondary;
-using Tertiary  as tertiary;
+using Tertiary as tertiary;
 
 methods {
-    function _.calleeInternal() internal with (env e) => saveContracts(calledContract, executingContract, e.msg.sender) expect void;
-    function _.calleeExternal() external with (env e) => saveContracts(calledContract, executingContract, e.msg.sender) expect void ALL;
+    function _.calleeInternal() internal with(env e) => saveContracts(calledContract, executingContract, e.msg.sender) expect void;
+    function _.calleeExternal() external with(env e) => saveContracts(calledContract, executingContract, e.msg.sender) expect void ALL;
 }
 
 ghost address called;
+
 ghost address executing;
+
 ghost address sender;
 
 function saveContracts(address _called, address _executing, address _sender) {
@@ -94,7 +94,7 @@ rule libraryExternalFromSecondary(env e) {
 }
 
 rule secondaryToPrimaryFromSpec(env e) {
-    secondary.callPrimaryExternal(e,primary);
+    secondary.callPrimaryExternal(e, primary);
     assert called == primary;
     assert executing == secondary;
     assert sender == secondary;

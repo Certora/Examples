@@ -3,13 +3,11 @@
  *
  * This is an example specification for using nativeBalances.
  */
-
 methods {
-    function currentBid() external returns uint256 envfree; 
+    function currentBid() external returns (uint256) envfree;
 }
 
 /// @title Basic rules ////////////////////////////////////////////////////
-
 /***
  This rule demonstrates how the source of amount transferred affects the balance of the current contract.
  This rule fails for `Auction.sol` because:
@@ -17,10 +15,10 @@ methods {
  2. the sender changes to `currentContract` in internal `bid()` and all his balance is transferred, so his balance does not increase.
  This rule passes for `AuctionFixed.sol` because only `currentBid` is transferred.
  */
-rule bidIncreasesAssets() {
+rule bidIncreasesAssets {
     env e;
-    require(e.msg.sender != currentContract);
-    require(e.msg.value > currentBid() );
+    require (e.msg.sender != currentContract);
+    require (e.msg.value > currentBid());
     uint256 balanceBefore = nativeBalances[currentContract];
     bid(e);
     assert nativeBalances[currentContract] > balanceBefore;
@@ -33,11 +31,11 @@ rule bidIncreasesAssets() {
  It passes non-vacuously for AuctionFixed.sol because the amount transferred is `currentBid` for which `msg.value >= currentBid`
  can hold.
  */
-rule bidSuccessfullyExpectVacuous() {
+rule bidSuccessfullyExpectVacuous {
     env e;
     uint256 balanceBefore = nativeBalances[currentContract];
-    require(e.msg.sender != currentContract);
-    require(e.msg.value > 0 &&  e.msg.value > balanceBefore);
+    require (e.msg.sender != currentContract);
+    require (e.msg.value > 0 && e.msg.value > balanceBefore);
     require (balanceBefore > 0);
     bid(e);
     assert nativeBalances[currentContract] >= balanceBefore;
