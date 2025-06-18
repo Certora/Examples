@@ -6,10 +6,10 @@ methods {
     function getFromG2() external returns (uint256) envfree;
 }
 
+
 /***
  check which function changes which variable in intGetterImpl 
  */
-// Should fail only on set2
 rule checkChangeG1(method f) {
     uint256 g1Before = getFromG1();
     env e;
@@ -17,12 +17,12 @@ rule checkChangeG1(method f) {
     f(e, args);
     uint256 g1After = getFromG1();
     assert g1Before == g1After, "get1 changed";
-}
+    // Should fail only on s}
+
 
 /***
  check which function changes which variable in intGetterImpl 
  */
-// Should fail only on set2
 rule checkChangeG2(method f) {
     uint256 g2Before = getFromG2();
     env e;
@@ -30,4 +30,4 @@ rule checkChangeG2(method f) {
     f(e, args);
     uint256 g2After = getFromG2();
     assert g2Before == g2After, "get2 changed";
-}
+    // Should fail only on s}

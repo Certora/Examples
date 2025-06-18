@@ -19,6 +19,7 @@
  *
  * [guide]: https://docs.certora.com/en/latest/docs/user-guide/multicontract/index.html#working-with-unknown-contracts
  */
+
 using Asset as underlying;
 
 methods {
@@ -29,7 +30,7 @@ methods {
 
 /// flash loans must increase the pool's underlying asset balance, assuming the
 /// receiver has no pool balance.
-rule flashLoanIncreasesBalance {
+rule flashLoanIncreasesBalance() {
     address receiver;
     uint256 amount;
     env e;

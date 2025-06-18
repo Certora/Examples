@@ -3,6 +3,7 @@
  *
  * This is an example specification for a generic ERC20 contract.
  */
+
 methods {
     function balanceOf(address) external returns (uint) envfree;
     function allowance(address, address) external returns (uint) envfree;
@@ -11,8 +12,9 @@ methods {
 }
 
 //// ## Part 1: Basic Rules ////////////////////////////////////////////////////
+
 /// Transfer must move `amount` tokens from the caller's account to `recipient`
-rule transferSpec {
+rule transferSpec() {
     address sender;
     address recip;
     uint amount;
@@ -29,7 +31,7 @@ rule transferSpec {
 }
 
 /// Transfer must revert if the sender's balance is too small
-rule transferReverts {
+rule transferReverts() {
     env e;
     address recip;
     uint amount;
@@ -46,7 +48,7 @@ rule transferReverts {
 ///  or the recipient is 0
 ///
 /// @title Transfer doesn't revert
-rule transferDoesntRevert {
+rule transferDoesntRevert() {
     env e;
     address recipient;
     uint amount;
@@ -60,23 +62,22 @@ rule transferDoesntRevert {
 }
 
 //// ## Part 2: Parametric Rules ///////////////////////////////////////////////
+
 /// If `approve` changes a holder's allowance, then it was called by the holder
-rule onlyHolderCanChangeAllowance {
+rule onlyHolderCanChangeAllowance() {
     address holder;
     address spender;
     mathint allowance_before = allowance(holder, spender);
     method f;
     env e;
     calldataarg args;
-    // was: env e; uint256 amount;
-    f(e, args);
-    // was: approve(e, spender, amount);
-    mathint allowance_after = allowance(holder, spender);
+    // was: env e; uint256 amount; f(e, args);
+    // was: approve(e, spender, amount); mathint allowance_after = allowance(holder, spender);
     assert allowance_after > allowance_before => e.msg.sender == holder, "approve must only change the sender's allowance";
     assert allowance_after > allowance_before => (f.selector == sig:approve(address, uint).selector || f.selector == sig:increaseAllowance(address, uint).selector), "only approve and increaseAllowance can increase allowances";
 }
 
-rule onlyApproveIncreasesAllowance {
+rule onlyApproveIncreasesAllowance() {
     address holder;
     address spender;
     mathint allowance_before = allowance(holder, spender);
@@ -89,8 +90,9 @@ rule onlyApproveIncreasesAllowance {
 }
 
 //// ## Part 3: Ghosts and Hooks ///////////////////////////////////////////////
+
 ghost mathint sum_of_balances {
-    axiom sum_of_balances == 0;
+    init_state axiom sum_of_balances == 0;
 }
 
 hook Sstore _balances[KEY address a] uint new_value (uint old_value) {
@@ -99,23 +101,29 @@ hook Sstore _balances[KEY address a] uint new_value (uint old_value) {
 }
 
 //// ## Part 4: Invariants /////////////////////////////////////////////////////
+
 /// @dev This rule is unsound!
-invariant balancesBoundedByTotalSupply(address alice, address bob) balanceOf(alice) + balanceOf(bob) <= totalSupply() {
-    preserved transfer(address recip, uint256 amount) with (env e) {
-        require recip == alice || recip == bob;
-        require e.msg.sender == alice || e.msg.sender == bob;
-    } preserved transferFrom(address from, address to, uint256 amount) {
-        require from == alice || from == bob;
-        require to == alice || to == bob;
- }
+invariant balancesBoundedByTotalSupply(address alice, address bob)
+    balanceOf(alice) + balanceOf(bob) <= totalSupply() {
+        preserved transfer(address recip, uint256 amount) with(env e) {
+            require recip == alice || recip == bob;
+            require e.msg.sender == alice || e.msg.sender == bob;
+        }
+        preserved transferFrom(address from, address to, uint256 amount) {
+            require from == alice || from == bob;
+            require to == alice || to == bob;
+        }
+    }
+
 
 /** `totalSupply()` returns the sum of `balanceOf(u)` over all users `u`. */
-invariant totalSupplyIsSumOfBalances() totalSupply() == sum_of_balances ;
+invariant totalSupplyIsSumOfBalances()
+    totalSupply() == sum_of_balances ;
 
 // Safe casting examples
 // addAmount() uses `unchecked` therefore is not checking for overflow. 
 // With the  `require_uint256(amount1 + amount2))` the rule passes although an overflow exists.
-rule requireHidesOverflow {
+rule requireHidesOverflow() {
     env e;
     uint256 amount1;
     uint256 amount2;

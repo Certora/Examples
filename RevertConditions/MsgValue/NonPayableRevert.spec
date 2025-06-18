@@ -2,13 +2,13 @@ methods {
     function justANonPayableFunction() external;
 }
 
-rule NonPayableRevertingConditions {
+rule NonPayableRevertingConditions() {
     env e;
     justANonPayableFunction@withrevert(e);
     assert lastReverted <=> e.msg.value > 0;
 }
 
-rule NonPayableRevertExample {
+rule NonPayableRevertExample() {
     env e;
     justANonPayableFunction@withrevert(e);
     assert !lastReverted;

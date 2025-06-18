@@ -14,13 +14,12 @@ rule setInExtension1Direct(env e) {
     assert base1.inExtension1 == n;
 }
 
-// the summarization of Extension1.getInExtension1() is applied
 rule setInExtension1viaDelegate(env e) {
     uint n;
     base1.callSetInExtension1(e, n);
     assert base1.inExtension1 == n;
     assert base1.getInExtension1(e) == 2;
-}
+    // the summarization of Extension1.getInExtension1() is appl}
 
 rule setInExtension2Direct(env e) {
     uint n;
@@ -28,13 +27,12 @@ rule setInExtension2Direct(env e) {
     assert base1.inExtension2 == n;
 }
 
-// the summarization for getInExtension2 is only for base2
 rule setInExtension2viaDelegate(env e) {
     uint n;
     base1.callSetInExtension2(e, n);
     assert base1.inExtension2 == n;
     assert base1.callGetInExtension2(e) == n;
-}
+    // the summarization for getInExtension2 is only for ba}
 
 rule setInExtension2DirectBase2(env e) {
     uint n;
@@ -42,13 +40,12 @@ rule setInExtension2DirectBase2(env e) {
     assert base2.inExtension2 == n;
 }
 
-// the summarization should apply
 rule setInExtension2viaDelegateBase2(env e) {
     uint n;
     base2.callSetInExtension2(e, n);
     assert base2.inExtension2 == n;
     assert base2.callGetInExtension2(e) == 1;
-}
+    // the summarization should ap}
 
 rule parametricRule(method f) {
     env e;
@@ -57,16 +54,20 @@ rule parametricRule(method f) {
     satisfy true;
 }
 
-invariant specificPreservedInv() base1.inExtension2 == 0 {
-    // Verify the specific preserved on an extension contract function works.
-    // Without this preserved the invariant should fail on this function.
-    preserved _.setInExtension2(uint256 _num) with (env e) {
-        require _num == 0;
- }
+invariant specificPreservedInv()
+    base1.inExtension2 == 0 {
+        // Verify the specific preserved on an extension contract function works.
+        // Without this preserved the invariant should fail on this function.
+        preserved _.setInExtension2(uint256 _num) with(env e) {
+            require _num == 0;
+        }
+    }
 
-invariant genericPreservedInv() base1.inExtension2 == 0 {
-    // Should make all invariant rules vacuous (including the rule from
-    // the extension contract's function)
-    preserved {
-        require false;
- }
+invariant genericPreservedInv()
+    base1.inExtension2 == 0 {
+        // Should make all invariant rules vacuous (including the rule from
+        // the extension contract's function)
+        preserved {
+            require false;
+        }
+    }

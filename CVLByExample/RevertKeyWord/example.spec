@@ -34,7 +34,7 @@ function cvlSummarizeMe(bool b) {
 // ---------------------------------------------------------
 // 4. Example rule: calling 'foo' with @withrevert
 // ---------------------------------------------------------
-rule testFooWithRevert {
+rule testFooWithRevert() {
     bool condition;
     // Using @withrevert to capture whether 'foo' reverts
     foo@withrevert(condition);
@@ -45,7 +45,7 @@ rule testFooWithRevert {
 // ---------------------------------------------------------
 // 5. Example rule: calling a CVL function with @withrevert
 // ---------------------------------------------------------
-rule testCvlFunctionWithRevert {
+rule testCvlFunctionWithRevert() {
     bool condition;
     // If 'cvlFunctionThatMayRevert' reverts, 'lastReverted' is set to true
     cvlFunctionThatMayRevert@withrevert(condition);
@@ -56,14 +56,13 @@ rule testCvlFunctionWithRevert {
 // ---------------------------------------------------------
 // 6. Demonstration #1 for canRevert: inline approach
 // ---------------------------------------------------------
-// We return the revert status
 function wrapperForCanRevertInline(bool condition) returns bool {
     // Here we call canRevert WITH @withrevert internally
     canRevert@withrevert(condition);
     return lastReverted;
-}
+    // We return the revert sta}
 
-rule testCanRevertInline {
+rule testCanRevertInline() {
     bool condition;
     bool outcome = wrapperForCanRevertInline(condition);
     // 'outcome' is true exactly when 'condition' is false (i.e., canRevert reverts)
@@ -79,7 +78,7 @@ function wrapperForCanRevertBubble(bool condition) {
     canRevert(condition);
 }
 
-rule testCanRevertBubbleUp {
+rule testCanRevertBubbleUp() {
     bool condition;
     // We call the wrapper with @withrevert, so if 'canRevert' reverts, it bubbles up
     wrapperForCanRevertBubble@withrevert(condition);
@@ -93,7 +92,7 @@ rule testCanRevertBubbleUp {
 // The contract function callSummarizeMe(b) calls summarizeMe(b),
 // which is summarized by cvlSummarizeMe(b). That summary reverts
 // if b == false. We'll use the 'rule sanity basic' flag to see the call trace.
-rule testCallSummarizeMe {
+rule testCallSummarizeMe() {
     bool condition;
     // Because summarizeMe is mapped to cvlSummarizeMe in CVL (which can revert),
     // calling callSummarizeMe with @withrevert will set lastReverted if condition == false.

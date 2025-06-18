@@ -1,4 +1,4 @@
-rule targetCallRevertConditions {
+rule targetCallRevertConditions() {
     env e;
     forward@withrevert(e);
     bool isReverted = lastReverted;

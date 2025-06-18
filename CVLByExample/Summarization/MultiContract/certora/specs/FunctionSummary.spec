@@ -22,16 +22,16 @@ function summary() returns uint256 {
 }
 
 // Calling summarized function of `Impl1` contract. Should pass.
-rule checkA {
+rule checkA() {
     assert callByFunctionInCalled1() == 6, "Function summary does not work";
 }
 
 // Calling summarized function of `Impl2` contract. Should pass.
-rule checkB {
+rule checkB() {
     assert callByFunctionInCalled2() == 6, "Function summary does not work";
 }
 
 // Not summarized. Should pass.
-rule checkNotSummarized {
+rule checkNotSummarized() {
     assert callnotSummarizedInCalled1() == 3, "wrong result for not-summarized function";
 }

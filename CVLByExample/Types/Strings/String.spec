@@ -1,4 +1,4 @@
-rule cvlStringEqComparisonToEVMType {
+rule cvlStringEqComparisonToEVMType() {
     env e;
     string r1;
     string r2 = Blurp;

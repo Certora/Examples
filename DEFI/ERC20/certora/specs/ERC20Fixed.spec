@@ -3,6 +3,7 @@
  *
  * This is an example specification for a generic ERC20 contract.
  */
+
 methods {
     function balanceOf(address) external returns (uint) envfree;
     function allowance(address, address) external returns (uint) envfree;
@@ -11,8 +12,9 @@ methods {
 }
 
 //// ## Part 1: Basic Rules ////////////////////////////////////////////////////
+
 /// Transfer must move `amount` tokens from the caller's account to `recipient`
-rule transferSpec {
+rule transferSpec() {
     address sender;
     address recip;
     uint amount;
@@ -29,7 +31,7 @@ rule transferSpec {
 }
 
 /// Transfer must revert if the sender's balance is too small
-rule transferReverts {
+rule transferReverts() {
     env e;
     address recip;
     uint amount;
@@ -46,7 +48,7 @@ rule transferReverts {
 ///  or the recipient is 0
 ///
 /// @title Transfer doesn't revert
-rule transferDoesntRevert {
+rule transferDoesntRevert() {
     env e;
     address recipient;
     uint amount;
@@ -60,18 +62,17 @@ rule transferDoesntRevert {
 }
 
 //// ## Part 2: Parametric Rules ///////////////////////////////////////////////
+
 /// If `approve` changes a holder's allowance, then it was called by the holder
-rule onlyHolderCanChangeAllowance {
+rule onlyHolderCanChangeAllowance() {
     address holder;
     address spender;
     mathint allowance_before = allowance(holder, spender);
     method f;
     env e;
     calldataarg args;
-    // was: env e; uint256 amount;
-    f(e, args);
-    // was: approve(e, spender, amount);
-    mathint allowance_after = allowance(holder, spender);
+    // was: env e; uint256 amount; f(e, args);
+    // was: approve(e, spender, amount); mathint allowance_after = allowance(holder, spender);
     assert allowance_after > allowance_before => e.msg.sender == holder, "approve must only change the sender's allowance";
     assert allowance_after > allowance_before => (f.selector == sig:approve(address, uint).selector || f.selector == sig:increaseAllowance(address, uint).selector), "only approve and increaseAllowance can increase allowances";
 }
@@ -79,7 +80,7 @@ rule onlyHolderCanChangeAllowance {
 //// ## Part 3: Ghosts and Hooks ///////////////////////////////////////////////
 
 persistent ghost mathint sum_of_balances {
-    axiom sum_of_balances == 0;
+    init_state axiom sum_of_balances == 0;
 }
 
 hook Sstore _balances[KEY address a] uint new_value (uint old_value) {
@@ -93,12 +94,14 @@ hook Sload uint256 balance _balances[KEY address a] {
 }
 
 //// ## Part 4: Invariants
+
 /** `totalSupply()` returns the sum of `balanceOf(u)` over all users `u`. */
-invariant totalSupplyIsSumOfBalances() totalSupply() == sum_of_balances ;
+invariant totalSupplyIsSumOfBalances()
+    totalSupply() == sum_of_balances ;
 
 // satisfy examples
 // Generate an example trace for a first deposit operation that succeeds.
-rule satisfyFirstDepositSucceeds {
+rule satisfyFirstDepositSucceeds() {
     env e;
     require totalSupply() == 0;
     deposit(e);
@@ -106,7 +109,7 @@ rule satisfyFirstDepositSucceeds {
 }
 
 // Generate an example trace for a withdraw that results totalSupply == 0.
-rule satisfyLastWithdrawSucceeds {
+rule satisfyLastWithdrawSucceeds() {
     env e;
     uint256 amount;
     requireInvariant totalSupplyIsSumOfBalances();
@@ -116,7 +119,7 @@ rule satisfyLastWithdrawSucceeds {
 }
 
 // A witness with several function calls.
-rule satisfyWithManyOps {
+rule satisfyWithManyOps() {
     env e;
     env e1;
     env e2;
@@ -136,7 +139,7 @@ rule satisfyWithManyOps {
 }
 
 // A non-vacuous example where transfer() does not revert.
-rule satisfyVacuityCorrection {
+rule satisfyVacuityCorrection() {
     env e;
     address recip;
     uint amount;

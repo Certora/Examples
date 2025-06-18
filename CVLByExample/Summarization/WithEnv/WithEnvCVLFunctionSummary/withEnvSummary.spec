@@ -1,6 +1,7 @@
 /**
   An example for using a summary with `with env`.
 */
+
 methods {
     // Summarization by a CVL function. The result is non-deterministic because the CVL function is not deterministic.
     function reduceBalance(uint256 amount) internal returns (uint256) with(env e) => cvlReduceBalance(e, amount);
@@ -16,7 +17,7 @@ function cvlReduceBalance(env e, uint256 amount) returns uint256 {
 }
 
 // A rule that demonstrates the use of the summarization.
-rule checkReduceBalance {
+rule checkReduceBalance() {
     env e;
     uint256 amountBefore = getBalance(e, e.msg.sender);
     uint256 amount;

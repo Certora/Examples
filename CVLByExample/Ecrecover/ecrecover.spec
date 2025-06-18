@@ -4,11 +4,13 @@ See https://docs.certora.com for a complete guide.
 
 Example for ecrecover 
 ***/
+
 /*
     Declaration of methods that are used in the rules. envfree indicate that
     the method is not dependent on the environment (msg.value, msg.sender).
     Methods that are not declared here are assumed to be dependent on env.
 */
+
 /*** # ecrecover properties:
 # 1. zero value:
         ecrecover(0, v, r, s) == 0
@@ -23,6 +25,7 @@ Example for ecrecover
         ecrecover(msgHash, v, r, s) != 0 => ecrecover(msgHash, v, r, s') == 0
         where s' != s
 **/
+
 methods {
     function isSigned(address _addr, bytes32 msgHash, uint8 v, bytes32 r, bytes32 s) external returns (bool) envfree;
     function executeMyFunctionFromSignature(uint8 v, bytes32 r, bytes32 s, address owner, uint256 myParam, uint256 deadline) external;
@@ -39,10 +42,11 @@ function ecrecoverAxioms() {
     require (forall bytes32 h. forall uint8 v. forall bytes32 r. forall bytes32 s1. forall bytes32 s2. s1 != s2 => ecrecover(h, v, r, s1) != 0 => ecrecover(h, v, r, s2) == 0);
 }
 
+
 /*
     shows that ecrecover has a single value, i.e two different addresses can not be the result of ecrecover(msgHash, v, r, s)  
 */
-rule zeroValue {
+rule zeroValue() {
     ecrecoverAxioms();
     bytes32 msgHash;
     uint8 v;
@@ -51,7 +55,7 @@ rule zeroValue {
     assert ecrecover(to_bytes32(0), v, r, s) == 0;
 }
 
-rule deterministic {
+rule deterministic() {
     ecrecoverAxioms();
     bytes32 msgHash;
     uint8 v;
@@ -60,7 +64,7 @@ rule deterministic {
     assert ecrecover(msgHash, v, r, s) == ecrecover(msgHash, v, r, s);
 }
 
-rule uniqueness {
+rule uniqueness() {
     ecrecoverAxioms();
     bytes32 msgHashA;
     bytes32 msgHashB;
@@ -71,8 +75,8 @@ rule uniqueness {
     assert ecrecover(msgHashA, v, r, s) != 0 => ecrecover(msgHashB, v, r, s) == 0;
 }
 
-//!= ecrecover(msgHash, v, r, s1) ;
-rule dependencyOnS {
+rule dependencyOnS() //!= ecrecover(msgHash, v, r, s1) ;
+{
     ecrecoverAxioms();
     bytes32 msgHash;
     uint8 v;
@@ -83,7 +87,7 @@ rule dependencyOnS {
     assert ecrecover(msgHash, v, r, s1) != 0 => ecrecover(msgHash, v, r, s2) == 0;
 }
 
-rule dependencyOnR {
+rule dependencyOnR() {
     ecrecoverAxioms();
     bytes32 msgHash;
     uint8 v;
@@ -95,7 +99,8 @@ rule dependencyOnR {
 }
 
 // Rules for a function that checks signature 
-rule singleVerifier {
+
+rule singleVerifier() {
     ecrecoverAxioms();
     bytes32 msgHash;
     uint8 v;
@@ -107,7 +112,7 @@ rule singleVerifier {
     assert isSigned(addr1, msgHash, v, r, s) => !isSigned(addr2, msgHash, v, r, s);
 }
 
-rule ownerSignatureIsUnique {
+rule ownerSignatureIsUnique() {
     ecrecoverAxioms();
     bytes32 msgHashA;
     bytes32 msgHashB;
@@ -125,6 +130,7 @@ rule hashIsUnique(address ownerA, uint256 myParamA, uint256 deadlineA, address o
     bytes32 hashB = getHash(ownerB, myParamB, deadlineB);
     assert hashA == hashB => (ownerA == ownerB && myParamA == myParamB && deadlineA == deadlineB);
 }
+
 
 /*** 
    # High level property : there is only single owner that can be used
@@ -147,6 +153,7 @@ rule onlySingleUserCanExecute(uint8 v, bytes32 r, bytes32 s, address alice, addr
     assert success => (alice == bob);
 }
 
+
 /*** 
    # High level property : Owner must be the signer of the hash
     A rule which proves that for a given set of parameters only a single owner can execute .
@@ -160,6 +167,7 @@ rule ownerIsSigner(uint8 v, bytes32 r, bytes32 s, address owner, uint256 myParam
     executeMyFunctionFromSignature(e, v, r, s, owner, myParam, deadline);
     assert owner == signer;
 }
+
 
 /*** 
    # High level property : params and deadline are signed 
@@ -180,10 +188,11 @@ rule signedParamAndDeadline(uint8 v, bytes32 r, bytes32 s, address owner, uint25
     assert success => (myParamA == myParamB && deadlineA == deadlineB);
 }
 
+
 /***
  A signer can sign two different messages, in this case they have different signature 
 **/
-rule twoDifferent {
+rule twoDifferent() {
     ecrecoverAxioms();
     bytes32 msgHashA;
     uint8 vA;
@@ -198,6 +207,7 @@ rule twoDifferent {
     satisfy ecrecover(msgHashA, vA, rA, sA) == ecrecover(msgHashB, vB, rB, sB);
     assert ecrecover(msgHashA, vA, rA, sA) == ecrecover(msgHashB, vB, rB, sB) => (rA != rB || sA != sB || vA != vB);
 }
+
 
 /**
 Once a message is executed, it can not be executed again 

@@ -6,11 +6,10 @@ methods {
 }
 
 // define the ghost function
-ghost mapping (uint256 => mapping (uint256 => mapping (uint256 => uint256))) ghost_interest {
+ghost mapping(uint256 => mapping(uint256 => mapping(uint256 => uint256))) ghost_interest {
+    // add an axiom describing monotonicity of ghost_interest
     axiom forall uint256 p. forall uint256 r. forall uint256 t1. forall uint256 t2. t2 >= t1 => ghost_interest[p][r][t2] >= ghost_interest[p][r][t1];
 }
-
-// add an axiom describing monotonicity of ghost_interest
 
 rule yield_monotonic(address a, uint256 n) {
     // internally, when this calls continuous_interest, the function will

@@ -10,16 +10,15 @@
  * to false if the encoding is illegal. Since the ghost is persistent, it is unaffected
  * by reverts and we can use it in our revert condition rules.
  */
+
 /// @title Checks that `encoded` is a valid encoding of the first 32 bytes of a string
 function isLegalEncoding(uint256 encoded) returns bool {
     mathint strLen = (encoded % 256) / 2;
-    // The string length for short strings only
-    bool isOdd = encoded % 2 == 1;
+    // The string length for short strings only bool isOdd = encoded % 2 == 1;
     return (encoded > 64 && isOdd) || (strLen <= 31 && !isOdd);
 }
 
 /// Persistent ghost denoting legality of string encoding
-
 persistent ghost bool legalStr;
 
 /// @title Hook activated when the string in field `y` is read
@@ -41,7 +40,6 @@ rule VerifyPush(uint256 xx, string yy) {
 }
 
 /// @title An example of reverting due to bad string
-// The example must have reverted
 rule VerifyGetDataExample(uint256 index) {
     legalStr = true;
     env e;
@@ -49,4 +47,4 @@ rule VerifyGetDataExample(uint256 index) {
     require e.msg.value == 0;
     getData@withrevert(e, index);
     satisfy !legalStr;
-}
+    // The example must have rever}

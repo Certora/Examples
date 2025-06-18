@@ -5,22 +5,21 @@ methods {
     function value() external returns (uint256) envfree;
 }
 
-rule increaseValueRevertingConditions {
+rule increaseValueRevertingConditions() {
     uint256 amount;
     uint256 valueBefore = value();
     increaseValue@withrevert(amount);
     assert lastReverted <=> valueBefore + amount > max_uint256;
 }
 
-// (valueBefore - amount) is a mathint and can be negative.
-rule decreaseValueRevertingConditions {
+rule decreaseValueRevertingConditions() {
     uint256 amount;
     uint256 valueBefore = value();
     decreaseValue@withrevert(amount);
     assert lastReverted <=> valueBefore - amount < 0;
-}
+    // (valueBefore - amount) is a mathint and can be negati}
 
-rule divideValueRevertingConditions {
+rule divideValueRevertingConditions() {
     uint256 divideBy;
     uint256 valueBefore = value();
     divideValue@withrevert(divideBy);

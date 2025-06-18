@@ -8,6 +8,7 @@
   3. The relation between the balances of the sender and the receiver of a transaction.
   4. Changes in ghost storage.
  */
+
 using Bank as bank;
 
 methods {
@@ -21,7 +22,7 @@ methods {
 /// This rule demonstrates comparing the full storage.
 /// withdrawal from a non-empty account changes the storage state.
 /// This rule should pass.
-rule storageChangesByWithdrawFromNonEmptyAccount {
+rule storageChangesByWithdrawFromNonEmptyAccount() {
     env e;
     storage init = lastStorage;
     uint256 accountNum;
@@ -35,7 +36,7 @@ rule storageChangesByWithdrawFromNonEmptyAccount {
 /// withdrawal from a non-necessarily empty account might not change the state.
 /// This rule fails because when the withdrawn account is empty the `withdraw` function reverts and therefore the
 /// storage is unaffected.
-rule storageDoesNotChangeByWithdrawWhenRevert {
+rule storageDoesNotChangeByWithdrawWhenRevert() {
     env e;
     storage init = lastStorage;
     uint256 accountNum;
@@ -90,7 +91,7 @@ rule integrityOfStoragePerCustomer(BankAccountRecord.Customer c1, BankAccountRec
 
 /// This rule demonstrates how to call `deposit` (can be any transaction) twice from the same state by restoring the storage to
 /// its initial state before the second call.
-rule storageAfterTwoDepositFromInitDoesNotChange {
+rule storageAfterTwoDepositFromInitDoesNotChange() {
     uint256 bankAccount;
     env e;
     require e.msg.sender < max_address;
@@ -112,7 +113,7 @@ rule storageAfterTwoDepositFromInitDoesNotChange {
 /// withdrawals are the same.
 /// This fails in the default configuration because of the call to an unresolved function in withdraw. 
 /// It passes with --optimistic_fallback.
-rule storageAfterTwoWithdrawalsFromInitDoesNotChange {
+rule storageAfterTwoWithdrawalsFromInitDoesNotChange() {
     uint256 bankAccount;
     env e;
     require e.msg.sender < max_address;
@@ -131,31 +132,29 @@ rule storageAfterTwoWithdrawalsFromInitDoesNotChange {
 }
 
 /// Mirror on a struct _customers[a].accounts[i].accountBalance
-ghost mapping (address => mapping (uint256 => uint256)) accountBalanceMirror {
-    axiom forall address a. forall uint256 i. accountBalanceMirror[a][i] == 0;
+ghost mapping(address => mapping(uint256 => uint256)) accountBalanceMirror {
+    init_state axiom forall address a. forall uint256 i. accountBalanceMirror[a][i] == 0;
 }
 
 // ghost for demonstrating storage of a ghost.
-ghost mapping (address => mathint) numOfOperations {
-    axiom forall address a. numOfOperations[a] == 0;
+ghost mapping(address => mathint) numOfOperations {
+    init_state axiom forall address a. numOfOperations[a] == 0;
 }
 
 /// hook on a complex data structure, a mapping to a struct with a dynamic array
 hook Sstore _customers[KEY address a].accounts.[INDEX uint256 i].accountBalance uint256 new_value (uint old_value) {
     require old_value == accountBalanceMirror[a][i];
-    // Need this inorder to sync on insert of new element  
-    accountBalanceMirror[a][i] = new_value;
+    // Need this inorder to sync on insert of new element   accountBalanceMirror[a][i] = new_value;
     numOfOperations[a] = old_value + 1;
 }
 
 /// @notice ghost storage does not change after `deposit()`
-rule ghostStorageComparison {
+rule ghostStorageComparison() {
     uint256 bankAccount;
     env e;
     require e.msg.value > 0;
     // balance should change by deposit.
-    // deposit msg.value to account `bankAccount` and to the native balance of msg.sender.
-    deposit(e, bankAccount);
+    // deposit msg.value to account `bankAccount` and to the native balance of msg.sender. deposit(e, bankAccount);
     storage afterOneDeposit = lastStorage;
     // nativeBalances is mapping(address => uint256). `mapping` is not yet supported as a CVL local variable type, so a variable
     // corresponding to a single entry is used instead.

@@ -8,6 +8,7 @@
 ///
 /// See [the multi-contract section of the user guide](https://docs.certora.com/en/latest/docs/user-guide/multicontract/index.html) for a complete
 /// discussion of this example.
+
 methods {
     function balanceOf(address) external returns (uint256) envfree;
     function totalSupply() external returns (uint256) envfree;
@@ -20,7 +21,7 @@ methods {
 }
 
 /// `deposit` must increase the pool's underlying asset balance
-rule integrityOfDeposit {
+rule integrityOfDeposit() {
     mathint balance_before = assetBalance();
     env e;
     uint256 amount;

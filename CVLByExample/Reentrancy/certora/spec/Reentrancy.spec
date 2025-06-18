@@ -11,23 +11,23 @@ hook CALL uint g, address addr, uint value, uint argsOffset, uint argsLength, ui
     bool cond;
     if (g_sighash == sig:withdrawAll().selector) {
         withdrawAll@withrevert(e);
-        // concrete name
-        g_reverted = lastReverted;
+        // concrete name g_reverted = lastReverted;
     } else if (g_sighash == sig:withdraw(uint256).selector) {
         calldataarg args;
         withdraw@withrevert(e, args);
-        // concrete name
-        g_reverted = lastReverted;
+        // concrete name g_reverted = lastReverted;
     } else {
         // fallback case
         g_reverted = true;
     }
+    
 }
 
 // The main rule - 
 // we filter only for non-view methods as only state modifying methods 
 // are dangerous for the specific reentrancy scenarios. 
-rule no_reentrancy(method f, method g) filtered {f -> !f.isView, g -> !g.isView} {
+rule no_reentrancy(method f, method g)
+filtered { f -> !f.isView, g -> !g.isView } {
     require !called_extcall;
     require !g_reverted;
     env e;

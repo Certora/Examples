@@ -22,35 +22,35 @@ methods {
     function callContractFuncWithStorage() external returns (uint) envfree;
 }
 
-rule r1 {
+rule r1() {
     CalledLibrary.S s;
     uint v = callLibFuncWithStruct(s);
     assert v == 1;
 }
 
-rule r2 {
+rule r2() {
     CalledLibrary.S s;
     uint v = callContractFuncWithStruct(s);
     assert v == 1;
 }
 
-rule r3 {
+rule r3() {
     uint v = callLibFuncWithStorage();
     assert v == 2;
 }
 
-rule r4 {
+rule r4() {
     uint v = callContractFuncWithStorage();
     assert v == 3;
 }
 
-rule r5 {
+rule r5() {
     CalledLibrary.E e;
     uint v = callLibFuncWithEnum(e);
     assert v == 4;
 }
 
-rule r6 {
+rule r6() {
     CalledLibrary.E e;
     uint v = callContractFuncWithEnum(e);
     assert v == 4;

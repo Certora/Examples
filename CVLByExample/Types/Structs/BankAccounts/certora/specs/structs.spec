@@ -10,9 +10,9 @@
  * 5. structs in cvl functions - passing and returning.
  * 6. struct as a parameter of preserved function.
  */
-using Bank as bank;
 
-// bank is the same as currentContract.
+using Bank as bank; // bank is the same as currentContract. 
+
 methods {
     /// Definition of a user-defined solidity method returning a struct
     function getCustomer(address a) external returns (BankAccountRecord.Customer) envfree;
@@ -25,6 +25,7 @@ methods {
     function isCustomer(address) external returns (bool) envfree;
 }
 
+
 /** 
  Comparison of full structs is not supported. Each field should be compared instead.
  Here only the id field is compared because arrays (accounts field) cannot be compared.
@@ -34,6 +35,7 @@ function integrityOfCustomerInsertion(BankAccountRecord.Customer c1) returns boo
     BankAccountRecord.Customer c = getCustomer(c1.id);
     return (c.id == c1.id);
 }
+
 
 /**
  Calling a solidity method returning a struct.
@@ -53,6 +55,7 @@ function getAccountNumberAndBalance(address a, uint256 accountInd) returns (uint
     return (account.accountNumber, account.accountBalance);
 }
 
+
 /**
  You can define rule parameters of a user defined type.
  */
@@ -62,7 +65,7 @@ rule correctCustomerInsertion(BankAccountRecord.Customer c1) {
 }
 
 /// Example for assigning to a tuple.
-rule updateOfBlacklist {
+rule updateOfBlacklist() {
     env e;
     address user;
     address user1;
@@ -98,36 +101,36 @@ rule integrityOfCustomerKeyRule(address a, method f) {
 
 /// Represent the sum of all accounts of all users
 /// sum _customers[a].accounts[i].accountBalance 
-
 persistent ghost mathint sumBalances {
-    axiom sumBalances == 0;
+    init_state axiom sumBalances == 0;
 }
 
 /// Mirror on a struct _customers[a].accounts[i].accountBalance
-
-persistent ghost mapping (address => mapping (uint256 => uint256)) accountBalanceMirror {
-    axiom forall address a. forall uint256 i. accountBalanceMirror[a][i] == 0;
+persistent ghost mapping(address => mapping(uint256 => uint256)) accountBalanceMirror {
+    init_state axiom forall address a. forall uint256 i. accountBalanceMirror[a][i] == 0;
 }
 
 /// Number of accounts per user 
-ghost mapping (address => uint256) numOfAccounts {
+ghost mapping(address => uint256) numOfAccounts {
+    // assumption: it's infeasible to grow the list to these many elements.
     axiom forall address a. numOfAccounts[a] < max_uint256;
-    axiom forall address a. numOfAccounts[a] == 0;
+    init_state axiom forall address a. numOfAccounts[a] == 0;
 }
-
-// assumption: it's infeasible to grow the list to these many elements.
 
 /// Store hook to synchronize numOfAccounts with the length of the customers[KEY address a].accounts array.
 hook Sstore _customers[KEY address user].accounts.length uint256 newLength {
     if (newLength > numOfAccounts[user]) require accountBalanceMirror[user][require_uint256(newLength - 1)] == 0;
+    
     numOfAccounts[user] = newLength;
 }
+
 
 /**
  An internal step check to verify that our ghost works as expected, it should mirror the number of accounts.
  Once the sload is defined, this invariant becomes a tautology  
  */
-invariant checkNumOfAccounts(address user) numOfAccounts[user] == bank.getNumberOfAccounts(user) ;
+invariant checkNumOfAccounts(address user)
+    numOfAccounts[user] == bank.getNumberOfAccounts(user) ;
 
 /// This Sload is required in order to eliminate adding unintializaed account balance to sumBalances.
 hook Sload uint256 length _customers[KEY address user].accounts.length {
@@ -137,8 +140,7 @@ hook Sload uint256 length _customers[KEY address user].accounts.length {
 /// hook on a complex data structure, a mapping to a struct with a dynamic array
 hook Sstore _customers[KEY address a].accounts.[INDEX uint256 i].accountBalance uint256 new_value (uint old_value) {
     require old_value == accountBalanceMirror[a][i];
-    // Need this inorder to sync on insert of new element  
-    sumBalances = sumBalances + new_value - old_value;
+    // Need this inorder to sync on insert of new element   sumBalances = sumBalances + new_value - old_value;
     accountBalanceMirror[a][i] = new_value;
 }
 
@@ -150,17 +152,22 @@ hook Sload uint256 value _customers[KEY address a].accounts.[INDEX uint256 i].ac
 }
 
 /// Non-customers have no account.
-invariant emptyAccount(address user) !isCustomer(user) => (getNumberOfAccounts(user) == 0 && (forall uint256 i. accountBalanceMirror[user][i] == 0)) ;
+invariant emptyAccount(address user)
+    !isCustomer(user) => (getNumberOfAccounts(user) == 0 && (forall uint256 i. accountBalanceMirror[user][i] == 0)) ;
 
 /// struct as a parameter of preserved function.
-invariant totalSupplyEqSumBalances() totalSupply() == sumBalances {
-    preserved addCustomer(BankAccountRecord.Customer c) {
-        requireInvariant emptyAccount(c.id);
- }
+invariant totalSupplyEqSumBalances()
+    totalSupply() == sumBalances {
+        preserved addCustomer(BankAccountRecord.Customer c) {
+            requireInvariant emptyAccount(c.id);
+        }
+    }
 
 /// Comparing nativeBalances of current contract.
-invariant solvency() totalSupply() <= nativeBalances[currentContract] {
-    // safely assume that Bank doesn't call itself
-    preserved with (env e) {
-        require e.msg.sender != currentContract;
- }
+invariant solvency()
+    totalSupply() <= nativeBalances[currentContract] {
+        // safely assume that Bank doesn't call itself
+        preserved with(env e) {
+            require e.msg.sender != currentContract;
+        }
+    }

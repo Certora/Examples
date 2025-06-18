@@ -19,13 +19,13 @@ hook ALL_TLOAD uint loc uint v {
     }
 }
 
-invariant lockStatusDontChange() !contract_lock_status ;
+invariant lockStatusDontChange()
+    !contract_lock_status ;
 
 // if contract was locked function call always reverted
-rule checkContractLockReverts {
+rule checkContractLockReverts() {
     env e;
     require contract_lock_status;
-    // require contract is locked
-    contractLevelAccess@withrevert(e);
+    // require contract is locked contractLevelAccess@withrevert(e);
     assert lastReverted;
 }

@@ -11,23 +11,23 @@ methods {
 // GHOST COPIES:
 // For every storage variable we add a ghost field that is kept synchronized by hooks.
 // The ghost fields can be accessed by the spec, even inside quantifiers.
+
 // ghost field for the values array
-ghost mapping (mathint => bytes32) ghostValues {
-    axiom forall mathint x. ghostValues[x] == to_bytes32(0);
+ghost mapping(mathint => bytes32) ghostValues {
+    init_state axiom forall mathint x. ghostValues[x] == to_bytes32(0);
 }
 
 // ghost field for the indexes map
-ghost mapping (bytes32 => uint256) ghostIndexes {
-    axiom forall bytes32 x. ghostIndexes[x] == 0;
+ghost mapping(bytes32 => uint256) ghostIndexes {
+    init_state axiom forall bytes32 x. ghostIndexes[x] == 0;
 }
 
 // ghost field for the length of the values array (stored in offset 0)
 ghost uint256 ghostLength {
-    axiom ghostLength == 0;
+    init_state axiom ghostLength == 0;
+    // assumption: it's infeasible to grow the list to these many elements.
     axiom ghostLength < max_uint256;
 }
-
-// assumption: it's infeasible to grow the list to these many elements.
 
 // HOOKS
 // Store hook to synchronize ghostLength with the length of the set._inner._values array.
@@ -52,6 +52,7 @@ hook Sstore currentContract.set._inner._indexes[KEY bytes32 value] uint256 newIn
 //
 // By following this simple pattern it is ensured that the ghost state and the storage are always the same
 // and that the solver can use this knowledge in the proofs.
+
 // Load hook to synchronize ghostLength with the length of the set._inner._values array.
 hook Sload uint256 length currentContract.set._inner._values.length {
     require ghostLength == length;
@@ -66,30 +67,35 @@ hook Sload uint256 index currentContract.set._inner._indexes[KEY bytes32 value] 
 }
 
 // INVARIANTS
+
 //  This is the main invariant stating that the indexes and values always match:
 //        values[indexes[v] - 1] = v for all values v in the set
 //    and indexes[values[i]] = i+1 for all valid indexes i.
-invariant setInvariant() (forall uint256 index. 0 <= index && index < ghostLength => to_mathint(ghostIndexes[ghostValues[index]]) == index + 1) && (forall bytes32 value. ghostIndexes[value] == 0 || (ghostValues[ghostIndexes[value] - 1] == value && ghostIndexes[value] >= 1 && ghostIndexes[value] <= ghostLength)) ;
+
+invariant setInvariant()
+    (forall uint256 index. 0 <= index && index < ghostLength => to_mathint(ghostIndexes[ghostValues[index]]) == index + 1) && (forall bytes32 value. ghostIndexes[value] == 0 || (ghostValues[ghostIndexes[value] - 1] == value && ghostIndexes[value] >= 1 && ghostIndexes[value] <= ghostLength)) ;
 
 // DEFINITION
+
 // Returns, whether a value is in the set.
 definition inSet(bytes32 value) returns bool = (ghostIndexes[value] != 0);
 
 // RULES
-rule containsEqualsInSet {
+
+rule containsEqualsInSet() {
     bytes32 value;
     bool result = contains@withrevert(value);
     assert !lastReverted, "contains should never revert";
     assert result == inSet(value), "result should indicate whether value is in set";
 }
 
-rule lengthEqualsGhost {
+rule lengthEqualsGhost() {
     uint256 len = length@withrevert();
     assert !lastReverted, "length() should never revert";
     assert len == ghostLength, "length() should return the length of the values list";
 }
 
-rule addFresh {
+rule addFresh() {
     bytes32 value;
     bytes32 other;
     require other != value;
@@ -101,7 +107,7 @@ rule addFresh {
     assert otherInSet == inSet(other), "no other value should be added or removed";
 }
 
-rule addAlreadyIn {
+rule addAlreadyIn() {
     bytes32 value;
     bytes32 other;
     require other != value;
@@ -113,7 +119,7 @@ rule addAlreadyIn {
     assert otherInSet == inSet(other), "no other value should be added or removed";
 }
 
-rule removeSuccess {
+rule removeSuccess() {
     bytes32 value;
     bytes32 other;
     requireInvariant setInvariant();
@@ -126,7 +132,7 @@ rule removeSuccess {
     assert otherInSet == inSet(other), "no other value should be added or removed";
 }
 
-rule removeFail {
+rule removeFail() {
     bytes32 value;
     bytes32 other;
     require other != value;
@@ -138,7 +144,7 @@ rule removeFail {
     assert otherInSet == inSet(other), "no other value should be added or removed";
 }
 
-rule elemAtSuccess {
+rule elemAtSuccess() {
     bytes32 value;
     uint256 index;
     requireInvariant setInvariant();
@@ -148,7 +154,7 @@ rule elemAtSuccess {
     assert inSet(value), "elemAt() should return a value from the set";
 }
 
-rule elemAtFail {
+rule elemAtFail() {
     bytes32 value;
     uint256 index;
     require index >= ghostLength;
@@ -156,7 +162,7 @@ rule elemAtFail {
     assert lastReverted, "elemAt() should revert for invalid index";
 }
 
-rule elementsUnique {
+rule elementsUnique() {
     bytes32 value1;
     bytes32 value2;
     uint256 index1;
@@ -168,7 +174,7 @@ rule elementsUnique {
     assert value1 != value2, "all elements in the list should be different";
 }
 
-rule everyElementReachable {
+rule everyElementReachable() {
     bytes32 value;
     bytes32 result;
     uint256 index;

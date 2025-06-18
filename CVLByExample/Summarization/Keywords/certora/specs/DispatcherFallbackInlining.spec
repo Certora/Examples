@@ -5,7 +5,7 @@ methods {
     function _.noSuchFun() external => DISPATCHER(use_fallback);
 }
 
-rule fallback_should_be_reached_with_flag {
+rule fallback_should_be_reached_with_flag() {
     env e;
     // Instead of linking `CallsExternalContract:a=IntGetterImpl` which would make the callee resolved which would skip the DISPATCHER summary,
     // do this `require` to force at runtime the callee to always be `IntGetterImpl`.
@@ -15,7 +15,7 @@ rule fallback_should_be_reached_with_flag {
     assert n == 5;
 }
 
-rule fallback_should_never_be_reached {
+rule fallback_should_never_be_reached() {
     env e;
     require currentContract.a == impl2;
     require impl2.anothervar1 != 5;

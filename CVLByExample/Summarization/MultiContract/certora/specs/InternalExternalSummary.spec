@@ -2,6 +2,7 @@
     Summarization of internal vs external functions. Public functions have both external and internal instances.
     When the public function is called the external function is called and calls the internal summary.
 */
+
 using Impl1 as impl1;
 using Impl2 as impl2;
 
@@ -19,7 +20,7 @@ methods {
     function callSummarizedInternalInCaller() external returns (uint256) envfree;
 }
 
-rule checkExternalSummarizations {
+rule checkExternalSummarizations() {
     // The functions of `impl1` and the current contract are summarized but the function of impl2 is not.
     // This call uses the summarization so the assertion should pass.
     assert callSummarizedExternalInCalled1() == 1, "wrong result for summarized function";
@@ -28,7 +29,7 @@ rule checkExternalSummarizations {
 }
 
 // Shows when external summarization is not applied.
-rule checkSummarizedExternalInCaller {
+rule checkSummarizedExternalInCaller() {
     // The call used here calls the external summarizedExternal() which uses the internal summarizedExternal() 
     // which is not summarized. Therefore the assertion fails.
     assert callSummarizedExternalInCaller() == 15, "ALWAYS summary does not apply for external function called from the contract";
@@ -39,7 +40,7 @@ rule checkSummarizedExternalInCaller {
 }
 
 // The summary does not apply when called from CVL so the rule should fail.
-rule checkSummarizedCalledFromCVL {
+rule checkSummarizedCalledFromCVL() {
     // If the function is called from CVL rather than from contract code then it is never replaced by a summary.
     // So this one is not replaced.
     assert summarizedExternal() == 15, "ALWAYS summary does not apply for function called from CVL";
@@ -47,7 +48,7 @@ rule checkSummarizedCalledFromCVL {
 
 // The public function summarizedInternal in contract Main calls the internal function summarizedInternal 
 // which is summarized.
-rule checkSummarizedInternalInCaller {
+rule checkSummarizedInternalInCaller() {
     env e;
     assert callSummarizedInternalInCaller() == 16, "Summarization of internal function does not take effect.";
 }

@@ -1,6 +1,7 @@
 /**
  * For each function called from Test.sol a summary is provided.
  */
+
 methods {
     // functions declared in TestLibrary
     function TestLibrary.calleeInternal() internal returns (bool) => ALWAYS(true);

@@ -2,7 +2,7 @@ methods {
     function _.execute(uint) external => NONDET;
 }
 
-rule returnSizeRevertConditions {
+rule returnSizeRevertConditions() {
     env e;
     address contract;
     uint x;

@@ -4,14 +4,15 @@ methods {
 }
 
 /// @notice Invariant in Base to be overridden by importing in `Sub` contract.
-invariant invInBase() someUInt() >= 7 {
-    // @notice Explicit preserved block
-    preserved {
-        require (someUInt() < 30);
- }
+invariant invInBase()
+    someUInt() >= 7 {
+        preserved {
+            require (someUInt() < 30);
+            // @notice Explicit preserved bl}
+    }
 
 /// @notice A rule to be used in the importing contract `Sub` as is.
-rule ruleInBase {
+rule ruleInBase() {
     uint256 before = someUInt();
     minusSevenSomeUInt();
     uint256 after = someUInt();
@@ -27,7 +28,8 @@ function callF(env eF, calldataarg args, method f) {
 }
 
 /// A rule calling one parameteric function filtered to `someInt`.
-rule parametricRuleInBase(method f) filtered {f -> filterDef(f)} {
+rule parametricRuleInBase(method f)
+filtered { f -> filterDef(f) } {
     env eF;
     calldataarg args;
     uint256 before = someUInt();
@@ -37,7 +39,8 @@ rule parametricRuleInBase(method f) filtered {f -> filterDef(f)} {
 }
 
 /// @notice f is filtered to `someInt` but g can be any function.
-rule twoParametricRuleInBase(method f, method g) filtered {f -> filterDef(f)} {
+rule twoParametricRuleInBase(method f, method g)
+filtered { f -> filterDef(f) } {
     env eF;
     calldataarg args;
     uint256 before = someUInt();

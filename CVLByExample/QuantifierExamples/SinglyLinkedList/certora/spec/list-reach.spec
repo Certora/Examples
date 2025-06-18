@@ -1,5 +1,7 @@
 // Specification for reachability for a linked list implementation.
+
 // Method block: all methods don't need environment
+
 methods {
     function insertAfter(bytes32, bytes32) external envfree;
     function getSucc(bytes32) external returns (bytes32) envfree;
@@ -8,24 +10,26 @@ methods {
 }
 
 // GHOST
+
 // This is our reachability predicate stating whether there is a path between X and Y using zero or more successor steps.
+
 ghost reach(bytes32, bytes32) returns bool {
-    axiom forall bytes32 X. forall bytes32 Y. reach(X, Y) == (X == Y || Y == to_bytes32(0));
+    init_state axiom forall bytes32 X. forall bytes32 Y. reach(X, Y) == (X == Y || Y == to_bytes32(0));
 }
 
 // Our ghost copy of the valid map.
-ghost mapping (bytes32 => bool) ghostValid {
-    axiom forall bytes32 X. ghostValid[X] == false;
+ghost mapping(bytes32 => bool) ghostValid {
+    init_state axiom forall bytes32 X. ghostValid[X] == false;
 }
 
 // Our ghost copy of the nextKey map.
-ghost mapping (bytes32 => bytes32) ghostSucc {
-    axiom forall bytes32 X. ghostSucc[X] == to_bytes32(0);
+ghost mapping(bytes32 => bytes32) ghostSucc {
+    init_state axiom forall bytes32 X. ghostSucc[X] == to_bytes32(0);
 }
 
 // Our ghost copy of the list head.
 ghost bytes32 ghostHead {
-    axiom ghostHead == to_bytes32(0);
+    init_state axiom ghostHead == to_bytes32(0);
 }
 
 definition isSucc(bytes32 a, bytes32 b) returns bool = reach(a, b) && a != b && (forall bytes32 X. reach(a, X) && reach(X, b) => (a == X || b == X));
@@ -66,23 +70,29 @@ hook Sload uint256 valueValid currentContract.list.elements[KEY bytes32 key].val
     require valueValid != 0 <=> ghostValid[key];
 }
 
-invariant inListIffValid() forall bytes32 key. key != to_bytes32(0) => ghostValid[key] == reach(ghostHead, key) {
-    preserved {
-        requireInvariant reach_invariant();
- }
+invariant inListIffValid()
+    forall bytes32 key. key != to_bytes32(0) => ghostValid[key] == reach(ghostHead, key) {
+        preserved {
+            requireInvariant reach_invariant();
+        }
+    }
 
-invariant reach_invariant() forall bytes32 X. forall bytes32 Y. forall bytes32 Z. (reach(X, X) && (reach(X, Y) && reach(Y, X) => X == Y) && (reach(X, Y) && reach(Y, Z) => reach(X, Z)) && (reach(X, Y) && reach(X, Z) => (reach(Y, Z) || reach(Z, Y)))) {
-    preserved {
-        requireInvariant inListIffValid();
- }
+invariant reach_invariant()
+    forall bytes32 X. forall bytes32 Y. forall bytes32 Z. (reach(X, X) && (reach(X, Y) && reach(Y, X) => X == Y) && (reach(X, Y) && reach(Y, Z) => reach(X, Z)) && (reach(X, Y) && reach(X, Z) => (reach(Y, Z) || reach(Z, Y)))) {
+        preserved {
+            requireInvariant inListIffValid();
+        }
+    }
 
-invariant reach_succ(bytes32 key) reachSuccInvariant(key) {
-    preserved {
-        requireInvariant reach_invariant();
-        requireInvariant inListIffValid();
- }
+invariant reach_succ(bytes32 key)
+    reachSuccInvariant(key) {
+        preserved {
+            requireInvariant reach_invariant();
+            requireInvariant inListIffValid();
+        }
+    }
 
-rule checkGetSucc {
+rule checkGetSucc() {
     bytes32 key;
     bytes32 afterKey = getSucc(key);
     requireInvariant reach_invariant();
@@ -90,7 +100,8 @@ rule checkGetSucc {
 }
 
 // Rules for full correctness of API calls.
-rule checkInsertHead {
+
+rule checkInsertHead() {
     bytes32 key;
     bytes32 afterKey;
     bytes32 headKey = head();
@@ -103,7 +114,7 @@ rule checkInsertHead {
     assert reach(ghostHead, headKey);
 }
 
-rule checkInsertSuccessor {
+rule checkInsertSuccessor() {
     bytes32 key;
     bytes32 afterKey;
     requireInvariant reach_invariant();
@@ -115,7 +126,7 @@ rule checkInsertSuccessor {
     assert reach(afterKey, key);
 }
 
-rule checkInsert {
+rule checkInsert() {
     bytes32 key;
     bytes32 afterKey;
     bytes32 randoBoi;
@@ -127,7 +138,7 @@ rule checkInsert {
     assert reach(ghostHead, key), "Key was not inserted";
 }
 
-rule checkInsertRevertsWhenExists {
+rule checkInsertRevertsWhenExists() {
     bytes32 key;
     bytes32 afterKey;
     requireInvariant reach_invariant();
@@ -137,7 +148,7 @@ rule checkInsertRevertsWhenExists {
     assert lastReverted, "insert should revert";
 }
 
-rule checkInsertRevertsWhenAfterKeyNotExists {
+rule checkInsertRevertsWhenAfterKeyNotExists() {
     bytes32 key;
     bytes32 afterKey;
     requireInvariant reach_invariant();
@@ -148,7 +159,7 @@ rule checkInsertRevertsWhenAfterKeyNotExists {
     assert lastReverted, "insert can revert";
 }
 
-rule checkInsertSucceedsOtherwise {
+rule checkInsertSucceedsOtherwise() {
     bytes32 key;
     bytes32 afterKey;
     requireInvariant reach_invariant();

@@ -9,6 +9,7 @@
  *
  * [guide]: https://docs.certora.com/en/latest/docs/user-guide/multicontract/index.html#using-dispatcher-for-erc20-contracts
  */
+
 methods {
     function _.name() external => DISPATCHER(true);
     function _.symbol() external => DISPATCHER(true);

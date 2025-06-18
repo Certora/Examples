@@ -10,6 +10,7 @@
 ////
 //// [guide]: https://docs.certora.com/en/latest/docs/user-guide/multicontract/index.html
 ////
+
 using Asset as underlying;
 
 methods {
@@ -24,7 +25,7 @@ methods {
 }
 
 /// `deposit` must increase the pool's underlying asset balance
-rule integrityOfDeposit {
+rule integrityOfDeposit() {
     mathint balance_before = underlying.balanceOf(currentContract);
     env e;
     uint256 amount;

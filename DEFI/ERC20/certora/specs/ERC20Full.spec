@@ -5,7 +5,9 @@ Example of a run: https://prover.certora.com/output/1512/846955955f824eeeb9fcf2e
 Mutation test for this spec: https://mutation-testing.certora.com?id=c95fc217-3300-4323-a379-08b99421ca06&anonymousKey=932faa90-d711-4a6b-b4d6-eb5a58f8455a
 See https://docs.certora.com for a complete guide.
 ***/
+
 // Credit: This spec may include elements inspired by OpenZeppelin ERC20 specifications.
+
 /*
 Declaration of methods that are used in the rules. envfree indicates that
 the method is not dependent on the environment (msg.value, msg.sender).
@@ -27,11 +29,13 @@ methods {
     function burn(address, uint256) external;
 }
 
+
 /*
 ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
 │ Definitions                                                                                                         │
 └─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 */
+
 // functionality 
 definition canIncreaseAllowance(method f) returns bool = f.selector == sig:approve(address, uint256).selector || f.selector == sig:permit(address, address, uint256, uint256, uint8, bytes32, bytes32).selector;
 
@@ -45,17 +49,19 @@ definition canIncreaseTotalSupply(method f) returns bool = f.selector == sig:min
 
 definition canDecreaseTotalSupply(method f) returns bool = f.selector == sig:burn(address, uint256).selector;
 
+
 /*
 ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
 │ Ghost & hooks: sum of all balances                                                                                  │
 └─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 */
+
 ghost mathint sumOfBalances {
-    axiom sumOfBalances == 0;
+    init_state axiom sumOfBalances == 0;
 }
 
 ghost mathint numberOfChangesOfBalances {
-    axiom numberOfChangesOfBalances == 0;
+    init_state axiom numberOfChangesOfBalances == 0;
 }
 
 // having an initial state where Alice initial balance is larger than totalSupply, which 
@@ -71,12 +77,15 @@ hook Sstore _balances[KEY address addr] uint256 newValue (uint256 oldValue) {
     numberOfChangesOfBalances = numberOfChangesOfBalances + 1;
 }
 
+
 /*
 ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
 │ Invariant: totalSupply is the sum of all balances                                                                   │
 └─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 */
-invariant totalSupplyIsSumOfBalances() totalSupply() == sumOfBalances ;
+invariant totalSupplyIsSumOfBalances()
+    totalSupply() == sumOfBalances ;
+
 
 /*
 ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
@@ -91,17 +100,21 @@ rule contractOwnerNeverChange(env e) {
     assert owner == contractOwner();
 }
 
+
 /*
 ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
 │ Rule: totalSupply never overflow                                                                                    │
 └─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 */
-rule totalSupplyNeverOverflow(env e, method f, calldataarg args) filtered {f -> canIncreaseTotalSupply(f)} {
+
+rule totalSupplyNeverOverflow(env e, method f, calldataarg args)
+filtered { f -> canIncreaseTotalSupply(f) } {
     uint256 totalSupplyBefore = totalSupply();
     f(e, args);
     uint256 totalSupplyAfter = totalSupply();
     assert totalSupplyBefore <= totalSupplyAfter;
 }
+
 
 /*
 ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
@@ -116,6 +129,7 @@ rule noMethodChangesMoreThanTwoBalances(method f) {
     mathint numberOfChangesOfBalancesAfter = numberOfChangesOfBalances;
     assert numberOfChangesOfBalancesAfter <= numberOfChangesOfBalancesBefore + 2;
 }
+
 
 /*
 ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
@@ -134,6 +148,7 @@ rule onlyAllowedMethodsMayChangeAllowance(env e) {
     assert allowanceAfter < allowanceBefore => canDecreaseAllowance(f), "should not decrease allowance";
 }
 
+
 /*
 ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
 │ Rules: only mint, burn, transfer and transferFrom can change user balance                                           |
@@ -151,6 +166,7 @@ rule onlyAllowedMethodsMayChangeBalance(env e) {
     assert balanceAfter < balanceBefore => canDecreaseBalance(f);
 }
 
+
 /*
 ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
 │ Rules: only contract owner can burn or mint                                                                         │
@@ -163,6 +179,7 @@ rule onlyOwnerMintOrBurn(env e) {
     assert f.selector == sig:mint(address, uint256).selector => e.msg.sender == contractOwner();
     assert f.selector == sig:burn(address, uint256).selector => e.msg.sender == contractOwner();
 }
+
 
 /*
 ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
@@ -180,6 +197,7 @@ rule onlyAllowedMethodsMayChangeTotalSupply(env e) {
     assert totalSupplyAfter < totalSupplyBefore => canDecreaseTotalSupply(f);
 }
 
+
 /*
 ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
 │ Rules: Find and show a path for each method.                                                                        │
@@ -192,12 +210,14 @@ rule reachability(method f) {
     satisfy true;
 }
 
+
 /*
 ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
 │ Rules: only the token holder or an approved third party can reduce an account's balance                             │
 └─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 */
-rule onlyAuthorizedCanTransfer(env e, method f) filtered {f -> canDecreaseBalance(f)} {
+rule onlyAuthorizedCanTransfer(env e, method f)
+filtered { f -> canDecreaseBalance(f) } {
     requireInvariant totalSupplyIsSumOfBalances();
     calldataarg args;
     address account;
@@ -207,6 +227,7 @@ rule onlyAuthorizedCanTransfer(env e, method f) filtered {f -> canDecreaseBalanc
     uint256 balanceAfter = balanceOf(account);
     assert (balanceAfter < balanceBefore) => (f.selector == sig:burn(address, uint256).selector || e.msg.sender == account || balanceBefore - balanceAfter <= allowanceBefore);
 }
+
 
 /*
 ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
@@ -225,6 +246,7 @@ rule onlyHolderOfSpenderCanChangeAllowance(env e) {
     assert (allowanceAfter < allowanceBefore) => ((f.selector == sig:transferFrom(address, address, uint256).selector && e.msg.sender == spender) || (f.selector == sig:approve(address, uint256).selector && e.msg.sender == holder) || (f.selector == sig:permit(address, address, uint256, uint256, uint8, bytes32, bytes32).selector));
 }
 
+
 /*
 ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
 │ Rules: mint behavior and side effects                                                                               │
@@ -240,6 +262,7 @@ rule mintIntegrity(env e) {
     // run transaction
     mint(e, to, amount);
     // check outcome
+    
     // assert contract owner was the one called
     assert e.msg.sender == contractOwner(), "Only contract owner can call mint.";
     // updates balance and totalSupply
@@ -251,8 +274,7 @@ rule mintRevertingConditions(env e) {
     address account;
     uint256 amount;
     require totalSupply() + amount <= max_uint;
-    // proof in totalSupplyNeverOverflow
-    bool nonOwner = e.msg.sender != contractOwner();
+    // proof in totalSupplyNeverOverflow bool nonOwner = e.msg.sender != contractOwner();
     bool payable = e.msg.value != 0;
     bool isExpectedToRevert = nonOwner || payable;
     mint@withrevert(e, account, amount);
@@ -261,6 +283,7 @@ rule mintRevertingConditions(env e) {
     // } else {
     //     assert !isExpectedToRevert;
     // }
+    
     assert lastReverted <=> isExpectedToRevert;
 }
 
@@ -273,6 +296,7 @@ rule mintDoesNotAffectThirdParty(env e) {
     mint(e, addr1, amount);
     assert balanceOf(addr2) == before;
 }
+
 
 /*
 ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
@@ -289,6 +313,7 @@ rule burnIntegrity(env e) {
     // run transaction
     burn(e, from, amount);
     // check outcome
+    
     // assert contract owner was the one called
     assert e.msg.sender == contractOwner(), "Only contract owner can call burn.";
     // updates balance and totalSupply
@@ -304,13 +329,13 @@ rule burnRevertingConditions(env e) {
     bool notEnoughBalance = balanceOf(account) < amount;
     bool isExpectedToRevert = notEnoughBalance || payable || notOwner;
     burn@withrevert(e, account, amount);
+    
     // if(lastReverted) {
     //     assert isExpectedToRevert;
     // } 
     // else {
     //     assert !isExpectedToRevert;
-    // }
-    assert lastReverted <=> isExpectedToRevert;
+    // } assert lastReverted <=> isExpectedToRevert;
 }
 
 rule burnDoesNotAffectThirdParty(env e) {
@@ -322,6 +347,7 @@ rule burnDoesNotAffectThirdParty(env e) {
     burn(e, addr1, amount);
     assert balanceOf(addr2) == before;
 }
+
 
 /*
 ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
@@ -339,6 +365,7 @@ rule transferIntegrity(env e) {
     // run transaction
     transfer(e, recipient, amount);
     // check outcome
+    
     // balances of holder and recipient are updated
     assert balanceOf(holder) == holderBalanceBefore - (holder == recipient ? 0 : amount);
     assert balanceOf(recipient) == recipientBalanceBefore + (holder == recipient ? 0 : amount);
@@ -353,14 +380,11 @@ rule transferIsOneWayAdditive(env e) {
     mathint sum_amount = amount_a + amount_b;
     require sum_amount < max_uint256;
     storage init = lastStorage;
-    // saves storage
-    transfer(e, recipient, assert_uint256(sum_amount));
+    // saves storage transfer(e, recipient, assert_uint256(sum_amount));
     storage after1 = lastStorage;
     transfer@withrevert(e, recipient, amount_a);
-    // restores storage
-    assert !lastReverted;
-    //if the transfer passed with sum, it should pass with both summands individually
-    transfer@withrevert(e, recipient, amount_b);
+    // restores storage assert !lastReverted;
+    //if the transfer passed with sum, it should pass with both summands individually transfer@withrevert(e, recipient, amount_b);
     assert !lastReverted;
     storage after2 = lastStorage;
     assert after1[currentContract] == after2[currentContract];
@@ -374,13 +398,13 @@ rule transferRevertingConditions(env e) {
     bool notEnoughBalance = balanceOf(e.msg.sender) < amount;
     bool isExpectedToRevert = payable || notEnoughBalance;
     transfer@withrevert(e, account, amount);
+    
     // if(lastReverted) {
     //     assert isExpectedToRevert;
     // } 
     // else {
     //     assert !isExpectedToRevert;
-    // }
-    assert lastReverted <=> isExpectedToRevert;
+    // } assert lastReverted <=> isExpectedToRevert;
 }
 
 rule transferDoesNotAffectThirdParty(env e) {
@@ -392,6 +416,7 @@ rule transferDoesNotAffectThirdParty(env e) {
     transfer(e, addr1, amount);
     assert balanceOf(addr2) == before;
 }
+
 
 /*
 ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
@@ -435,6 +460,7 @@ rule transferFromRevertingConditions(env e) {
     // } else {
     //     assert !(isExpectedToRevert);
     // }
+    
     assert lastReverted <=> isExpectedToRevert;
 }
 
@@ -466,18 +492,16 @@ rule transferFromIsOneWayAdditive(env e) {
     mathint sum_amount = amount_a + amount_b;
     require sum_amount < max_uint256;
     storage init = lastStorage;
-    // saves storage
-    transferFrom(e, owner, recipient, assert_uint256(sum_amount));
+    // saves storage transferFrom(e, owner, recipient, assert_uint256(sum_amount));
     storage after1 = lastStorage;
     transferFrom@withrevert(e, owner, recipient, amount_a);
-    // restores storage
-    assert !lastReverted;
-    //if the transfer passed with sum, it should pass with both summands individually
-    transferFrom@withrevert(e, owner, recipient, amount_b);
+    // restores storage assert !lastReverted;
+    //if the transfer passed with sum, it should pass with both summands individually transferFrom@withrevert(e, owner, recipient, amount_b);
     assert !lastReverted;
     storage after2 = lastStorage;
     assert after1[currentContract] == after2[currentContract];
 }
+
 
 /*
 ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
@@ -504,6 +528,7 @@ rule approveRevertingConditions(env e) {
     // } else {
     // 	assert !isExpectedToRevert;
     // }
+    
     assert lastReverted <=> isExpectedToRevert;
 }
 
@@ -519,6 +544,7 @@ rule approveDoesNotAffectThirdParty(env e) {
     uint256 thirdPartyAllowanceAfter = allowance(thirdParty, everyUser);
     assert thirdPartyAllowanceBefore == thirdPartyAllowanceBefore;
 }
+
 
 /*
 ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
@@ -540,6 +566,7 @@ rule permitIntegrity(env e) {
     // run transaction
     permit(e, holder, spender, amount, deadline, v, r, s);
     // check outcome
+    
     // allowance and nonce are updated
     assert allowance(holder, spender) == amount;
     assert nonces(holder) == nonceBefore + 1;
@@ -577,7 +604,7 @@ rule permitDoesNotAffectThirdParty(env e) {
     assert thirdPartyAllowanceBefore == thirdPartyAllowanceBefore;
 }
 
-rule permitDenialOfService {
+rule permitDenialOfService() {
     env e1;
     env e2;
     address clientHolder;
@@ -597,14 +624,12 @@ rule permitDenialOfService {
     require e1.msg.sender != e2.msg.sender;
     storage init = lastStorage;
     permit(e1, clientHolder, clientSpender, clientAmount, clientDeadline, clientV, clientR, clientS);
-    // if pass not reverted
-    permit(e2, attackerHolder, attackerSpender, attackerAmount, attackerDeadline, attackerV, attackerR, attackerS);
-    // attacker attack
-    permit(e1, clientHolder, clientSpender, clientAmount, clientDeadline, clientV, clientR, clientS);
+    // if pass not reverted permit(e2, attackerHolder, attackerSpender, attackerAmount, attackerDeadline, attackerV, attackerR, attackerS);
+    // attacker attack permit(e1, clientHolder, clientSpender, clientAmount, clientDeadline, clientV, clientR, clientS);
     satisfy true;
 }
 
-rule permitFrontRun {
+rule permitFrontRun() {
     env e1;
     env e2;
     address clientHolder;
@@ -624,9 +649,7 @@ rule permitFrontRun {
     require e1.msg.sender != e2.msg.sender;
     storage init = lastStorage;
     permit(e1, clientHolder, clientSpender, clientAmount, clientDeadline, clientV, clientR, clientS);
-    // if pass not reverted
-    permit(e2, attackerHolder, attackerSpender, attackerAmount, attackerDeadline, attackerV, attackerR, attackerS);
-    // attacker attack
-    permit@withrevert(e1, clientHolder, clientSpender, clientAmount, clientDeadline, clientV, clientR, clientS);
+    // if pass not reverted permit(e2, attackerHolder, attackerSpender, attackerAmount, attackerDeadline, attackerV, attackerR, attackerS);
+    // attacker attack permit@withrevert(e1, clientHolder, clientSpender, clientAmount, clientDeadline, clientV, clientR, clientS);
     assert !lastReverted, "Cannot sign permit with same signature";
 }

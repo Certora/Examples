@@ -38,7 +38,7 @@ rule checkStructField(uint256 _x, bool _b, CalledLibrary.E _loc) {
     assert newStruct.x % 2 == 0, "Summary for struct return type function is not applied";
 }
 
-rule checkArray {
+rule checkArray() {
     uint256 min;
     uint256 max;
     require max > min;

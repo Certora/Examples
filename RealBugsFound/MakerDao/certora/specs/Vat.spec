@@ -1,4 +1,5 @@
 // Vat.spec
+
 methods {
     function debt() external returns (uint256) envfree;
     function vice() external returns (uint256) envfree;
@@ -6,19 +7,18 @@ methods {
 
 // sumOfVaultDebtGhost gives the current sum over all debt assigned to a vault.
 ghost sumOfVaultDebtGhost() returns uint256 {
-    axiom sumOfVaultDebtGhost() == 0;
+    // Here we state that the sum is 0 before contructor.
+    init_state axiom sumOfVaultDebtGhost() == 0;
 }
 
-// Here we state that the sum is 0 before contructor.
-
 // tracking the rate.
-ghost mapping (bytes32 => uint256) rateGhost {
-    axiom forall bytes32 ilk. rateGhost[ilk] == 0;
+ghost mapping(bytes32 => uint256) rateGhost {
+    init_state axiom forall bytes32 ilk. rateGhost[ilk] == 0;
 }
 
 // Tracking the sum over “normalized” debt for a given collateral type (“ilk”).
-ghost mapping (bytes32 => uint256) ArtGhost {
-    axiom forall bytes32 ilk. ArtGhost[ilk] == 0;
+ghost mapping(bytes32 => uint256) ArtGhost {
+    init_state axiom forall bytes32 ilk. ArtGhost[ilk] == 0;
 }
 
 hook Sload uint256 v currentContract.ilks[KEY bytes32 ilk].(offset 0) {
@@ -46,4 +46,6 @@ hook Sstore currentContract.ilks[KEY bytes32 ilk].(offset 32) uint256 newRate (u
 // This invariant states that these two sources of debt, when added, should equal the sum of all DAI balances. 
 // vice is the total bad debt.
 // debt is the sum over all DAI balances.
-invariant fundamental_equation_of_dai() debt() == vice() + sumOfVaultDebtGhost() filtered {f -> !f.isFallback} ;
+invariant fundamental_equation_of_dai()
+    debt() == vice() + sumOfVaultDebtGhost()
+    filtered { f -> !f.isFallback } ;

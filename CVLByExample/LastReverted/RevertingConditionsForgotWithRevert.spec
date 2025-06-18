@@ -4,7 +4,7 @@ methods {
     function approve(address, uint256) external returns (bool);
 }
 
-rule transferRevertingConditions {
+rule transferRevertingConditions() {
     env e;
     address recipient;
     uint256 amount;
@@ -14,7 +14,7 @@ rule transferRevertingConditions {
     assert to_mathint(balanceOf(e.msg.sender)) > balanceBefore - amount => lastReverted;
 }
 
-rule approveRevertingConditions {
+rule approveRevertingConditions() {
     env e;
     address spender;
     uint256 amount;

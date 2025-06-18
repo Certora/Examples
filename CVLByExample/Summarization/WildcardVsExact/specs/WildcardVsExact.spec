@@ -6,10 +6,10 @@ methods {
     function B.toBeSummarized() external returns (uint256) => ALWAYS(7) ALL;
 }
 
-rule isFive {
+rule isFive() {
     assert callAFunc() == 5;
 }
 
-rule isSeven {
+rule isSeven() {
     assert callAFunc() == 7;
 }

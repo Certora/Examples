@@ -9,6 +9,7 @@
 // * `e.msg.sender` in the `sender` ghost.
 // the rules then check that all ghosts are updated correctly.
 // All assertions should pass.
+
 using Primary as primary;
 using Secondary as secondary;
 using Tertiary as tertiary;

@@ -4,11 +4,10 @@ methods {
 
 // A precise summarization of sqrt
 ghost floorSqrt(uint256) returns uint256 {
-    axiom forall uint256 x. floorSqrt(x) * floorSqrt(x) <= to_mathint(x) && (floorSqrt(x) + 1) * (floorSqrt(x) + 1) > to_mathint(x);
+    // sqrt(x)^2 <= x
+    axiom forall uint256 x. floorSqrt(x) * floorSqrt(x) <= to_mathint(x) && // sqrt(x+1)^2 > x 
+    (floorSqrt(x) + 1) * (floorSqrt(x) + 1) > to_mathint(x);
 }
-
-// sqrt(x)^2 <= x
-// sqrt(x+1)^2 > x 
 
 rule addLiquidityMonotonicity(uint256 amount0, uint256 amount1, uint256 amount2, uint256 amount3) {
     env e;
