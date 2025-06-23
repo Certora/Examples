@@ -1,6 +1,8 @@
 error dummy file:14:1: Illegal character: ​
 error dummy file:18:1: Illegal character: ​
 error dummy file:23:1: Illegal character: ​
+
+
 // ALWAYS vs. CONSTANT:
 
 methods {
@@ -11,8 +13,8 @@ methods {
 }
 
 rule constantVsAlways() {
-    assert getFromG2() == getFromG1(), "getFromG1() != getFromG2()";
-    // Should be viola}
+    assert getFromG2() == getFromG1(), "getFromG1() != getFromG2()"; // Should be violated
+}
 
 rule constantCanbeAnyValue() {
     satisfy getFromG2() == getFromG1();

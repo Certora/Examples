@@ -36,7 +36,7 @@ hook Sstore currentContract.set._inner._values.length uint256 newLength {
 }
 
 // Store hook to synchronize ghostValues array with set._inner._values.
-hook Sstore currentContract.set._inner._values.[INDEX uint256 index] bytes32 newValue {
+hook Sstore currentContract.set._inner._values[INDEX uint256 index] bytes32 newValue {
     ghostValues[index] = newValue;
 }
 
@@ -58,7 +58,7 @@ hook Sload uint256 length currentContract.set._inner._values.length {
     require ghostLength == length;
 }
 
-hook Sload bytes32 value currentContract.set._inner._values.[INDEX uint256 index] {
+hook Sload bytes32 value currentContract.set._inner._values[INDEX uint256 index] {
     require ghostValues[index] == value;
 }
 
@@ -73,7 +73,7 @@ hook Sload uint256 index currentContract.set._inner._indexes[KEY bytes32 value] 
 //    and indexes[values[i]] = i+1 for all valid indexes i.
 
 invariant setInvariant()
-    (forall uint256 index. 0 <= index && index < ghostLength => to_mathint(ghostIndexes[ghostValues[index]]) == index + 1) && (forall bytes32 value. ghostIndexes[value] == 0 || (ghostValues[ghostIndexes[value] - 1] == value && ghostIndexes[value] >= 1 && ghostIndexes[value] <= ghostLength)) ;
+    (forall uint256 index. 0 <= index && index < ghostLength => to_mathint(ghostIndexes[ghostValues[index]]) == index + 1) && (forall bytes32 value. ghostIndexes[value] == 0 || (ghostValues[ghostIndexes[value] - 1] == value && ghostIndexes[value] >= 1 && ghostIndexes[value] <= ghostLength));
 
 // DEFINITION
 

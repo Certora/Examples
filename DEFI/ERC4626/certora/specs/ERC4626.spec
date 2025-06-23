@@ -10,7 +10,6 @@
 using DummyERC20A as ERC20a;
 using DummyERC20B as ERC20b;
 
-
 /*
     Declaration of methods that are used in the rules. envfree indicate that
     the method is not dependent on the environment (msg.value, msg.sender).
@@ -43,6 +42,7 @@ methods {
     function maxRedeem(address) external returns (uint256) envfree;
     function permit(address, address, uint256, uint256, uint8, bytes32, bytes32) external;
     function DOMAIN_SEPARATOR() external returns (bytes32);
+    
     //// #ERC20 methods
     function _.balanceOf(address) external => DISPATCHER(true);
     function _.transfer(address, uint256) external => DISPATCHER(true);
@@ -61,16 +61,32 @@ persistent ghost bool callMade;
 
 persistent ghost bool delegatecallMade;
 
-hook CALL uint g, address addr, uint value, uint argsOffset, uint argsLength, uint retOffset, uint retLength uint rc {
+hook CALL(
+    uint g,
+    address addr,
+    uint value,
+    uint argsOffset,
+    uint argsLength,
+    uint retOffset,
+    uint retLength,
+    uint rc
+) {
     if (addr != currentContract.asset) {
         callMade = true;
     }
 }
 
-hook DELEGATECALL uint g, address addr, uint argsOffset, uint argsLength, uint retOffset, uint retLength uint rc {
+hook DELEGATECALL(
+    uint g,
+    address addr,
+    uint argsOffset,
+    uint argsLength,
+    uint retOffset,
+    uint retLength,
+    uint rc
+) {
     delegatecallMade = true;
 }
-
 
 /*
 This rule proves there are no instances in the code in which the user can act as the contract.
@@ -144,7 +160,7 @@ rule depositMonotonicity() {
     safeAssumptions(e, e.msg.sender, receiver);
     deposit(e, smallerAssets, receiver);
     uint256 smallerShares = balanceOf(receiver);
-    deposit(e, largerAssets, receiver);
+    deposit(e, largerAssets, receiver) at start;
     uint256 largerShares = balanceOf(receiver);
     assert smallerAssets < largerAssets => smallerShares <= largerShares, "when supply tokens outnumber asset tokens, a larger deposit of assets must produce an equal or greater number of shares";
 }
@@ -161,7 +177,7 @@ rule zeroDepositZeroShares(uint assets, address receiver) {
 
 invariant assetsMoreThanSupply()
     totalAssets() >= totalSupply() {
-        preserved with(env e) {
+        preserved with (env e) {
             require e.msg.sender != currentContract;
             address any;
             safeAssumptions(e, any, e.msg.sender);
@@ -170,18 +186,19 @@ invariant assetsMoreThanSupply()
 
 invariant noAssetsIfNoSupply()
     (userAssets(currentContract) == 0 => totalSupply() == 0) && (totalAssets() == 0 => (totalSupply() == 0)) {
-        preserved with(env e) {
+        preserved with (env e) {
             address any;
             safeAssumptions(e, any, e.msg.sender);
         }
     }
 
+// see defition in "helpers and miscellaneous" section
 invariant noSupplyIfNoAssets()
     noSupplyIfNoAssetsDef() {
-        preserved with(env e) {
+        preserved with (env e) {
             safeAssumptions(e, _, e.msg.sender);
         }
-    } // see defition in "helpers and miscellaneous" section 
+    }
 
 ghost mathint sumOfBalances {
     init_state axiom sumOfBalances == 0;
@@ -196,7 +213,7 @@ hook Sload uint256 val balanceOf[KEY address addy] {
 }
 
 invariant totalSupplyIsSumOfBalances()
-    totalSupply() == sumOfBalances ;
+    totalSupply() == sumOfBalances;
 
 ////////////////////////////////////////////////////////////////////////////////
 ////                    #     State Transition                             /////
@@ -214,6 +231,7 @@ rule totalsMonotonicity() {
     callReceiverFunctions(f, e, receiver);
     uint256 totalSupplyAfter = totalSupply();
     uint256 totalAssetsAfter = totalAssets();
+    
     // possibly assert totalSupply and totalAssets must not change in opposite directions
     assert totalSupplyBefore < totalSupplyAfter <=> totalAssetsBefore < totalAssetsAfter, "if totalSupply changes by a larger amount, the corresponding change in totalAssets must remain the same or grow";
     assert totalSupplyAfter == totalSupplyBefore => totalAssetsBefore == totalAssetsAfter, "equal size changes to totalSupply must yield equal size changes to totalAssets";
@@ -231,7 +249,7 @@ rule underlyingCannotChange() {
 
 ////////////////////////////////////////////////////////////////////////////////
 ////                    #   High Level                                    /////
-//////////////////////////////////////////////////////////////////////////////// 
+////////////////////////////////////////////////////////////////////////////////
 
 rule dustFavorsTheHouse(uint assetsIn) {
     env e;
@@ -247,11 +265,11 @@ rule dustFavorsTheHouse(uint assetsIn) {
 
 ////////////////////////////////////////////////////////////////////////////////
 ////                       #   Risk Analysis                           /////////
-//////////////////////////////////////////////////////////////////////////////// 
+////////////////////////////////////////////////////////////////////////////////
 
 invariant vaultSolvency()
     totalAssets() >= totalSupply() && userAssets(currentContract) >= totalAssets() {
-        preserved with(env e) {
+        preserved with (env e) {
             requireInvariant zeroAllowanceOnAssets(e.msg.sender);
             requireInvariant totalSupplyIsSumOfBalances();
             require e.msg.sender != currentContract;
@@ -272,7 +290,7 @@ rule redeemingAllValidity() {
 
 invariant zeroAllowanceOnAssets(address user)
     ERC20a.allowance(currentContract, user) == 0 && ERC20b.allowance(currentContract, user) == 0 {
-        preserved with(env e) {
+        preserved with (env e) {
             require e.msg.sender != currentContract;
         }
     }
@@ -290,9 +308,10 @@ filtered { f -> f.selector == sig:deposit(uint256, address).selector || f.select
     require contributor == e.msg.sender;
     address receiver;
     require currentContract != contributor && currentContract != receiver;
-    require previewDeposit(assets) + balanceOf(receiver) <= max_uint256;
-    // safe assumption because call to _mint will revert if totalSupply += amount overflows require shares + balanceOf(receiver) <= max_uint256;
-    // same as above safeAssumptions(e, contributor, receiver);
+    require previewDeposit(assets) + balanceOf(receiver) <= max_uint256; // safe assumption because call to _mint will revert if totalSupply += amount overflows
+    require shares + balanceOf(receiver) <= max_uint256; // same as above
+    
+    safeAssumptions(e, contributor, receiver);
     uint256 contributorAssetsBefore = userAssets(contributor);
     uint256 receiverSharesBefore = balanceOf(receiver);
     callContributionMethods(e, f, assets, shares, receiver);
@@ -337,15 +356,15 @@ filtered { f -> f.selector == sig:withdraw(uint256, address, address).selector |
 definition noSupplyIfNoAssetsDef() returns bool = (userAssets(currentContract) == 0 => totalSupply() == 0) && (totalAssets() == 0 <=> (totalSupply() == 0));
 
 function safeAssumptions(env e, address receiver, address owner) {
-    require currentContract != asset();
-    // Although this is not disallowed, we assume the contract's underlying asset is not the contract itself requireInvariant totalSupplyIsSumOfBalances();
+    require currentContract != asset(); // Although this is not disallowed, we assume the contract's underlying asset is not the contract itself
+    requireInvariant totalSupplyIsSumOfBalances();
     requireInvariant vaultSolvency();
     requireInvariant noAssetsIfNoSupply();
     requireInvariant noSupplyIfNoAssets();
     requireInvariant assetsMoreThanSupply();
-    require e.msg.sender != currentContract;
-    // This is proved by rule noDynamicCalls requireInvariant zeroAllowanceOnAssets(e.msg.sender);
-    require ((receiver != owner => balanceOf(owner) + balanceOf(receiver) <= totalSupply()) && balanceOf(receiver) <= totalSupply() && balanceOf(owner) <= totalSupply());
+    require e.msg.sender != currentContract; // This is proved by rule noDynamicCalls
+    requireInvariant zeroAllowanceOnAssets(e.msg.sender);
+    require((receiver != owner => balanceOf(owner) + balanceOf(receiver) <= totalSupply()) && balanceOf(receiver) <= totalSupply() && balanceOf(owner) <= totalSupply());
 }
 
 // A helper function to set the receiver 
@@ -365,10 +384,15 @@ function callReceiverFunctions(method f, env e, address receiver) {
         calldataarg args;
         f(e, args);
     }
-    
 }
 
-function callContributionMethods(env e, method f, uint256 assets, uint256 shares, address receiver) {
+function callContributionMethods(
+    env e,
+    method f,
+    uint256 assets,
+    uint256 shares,
+    address receiver
+) {
     if (f.selector == sig:deposit(uint256, address).selector) {
         deposit(e, assets, receiver);
     }
@@ -377,7 +401,14 @@ function callContributionMethods(env e, method f, uint256 assets, uint256 shares
     }
 }
 
-function callReclaimingMethods(env e, method f, uint256 assets, uint256 shares, address receiver, address owner) {
+function callReclaimingMethods(
+    env e,
+    method f,
+    uint256 assets,
+    uint256 shares,
+    address receiver,
+    address owner
+) {
     if (f.selector == sig:withdraw(uint256, address, address).selector) {
         withdraw(e, assets, receiver, owner);
     }
@@ -386,7 +417,14 @@ function callReclaimingMethods(env e, method f, uint256 assets, uint256 shares, 
     }
 }
 
-function callFunctionsWithReceiverAndOwner(env e, method f, uint256 assets, uint256 shares, address receiver, address owner) {
+function callFunctionsWithReceiverAndOwner(
+    env e,
+    method f,
+    uint256 assets,
+    uint256 shares,
+    address receiver,
+    address owner
+) {
     if (f.selector == sig:withdraw(uint256, address, address).selector) {
         withdraw(e, assets, receiver, owner);
     } else if (f.selector == sig:redeem(uint256, address, address).selector) {
@@ -401,5 +439,4 @@ function callFunctionsWithReceiverAndOwner(env e, method f, uint256 assets, uint
         calldataarg args;
         f(e, args);
     }
-    
 }

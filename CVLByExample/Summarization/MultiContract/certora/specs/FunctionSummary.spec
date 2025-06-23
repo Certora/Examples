@@ -5,6 +5,7 @@ using Impl1 as impl1;
 using Impl2 as impl2;
 
 methods {
+    
     // A wildcard method entry may not specify return types in the method signature.
     // The summarized functions belong to other contracts and therefore defined as `external`.
     // Functions of other contracts

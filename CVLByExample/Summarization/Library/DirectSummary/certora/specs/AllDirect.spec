@@ -3,6 +3,7 @@
  */
 
 methods {
+    
     // functions declared in TestLibrary
     function TestLibrary.calleeInternal() internal returns (bool) => ALWAYS(true);
     function _.calleeExternal() external => ALWAYS(true) ALL;

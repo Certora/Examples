@@ -7,6 +7,7 @@ methods {
 
 // sumOfVaultDebtGhost gives the current sum over all debt assigned to a vault.
 ghost sumOfVaultDebtGhost() returns uint256 {
+    
     // Here we state that the sum is 0 before contructor.
     init_state axiom sumOfVaultDebtGhost() == 0;
 }
@@ -48,4 +49,4 @@ hook Sstore currentContract.ilks[KEY bytes32 ilk].(offset 32) uint256 newRate (u
 // debt is the sum over all DAI balances.
 invariant fundamental_equation_of_dai()
     debt() == vice() + sumOfVaultDebtGhost()
-    filtered { f -> !f.isFallback } ;
+    filtered { f -> !f.isFallback };

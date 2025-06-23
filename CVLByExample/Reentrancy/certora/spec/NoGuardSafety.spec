@@ -10,12 +10,21 @@ persistent ghost bool storage_access_before_call;
 persistent ghost bool storage_access_after_call;
 
 // We are hooking here on "CALL" opcodes in order to capture if there was a storage access before or/and after a call
-hook CALL uint g, address addr, uint value, uint argsOffset, uint argsLength, uint retOffset, uint retLength uint rc {
+hook CALL(
+    uint g,
+    address addr,
+    uint value,
+    uint argsOffset,
+    uint argsLength,
+    uint retOffset,
+    uint retLength,
+    uint rc
+) {
     called_extcall = true;
 }
 
 // For every store set storage_access_before_call or storage_access_after_call according to the call state
-hook ALL_SSTORE uint loc, uint v {
+hook ALL_SSTORE(uint loc, uint v) {
     if (!called_extcall) {
         storage_access_before_call = true;
     } else {
@@ -24,7 +33,7 @@ hook ALL_SSTORE uint loc, uint v {
 }
 
 // For every load set storage_access_before_call or storage_access_after_call according to the call state
-hook ALL_SLOAD uint loc uint v {
+hook ALL_SLOAD(uint loc, uint v) {
     if (!called_extcall) {
         storage_access_before_call = true;
     } else {
@@ -34,6 +43,7 @@ hook ALL_SLOAD uint loc uint v {
 
 // Check that after calling a function we are either before or after the `call`
 rule reentrancySafety(method f) {
+    
     // start with all flags false 
     require !called_extcall && !storage_access_before_call && !storage_access_after_call;
     calldataarg args;

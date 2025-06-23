@@ -3,6 +3,7 @@
 */
 
 methods {
+    
     // Summarization by a CVL function. The result is non-deterministic because the CVL function is not deterministic.
     function reduceBalance(uint256 amount) internal returns (uint256) with(env e) => cvlReduceBalance(e, amount);
 }
@@ -10,8 +11,8 @@ methods {
 // CVL function used for summarization. 
 function cvlReduceBalance(env e, uint256 amount) returns uint256 {
     uint256 poolBalance = getBalance(e, currentContract);
-    require (poolBalance != 0);
-    require (amount != 0);
+    require(poolBalance != 0);
+    require(amount != 0);
     uint256 amountOut = decr(e);
     return amountOut;
 }

@@ -5,7 +5,6 @@ methods {
     function getXB() external returns (uint256) envfree;
 }
 
-
 /**
  * Check that changing x in CalleeA does not affect x of CalleeB.
  */

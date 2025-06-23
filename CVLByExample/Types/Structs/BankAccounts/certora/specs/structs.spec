@@ -11,9 +11,10 @@
  * 6. struct as a parameter of preserved function.
  */
 
-using Bank as bank; // bank is the same as currentContract. 
+using Bank as bank; // bank is the same as currentContract.
 
 methods {
+    
     /// Definition of a user-defined solidity method returning a struct
     function getCustomer(address a) external returns (BankAccountRecord.Customer) envfree;
     /// Definition of a function with struct as an argument 
@@ -25,7 +26,6 @@ methods {
     function isCustomer(address) external returns (bool) envfree;
 }
 
-
 /** 
  Comparison of full structs is not supported. Each field should be compared instead.
  Here only the id field is compared because arrays (accounts field) cannot be compared.
@@ -35,7 +35,6 @@ function integrityOfCustomerInsertion(BankAccountRecord.Customer c1) returns boo
     BankAccountRecord.Customer c = getCustomer(c1.id);
     return (c.id == c1.id);
 }
-
 
 /**
  Calling a solidity method returning a struct.
@@ -54,7 +53,6 @@ function getAccountNumberAndBalance(address a, uint256 accountInd) returns (uint
     BankAccountRecord.BankAccount account = getAccount(e.msg.sender, accountInd);
     return (account.accountNumber, account.accountBalance);
 }
-
 
 /**
  You can define rule parameters of a user defined type.
@@ -112,6 +110,7 @@ persistent ghost mapping(address => mapping(uint256 => uint256)) accountBalanceM
 
 /// Number of accounts per user 
 ghost mapping(address => uint256) numOfAccounts {
+    
     // assumption: it's infeasible to grow the list to these many elements.
     axiom forall address a. numOfAccounts[a] < max_uint256;
     init_state axiom forall address a. numOfAccounts[a] == 0;
@@ -120,17 +119,15 @@ ghost mapping(address => uint256) numOfAccounts {
 /// Store hook to synchronize numOfAccounts with the length of the customers[KEY address a].accounts array.
 hook Sstore _customers[KEY address user].accounts.length uint256 newLength {
     if (newLength > numOfAccounts[user]) require accountBalanceMirror[user][require_uint256(newLength - 1)] == 0;
-    
     numOfAccounts[user] = newLength;
 }
-
 
 /**
  An internal step check to verify that our ghost works as expected, it should mirror the number of accounts.
  Once the sload is defined, this invariant becomes a tautology  
  */
 invariant checkNumOfAccounts(address user)
-    numOfAccounts[user] == bank.getNumberOfAccounts(user) ;
+    numOfAccounts[user] == bank.getNumberOfAccounts(user);
 
 /// This Sload is required in order to eliminate adding unintializaed account balance to sumBalances.
 hook Sload uint256 length _customers[KEY address user].accounts.length {
@@ -138,14 +135,15 @@ hook Sload uint256 length _customers[KEY address user].accounts.length {
 }
 
 /// hook on a complex data structure, a mapping to a struct with a dynamic array
-hook Sstore _customers[KEY address a].accounts.[INDEX uint256 i].accountBalance uint256 new_value (uint old_value) {
-    require old_value == accountBalanceMirror[a][i];
-    // Need this inorder to sync on insert of new element   sumBalances = sumBalances + new_value - old_value;
+hook Sstore _customers[KEY address a].accounts[INDEX uint256 i].accountBalance uint256 new_value (uint old_value) {
+    require old_value == accountBalanceMirror[a][i]; // Need this inorder to sync on insert of new element  
+    sumBalances = sumBalances + new_value - old_value;
     accountBalanceMirror[a][i] = new_value;
 }
 
 /// Sload on a struct field.
-hook Sload uint256 value _customers[KEY address a].accounts.[INDEX uint256 i].accountBalance {
+hook Sload uint256 value _customers[KEY address a].accounts[INDEX uint256 i].accountBalance {
+    
     // when balance load, safely assume it is less than the sum of all values
     require value <= sumBalances;
     require i <= numOfAccounts[a] - 1;
@@ -153,7 +151,7 @@ hook Sload uint256 value _customers[KEY address a].accounts.[INDEX uint256 i].ac
 
 /// Non-customers have no account.
 invariant emptyAccount(address user)
-    !isCustomer(user) => (getNumberOfAccounts(user) == 0 && (forall uint256 i. accountBalanceMirror[user][i] == 0)) ;
+    !isCustomer(user) => (getNumberOfAccounts(user) == 0 && (forall uint256 i. accountBalanceMirror[user][i] == 0));
 
 /// struct as a parameter of preserved function.
 invariant totalSupplyEqSumBalances()
@@ -166,8 +164,9 @@ invariant totalSupplyEqSumBalances()
 /// Comparing nativeBalances of current contract.
 invariant solvency()
     totalSupply() <= nativeBalances[currentContract] {
+        
         // safely assume that Bank doesn't call itself
-        preserved with(env e) {
+        preserved with (env e) {
             require e.msg.sender != currentContract;
         }
     }

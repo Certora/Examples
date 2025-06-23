@@ -42,6 +42,7 @@ hook Sstore currentContract.list.elements[KEY bytes32 key].nextKey bytes32 newNe
     bytes32 otherKey;
     require reachSuccInvariant(otherKey);
     assert !reach(newNextKey, key), "Setting next introduces cycle";
+    
     // update ghost successor
     ghostSucc[key] = newNextKey;
     // update ghost reachability
@@ -107,6 +108,7 @@ rule checkInsertHead() {
     bytes32 headKey = head();
     requireInvariant inListIffValid();
     requireInvariant reach_invariant();
+    
     // inserts at head
     require afterKey == to_bytes32(0);
     insertAfter(key, afterKey);

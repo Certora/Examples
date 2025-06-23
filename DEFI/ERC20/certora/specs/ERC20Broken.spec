@@ -70,9 +70,10 @@ rule onlyHolderCanChangeAllowance() {
     mathint allowance_before = allowance(holder, spender);
     method f;
     env e;
-    calldataarg args;
-    // was: env e; uint256 amount; f(e, args);
-    // was: approve(e, spender, amount); mathint allowance_after = allowance(holder, spender);
+    calldataarg args; // was: env e; uint256 amount;
+    f(e, args); // was: approve(e, spender, amount);
+    
+    mathint allowance_after = allowance(holder, spender);
     assert allowance_after > allowance_before => e.msg.sender == holder, "approve must only change the sender's allowance";
     assert allowance_after > allowance_before => (f.selector == sig:approve(address, uint).selector || f.selector == sig:increaseAllowance(address, uint).selector), "only approve and increaseAllowance can increase allowances";
 }
@@ -96,6 +97,7 @@ ghost mathint sum_of_balances {
 }
 
 hook Sstore _balances[KEY address a] uint new_value (uint old_value) {
+    
     // when balance changes, update ghost
     sum_of_balances = sum_of_balances + new_value - old_value;
 }
@@ -105,7 +107,7 @@ hook Sstore _balances[KEY address a] uint new_value (uint old_value) {
 /// @dev This rule is unsound!
 invariant balancesBoundedByTotalSupply(address alice, address bob)
     balanceOf(alice) + balanceOf(bob) <= totalSupply() {
-        preserved transfer(address recip, uint256 amount) with(env e) {
+        preserved transfer(address recip, uint256 amount) with (env e) {
             require recip == alice || recip == bob;
             require e.msg.sender == alice || e.msg.sender == bob;
         }
@@ -115,10 +117,9 @@ invariant balancesBoundedByTotalSupply(address alice, address bob)
         }
     }
 
-
 /** `totalSupply()` returns the sum of `balanceOf(u)` over all users `u`. */
 invariant totalSupplyIsSumOfBalances()
-    totalSupply() == sum_of_balances ;
+    totalSupply() == sum_of_balances;
 
 // Safe casting examples
 // addAmount() uses `unchecked` therefore is not checking for overflow. 
@@ -131,7 +132,7 @@ rule requireHidesOverflow() {
     addAmount(e, amount1);
     addAmount(e, amount2);
     storage afterTwoSteps = lastStorage;
-    addAmount(e, require_uint256(amount1 + amount2));
+    addAmount(e, require_uint256(amount1 + amount2)) at initial;
     storage afterOneStep = lastStorage;
     assert afterOneStep == afterTwoSteps;
 }

@@ -2,11 +2,12 @@ using IntGetterImpl as impl1;
 using AnotherIntGetterImpl as impl2;
 
 methods {
-    function _.noSuchFun() external => DISPATCHER(use_fallback);
+    function _.noSuchFun() external => DISPATCHER(optimistic=false, use_fallback=true);
 }
 
 rule fallback_should_be_reached_with_flag() {
     env e;
+    
     // Instead of linking `CallsExternalContract:a=IntGetterImpl` which would make the callee resolved which would skip the DISPATCHER summary,
     // do this `require` to force at runtime the callee to always be `IntGetterImpl`.
     require currentContract.a == impl1;

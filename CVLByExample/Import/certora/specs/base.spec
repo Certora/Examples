@@ -7,8 +7,8 @@ methods {
 invariant invInBase()
     someUInt() >= 7 {
         preserved {
-            require (someUInt() < 30);
-            // @notice Explicit preserved bl}
+            require(someUInt() < 30); // @notice Explicit preserved block
+        }
     }
 
 /// @notice A rule to be used in the importing contract `Sub` as is.

@@ -27,21 +27,34 @@ Example for ecrecover
 **/
 
 methods {
-    function isSigned(address _addr, bytes32 msgHash, uint8 v, bytes32 r, bytes32 s) external returns (bool) envfree;
-    function executeMyFunctionFromSignature(uint8 v, bytes32 r, bytes32 s, address owner, uint256 myParam, uint256 deadline) external;
+    function isSigned(
+        address _addr,
+        bytes32 msgHash,
+        uint8 v,
+        bytes32 r,
+        bytes32 s
+    ) external returns (bool) envfree;
+    function executeMyFunctionFromSignature(
+        uint8 v,
+        bytes32 r,
+        bytes32 s,
+        address owner,
+        uint256 myParam,
+        uint256 deadline
+    ) external;
     function getHash(address owner, uint256 myParam, uint256 deadline) external returns (bytes32) envfree;
 }
 
 function ecrecoverAxioms() {
+    
     // zero value:
-    require (forall uint8 v. forall bytes32 r. forall bytes32 s. ecrecover(to_bytes32(0), v, r, s) == 0);
+    require(forall uint8 v. forall bytes32 r. forall bytes32 s. ecrecover(to_bytes32(0), v, r, s) == 0);
     // uniqueness of signature
-    require (forall uint8 v. forall bytes32 r. forall bytes32 s. forall bytes32 h1. forall bytes32 h2. h1 != h2 => ecrecover(h1, v, r, s) != 0 => ecrecover(h2, v, r, s) == 0);
+    require(forall uint8 v. forall bytes32 r. forall bytes32 s. forall bytes32 h1. forall bytes32 h2. h1 != h2 => ecrecover(h1, v, r, s) != 0 => ecrecover(h2, v, r, s) == 0);
     // dependency on r and s
-    require (forall bytes32 h. forall uint8 v. forall bytes32 s. forall bytes32 r1. forall bytes32 r2. r1 != r2 => ecrecover(h, v, r1, s) != 0 => ecrecover(h, v, r2, s) == 0);
-    require (forall bytes32 h. forall uint8 v. forall bytes32 r. forall bytes32 s1. forall bytes32 s2. s1 != s2 => ecrecover(h, v, r, s1) != 0 => ecrecover(h, v, r, s2) == 0);
+    require(forall bytes32 h. forall uint8 v. forall bytes32 s. forall bytes32 r1. forall bytes32 r2. r1 != r2 => ecrecover(h, v, r1, s) != 0 => ecrecover(h, v, r2, s) == 0);
+    require(forall bytes32 h. forall uint8 v. forall bytes32 r. forall bytes32 s1. forall bytes32 s2. s1 != s2 => ecrecover(h, v, r, s1) != 0 => ecrecover(h, v, r, s2) == 0);
 }
-
 
 /*
     shows that ecrecover has a single value, i.e two different addresses can not be the result of ecrecover(msgHash, v, r, s)  
@@ -75,8 +88,7 @@ rule uniqueness() {
     assert ecrecover(msgHashA, v, r, s) != 0 => ecrecover(msgHashB, v, r, s) == 0;
 }
 
-rule dependencyOnS() //!= ecrecover(msgHash, v, r, s1) ;
-{
+rule dependencyOnS() {
     ecrecoverAxioms();
     bytes32 msgHash;
     uint8 v;
@@ -85,6 +97,7 @@ rule dependencyOnS() //!= ecrecover(msgHash, v, r, s1) ;
     bytes32 s2;
     require s1 != s2;
     assert ecrecover(msgHash, v, r, s1) != 0 => ecrecover(msgHash, v, r, s2) == 0;
+    //!= ecrecover(msgHash, v, r, s1) ;
 }
 
 rule dependencyOnR() {
@@ -125,19 +138,33 @@ rule ownerSignatureIsUnique() {
     assert isSigned(addr, msgHashA, v, r, s) => !isSigned(addr, msgHashB, v, r, s);
 }
 
-rule hashIsUnique(address ownerA, uint256 myParamA, uint256 deadlineA, address ownerB, uint256 myParamB, uint256 deadlineB) {
+rule hashIsUnique(
+    address ownerA,
+    uint256 myParamA,
+    uint256 deadlineA,
+    address ownerB,
+    uint256 myParamB,
+    uint256 deadlineB
+) {
     bytes32 hashA = getHash(ownerA, myParamA, deadlineA);
     bytes32 hashB = getHash(ownerB, myParamB, deadlineB);
     assert hashA == hashB => (ownerA == ownerB && myParamA == myParamB && deadlineA == deadlineB);
 }
-
 
 /*** 
    # High level property : there is only single owner that can be used
     A rule which proves that for a given set of parameters only a single owner can execute .
     This property is implemented as a relational property - it compares two different executions on the same state.
 */
-rule onlySingleUserCanExecute(uint8 v, bytes32 r, bytes32 s, address alice, address bob, uint256 myParam, uint256 deadline) {
+rule onlySingleUserCanExecute(
+    uint8 v,
+    bytes32 r,
+    bytes32 s,
+    address alice,
+    address bob,
+    uint256 myParam,
+    uint256 deadline
+) {
     env e1;
     env e2;
     ecrecoverAxioms();
@@ -147,19 +174,25 @@ rule onlySingleUserCanExecute(uint8 v, bytes32 r, bytes32 s, address alice, addr
     address temp = ecrecover(getHash(bob, myParam, deadline), v, r, s);
     executeMyFunctionFromSignature(e1, v, r, s, alice, myParam, deadline);
     // compare another execution on the same state, look at reverting paths
-    executeMyFunctionFromSignature@withrevert(e2, v, r, s, bob, myParam, deadline);
+    executeMyFunctionFromSignature@withrevert(e2, v, r, s, bob, myParam, deadline) at init;
     bool success = !lastReverted;
     //if it succeeded it must be the same owner, or an unrealistic hash collision
     assert success => (alice == bob);
 }
-
 
 /*** 
    # High level property : Owner must be the signer of the hash
     A rule which proves that for a given set of parameters only a single owner can execute .
     This property is implemented as a relational property - it compares two different executions on the same state.
 */
-rule ownerIsSigner(uint8 v, bytes32 r, bytes32 s, address owner, uint256 myParam, uint256 deadline) {
+rule ownerIsSigner(
+    uint8 v,
+    bytes32 r,
+    bytes32 s,
+    address owner,
+    uint256 myParam,
+    uint256 deadline
+) {
     env e;
     ecrecoverAxioms();
     //execute and assume succeeded
@@ -168,12 +201,20 @@ rule ownerIsSigner(uint8 v, bytes32 r, bytes32 s, address owner, uint256 myParam
     assert owner == signer;
 }
 
-
 /*** 
    # High level property : params and deadline are signed 
 make sure the param and deadline are part of the signature 
 */
-rule signedParamAndDeadline(uint8 v, bytes32 r, bytes32 s, address owner, uint256 myParamA, uint256 deadlineA, uint256 myParamB, uint256 deadlineB) {
+rule signedParamAndDeadline(
+    uint8 v,
+    bytes32 r,
+    bytes32 s,
+    address owner,
+    uint256 myParamA,
+    uint256 deadlineA,
+    uint256 myParamB,
+    uint256 deadlineB
+) {
     env e1;
     env e2;
     ecrecoverAxioms();
@@ -182,12 +223,11 @@ rule signedParamAndDeadline(uint8 v, bytes32 r, bytes32 s, address owner, uint25
     //execute and assume succeeded
     executeMyFunctionFromSignature(e1, v, r, s, owner, myParamA, deadlineA);
     // compare another execution on the same state, look at reverting paths
-    executeMyFunctionFromSignature@withrevert(e2, v, r, s, owner, myParamB, deadlineB);
+    executeMyFunctionFromSignature@withrevert(e2, v, r, s, owner, myParamB, deadlineB) at init;
     bool success = !lastReverted;
     //if it succeeded it must be the same owner, or an unrealistic hash collision
     assert success => (myParamA == myParamB && deadlineA == deadlineB);
 }
-
 
 /***
  A signer can sign two different messages, in this case they have different signature 
@@ -208,11 +248,17 @@ rule twoDifferent() {
     assert ecrecover(msgHashA, vA, rA, sA) == ecrecover(msgHashB, vB, rB, sB) => (rA != rB || sA != sB || vA != vB);
 }
 
-
 /**
 Once a message is executed, it can not be executed again 
 **/
-rule signedMessagesExecutedOnce(uint8 v, bytes32 r, bytes32 s, address signer, uint256 myParam, uint256 deadline) {
+rule signedMessagesExecutedOnce(
+    uint8 v,
+    bytes32 r,
+    bytes32 s,
+    address signer,
+    uint256 myParam,
+    uint256 deadline
+) {
     env e1;
     env e2;
     ecrecoverAxioms();
@@ -231,9 +277,17 @@ rule checkHash(address bob, uint256 myParam, uint256 deadline) {
     assert getHash(bob, myParam, deadline) == getHash(bob, myParam, deadline);
 }
 
-rule CheckRevertCondition(uint8 v, bytes32 r, bytes32 s, address owner, uint256 myParam, uint256 deadline) {
+rule CheckRevertCondition(
+    uint8 v,
+    bytes32 r,
+    bytes32 s,
+    address owner,
+    uint256 myParam,
+    uint256 deadline
+) {
     env e;
     ecrecoverAxioms();
+    
     //execute and assume succeeded
     address signer = ecrecover(getHash(owner, myParam, deadline), v, r, s);
     bool msgValue = e.msg.value != 0;

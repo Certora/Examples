@@ -16,8 +16,8 @@ rule decreaseValueRevertingConditions() {
     uint256 amount;
     uint256 valueBefore = value();
     decreaseValue@withrevert(amount);
-    assert lastReverted <=> valueBefore - amount < 0;
-    // (valueBefore - amount) is a mathint and can be negati}
+    assert lastReverted <=> valueBefore - amount < 0; // (valueBefore - amount) is a mathint and can be negative.
+}
 
 rule divideValueRevertingConditions() {
     uint256 divideBy;

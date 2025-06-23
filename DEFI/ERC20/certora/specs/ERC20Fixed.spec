@@ -70,9 +70,10 @@ rule onlyHolderCanChangeAllowance() {
     mathint allowance_before = allowance(holder, spender);
     method f;
     env e;
-    calldataarg args;
-    // was: env e; uint256 amount; f(e, args);
-    // was: approve(e, spender, amount); mathint allowance_after = allowance(holder, spender);
+    calldataarg args; // was: env e; uint256 amount;
+    f(e, args); // was: approve(e, spender, amount);
+    
+    mathint allowance_after = allowance(holder, spender);
     assert allowance_after > allowance_before => e.msg.sender == holder, "approve must only change the sender's allowance";
     assert allowance_after > allowance_before => (f.selector == sig:approve(address, uint).selector || f.selector == sig:increaseAllowance(address, uint).selector), "only approve and increaseAllowance can increase allowances";
 }
@@ -84,6 +85,7 @@ persistent ghost mathint sum_of_balances {
 }
 
 hook Sstore _balances[KEY address a] uint new_value (uint old_value) {
+    
     // when balance changes, update ghost
     sum_of_balances = sum_of_balances + new_value - old_value;
 }
@@ -97,7 +99,7 @@ hook Sload uint256 balance _balances[KEY address a] {
 
 /** `totalSupply()` returns the sum of `balanceOf(u)` over all users `u`. */
 invariant totalSupplyIsSumOfBalances()
-    totalSupply() == sum_of_balances ;
+    totalSupply() == sum_of_balances;
 
 // satisfy examples
 // Generate an example trace for a first deposit operation that succeeds.

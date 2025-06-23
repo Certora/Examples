@@ -82,13 +82,18 @@ hook Sload uint256 value currentContract.dll.accounts[KEY address key].value {
 // INVARIANTS
 
 invariant nextPrevMatch()
+    
     // either list is empty, and both head and tail are 0,
+    
     // for all addresses:
+    
     // or both head and tail are set and their prev resp. next points to 0.
-    ((ghostHead == 0 && ghostTail == 0) || (ghostHead != 0 && ghostTail != 0 && ghostNext[ghostTail] == 0 && ghostPrev[ghostHead] == 0 && ghostValue[ghostHead] != 0 && ghostValue[ghostTail] != 0)) && (forall address a. // either the address is not part of the list and every field is 0.
+    ((ghostHead == 0 && ghostTail == 0) || (ghostHead != 0 && ghostTail != 0 && ghostNext[ghostTail] == 0 && ghostPrev[ghostHead] == 0 && ghostValue[ghostHead] != 0 && ghostValue[ghostTail] != 0)) && (forall address a.
     // or the address is part of the list, address is non-zero, value is non-zero,
     // and prev and next pointer are linked correctly.
-    (ghostNext[a] == 0 && ghostPrev[a] == 0 && ghostValue[a] == 0) || (a != 0 && ghostValue[a] != 0 && ((a == ghostHead && ghostPrev[a] == 0) || ghostNext[ghostPrev[a]] == a) && ((a == ghostTail && ghostNext[a] == 0) || ghostPrev[ghostNext[a]] == a))) ;
+    (ghostNext[a] == 0 && ghostPrev[a] == 0 && ghostValue[a] == 0) || (a != 0 && ghostValue[a] != 0 && ((a == ghostHead && ghostPrev[a] == 0) || ghostNext[ghostPrev[a]] == a) && ((a == ghostTail && ghostNext[a] == 0) || ghostPrev[ghostNext[a]] == a)))
+    // either the address is not part of the list and every field is 0.
+    ;
 
 invariant inList()
     (ghostHead != 0 => ghostValue[ghostHead] != 0) && (ghostTail != 0 => ghostValue[ghostTail] != 0) && (forall address a. ghostNext[a] != 0 => ghostValue[ghostNext[a]] != 0) && (forall address a. ghostPrev[a] != 0 => ghostValue[ghostPrev[a]] != 0) {

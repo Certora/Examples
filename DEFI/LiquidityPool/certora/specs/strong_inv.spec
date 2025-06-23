@@ -7,14 +7,14 @@ methods {
 
 invariant strongDepositedAmountLessThanContractUnderlyingAsset()
     depositedAmount() <= underlying.balanceOf(currentContract) {
-        preserved with(env e) {
+        preserved with (env e) {
             require e.msg.sender != currentContract;
         }
     }
 
 invariant weakDepositedAmountLessThanContractUnderlyingAsset()
     depositedAmount() <= underlying.balanceOf(currentContract) {
-        preserved with(env e) {
+        preserved with (env e) {
             require e.msg.sender != currentContract;
         }
     }

@@ -80,6 +80,7 @@ rule integrityOfStoragePerCustomer(BankAccountRecord.Customer c1, BankAccountRec
     storage afterC1 = lastStorage;
     addCustomer(c2);
     storage afterC2 = lastStorage;
+    
     // comparing the storage of `bank` after one and two additions.
     assert afterC1[bank] != afterC2[bank], "Adding a customer does not affect storage of bank";
     // comparing the storage of the current contract to its storage at the initial state.
@@ -103,7 +104,7 @@ rule storageAfterTwoDepositFromInitDoesNotChange() {
     // nativeBalances is mapping(address => uint256. mapping is not yet supported as a CVL local variable type, so a variable
     // corresponds to a single entry is used instead.
     uint256 afterCallBalance = nativeBalances[bank];
-    deposit(e, bankAccount);
+    deposit(e, bankAccount) at initStorage;
     assert nativeBalances[bank] == afterCallBalance, "Different native balances from same initial storage";
     assert lastStorage[bank] == afterCallStorage[bank], "Different native storage from same initial storage";
     assert lastStorage[nativeBalances] == afterCallStorage[nativeBalances], "Different storage of native balances after call from same initial storage";
@@ -125,7 +126,7 @@ rule storageAfterTwoWithdrawalsFromInitDoesNotChange() {
     // nativeBalances is mapping(address => uint256. mapping is not yet supported as a CVL local variable type, so a variable
     // corresponds to a single entry is used instead.
     uint256 afterCallBalance = nativeBalances[bank];
-    withdraw(e, bankAccount);
+    withdraw(e, bankAccount) at initStorage;
     assert nativeBalances[bank] == afterCallBalance, "Different native balances from same initial storage";
     assert lastStorage[bank] == afterCallStorage[bank], "Different native storage from same initial storage";
     assert lastStorage[nativeBalances] == afterCallStorage[nativeBalances], "Different storage of native balances after call from same initial storage";
@@ -142,9 +143,9 @@ ghost mapping(address => mathint) numOfOperations {
 }
 
 /// hook on a complex data structure, a mapping to a struct with a dynamic array
-hook Sstore _customers[KEY address a].accounts.[INDEX uint256 i].accountBalance uint256 new_value (uint old_value) {
-    require old_value == accountBalanceMirror[a][i];
-    // Need this inorder to sync on insert of new element   accountBalanceMirror[a][i] = new_value;
+hook Sstore _customers[KEY address a].accounts[INDEX uint256 i].accountBalance uint256 new_value (uint old_value) {
+    require old_value == accountBalanceMirror[a][i]; // Need this inorder to sync on insert of new element  
+    accountBalanceMirror[a][i] = new_value;
     numOfOperations[a] = old_value + 1;
 }
 
@@ -152,9 +153,9 @@ hook Sstore _customers[KEY address a].accounts.[INDEX uint256 i].accountBalance 
 rule ghostStorageComparison() {
     uint256 bankAccount;
     env e;
-    require e.msg.value > 0;
-    // balance should change by deposit.
-    // deposit msg.value to account `bankAccount` and to the native balance of msg.sender. deposit(e, bankAccount);
+    require e.msg.value > 0; // balance should change by deposit.
+    // deposit msg.value to account `bankAccount` and to the native balance of msg.sender.
+    deposit(e, bankAccount);
     storage afterOneDeposit = lastStorage;
     // nativeBalances is mapping(address => uint256). `mapping` is not yet supported as a CVL local variable type, so a variable
     // corresponding to a single entry is used instead.

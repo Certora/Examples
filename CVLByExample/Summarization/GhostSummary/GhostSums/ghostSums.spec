@@ -11,4 +11,4 @@ hook Sload uint256 val currentContract.balances[KEY address a] {
 }
 
 invariant totalSupplyIsSumOfBalances()
-    currentContract.totalSupply == (sum address a. mirrorBalances[a]) ;
+    currentContract.totalSupply == (sum address a. mirrorBalances[a]);

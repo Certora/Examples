@@ -19,13 +19,12 @@ methods {
  */
 rule bidIncreasesAssets() {
     env e;
-    require (e.msg.sender != currentContract);
-    require (e.msg.value > currentBid());
+    require(e.msg.sender != currentContract);
+    require(e.msg.value > currentBid());
     uint256 balanceBefore = nativeBalances[currentContract];
     bid(e);
     assert nativeBalances[currentContract] > balanceBefore;
 }
-
 
 /***
  This rule demonstrates how the source of amount transferred affects the balance of the current contract.
@@ -37,9 +36,9 @@ rule bidIncreasesAssets() {
 rule bidSuccessfullyExpectVacuous() {
     env e;
     uint256 balanceBefore = nativeBalances[currentContract];
-    require (e.msg.sender != currentContract);
-    require (e.msg.value > 0 && e.msg.value > balanceBefore);
-    require (balanceBefore > 0);
+    require(e.msg.sender != currentContract);
+    require(e.msg.value > 0 && e.msg.value > balanceBefore);
+    require(balanceBefore > 0);
     bid(e);
     assert nativeBalances[currentContract] >= balanceBefore;
 }

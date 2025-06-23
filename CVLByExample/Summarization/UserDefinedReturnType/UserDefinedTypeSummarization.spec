@@ -1,6 +1,7 @@
 methods {
+    
     // Summarized functions from library
-    function CalledLibrary.getLoc(CalledLibrary.S record memory) internal returns (CalledLibrary.E) => getOppositeLoc(record);
+    function CalledLibrary.getLoc(CalledLibrary.S memory record) internal returns (CalledLibrary.E) => getOppositeLoc(record);
     // A struct return type summarization
     function CalledLibrary.toStruct(uint256 _x, bool _b, CalledLibrary.E _loc) internal returns (CalledLibrary.S memory) => getDoubledStruct(_x, _b, _loc);
     // An array return type summarization.
@@ -26,7 +27,7 @@ function getDoubledStruct(uint256 _x, bool _b, CalledLibrary.E _loc) returns Cal
 }
 
 function doubledArray(uint256 min, uint256 max) returns uint256[] {
-    return[0, 2];
+    return [0, 2];
 }
 
 rule checkLoc(CalledLibrary.S record) {
