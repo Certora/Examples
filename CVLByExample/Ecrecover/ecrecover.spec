@@ -27,21 +27,8 @@ Example for ecrecover
 **/
 
 methods {
-    function isSigned(
-        address _addr,
-        bytes32 msgHash,
-        uint8 v,
-        bytes32 r,
-        bytes32 s
-    ) external returns (bool) envfree;
-    function executeMyFunctionFromSignature(
-        uint8 v,
-        bytes32 r,
-        bytes32 s,
-        address owner,
-        uint256 myParam,
-        uint256 deadline
-    ) external;
+    function isSigned(address _addr, bytes32 msgHash, uint8 v, bytes32 r, bytes32 s) external returns (bool) envfree;
+    function executeMyFunctionFromSignature(uint8 v, bytes32 r, bytes32 s, address owner, uint256 myParam, uint256 deadline) external;
     function getHash(address owner, uint256 myParam, uint256 deadline) external returns (bytes32) envfree;
 }
 
@@ -138,14 +125,7 @@ rule ownerSignatureIsUnique() {
     assert isSigned(addr, msgHashA, v, r, s) => !isSigned(addr, msgHashB, v, r, s);
 }
 
-rule hashIsUnique(
-    address ownerA,
-    uint256 myParamA,
-    uint256 deadlineA,
-    address ownerB,
-    uint256 myParamB,
-    uint256 deadlineB
-) {
+rule hashIsUnique(address ownerA, uint256 myParamA, uint256 deadlineA, address ownerB, uint256 myParamB, uint256 deadlineB) {
     bytes32 hashA = getHash(ownerA, myParamA, deadlineA);
     bytes32 hashB = getHash(ownerB, myParamB, deadlineB);
     assert hashA == hashB => (ownerA == ownerB && myParamA == myParamB && deadlineA == deadlineB);
@@ -156,15 +136,7 @@ rule hashIsUnique(
     A rule which proves that for a given set of parameters only a single owner can execute .
     This property is implemented as a relational property - it compares two different executions on the same state.
 */
-rule onlySingleUserCanExecute(
-    uint8 v,
-    bytes32 r,
-    bytes32 s,
-    address alice,
-    address bob,
-    uint256 myParam,
-    uint256 deadline
-) {
+rule onlySingleUserCanExecute(uint8 v, bytes32 r, bytes32 s, address alice, address bob, uint256 myParam, uint256 deadline) {
     env e1;
     env e2;
     ecrecoverAxioms();
@@ -185,14 +157,7 @@ rule onlySingleUserCanExecute(
     A rule which proves that for a given set of parameters only a single owner can execute .
     This property is implemented as a relational property - it compares two different executions on the same state.
 */
-rule ownerIsSigner(
-    uint8 v,
-    bytes32 r,
-    bytes32 s,
-    address owner,
-    uint256 myParam,
-    uint256 deadline
-) {
+rule ownerIsSigner(uint8 v, bytes32 r, bytes32 s, address owner, uint256 myParam, uint256 deadline) {
     env e;
     ecrecoverAxioms();
     //execute and assume succeeded
@@ -205,16 +170,7 @@ rule ownerIsSigner(
    # High level property : params and deadline are signed 
 make sure the param and deadline are part of the signature 
 */
-rule signedParamAndDeadline(
-    uint8 v,
-    bytes32 r,
-    bytes32 s,
-    address owner,
-    uint256 myParamA,
-    uint256 deadlineA,
-    uint256 myParamB,
-    uint256 deadlineB
-) {
+rule signedParamAndDeadline(uint8 v, bytes32 r, bytes32 s, address owner, uint256 myParamA, uint256 deadlineA, uint256 myParamB, uint256 deadlineB) {
     env e1;
     env e2;
     ecrecoverAxioms();
@@ -251,14 +207,7 @@ rule twoDifferent() {
 /**
 Once a message is executed, it can not be executed again 
 **/
-rule signedMessagesExecutedOnce(
-    uint8 v,
-    bytes32 r,
-    bytes32 s,
-    address signer,
-    uint256 myParam,
-    uint256 deadline
-) {
+rule signedMessagesExecutedOnce(uint8 v, bytes32 r, bytes32 s, address signer, uint256 myParam, uint256 deadline) {
     env e1;
     env e2;
     ecrecoverAxioms();
@@ -277,14 +226,7 @@ rule checkHash(address bob, uint256 myParam, uint256 deadline) {
     assert getHash(bob, myParam, deadline) == getHash(bob, myParam, deadline);
 }
 
-rule CheckRevertCondition(
-    uint8 v,
-    bytes32 r,
-    bytes32 s,
-    address owner,
-    uint256 myParam,
-    uint256 deadline
-) {
+rule CheckRevertCondition(uint8 v, bytes32 r, bytes32 s, address owner, uint256 myParam, uint256 deadline) {
     env e;
     ecrecoverAxioms();
     

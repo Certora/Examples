@@ -61,30 +61,13 @@ persistent ghost bool callMade;
 
 persistent ghost bool delegatecallMade;
 
-hook CALL(
-    uint g,
-    address addr,
-    uint value,
-    uint argsOffset,
-    uint argsLength,
-    uint retOffset,
-    uint retLength,
-    uint rc
-) {
+hook CALL(uint g, address addr, uint value, uint argsOffset, uint argsLength, uint retOffset, uint retLength, uint rc) {
     if (addr != currentContract.asset) {
         callMade = true;
     }
 }
 
-hook DELEGATECALL(
-    uint g,
-    address addr,
-    uint argsOffset,
-    uint argsLength,
-    uint retOffset,
-    uint retLength,
-    uint rc
-) {
+hook DELEGATECALL(uint g, address addr, uint argsOffset, uint argsLength, uint retOffset, uint retLength, uint rc) {
     delegatecallMade = true;
 }
 
@@ -386,13 +369,7 @@ function callReceiverFunctions(method f, env e, address receiver) {
     }
 }
 
-function callContributionMethods(
-    env e,
-    method f,
-    uint256 assets,
-    uint256 shares,
-    address receiver
-) {
+function callContributionMethods(env e, method f, uint256 assets, uint256 shares, address receiver) {
     if (f.selector == sig:deposit(uint256, address).selector) {
         deposit(e, assets, receiver);
     }
@@ -401,14 +378,7 @@ function callContributionMethods(
     }
 }
 
-function callReclaimingMethods(
-    env e,
-    method f,
-    uint256 assets,
-    uint256 shares,
-    address receiver,
-    address owner
-) {
+function callReclaimingMethods(env e, method f, uint256 assets, uint256 shares, address receiver, address owner) {
     if (f.selector == sig:withdraw(uint256, address, address).selector) {
         withdraw(e, assets, receiver, owner);
     }
@@ -417,14 +387,7 @@ function callReclaimingMethods(
     }
 }
 
-function callFunctionsWithReceiverAndOwner(
-    env e,
-    method f,
-    uint256 assets,
-    uint256 shares,
-    address receiver,
-    address owner
-) {
+function callFunctionsWithReceiverAndOwner(env e, method f, uint256 assets, uint256 shares, address receiver, address owner) {
     if (f.selector == sig:withdraw(uint256, address, address).selector) {
         withdraw(e, assets, receiver, owner);
     } else if (f.selector == sig:redeem(uint256, address, address).selector) {

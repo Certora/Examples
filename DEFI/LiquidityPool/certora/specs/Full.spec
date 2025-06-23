@@ -51,16 +51,7 @@ hook Sstore currentContract._status uint256 status {
 }
 
 // we are hooking here on "CALL" opcodes in order to simulate reentrancy to a non-view function and check that the function reverts
-hook CALL(
-    uint g,
-    address addr,
-    uint value,
-    uint argsOffset,
-    uint argsLength,
-    uint retOffset,
-    uint retLength,
-    uint rc
-) {
+hook CALL(uint g, address addr, uint value, uint argsOffset, uint argsLength, uint retOffset, uint retLength, uint rc) {
     lock_status_on_call = lock_on();
 }
 
