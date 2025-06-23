@@ -54,18 +54,22 @@ rule parametricRule(method f) {
     satisfy true;
 }
 
-invariant specificPreservedInv() base1.inExtension2 == 0 {
-    // Verify the specific preserved on an extension contract function works.
-    // Without this preserved the invariant should fail on this function.
-    preserved _.setInExtension2(uint256 _num) with (env e) {
-        require _num == 0;
+invariant specificPreservedInv()
+    base1.inExtension2 == 0 {
+        
+        // Verify the specific preserved on an extension contract function works.
+        // Without this preserved the invariant should fail on this function.
+        preserved _.setInExtension2(uint256 _num) with (env e) {
+            require _num == 0;
+        }
     }
-}
 
-invariant genericPreservedInv() base1.inExtension2 == 0 {
-    // Should make all invariant rules vacuous (including the rule from
-    // the extension contract's function)
-    preserved {
-        require false;
+invariant genericPreservedInv()
+    base1.inExtension2 == 0 {
+        
+        // Should make all invariant rules vacuous (including the rule from
+        // the extension contract's function)
+        preserved {
+            require false;
+        }
     }
-}

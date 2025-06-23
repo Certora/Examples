@@ -1,5 +1,4 @@
 methods {
-
     function lockValue() external returns (uint256) envfree;
     function getContractLock() external returns (uint256) envfree;
 }
@@ -14,7 +13,7 @@ hook ALL_TSTORE(uint loc, uint v) {
     }
 }
 
-hook ALL_TLOAD(uint loc) uint v {
+hook ALL_TLOAD(uint loc, uint v) {
     if (loc == getContractLock() && executingContract == currentContract) {
         require contract_lock_status == isLocked(v);
     }
@@ -24,11 +23,10 @@ invariant lockStatusDontChange()
     !contract_lock_status;
 
 // if contract was locked function call always reverted
-rule checkContractLockReverts(){
+rule checkContractLockReverts() {
     env e;
     require contract_lock_status; // require contract is locked
-
+    
     contractLevelAccess@withrevert(e);
-
     assert lastReverted;
 }

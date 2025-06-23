@@ -27,10 +27,9 @@
  * (2) Bytes and String Layout in Storage:
  *     https://docs.soliditylang.org/en/stable/internals/layout_in_storage.html#bytes-and-string
  */
- methods {
-     function arrayLength() external returns (uint256) envfree;
- }
-
+methods {
+    function arrayLength() external returns (uint256) envfree;
+}
 
 /// @title Verifies the `push` function reverts only if value is sent
 rule verifyPush(uint256 xx, string yy) {
@@ -40,14 +39,10 @@ rule verifyPush(uint256 xx, string yy) {
     assert isReverted <=> (e.msg.value != 0);
 }
 
-
 /// @title Verifies `getData` reverts only if value is sent or bad index
 rule verifyGetData(uint256 index) {
     env e;
     getData@withrevert(e, index);
     bool isReverted = lastReverted;
-    assert isReverted <=> (
-        (e.msg.value != 0) ||
-        (index >= arrayLength())
-    );
+    assert isReverted <=> ((e.msg.value != 0) || (index >= arrayLength()));
 }

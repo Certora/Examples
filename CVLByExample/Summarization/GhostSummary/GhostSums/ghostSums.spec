@@ -6,7 +6,7 @@ hook Sstore currentContract.balances[KEY address a] uint256 newVal {
     mirrorBalances[a] = newVal;
 }
 
-hook Sload uint256 val currentContract.balances[KEY address a]  {
+hook Sload uint256 val currentContract.balances[KEY address a] {
     require mirrorBalances[a] == val;
 }
 
