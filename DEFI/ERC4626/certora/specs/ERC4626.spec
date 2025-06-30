@@ -477,16 +477,16 @@ function callFunctionsWithReceiverAndOwner(env e, method f, uint256 assets, uint
     if (f.selector == sig:withdraw(uint256,address,address).selector) {
         withdraw(e, assets, receiver, owner);
     }
-    else if (f.selector == sig:redeem(uint256,address,address).selector) {
+    if (f.selector == sig:redeem(uint256,address,address).selector) {
         redeem(e, shares, receiver, owner);
     } 
-    else if (f.selector == sig:deposit(uint256,address).selector) {
+    if (f.selector == sig:deposit(uint256,address).selector) {
         deposit(e, assets, receiver);
     }
-    else if (f.selector == sig:mint(uint256,address).selector) {
+    if (f.selector == sig:mint(uint256,address).selector) {
         mint(e, shares, receiver);
     }
-    else if (f.selector == sig:transferFrom(address,address,uint256).selector) {
+     if (f.selector == sig:transferFrom(address,address,uint256).selector) {
         transferFrom(e, owner, receiver, shares);
     }
     else {
