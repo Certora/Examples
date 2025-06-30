@@ -8,7 +8,6 @@ using DummyERC20A as _token0;
 using DummyERC20B as _token1;
 using ConstantProductPool as _pool;
 
-
 /*
     Declaration of methods that are used in the rules. `envfree` indicates that
     the method is not dependent on the environment (`msg.value`, `msg.sender`).
@@ -16,11 +15,11 @@ using ConstantProductPool as _pool;
     environment.
 */
 
-methods{
+methods {
     function token0() external returns (address) envfree;
     function token1() external returns (address) envfree;
-    function allowance(address,address) external returns (uint256) envfree;
-    function totalSupply() external returns (uint256)  envfree;
+    function allowance(address, address) external returns (uint256) envfree;
+    function totalSupply() external returns (uint256) envfree;
     function swap(address tokenIn, address recipient) external returns (uint256) envfree;
     
     //calls to external contracts  
@@ -30,15 +29,14 @@ methods{
     function _token1.allowance(address owner, address spender) external returns (uint256) envfree;
     function _token0.transfer(address, uint) external;
     function _token1.transfer(address, uint) external;
-
+    
     //external calls to be resolved by dispatcher - taking into account all available implementations 
     function _.transferFrom(address sender, address recipient, uint256 amount) external => DISPATCHER(true);
     function _.balanceOf(address) external => DISPATCHER(true);
-    
 }
 
 // a cvl function for precondition assumptions 
-function setup(env e){
+function setup(env e) {
     address zero_address = 0;
     uint256 MINIMUM_LIQUIDITY = 1000;
     require totalSupply() == 0 || currentContract._balances[zero_address] == MINIMUM_LIQUIDITY, "Either pool is empty or minimum liquidity is locked";
@@ -46,7 +44,6 @@ function setup(env e){
     require _token0 == token0(), "Token0 reference must match contract's token0";
     require _token1 == token1(), "Token1 reference must match contract's token1";
 }
-
 
 /*
 Property: For all possible scenarios of swapping token1 for token0, the balance of the recipient is updated as expected. 
@@ -71,7 +68,7 @@ rule integrityOfSwap(address recipient) {
     uint256 balanceBefore = _token0.balanceOf(recipient);
     uint256 amountOut = swap(_token1, recipient);
     uint256 balanceAfter = _token0.balanceOf(recipient);
-    assert (recipient != currentContract) => balanceAfter == balanceBefore + amountOut; 
+    assert (recipient != currentContract) => balanceAfter == balanceBefore + amountOut;
 }
 
 /*
@@ -92,17 +89,15 @@ rule noDecreaseByOther(method f, address account) {
     env e;
     setup(e);
     require e.msg.sender != account, "Sender must be different from account to test unauthorized access";
-    require account != currentContract, "Account must not be the pool contract to properly test balance changes"; 
-    uint256 allowance = allowance(account, e.msg.sender); 
-    
+    require account != currentContract, "Account must not be the pool contract to properly test balance changes";
+    uint256 allowance = allowance(account, e.msg.sender);
     uint256 before = currentContract._balances[account];
     calldataarg args;
-    f(e,args); /* check on all possible arguments */
+    f(e, args); /* check on all possible arguments */
     uint256 after = currentContract._balances[account];
     /* logic implication : true when: (a) the left hand side is false or (b) right hand side is true  */
-    assert after < before =>  (e.msg.sender == account  ||  allowance >= (before-after))  ;
+    assert after < before => (e.msg.sender == account || allowance >= (before - after));
 }
-
 
 /*
 Property: For both token0 and token1 the balance of the system is at least as much as the reserves.
@@ -120,20 +115,18 @@ Formula:
 */
 
 invariant balanceGreaterThanReserve()
-    (currentContract.reserve0 <= _token0.balanceOf(currentContract))&&
-    (currentContract.reserve1 <= _token1.balanceOf(currentContract))
-    {
-        preserved with (env e){
-         setup(e);
+    (currentContract.reserve0 <= _token0.balanceOf(currentContract)) && (currentContract.reserve1 <= _token1.balanceOf(currentContract)) {
+        preserved with (env e) {
+            setup(e);
         }
-
+        
         // This preserved is safe because transferFrom is called from the currentContract whose code is known and
         // it is not msg.sender. It would not be safe to do if the call was to a function of an unresolved contract.
-        preserved _.transferFrom(address sender, address recipient,uint256 amount) with (env e1) {
+        preserved _.transferFrom(address sender, address recipient, uint256 amount) with (env e1) {
             requireInvariant allowanceOfPoolAlwaysZero(e1.msg.sender);
             require e1.msg.sender != currentContract, "The pool does not call itself";
         }
-
+        
         // This preserved is safe because transfer is called from the currentContract whose code is known and
         // it is not msg.sender.
         preserved _.transfer(address recipient, uint256 amount) with (env e2) {
@@ -142,19 +135,18 @@ invariant balanceGreaterThanReserve()
     }
 
 invariant allowanceOfPoolAlwaysZero(address a)
-    _token0.allowance(_pool, a) == 0 && _token1.allowance(_pool, a) == 0
-    {
+    _token0.allowance(_pool, a) == 0 && _token1.allowance(_pool, a) == 0 {
+        
         // This preserved is safe because we know the code in the pool contract.
         preserved _.approve(address spender, uint256 amount) with (env e1) {
             require e1.msg.sender != _pool, "Sender must not be the pool contract for approve calls";
         }
-
+        
         // This preserved is safe because we know the code in the pool contract.
         preserved _.increaseAllowance(address spender, uint256 addedValue) with (env e2) {
             require e2.msg.sender != _pool, "Sender must not be the pool contract for increaseAllowance calls";
         }
     }
-
 
 /*
 Property: Integrity of totalSupply with respect to the amount of reserves. 
@@ -170,16 +162,12 @@ Formula:
 */
 
 invariant integrityOfTotalSupply()
-    
-    (totalSupply() == 0 <=> currentContract.reserve0 == 0) &&
-    (totalSupply() == 0 <=> currentContract.reserve1 == 0)
-    {
-        preserved with (env e){
+    (totalSupply() == 0 <=> currentContract.reserve0 == 0) && (totalSupply() == 0 <=> currentContract.reserve1 == 0) {
+        preserved with (env e) {
             requireInvariant balanceGreaterThanReserve();
             setup(e);
         }
     }
-
 
 /*
 Property: Monotonicity of mint.
@@ -208,13 +196,12 @@ rule monotonicityOfMint(uint256 x, uint256 y, address recipient) {
     require recipient != currentContract, "Recipient must not be the pool contract to properly test external balance changes";
     require x > y, "First amount must be greater than second amount to test monotonicity";
     token.transfer(eT0, currentContract, x);
-    uint256 amountOut0 = mint(eM,recipient);
+    uint256 amountOut0 = mint(eM, recipient);
     uint256 balanceAfter1 = currentContract._balances[recipient];
-    
     token.transfer(eT0, currentContract, y) at init;
-    uint256 amountOut2 = mint(eM,recipient);
-    uint256 balanceAfter2 = currentContract._balances[recipient]; 
-    assert balanceAfter1 >= balanceAfter2; 
+    uint256 amountOut2 = mint(eM, recipient);
+    uint256 balanceAfter2 = currentContract._balances[recipient];
+    assert balanceAfter1 >= balanceAfter2;
 }
 
 /*
@@ -230,22 +217,21 @@ Formula:
 
 */
 
-ghost mathint sumBalances{
+ghost mathint sumBalances {
+    
     // assuming value zero at the initial state before constructor 
-	init_state axiom sumBalances == 0; 
+    init_state axiom sumBalances == 0;
 }
-
 
 /* here we state when and how the ghost is updated */
 hook Sstore _balances[KEY address a] uint256 new_balance
 // the old value that balances[a] holds before the store
-    (uint256 old_balance) {
-  sumBalances = sumBalances + new_balance - old_balance;
+(uint256 old_balance) {
+    sumBalances = sumBalances + new_balance - old_balance;
 }
 
-invariant sumFunds() 
-	sumBalances == totalSupply();
-
+invariant sumFunds()
+    sumBalances == totalSupply();
 
 /*
 Property: Full withdraw example
@@ -261,19 +247,16 @@ rule possibleToFullyWithdraw(address sender, uint256 amount) {
     setup(eM);
     address token;
     require token == _token0 || token == _token1, "Token must be either token0 or token1";
-    uint256 balanceBefore = token.balanceOf(eT0,sender);
-    
+    uint256 balanceBefore = token.balanceOf(eT0, sender);
     require eM.msg.sender == sender, "Message sender must be the same as the user to perform withdrawal";
     require eT0.msg.sender == sender, "Message sender must be the same as the user to perform transfer";
     require amount > 0, "Amount must be positive to test meaningful deposit and withdrawal";
     token.transfer(eT0, currentContract, amount);
-    uint256 amountOut0 = mint(eM,sender);
+    uint256 amountOut0 = mint(eM, sender);
     // immediately withdraw 
     burnSingle(eM, _token0, amountOut0, sender);
     satisfy (balanceBefore == token.balanceOf(eT0, sender));
 }
-
-
 
 /*
 Property: Zero withdraw has no effect

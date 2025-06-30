@@ -5,7 +5,7 @@
  */
 
 methods {
-    function currentBid() external returns uint256 envfree; 
+    function currentBid() external returns (uint256) envfree;
 }
 
 /// @title Basic rules ////////////////////////////////////////////////////
@@ -20,7 +20,7 @@ methods {
 rule bidIncreasesAssets() {
     env e;
     require(e.msg.sender != currentContract);
-    require(e.msg.value > currentBid() );
+    require(e.msg.value > currentBid());
     uint256 balanceBefore = nativeBalances[currentContract];
     bid(e);
     assert nativeBalances[currentContract] > balanceBefore;
@@ -37,8 +37,8 @@ rule bidSuccessfullyExpectVacuous() {
     env e;
     uint256 balanceBefore = nativeBalances[currentContract];
     require(e.msg.sender != currentContract);
-    require(e.msg.value > 0 &&  e.msg.value > balanceBefore);
-    require (balanceBefore > 0);
+    require(e.msg.value > 0 && e.msg.value > balanceBefore);
+    require(balanceBefore > 0);
     bid(e);
     assert nativeBalances[currentContract] >= balanceBefore;
 }

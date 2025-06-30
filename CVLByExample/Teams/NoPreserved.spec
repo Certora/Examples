@@ -5,7 +5,6 @@ methods {
     function leaderOf(uint8) external returns (address) envfree;
 }
 
-
 /** @title If a team does not exist it has not players
  *  This invariant cannot be proven without a preserved block.
  */
