@@ -8,17 +8,21 @@ definition slot() returns uint = 0xa2e3618ded7ae709dc8e3747186ad9112d852b6c6eef8
 persistent ghost bool contract_lock_status{
     init_state axiom contract_lock_status == false;
 }
+
 hook ALL_TSTORE(uint loc, uint v) {
     if(loc == slot() && executingContract == currentContract){
         contract_lock_status = isLockedCVL(v);
     } else {
+        // Explicitly havocing the ghost to ensure the condition is met (there is tstore on another slot)
         havoc contract_lock_status;
     }
 }
+
 hook ALL_TLOAD(uint loc) uint v {
     if(loc == slot() && executingContract == currentContract){
         require contract_lock_status == isLockedCVL(v);
     } else {
+        // Explicitly havocing the ghost to ensure the condition is met (there is tload on another slot)
         havoc contract_lock_status;
     }
 }

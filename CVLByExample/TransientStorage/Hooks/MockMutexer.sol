@@ -23,13 +23,14 @@ contract MockMutexer is Mutexer {
         }
         return value == Mutex.Locked;
     }
-    
 
    // for testing
 
     function contractLevelAccess() external contractLock {
         emit Accessed(Access.Contract);
     }
+
+    // This method explicitly violated the invariant lockStatusDontChange and is here for testing.
     function changeLock() external  {
         _mocktstore(CONTRACT_LOCK, Mutex.Locked);
     }
