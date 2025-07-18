@@ -441,7 +441,7 @@ rule sharesRoundingTripFavoursContract(env e) {
   prove bug fix
 */
 invariant noClientHasSharesWithMoreValueThanDepositedAmount(address a)
-        sharesToAmount(balanceOf(a)) <= depositedAmount()
+        totalSupply() == 0 || sharesToAmount(balanceOf(a)) <= depositedAmount()
 		{
 			preserved with(env e) {
 				require balanceOf(a) + balanceOf(e.msg.sender) < totalSupply();

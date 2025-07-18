@@ -38,8 +38,8 @@ contract ConstantProductPool is ERC20 {
     }
 
     constructor(address _token0, address _token1)  {
-        require(token0 != address(0));
-        require(token0 != token1);
+        require(_token0 != address(0));
+        require(_token0 != _token1);
         token0 = _token0;
         token1 = _token1;
         locked = 1;

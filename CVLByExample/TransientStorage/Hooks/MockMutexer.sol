@@ -15,12 +15,13 @@ contract MockMutexer is Mutexer {
 
     constructor() contractLock{}
 
-    // getters
-    function lockValue() external returns (uint){
-        return uint(Mutex.Locked);
-    }
-    function getContractLock() public returns (uint256){
-        return CONTRACT_LOCK;
+    function isLocked() external returns (bool){
+        Mutex value;
+        uint256 key = CONTRACT_LOCK;
+        assembly {
+             value := tload(key)
+        }
+        return value == Mutex.Locked;
     }
 
    // for testing
@@ -28,4 +29,16 @@ contract MockMutexer is Mutexer {
     function contractLevelAccess() external contractLock {
         emit Accessed(Access.Contract);
     }
+
+    // This method explicitly violated the invariant lockStatusDontChange and is here for testing.
+    function changeLock() external  {
+        _mocktstore(CONTRACT_LOCK, Mutex.Locked);
+    }
+
+     function _mocktstore(uint256 key, Mutex value) private {
+        assembly {
+            tstore(key, value)
+        }
+    }
+
 }
