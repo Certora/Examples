@@ -11,4 +11,7 @@ To run this example, use:
 
 [View the report for this run.](https://prover.certora.com/output/15800/70e5d5141ce34e4eae0f9966b78b34d9?anonymousKey=40a3a0266ff277d769a873681b1fc7829b0b5c55)
 
+*Note: If you get a violation on an individual fuzz test method, we recommend to run with the flag `--method <FUZZ_TEST_METHOD_SIGNATURE>`. This filters out a few entries in the call trace that are irrelevant to that particular method. Example: [This run](https://prover.certora.com/output/53900/0efb4c7272774df886203375b490300a?anonymousKey=5f95f5d1c2a0b8aac88cd6d5842e577707238747) was initiatied with `certoraRun PercentageMath.conf --method "test_percentMul_fuzz_wrong_assert(uint256,uint256)"`* 
+
 *Note: Foundry Fuzz Testing Integration is currently in an early alpha phase.*
+
