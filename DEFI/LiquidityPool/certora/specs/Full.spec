@@ -254,6 +254,24 @@ rule flashLoanRevertConditions(env e){
     assert isExpectedToRevert <=> lastReverted;
 }
 
+/// Validates that a flash loan generates yield by increase the value of each share (modulo rounding)
+rule flashLoansGenerateYield(address receiver, uint amount) {
+    env e;
+    require e.msg.sender != currentContract;
+    
+    uint assetsBefore = depositedAmount();
+    uint sharesBefore = totalSupply();
+    flashLoan(e, receiver, amount);
+    uint assetsAfter = depositedAmount();
+    uint sharesAfter = totalSupply();
+
+    // The total assets held by the contract must increase, while the number of shares remains constant.
+    // The yield might not be reflected in sharesToAmount due to the rounding.
+
+    assert assetsAfter > assetsBefore;
+    assert sharesAfter == sharesBefore;
+}
+
 /*
 ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
 │ Find and show a path for each method.                                                                               │
