@@ -7,6 +7,7 @@ methods {
 
 // sumOfVaultDebtGhost gives the current sum over all debt assigned to a vault.
 ghost sumOfVaultDebtGhost() returns uint256 {
+    
     // Here we state that the sum is 0 before contructor.
     init_state axiom sumOfVaultDebtGhost() == 0;
 }
@@ -27,8 +28,7 @@ hook Sload uint256 v currentContract.ilks[KEY bytes32 ilk].(offset 0) {
 
 // Updating ArtGhost in sync with sumOfVaultDebtGhost.
 hook Sstore currentContract.ilks[KEY bytes32 ilk].(offset 0) uint256 newArt (uint256 oldArt) {
-    havoc sumOfVaultDebtGhost assuming sumOfVaultDebtGhost@new() == sumOfVaultDebtGhost@old() + 
-    (newArt * rateGhost[ilk]) - (oldArt * rateGhost[ilk]);
+    havoc sumOfVaultDebtGhost assuming sumOfVaultDebtGhost@new() == sumOfVaultDebtGhost@old() + (newArt * rateGhost[ilk]) - (oldArt * rateGhost[ilk]);
     ArtGhost[ilk] = newArt;
 }
 
@@ -38,11 +38,9 @@ hook Sload uint256 v currentContract.ilks[KEY bytes32 ilk].(offset 32) {
 
 // Updating RateGhost in sync with sumOfVaultDebtGhost.
 hook Sstore currentContract.ilks[KEY bytes32 ilk].(offset 32) uint256 newRate (uint256 oldRate) {
-    havoc sumOfVaultDebtGhost assuming sumOfVaultDebtGhost@new() == 
-        sumOfVaultDebtGhost@old() + (ArtGhost[ilk] * newRate) - (ArtGhost[ilk] * oldRate);
+    havoc sumOfVaultDebtGhost assuming sumOfVaultDebtGhost@new() == sumOfVaultDebtGhost@old() + (ArtGhost[ilk] * newRate) - (ArtGhost[ilk] * oldRate);
     rateGhost[ilk] = newRate;
 }
-
 
 // DAI is backed by debt. Debt is either assigned to a Vault, meaning it is associated with a lien against some collateral asset,
 // or it is “unbacked” (also: “bad”), meaning it is the protocol’s (i.e., MKR holders’) responsibility. 
@@ -50,5 +48,5 @@ hook Sstore currentContract.ilks[KEY bytes32 ilk].(offset 32) uint256 newRate (u
 // vice is the total bad debt.
 // debt is the sum over all DAI balances.
 invariant fundamental_equation_of_dai()
-   debt() == vice() + sumOfVaultDebtGhost()
-   filtered { f -> !f.isFallback }
+    debt() == vice() + sumOfVaultDebtGhost()
+    filtered { f -> !f.isFallback };

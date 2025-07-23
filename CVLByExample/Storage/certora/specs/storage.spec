@@ -8,11 +8,11 @@
   3. The relation between the balances of the sender and the receiver of a transaction.
   4. Changes in ghost storage.
  */
- 
+
 using Bank as bank;
 
 methods {
-    function balanceOfAccount(address user, uint account) external returns(uint) envfree;
+    function balanceOfAccount(address user, uint account) external returns (uint) envfree;
     /// Definition of a function with struct as an argument
     function addCustomer(BankAccountRecord.Customer) external envfree;
     function getNumberOfAccounts(address) external returns (uint256) envfree;
@@ -29,7 +29,7 @@ rule storageChangesByWithdrawFromNonEmptyAccount() {
     require balanceOfAccount(e.msg.sender, accountNum) > 0;
     withdraw(e, accountNum);
     storage after = lastStorage;
-    assert (init != after, "withdraw from non-empty account does not change storage");
+    assert init != after, "withdraw from non-empty account does not change storage";
 }
 
 /// This rule demonstrates comparing full storage after a transaction with possible revert.
@@ -40,10 +40,9 @@ rule storageDoesNotChangeByWithdrawWhenRevert() {
     env e;
     storage init = lastStorage;
     uint256 accountNum;
-
     withdraw@withrevert(e, accountNum);
     storage after = lastStorage;
-    assert (lastReverted => init == after, "Storage changes after revert.");  
+    assert lastReverted => init == after, "Storage changes after revert.";
 }
 
 /// This rule demonstrates how to verify changes in the full storage when changing data structures of the current contract.
@@ -55,7 +54,7 @@ rule addingCustomersChangesStorage(BankAccountRecord.Customer c1, BankAccountRec
     storage afterC1 = lastStorage;
     addCustomer(c2);
     storage afterC2 = lastStorage;
-    assert (afterC1 != afterC2, "Storage after adding one customer is the same as storage after adding two.");
+    assert afterC1 != afterC2, "Storage after adding one customer is the same as storage after adding two.";
 }
 
 /// Witness for different storage after each customer addition.
@@ -81,16 +80,15 @@ rule integrityOfStoragePerCustomer(BankAccountRecord.Customer c1, BankAccountRec
     storage afterC1 = lastStorage;
     addCustomer(c2);
     storage afterC2 = lastStorage;
-
+    
     // comparing the storage of `bank` after one and two additions.
-    assert (afterC1[bank] != afterC2[bank], "Adding a customer does not affect storage of bank");
+    assert afterC1[bank] != afterC2[bank], "Adding a customer does not affect storage of bank";
     // comparing the storage of the current contract to its storage at the initial state.
     // currentContract is the same as `bank`.
-    assert (init[currentContract] != lastStorage[currentContract], "Adding a customer does not affect storage of the current contract");
+    assert init[currentContract] != lastStorage[currentContract], "Adding a customer does not affect storage of the current contract";
     // comparing the storage of the nativeBalances to nativeBalances at the initial state.
-    assert (init[nativeBalances] == lastStorage[nativeBalances], "Change in storage affects native balances");
+    assert init[nativeBalances] == lastStorage[nativeBalances], "Change in storage affects native balances";
 }
-
 
 /// This rule demonstrates how to call `deposit` (can be any transaction) twice from the same state by restoring the storage to
 /// its initial state before the second call.
@@ -107,10 +105,9 @@ rule storageAfterTwoDepositFromInitDoesNotChange() {
     // corresponds to a single entry is used instead.
     uint256 afterCallBalance = nativeBalances[bank];
     deposit(e, bankAccount) at initStorage;
-    assert (nativeBalances[bank] == afterCallBalance, "Different native balances from same initial storage");
-    assert(lastStorage[bank] == afterCallStorage[bank], "Different native storage from same initial storage");
-    assert(lastStorage[nativeBalances] == afterCallStorage[nativeBalances], 
-        "Different storage of native balances after call from same initial storage");
+    assert nativeBalances[bank] == afterCallBalance, "Different native balances from same initial storage";
+    assert lastStorage[bank] == afterCallStorage[bank], "Different native storage from same initial storage";
+    assert lastStorage[nativeBalances] == afterCallStorage[nativeBalances], "Different storage of native balances after call from same initial storage";
 }
 
 /// Two withdrawals are sequentially called where both start from the initial state. Therefore, the storage after each of the
@@ -130,10 +127,9 @@ rule storageAfterTwoWithdrawalsFromInitDoesNotChange() {
     // corresponds to a single entry is used instead.
     uint256 afterCallBalance = nativeBalances[bank];
     withdraw(e, bankAccount) at initStorage;
-    assert (nativeBalances[bank] == afterCallBalance, "Different native balances from same initial storage");
-    assert(lastStorage[bank] == afterCallStorage[bank], "Different native storage from same initial storage");
-    assert(lastStorage[nativeBalances] == afterCallStorage[nativeBalances], 
-        "Different storage of native balances after call from same initial storage");
+    assert nativeBalances[bank] == afterCallBalance, "Different native balances from same initial storage";
+    assert lastStorage[bank] == afterCallStorage[bank], "Different native storage from same initial storage";
+    assert lastStorage[nativeBalances] == afterCallStorage[nativeBalances], "Different storage of native balances after call from same initial storage";
 }
 
 /// Mirror on a struct _customers[a].accounts[i].accountBalance
@@ -148,7 +144,7 @@ ghost mapping(address => mathint) numOfOperations {
 
 /// hook on a complex data structure, a mapping to a struct with a dynamic array
 hook Sstore _customers[KEY address a].accounts[INDEX uint256 i].accountBalance uint256 new_value (uint old_value) {
-    require  old_value == accountBalanceMirror[a][i]; // Need this inorder to sync on insert of new element  
+    require old_value == accountBalanceMirror[a][i]; // Need this inorder to sync on insert of new element  
     accountBalanceMirror[a][i] = new_value;
     numOfOperations[a] = old_value + 1;
 }
@@ -165,7 +161,5 @@ rule ghostStorageComparison() {
     // corresponding to a single entry is used instead.
     deposit(e, bankAccount);
     storage afterTwoDeposits = lastStorage;
-    assert(afterTwoDeposits[numOfOperations] == afterOneDeposit[numOfOperations], "ghost storage changes after each deposit");
+    assert afterTwoDeposits[numOfOperations] == afterOneDeposit[numOfOperations], "ghost storage changes after each deposit";
 }
-
-

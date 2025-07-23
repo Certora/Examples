@@ -1,6 +1,5 @@
 // Specification for reachability for a linked list implementation.
 
-
 // Method block: all methods don't need environment
 
 methods {
@@ -35,26 +34,19 @@ ghost bytes32 ghostHead {
 
 definition isSucc(bytes32 a, bytes32 b) returns bool = reach(a, b) && a != b && (forall bytes32 X. reach(a, X) && reach(X, b) => (a == X || b == X));
 
-definition reachSuccInvariant(bytes32 key) returns bool =
-    (key == to_bytes32(0) && ghostSucc[key] == to_bytes32(0))
-    || (key != to_bytes32(0) && isSucc(key, ghostSucc[key]));
+definition reachSuccInvariant(bytes32 key) returns bool = (key == to_bytes32(0) && ghostSucc[key] == to_bytes32(0)) || (key != to_bytes32(0) && isSucc(key, ghostSucc[key]));
 
-definition updateSucc(bytes32 a, bytes32 b) returns bool = forall bytes32 X. forall bytes32 Y. reach@new(X, Y) ==
-            (X == Y ||
-            (reach@old(X, Y) && !(reach@old(X, a) && a != Y && reach@old(a, Y))) ||
-            (reach@old(X, a) && reach@old(b, Y)));
+definition updateSucc(bytes32 a, bytes32 b) returns bool = forall bytes32 X. forall bytes32 Y. reach@new(X, Y) == (X == Y || (reach@old(X, Y) && !(reach@old(X, a) && a != Y && reach@old(a, Y))) || (reach@old(X, a) && reach@old(b, Y)));
 
 hook Sstore currentContract.list.elements[KEY bytes32 key].nextKey bytes32 newNextKey {
     bytes32 otherKey;
-
     require reachSuccInvariant(otherKey);
-    assert !reach(newNextKey,key), "Setting next introduces cycle";
-
+    assert !reach(newNextKey, key), "Setting next introduces cycle";
+    
     // update ghost successor
     ghostSucc[key] = newNextKey;
     // update ghost reachability
     havoc reach assuming updateSucc(key, newNextKey);
-
     assert reachSuccInvariant(otherKey), "Successor invariant not preserved";
 }
 
@@ -79,38 +71,29 @@ hook Sload uint256 valueValid currentContract.list.elements[KEY bytes32 key].val
     require valueValid != 0 <=> ghostValid[key];
 }
 
-
 invariant inListIffValid()
-    forall bytes32 key. key != to_bytes32(0) => ghostValid[key] == reach(ghostHead, key)
-    {
+    forall bytes32 key. key != to_bytes32(0) => ghostValid[key] == reach(ghostHead, key) {
         preserved {
             requireInvariant reach_invariant();
         }
     }
 
 invariant reach_invariant()
-    forall bytes32 X. forall bytes32 Y. forall bytes32 Z. (
-        reach(X, X)
-        && (reach(X,Y) && reach (Y, X) => X == Y)
-        && (reach(X,Y) && reach (Y, Z) => reach(X, Z))
-        && (reach(X,Y) && reach (X, Z) => (reach(Y,Z) || reach(Z,Y)))
-    )
-    {
+    forall bytes32 X. forall bytes32 Y. forall bytes32 Z. (reach(X, X) && (reach(X, Y) && reach(Y, X) => X == Y) && (reach(X, Y) && reach(Y, Z) => reach(X, Z)) && (reach(X, Y) && reach(X, Z) => (reach(Y, Z) || reach(Z, Y)))) {
         preserved {
             requireInvariant inListIffValid();
         }
     }
 
 invariant reach_succ(bytes32 key)
-    reachSuccInvariant(key)
-    {
+    reachSuccInvariant(key) {
         preserved {
             requireInvariant reach_invariant();
             requireInvariant inListIffValid();
         }
     }
 
-rule checkGetSucc {
+rule checkGetSucc() {
     bytes32 key;
     bytes32 afterKey = getSucc(key);
     requireInvariant reach_invariant();
@@ -119,22 +102,21 @@ rule checkGetSucc {
 
 // Rules for full correctness of API calls.
 
-rule checkInsertHead {
+rule checkInsertHead() {
     bytes32 key;
     bytes32 afterKey;
     bytes32 headKey = head();
     requireInvariant inListIffValid();
     requireInvariant reach_invariant();
-
+    
     // inserts at head
     require afterKey == to_bytes32(0);
     insertAfter(key, afterKey);
-
     assert reach(key, headKey);
     assert reach(ghostHead, headKey);
 }
 
-rule checkInsertSuccessor {
+rule checkInsertSuccessor() {
     bytes32 key;
     bytes32 afterKey;
     requireInvariant reach_invariant();
@@ -146,51 +128,46 @@ rule checkInsertSuccessor {
     assert reach(afterKey, key);
 }
 
-
-rule checkInsert {
+rule checkInsert() {
     bytes32 key;
     bytes32 afterKey;
     bytes32 randoBoi;
     requireInvariant reach_invariant();
     requireInvariant inListIffValid();
-
     require reach(ghostHead, randoBoi);
     insertAfter(key, afterKey);
     assert reach(ghostHead, randoBoi), "Element from the list was lost";
     assert reach(ghostHead, key), "Key was not inserted";
 }
 
-rule checkInsertRevertsWhenExists {
+rule checkInsertRevertsWhenExists() {
     bytes32 key;
     bytes32 afterKey;
     requireInvariant reach_invariant();
     requireInvariant inListIffValid();
     require ghostValid[key];
-
     insertAfter@withrevert(key, afterKey);
     assert lastReverted, "insert should revert";
 }
 
-rule checkInsertRevertsWhenAfterKeyNotExists {
+rule checkInsertRevertsWhenAfterKeyNotExists() {
     bytes32 key;
     bytes32 afterKey;
     requireInvariant reach_invariant();
     requireInvariant inListIffValid();
     require afterKey != to_bytes32(0);
     require !ghostValid[afterKey];
-
     insertAfter@withrevert(key, afterKey);
     assert lastReverted, "insert can revert";
 }
 
-rule checkInsertSucceedsOtherwise {
+rule checkInsertSucceedsOtherwise() {
     bytes32 key;
     bytes32 afterKey;
     requireInvariant reach_invariant();
     requireInvariant inListIffValid();
     require afterKey == to_bytes32(0) || ghostValid[afterKey];
     require key != to_bytes32(0) && !ghostValid[key];
-
     insertAfter@withrevert(key, afterKey);
     assert !lastReverted, "insert should not revert";
 }
