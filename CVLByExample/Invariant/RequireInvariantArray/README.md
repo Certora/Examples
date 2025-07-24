@@ -4,8 +4,8 @@ This folder illustrates how the **new** `requireInvariant` semantics handle a **
 
 ## Key Points
 
-- **Old semantics**: Using `requireInvariant` in non-boundary contexts (e.g., hooks, summaries) could lead to false verification results. The invariant might be incorrectly considered satisfied inline, missing real violations.
-- **New semantics**: `requireInvariant` is enforced only at valid rule boundaries (e.g., after function calls, subcalls, or havocs if `strong`). This ensures that violations are properly detected.
+- **Version < 8 semantics**: Using `requireInvariant` in non-boundary contexts (e.g., hooks, summaries) could lead to false verification results. The invariant might be incorrectly considered satisfied inline, missing real violations.
+- **Version >= 8 semantics**: `requireInvariant` is enforced only at valid rule boundaries (e.g., after function calls, subcalls, or havocs if `strong`). This ensures that violations are properly detected.
 
 ---
 
