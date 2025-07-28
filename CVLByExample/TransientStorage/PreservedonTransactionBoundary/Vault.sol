@@ -3,8 +3,8 @@ pragma solidity 0.8.24;
 import {CallBacker} from './CallBacker.sol';
 
 contract Vault {
-    bytes32 slot = keccak256("transient");
-    bytes32 lock = keccak256("lock");
+    bytes32 constant slot = keccak256("transient");
+    bytes32 constant lock = keccak256("lock");
     int256 storageValue;
 
     function tload(bytes32 key) internal returns (int) {

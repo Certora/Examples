@@ -1,3 +1,9 @@
+<div align="center">
+
+[![GitMCP](https://img.shields.io/endpoint?url=https://gitmcp.io/badge/Certora/Examples)](https://gitmcp.io/Certora/Examples)
+[![Twitter Follow](https://img.shields.io/twitter/follow/certorainc?style=social)](https://x.com/certorainc)
+</div>
+
 # Certora Prover and CVL Examples
 This repository contains a collection of examples illustrating CVL usage.
 The specifications are compatible with CVL2.
