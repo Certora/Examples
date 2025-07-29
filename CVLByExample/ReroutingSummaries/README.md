@@ -6,15 +6,14 @@ This example demonstrates **rerouting summaries**, a CVL feature that allows sum
 
 ## Problem Statement
 
-In traditional CVL specifications, internal functions that accept storage pointers (especially mappings) are difficult to summarize because:
+Internal functions that accept storage pointers as parameters (especially mappings) can not be summarized to a CVL function as of a few limitations,
 
-1. **Storage pointers are not supported** for EVM → CVL conversions
-2. **Mapping enumeration is impossible** - there's no way to systematically translate all key-value pairs
-3. **Complex conversion code** would be needed to handle all possible splitting/unpacking scenarios
+1. Storage pointers cannot be converted when returned from EVM to CVL.
+2. If we are dealing with mappings as parameters, there's no way to enumerate all key-value pairs
 
 ## Solution: Rerouting Summaries
 
-Rerouting summaries solve this by allowing CVL specs to redirect internal function calls to external library methods:
+A workaround is rerouting summaries that allows CVL specs to redirect internal function calls to external library methods:
 
 ```cvl
 function Contract.internalFunction(...) internal => SomeLibrary.externalMethod(...)

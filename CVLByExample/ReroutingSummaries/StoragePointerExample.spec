@@ -19,6 +19,9 @@ methods {
 
 /**
  * @notice Rule to verify that rerouting summary correctly handles storage updates
+ * Note, this rule intentionally fails as the re-routing summary does not increase the 
+ * operation counter. 
+ * 
  * @dev Tests that the internal function call is properly rerouted through the library
  */
 rule testReroutingSummary(env e) {
@@ -41,13 +44,16 @@ rule testReroutingSummary(env e) {
     assert currentData.length == newData.length,
         "Current data length should match new data length";
     
-    // Verify operation counter was incremented
+    // Verify operation counter was incremented. 
+    // As a re-routing summary is applied that _does not_ update the counter, this fails verification. 
     assert operationCounter() == initialCounter + 1,
         "Operation counter should be incremented by 1";
 }
 
 /**
  * @notice Rule to verify data integrity during storage pointer operations
+ * This rule is only a sanity check asserting that the data was not changed
+ * due to re-routing summaries.
  */
 rule testDataIntegrity(env e) {
     address user1;
@@ -73,6 +79,8 @@ rule testDataIntegrity(env e) {
 
 /**
  * @notice Rule to verify array bounds and length consistency
+ * This rule is only a sanity check asserting that the data was not changed
+ * due to re-routing summaries.
  */
 rule testArrayBounds(env e) {
     address user;
@@ -95,14 +103,3 @@ rule testArrayBounds(env e) {
     assert storedLength == newData.length,
         "Stored length should match input data length";
 }
-
-/**
- * @notice Invariant to ensure operation counter only increases
- */
-invariant operationCounterMonotonic()
-    operationCounter() >= 0
-    {
-        preserved {
-            require operationCounter() <= max_uint256 - 1;
-        }
-    }
