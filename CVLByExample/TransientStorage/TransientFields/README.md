@@ -1,7 +1,7 @@
 # TransientStorage Example with transient field syntax
 
 ## Overview
-This folder contains a smart contract named `TransientTest` that implements a simple lock via a transient boolean field. The spec file demonstrate how we can use the `Tstore` and `Tload` hooks to hook on accesses to such fields, and shows also that we can use direct storage access from CVL on them as well.
+This folder contains a smart contract named `TransientTest` that implements a simple lock via a transient boolean field. The spec file demonstrates how we can use the `Tstore` and `Tload` hooks to hook on accesses to such fields, and shows also that we can use direct storage access from CVL on such fields as well.
 
 ## Executions
 
