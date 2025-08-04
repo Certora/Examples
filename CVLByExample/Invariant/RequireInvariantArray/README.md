@@ -1,6 +1,6 @@
 # Sorted Array Invariant Example
 
-This folder illustrates how the **new** `requireInvariant` semantics handle a **sorted array** property more accurately than the old semantics. We have:
+This folder illustrates how the `requireInvariant` semantics in Prover version >= 8 handle a **sorted array** property more accurately than the semantics in version below 8. We have:
 
 ## Key Points
 
@@ -29,21 +29,21 @@ This folder illustrates how the **new** `requireInvariant` semantics handle a **
 
 ### Correct Implementation
 
-- **Old semantics**:  
+- **Below version 8 semantics**:  
   [View Output](https://prover.certora.com/output/40726/1636fb234bc74a1bba7f7ee9678b9c4f/?anonymousKey=ff15dfcf8a4da66107d4d7c7f04a49416e992b4d)  
   *May incorrectly verify even if the array is temporarily unsorted.*
 
-- **New semantics**:  
+- **Version >= 8 semantics**:  
   [View Output](https://prover.certora.com/output/40726/5811d2a30ded4dcea82460a2d1d080ac/?anonymousKey=f296e69f8f0ea379cfba6801f1e4fee8f4d39c91)  
   *Correctly enforces the invariant at rule boundaries.*
 
 ### Buggy Implementation
 
-- **Old semantics**:  
+- **Below version 8 semantics**:  
   [View Output](https://prover.certora.com/output/40726/ca7307d763104f8abdc1dc900d1c4e5e/?anonymousKey=2b6d5374b36f9e4990c7d825e6c9bb8a292db9d8)  
   *Fails to catch the violation.*
 
-- **New semantics**:  
+- **Version >= 8 semantics**:  
   [View Output](https://prover.certora.com/output/40726/006db65557f94285af8bdbe0b8d1408f/?anonymousKey=abefdb1b51401cc4ed93ef57e70f4ed5b43bf579)  
   *Correctly detects the violation.*
 
