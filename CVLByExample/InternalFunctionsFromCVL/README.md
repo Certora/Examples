@@ -74,7 +74,7 @@ rule internalFunctionCall {
      certoraRun InternalFunctionCall.conf
      ```
 
-2. **Check the Output**: The execution shows how the internal function ( or its summary) is inlined in the CVL rule.
+2. **Check the Output**: The execution shows how the internal function (or its summary) is inlined in the CVL rule.
 
 ### Execution Links
 
