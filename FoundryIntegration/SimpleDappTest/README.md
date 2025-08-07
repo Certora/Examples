@@ -9,6 +9,7 @@ To run this example, use:
 
 [View the report for this run.](https://prover.certora.com/output/15800/7faf69fd82034fe8824393078c63ead2?anonymousKey=27031765775db06bc5e3bf4f3fc87be556bb59b1)
 
-*Note: Foundry Fuzz Testing Integration is currently in an early alpha phase.*
+*Note: Foundry Fuzz Testing Integration is currently in an early alpha phase.*  
+
 
 *Note: In this example we use `foundry.toml` to manage dependencies and remappings, in other examples we also use `remappings.txt` for the same purpose.
