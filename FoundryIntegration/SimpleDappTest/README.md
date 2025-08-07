@@ -9,6 +9,8 @@ Foundry consists of:
 - **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
 - **Chisel**: Fast, utilitarian, and verbose solidity REPL.
 
+In this example we use `foundry.toml` to manage dependencies and remappings, in other examples we also use `remappings.txt` for the same purpose.
+
 ## Documentation
 
 https://book.getfoundry.sh/
