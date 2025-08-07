@@ -1,68 +1,14 @@
-## Foundry
+# Simple Dapp Testing
 
-**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
+This example is based on [a Cyfrin repo](https://github.com/Cyfrin/fuzz-testing-on-foundry). It features a Solidity contract named `SimpleDapp`, which allows users to deposit and withdraw Ether (ETH). The contract functions as a basic ETH vault, enabling users to securely deposit funds and withdraw them later.
 
-Foundry consists of:
+Additionally, there is a fuzz test contract named `SimpleDappTest`, designed to verify the functionality of the deposit and withdrawal methods. It ensures, in particular, that a user cannot withdraw more than their deposited amount.
 
-- **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
-- **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
-- **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
-- **Chisel**: Fast, utilitarian, and verbose solidity REPL.
+To run this example, use:
+```certoraRun SimpleDappTest.conf```
 
-In this example we use `foundry.toml` to manage dependencies and remappings, in other examples we also use `remappings.txt` for the same purpose.
+[View the report for this run.](https://prover.certora.com/output/15800/7faf69fd82034fe8824393078c63ead2?anonymousKey=27031765775db06bc5e3bf4f3fc87be556bb59b1)
 
-## Documentation
+*Note: Foundry Fuzz Testing Integration is currently in an early alpha phase.*
 
-https://book.getfoundry.sh/
-
-## Usage
-
-### Build
-
-```shell
-$ forge build
-```
-
-### Test
-
-```shell
-$ forge test
-```
-
-### Format
-
-```shell
-$ forge fmt
-```
-
-### Gas Snapshots
-
-```shell
-$ forge snapshot
-```
-
-### Anvil
-
-```shell
-$ anvil
-```
-
-### Deploy
-
-```shell
-$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
-```
-
-### Cast
-
-```shell
-$ cast <subcommand>
-```
-
-### Help
-
-```shell
-$ forge --help
-$ anvil --help
-$ cast --help
-```
+*Note: In this example we use `foundry.toml` to manage dependencies and remappings, in other examples we also use `remappings.txt` for the same purpose.
