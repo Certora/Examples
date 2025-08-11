@@ -50,6 +50,7 @@ commands:
           name: Install foundry
           command: |
             curl -L https://foundry.paradigm.xyz | bash
+            source ~/.bashrc
             ~/.foundry/bin/foundryup
 
       - run:
