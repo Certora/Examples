@@ -129,12 +129,6 @@ hook Sstore _customers[KEY address user].accounts.length uint256 newLength {
     numOfAccounts[user] = newLength;
 }
 
-/**
- An internal step check to verify that our ghost works as expected, it should mirror the number of accounts.
- Once the sload is defined, this invariant becomes a tautology  
- */
-invariant checkNumOfAccounts(address user) 
-    numOfAccounts[user] == bank.getNumberOfAccounts(user);
 
 /// This Sload is required in order to eliminate adding unintializaed account balance to sumBalances.
 hook Sload uint256 length _customers[KEY address user].accounts.length {

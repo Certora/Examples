@@ -10,7 +10,7 @@ Run the following spec:
 As you can see, the prover timed out trying to prove the rule. This is due to the nature of the complex math square root operation.
 In order to solve this timeout, we can try using a feature of the prover that will automatically use NONDET summarizations for
 difficult* internal functions.
-To enable this option you can add the flag `--auto_nondet_difficult_internal_funcs`, it is already included in the following conf.
+To enable this option you can add the flag `--nondet_difficult_funcs`, it is already included in the following conf.
 
 Run it using:
 ```certoraRun runAutoSummarizedSqrRoot.conf```
