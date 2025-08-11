@@ -47,6 +47,12 @@ commands:
             pip3.11 install git+ssh://git@github.com/Certora/ConfRunnerInfra.git
 
       - run:
+          name: Install foundry
+          command: |
+            curl -L https://foundry.paradigm.xyz | bash
+            ~/.foundry/bin/foundryup
+
+      - run:
           name: Get ExamplesRegtest
           command: |
             cd ~/
