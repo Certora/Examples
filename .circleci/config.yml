@@ -50,8 +50,8 @@ commands:
           name: Install foundry
           command: |
             curl -L https://foundry.paradigm.xyz | bash
-            source ~/.bashrc
             ~/.foundry/bin/foundryup
+            echo "export PATH=$HOME/.foundry/bin:$PATH" >> $BASH_ENV
 
       - run:
           name: Get ExamplesRegtest
