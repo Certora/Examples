@@ -1,4 +1,20 @@
+# Uniswap v4 Points Hook Example.
+
+This is based on the Uniswapv4 Hook Template.
+
+### Points Hook
+
+The PointsHook example was taken from
+
+https://docs.uniswap.org/contracts/v4/guides/hooks/your-first-hook
+
+It's a simple hook that mints token for the pool if the user sells ether
+for the token in the pool, or if he adds ether as liquidity to the pool.
+
+The original ReadMe for the Uniswap v4 Hook Template follows below
+
 # Uniswap v4 Hook Template
+
 
 **A template for writing Uniswap v4 Hooks 🦄**
 
