@@ -87,6 +87,17 @@ To run this spec with a link run
 
 All rules pass.
 
+## WithDispatchList.spec
+
+This spec shows how a DISPATCH list summary can be used to dispatch calls to specific contracts in a 
+situation where linking is not possible.
+The function `setXOnParameter` takes an address argument and calls `setX` on it. 
+The summarization causes this call to be resolved to the `setX` function of `IntGetterImpl` and the rule
+shows that its field gets correctly updated, while the field of `AnotherIntGetterImpl` that also has
+such a `setX` function is untouched.
+
+[The report of this run](https://prover.certora.com/output/950033/fed416b7bb2f4b98b3d26c03ff188365?anonymousKey=a18ee06f5662db184b4ad14563fad38b870d861a)
+
 ## DispatcherFallbackInlining.spec
 
 This spec shows how you can make the prover inline fallback functions when it doesn't find an implementation in a contract.
