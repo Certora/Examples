@@ -183,3 +183,13 @@ rule AssertFalse {
 
 ### Execution Link
 [Certora Run Output](https://prover.certora.com/output/1512/833e5d3150fc481a9c0bc5f816b9e8e8?anonymousKey=33e2ef368ab2521850c7ae186c3bcc7d4d1c4b63)
+
+## Demonstrating `NONDET` on `unresolved external`
+
+The spec in UnresolvedNondet.spec demonstrates how we can summarize the unresolved call in contract `A` from the previous example to return a nondeterministic value. It asserts that a field of the contract remains unchanged to demonstrate that the storage is not havoced.
+
+
+To run this spec with a link run
+```certoraRun runUnresolvedNondet.conf```
+
+[The report of this run](https://prover.certora.com/output/950033/43e0d701a8524e55b653131228cc2929?anonymousKey=effcc27da0f85acb33dbe2dab5bc0d9b435cca3f)
