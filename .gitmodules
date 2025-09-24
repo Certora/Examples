@@ -1,0 +1,3 @@
+[submodule "DEFI/CPP_mini/lib/forge-std"]
+	path = DEFI/CPP_mini/lib/forge-std
+	url = git@github.com:foundry-rs/forge-std.git
