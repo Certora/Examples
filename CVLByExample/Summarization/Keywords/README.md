@@ -186,7 +186,7 @@ rule AssertFalse {
 
 ## Demonstrating `NONDET` on `unresolved external`
 
-The spec in UnresolvedNondet.spec demonstrates how we can summarize the unresolved call in contract `A` from the previous example to return a nondeterministic value. It asserts that a field of the contract remains unchanged to demonstrate that the storage is not havoced.
+The spec in UnresolvedNondet.spec demonstrates how we can summarize the unresolved call in contract `A` from the previous example to return a nondeterministic value. It asserts that a field of the contract remains unchanged to demonstrate that the storage is not havoced. Note, this summarization is *unsound* as the external call indeed _could_ change the storage.
 
 
 To run this spec with a link run
