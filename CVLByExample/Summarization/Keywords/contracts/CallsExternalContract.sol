@@ -47,4 +47,8 @@ contract CallsExternalContract {
     a.call(abi.encodeWithSignature("noSuchFun()"));
   }
 
+  function setXOnParameter(IntGetter ad, uint256 val) external {
+    ad.setX(val);
+  }
+
 }
