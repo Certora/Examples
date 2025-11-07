@@ -2,7 +2,7 @@
 
 ## Overview
 
-This repository provides an example of calling internal functions directly from a CVL specification file.
+This repository provides an example of calling internal functions directly from a CVL specification file, when using `--allow_internal_function_calls` attribute.
 
 ## Solidity Contracts
 
