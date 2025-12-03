@@ -324,6 +324,10 @@ rule redeemingAllValidity() {
 
 invariant zeroAllowanceOnAssets(address user)
     ERC20a.allowance(currentContract, user) == 0 && ERC20b.allowance(currentContract, user) == 0 {
+        preserved constructor() {
+            require ERC20a.allowance(currentContract, user) == 0, "the token should not have an allowance yet for a contract that is being constructed";
+            require ERC20b.allowance(currentContract, user) == 0, "the token should not have an allowance yet for a contract that is being constructed";
+        }
         preserved with(env e) {
             require e.msg.sender != currentContract;
         }
