@@ -144,6 +144,10 @@ invariant balanceGreaterThanReserve()
 invariant allowanceOfPoolAlwaysZero(address a)
     _token0.allowance(_pool, a) == 0 && _token1.allowance(_pool, a) == 0
     {
+        preserved constructor() {
+            require _token0.allowance(currentContract, a) == 0, "the token should not have an allowance yet for a contract that is being constructed";
+            require _token1.allowance(currentContract, a) == 0, "the token should not have an allowance yet for a contract that is being constructed";
+        }
         // This preserved is safe because we know the code in the pool contract.
         preserved _.approve(address spender, uint256 amount) with (env e1) {
             require e1.msg.sender != _pool, "Sender must not be the pool contract for approve calls";
