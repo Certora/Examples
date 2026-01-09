@@ -363,7 +363,11 @@ hook Sstore underlying._balanceOf[KEY address user] uint256 newBalance (uint256 
 }
 
 invariant totalIsSumBalances()
-    underlying.totalSupply() == sumBalances;
+    underlying.totalSupply() == sumBalances {
+        preserved constructor() {
+            require underlying.totalSupply() == 0, "we assume we start from the underlying asset being empty, consistent with the init_state axiom for sumBalances";
+        }
+    }
 
 /*
 ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐

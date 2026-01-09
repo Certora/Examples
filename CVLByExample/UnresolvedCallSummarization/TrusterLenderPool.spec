@@ -20,6 +20,9 @@ methods{
 invariant poolAllowanceAlwaysZero(address user)
     token.allowance(currentContract, user) == 0
     {
+        preserved constructor() {
+            require token.allowance(currentContract, user) == 0, "the token should not have an allowance yet for a contract that is being constructed";
+        }
         preserved with (env e)
         {
             require e.msg.sender != currentContract;
