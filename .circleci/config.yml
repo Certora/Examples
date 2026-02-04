@@ -132,7 +132,7 @@ jobs:
     steps:
       - prepare:
           certora_cli_package: << parameters.certora_cli_package >>
-      - run: pip install cffi # TODO: remove this
+      - run: pip install cffi pyjwt # TODO: remove this
       - secure-repo-access/get_token:
           github_repository: "EVMVerifier"
       - run:
