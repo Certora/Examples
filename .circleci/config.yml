@@ -132,7 +132,8 @@ jobs:
     steps:
       - prepare:
           certora_cli_package: << parameters.certora_cli_package >>
-
+      - secure-repo-access/get_token:
+          github_repository: "EVMVerifier"
       - run:
           name: Run Reg Test
           command: |
@@ -148,8 +149,6 @@ jobs:
               fi
             fi
             eval $command
-      - secure-repo-access/get_token:
-          github_repository: "EVMVerifier"
       - run:
           name: Install ReportAnalysis package and execute ReportAnalyzer 
           command: |
