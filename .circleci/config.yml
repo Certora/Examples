@@ -6,6 +6,7 @@ version: 2.1
 
 orbs:
   aws-cli: circleci/aws-cli@3.1.4
+  secure-repo-access: certora/secure-repo-access@0.0.2
 
 commands:  
   prepare:
@@ -146,11 +147,12 @@ jobs:
               fi
             fi
             eval $command
- 
+      - secure-repo-access/get_token:
+          github_repository: "EVMVerifier"
       - run:
           name: Install ReportAnalysis package and execute ReportAnalyzer 
           command: |
-            pip3.11 install git+ssh://git@github.com-reportanalysis/Certora/ReportAnalysis.git
+            pip3.11 install git+ssh://git@github.com-reportanalysis/Certora/ReportAnalysis.git@oz/pat
             ReportAnalyzer --ci_client "Examples Nightly"
           when: on_fail
 
