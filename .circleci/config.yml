@@ -39,13 +39,13 @@ commands:
 
       - run:
           name: Get the current version
-          command: pip3.11 install << parameters.certora_cli_package >>
+          command: pip install << parameters.certora_cli_package >>
       
       - run:
           name: Get ConfRunnerInfra
           command: |
             ssh-keyscan github.com >> ~/.ssh/known_hosts
-            pip3.11 install git+ssh://git@github.com/Certora/ConfRunnerInfra.git
+            pip install git+ssh://git@github.com/Certora/ConfRunnerInfra.git
 
       - run:
           name: Install foundry
@@ -102,8 +102,8 @@ jobs:
       - run:
           name: Install packages
           command: |
-            pip3.11 install requests
-            pip3.11 install semver
+            pip install requests
+            pip install semver
       
       - run:
           name: Check Certora CLI Releases
@@ -153,7 +153,7 @@ jobs:
       - run:
           name: Install ReportAnalysis package and execute ReportAnalyzer 
           command: |
-            pip3.11 install git+ssh://git@github.com-reportanalysis/Certora/ReportAnalysis.git@oz/pat
+            pip install git+ssh://git@github.com-reportanalysis/Certora/ReportAnalysis.git@oz/pat
             ReportAnalyzer --ci_client "Examples Nightly"
           when: on_fail
 
