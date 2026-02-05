@@ -132,13 +132,11 @@ jobs:
     steps:
       - prepare:
           certora_cli_package: << parameters.certora_cli_package >>
-      - run: pip install cffi pyjwt # TODO: remove this
       - secure-repo-access/get_token:
           github_repository: "EVMVerifier"
       - run:
           name: Run Reg Test
           command: |
-            exit 1 # TODO: remove this
             cd ~/ExamplesRegtest
             python3.11 CopyExpected.py
             command="Regression --path << parameters.examples_repo_path >> --conf_ignore conf_ignore.txt --json_flags '{\"run_source\": \"LIGHT_TEST\", \"disable_auto_cache_key_gen\": true, \"group_id\": \"$CIRCLE_WORKFLOW_ID\"}' --send_message --checks Verification"
@@ -153,22 +151,15 @@ jobs:
       - run:
           name: Install ReportAnalysis package and execute ReportAnalyzer 
           command: |
-            cat $BASH_ENV #TODO: remove this
-            env # TODO: remove this
             pip install git+ssh://git@github.com-reportanalysis/Certora/ReportAnalysis.git@oz/pat
             ReportAnalyzer --ci_client "Examples Nightly"
           when: on_fail
-
-
-
       - store_artifacts:
           path: ~/ExamplesRegtest/Report.csv
           destination: reports
-      
       - store_test_results:
-          path: ~/ExamplesRegtest
-  
-  
+          path: ~/ExamplesRegtest  
+
   test-certoraMutate:
     parameters:
       certora_cli_package:
