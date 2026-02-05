@@ -137,6 +137,7 @@ jobs:
       - run:
           name: Run Reg Test
           command: |
+            exit 1 # TODO: remove this
             cd ~/ExamplesRegtest
             python3.11 CopyExpected.py
             command="Regression --path << parameters.examples_repo_path >> --conf_ignore conf_ignore.txt --json_flags '{\"run_source\": \"LIGHT_TEST\", \"disable_auto_cache_key_gen\": true, \"group_id\": \"$CIRCLE_WORKFLOW_ID\"}' --send_message --checks Verification"
