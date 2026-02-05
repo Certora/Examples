@@ -74,10 +74,10 @@ commands:
           session-duration: "10800"
 
 jobs:
-  
+
   check-release:
     docker:
-      - image: &cvt public.ecr.aws/certora/cvt-image:2024.10.16-4473-ba570af
+      - image: &cvt public.ecr.aws/certora/cvt-image:2026.01.18-5647-d0d207c
     resource_class: small
     working_directory: ~/repo
     steps:
