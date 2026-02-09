@@ -56,13 +56,13 @@ Some more details:
 Run this example using:
 ```certoraRun ExtensionContracts.conf```
 
-[Report of this run](https://vaas-stg.certora.com/output/15800/8de64e410516472cbc8f7d6317059680?anonymousKey=b4b480e8209e59136b4daa281aa5159a1fc66fd1)
+[Report of this run](https://prover.certora.com/output/97560/08306dd220694ca799451e21749d8434?anonymousKey=547879f75744db0c526e690a8b3fad81b4ebcf32)
 
 ## Extension Contracts Override
 
 There are implementations of the proxy pattern in which the base contract actually has implementations for all the functions
 that are implemented by the extension contracts - all they do is delegatecall the corresponding function in the extension contract. In this case
-an extra flag needs to be set in order to avoid the Prover failing to "transfer" the functions from the extension contract into the
+an extra flag needs to be set in order to "move" the functions from the extension contract into the
 base one: `--contract_extensions_override`.
 
 You can see adn run an example of this with
