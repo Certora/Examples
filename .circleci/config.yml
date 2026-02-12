@@ -6,6 +6,7 @@ version: 2.1
 
 orbs:
   aws-cli: circleci/aws-cli@3.1.4
+  secure-repo-access: certora/secure-repo-access@0.0.2
 
 commands:  
   prepare:
@@ -38,13 +39,13 @@ commands:
 
       - run:
           name: Get the current version
-          command: pip3.11 install << parameters.certora_cli_package >>
+          command: pip install << parameters.certora_cli_package >>
       
       - run:
           name: Get ConfRunnerInfra
           command: |
             ssh-keyscan github.com >> ~/.ssh/known_hosts
-            pip3.11 install git+ssh://git@github.com/Certora/ConfRunnerInfra.git
+            pip install git+ssh://git@github.com/Certora/ConfRunnerInfra.git
 
       - run:
           name: Install foundry
@@ -73,10 +74,10 @@ commands:
           session-duration: "10800"
 
 jobs:
-  
+
   check-release:
     docker:
-      - image: &cvt public.ecr.aws/certora/cvt-image:2024.10.16-4473-ba570af
+      - image: &cvt public.ecr.aws/certora/cvt-image:2026.01.18-5647-d0d207c
     resource_class: small
     working_directory: ~/repo
     steps:
@@ -101,8 +102,8 @@ jobs:
       - run:
           name: Install packages
           command: |
-            pip3.11 install requests
-            pip3.11 install semver
+            pip install requests
+            pip install semver
       
       - run:
           name: Check Certora CLI Releases
@@ -131,7 +132,8 @@ jobs:
     steps:
       - prepare:
           certora_cli_package: << parameters.certora_cli_package >>
-
+      - secure-repo-access/get_token:
+          github_repository: "EVMVerifier"
       - run:
           name: Run Reg Test
           command: |
@@ -146,24 +148,18 @@ jobs:
               fi
             fi
             eval $command
- 
       - run:
           name: Install ReportAnalysis package and execute ReportAnalyzer 
           command: |
-            pip3.11 install git+ssh://git@github.com-reportanalysis/Certora/ReportAnalysis.git
+            pip install git+ssh://git@github.com-reportanalysis/Certora/ReportAnalysis.git
             ReportAnalyzer --ci_client "Examples Nightly"
           when: on_fail
-
-
-
       - store_artifacts:
           path: ~/ExamplesRegtest/Report.csv
           destination: reports
-      
       - store_test_results:
-          path: ~/ExamplesRegtest
-  
-  
+          path: ~/ExamplesRegtest  
+
   test-certoraMutate:
     parameters:
       certora_cli_package:
@@ -243,7 +239,9 @@ workflows:
       - examples-regtest:
           certora_ci_name: Examples Release
           certora_cli_package: certora-cli
-          context: aws_staging
+          context: 
+            - aws_staging
+            - secure_repo_access
       - test-certoraMutate:
           certora_cli_package: certora-cli
           context: aws_staging
@@ -255,7 +253,9 @@ workflows:
       - examples-regtest:
           certora_ci_name: Examples Beta
           certora_cli_package: certora-cli-beta
-          context: aws_staging
+          context: 
+            - aws_staging
+            - secure_repo_access
       - test-certoraMutate:
           certora_cli_package: certora-cli-beta
           context: aws_staging
@@ -273,7 +273,9 @@ workflows:
       - examples-regtest:
           certora_ci_name: Examples Nightly
           certora_cli_package: certora-cli-alpha-master
-          context: aws_staging
+          context: 
+            - aws_staging
+            - secure_repo_access
       - test-certoraMutate:
           certora_cli_package: certora-cli-alpha-master
           context: aws_staging
@@ -285,7 +287,9 @@ workflows:
           certora_ci_name: Examples Nightly Manual
           certora_cli_package: certora-cli-alpha-master
           examples_repo_path: << pipeline.parameters.examples_repo_path >>
-          context: aws_staging
+          context: 
+            - aws_staging
+            - secure_repo_access
       - test-certoraMutate:
           certora_cli_package: certora-cli-alpha-master
           context: aws_staging
