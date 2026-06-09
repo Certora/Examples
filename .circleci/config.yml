@@ -264,7 +264,7 @@ workflows:
   examples-nightly:
     triggers:
       - schedule:
-          cron: "0 3 * * *"
+          cron: "0 3 * * 0"
           filters:
             branches:
               only:
