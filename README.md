@@ -1,7 +1,7 @@
 <div align="center">
 
 [![GitMCP](https://img.shields.io/endpoint?url=https://gitmcp.io/badge/Certora/Examples)](https://gitmcp.io/Certora/Examples)
-[![Twitter Follow](https://img.shields.io/twitter/follow/certorainc?style=social)](https://x.com/certorainc)
+[![Twitter Follow](https://img.shields.io/twitter/follow/certora?style=social)](https://x.com/certora)
 </div>
 
 # Certora Prover and CVL Examples
