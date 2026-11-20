@@ -644,7 +644,7 @@ rule approveDoesNotAffectThirdParty(env e) {
 
 	uint256 thirdPartyAllowanceAfter = allowance(thirdParty, everyUser);
 
-    assert thirdPartyAllowanceBefore == thirdPartyAllowanceBefore;
+    assert thirdPartyAllowanceBefore == thirdPartyAllowanceAfter;
 }
 
 /*
