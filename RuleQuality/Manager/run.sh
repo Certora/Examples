@@ -1,0 +1,1 @@
+certoraRun Manager.sol --verify Manager:Manager.spec 
